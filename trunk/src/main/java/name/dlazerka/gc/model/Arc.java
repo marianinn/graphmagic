@@ -39,4 +39,12 @@ public class Arc {
 		result = 31 * result + head.hashCode();
 		return result;
 	}
+
+	@Override
+	public String toString() {
+		return "Arc{" +
+		       "tail=" + tail +
+		       ", head=" + head +
+		       '}';
+	}
 }

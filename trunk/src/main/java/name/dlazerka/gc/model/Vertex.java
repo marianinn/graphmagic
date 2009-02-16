@@ -5,6 +5,7 @@ package name.dlazerka.gc.model;
  */
 public class Vertex {
 	private final int number;
+	private int orderNumber;
 
 
 	public Vertex(int number) {
@@ -30,5 +31,21 @@ public class Vertex {
 	@Override
 	public int hashCode() {
 		return number;
+	}
+
+	public int getOrderNumber() {
+		return orderNumber;
+	}
+
+	public void setOrderNumber(int orderNumber) {
+		this.orderNumber = orderNumber;
+	}
+
+	@Override
+	public String toString() {
+		return "Vertex{" +
+		       "number=" + number +
+		       ", orderNumber=" + orderNumber +
+		       '}';
 	}
 }
