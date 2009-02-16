@@ -1,5 +1,7 @@
 package name.dlazerka.gc.ui;
 
+import name.dlazerka.gc.GraphPanel;
+
 import javax.swing.*;
 import java.awt.event.*;
 
@@ -47,6 +49,11 @@ public class Main extends JDialog {
 	}
 
 	public static void main(String[] args) {
+		Model model = new Model();
+		showUI(model);
+	}
+
+	private static void showUI(Model model) {
 		Main dialog = new Main();
 		dialog.pack();
 		dialog.setVisible(true);

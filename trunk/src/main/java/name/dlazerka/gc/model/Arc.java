@@ -4,20 +4,20 @@ package name.dlazerka.gc.model;
  * @author Dzmitry Lazerka
  */
 public class Arc {
-	private final Vertex fromVertex;
-	private final Vertex toVertex;
+	private final Vertex tail;
+	private final Vertex head;
 
-	public Arc(Vertex fromVertex, Vertex toVertex) {
-		this.fromVertex = fromVertex;
-		this.toVertex = toVertex;
+	public Arc(Vertex tail, Vertex head) {
+		this.tail = tail;
+		this.head = head;
 	}
 
-	public Vertex getFromVertex() {
-		return fromVertex;
+	public Vertex getTail() {
+		return tail;
 	}
 
-	public Vertex getToVertex() {
-		return toVertex;
+	public Vertex getHead() {
+		return head;
 	}
 
 	@Override
@@ -27,16 +27,16 @@ public class Arc {
 
 		Arc arc = (Arc) o;
 
-		if (!fromVertex.equals(arc.fromVertex)) return false;
-		if (!toVertex.equals(arc.toVertex)) return false;
+		if (!tail.equals(arc.tail)) return false;
+		if (!head.equals(arc.head)) return false;
 
 		return true;
 	}
 
 	@Override
 	public int hashCode() {
-		int result = fromVertex.hashCode();
-		result = 31 * result + toVertex.hashCode();
+		int result = tail.hashCode();
+		result = 31 * result + head.hashCode();
 		return result;
 	}
 }
