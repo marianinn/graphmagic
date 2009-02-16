@@ -288,8 +288,8 @@
       </item>
     </group>
     <group name="MY">
-      <item class="name.dlazerka.gc.ArcPanel" icon="/com/intellij/uiDesigner/icons/panel.png" removable="true" auto-create-binding="false" can-attach-label="false">
-        <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="0" />
+      <item class="name.dlazerka.gc.GraphPanel" icon="/com/intellij/uiDesigner/icons/panel.png" removable="true" auto-create-binding="false" can-attach-label="false">
+        <default-constraints vsize-policy="7" hsize-policy="7" anchor="0" fill="3" />
       </item>
     </group>
   </component>

@@ -1,4 +1,4 @@
-package name.dlazerka.gc;
+package name.dlazerka.gc.ui;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -7,7 +7,6 @@ public class Main extends JDialog {
 	private JPanel contentPane;
 	private JButton buttonOK;
 	private JButton buttonCancel;
-	private ArcPanel line;
 
 	public Main() {
 		setContentPane(contentPane);

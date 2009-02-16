@@ -1,16 +1,16 @@
 package name.dlazerka.gc;
 
+import name.dlazerka.gc.ui.GraphUI;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Line2D;
 
 /**
  * @author Dzmitry Lazerka
  */
-public class ArcPanel extends JPanel {
-	Point fromPoint = new Point(0, 0);
-	Point toPoint = new Point(100, 100);
-	Line2D line = new Line2D.Double(fromPoint, toPoint);
+public class GraphPanel extends JPanel {
+	private final GraphUI graphUI = new GraphUI();
+
 
 	@Override
 	protected void paintComponent(Graphics g) {
@@ -22,11 +22,11 @@ public class ArcPanel extends JPanel {
 
 		Graphics2D g2 = (Graphics2D) g;
 
-		g2.draw(line);
+		drawGraph(g2);
+
 	}
 
-	@Override
-	public Dimension getPreferredSize() {
-		return new Dimension(100, 100);
+	private void drawGraph(Graphics2D g2) {
+		graphUI.drawGraph(g2);
 	}
 }
