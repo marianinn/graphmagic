@@ -27,6 +27,6 @@ public class GraphPanel extends JPanel {
 	}
 
 	private void drawGraph(Graphics2D g2) {
-		graphUI.drawGraph(g2);
+		graphUI.drawGraph(g2, getSize());
 	}
 }

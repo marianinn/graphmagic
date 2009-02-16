@@ -1,5 +1,6 @@
 package name.dlazerka.gc.model;
 
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -7,8 +8,8 @@ import java.util.Set;
  * @author Dzmitry Lazerka
  */
 public class Graph {
-	private Set<Vertex> vertexSet = new HashSet<Vertex>();
-	private Set<Arc> arcSet = new HashSet<Arc>();
+	private final Set<Vertex> vertexSet = new HashSet<Vertex>();
+	private final Set<Arc> arcSet = new HashSet<Arc>();
 
 	public Graph() {
 		Vertex vertex1 = new Vertex(1);
@@ -24,15 +25,9 @@ public class Graph {
 		return vertexSet;
 	}
 
-	public void setVertexSet(Set<Vertex> vertexSet) {
-		this.vertexSet = vertexSet;
-	}
-
 	public Set<Arc> getArcSet() {
 		return arcSet;
 	}
 
-	public void setArcSet(Set<Arc> arcSet) {
-		this.arcSet = arcSet;
-	}
+	
 }
