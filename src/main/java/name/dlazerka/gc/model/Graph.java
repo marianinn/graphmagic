@@ -28,10 +28,14 @@ public class Graph {
 		Arc arc1 = new Arc(vertex1, vertex2);
 		Arc arc2 = new Arc(vertex2, vertex3);
 		Arc arc3 = new Arc(vertex3, vertex1);
+		Arc arc4 = new Arc(vertex3, vertex4);
+		Arc arc5 = new Arc(vertex4, vertex1);
 
 		addArc(arc1);
 		addArc(arc2);
 		addArc(arc3);
+		addArc(arc4);
+		addArc(arc5);
 	}
 
 	private void addArc(Arc arc) {

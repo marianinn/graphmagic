@@ -9,6 +9,7 @@ public class MainFrame extends JFrame {
 	private JPanel contentPane;
 	private JButton buttonOK;
 	private JButton buttonCancel;
+	private JTextArea textArea1;
 
 	public MainFrame() {
 		setContentPane(contentPane);
