@@ -1,4 +1,4 @@
-package name.dlazerka.gc;
+package name.dlazerka.gc.ui;
 
 import name.dlazerka.gc.ui.GraphUI;
 
