@@ -1,19 +1,19 @@
 package name.dlazerka.gc.ui;
 
-import name.dlazerka.gc.GraphPanel;
+import name.dlazerka.gc.Main;
 
 import javax.swing.*;
 import java.awt.event.*;
 
-public class Main extends JDialog {
+public class MainFrame extends JFrame {
 	private JPanel contentPane;
 	private JButton buttonOK;
 	private JButton buttonCancel;
 
-	public Main() {
+	public MainFrame() {
 		setContentPane(contentPane);
-		setModal(true);
 		getRootPane().setDefaultButton(buttonOK);
+		setTitle(Main.getString("main.title"));
 
 		buttonCancel.addActionListener(
 			new ActionListener() {
@@ -24,7 +24,6 @@ public class Main extends JDialog {
 		);
 
 // call onCancel() when cross is clicked
-		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		addWindowListener(
 			new WindowAdapter() {
 				public void windowClosing(WindowEvent e) {
@@ -47,17 +46,4 @@ public class Main extends JDialog {
 // add your code here if necessary
 		dispose();
 	}
-
-	public static void main(String[] args) {
-		Model model = new Model();
-		showUI(model);
-	}
-
-	private static void showUI(Model model) {
-		Main dialog = new Main();
-		dialog.pack();
-		dialog.setVisible(true);
-		System.exit(0);
-	}
-
 }

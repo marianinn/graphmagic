@@ -1,4 +1,4 @@
-package name.dlazerka.gc;
+package name.dlazerka.gc.ui;
 
 import javax.swing.*;
 import java.awt.*;

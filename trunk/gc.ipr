@@ -284,7 +284,7 @@
       </item>
     </group>
     <group name="MY">
-      <item class="name.dlazerka.gc.GraphPanel" icon="/com/intellij/uiDesigner/icons/panel.png" removable="true" auto-create-binding="false" can-attach-label="false">
+      <item class="name.dlazerka.gc.ui.GraphPanel" icon="/com/intellij/uiDesigner/icons/panel.png" removable="true" auto-create-binding="false" can-attach-label="false">
         <default-constraints vsize-policy="7" hsize-policy="7" anchor="0" fill="3" />
       </item>
     </group>
@@ -300,7 +300,7 @@
   </component>
   <component name="ProjectFileVersion" converted="true" />
   <component name="ProjectKey">
-    <option name="state" value="project://C:\usr\work\self\gc\gc.ipr" />
+    <option name="state" value="https://graphcheck.googlecode.com/svn/trunk/gc.ipr" />
   </component>
   <component name="ProjectModuleManager">
     <modules>
@@ -337,9 +337,10 @@
   </component>
   <component name="SvnBranchConfigurationManager">
     <option name="myVersion" value="124" />
+    <option name="mySupportsUserInfoFilter" value="true" />
   </component>
   <component name="VcsDirectoryMappings">
-    <mapping directory="" vcs="" />
+    <mapping directory="" vcs="svn" />
   </component>
   <component name="VssConfiguration">
     <option name="CLIENT_PATH" value="" />
