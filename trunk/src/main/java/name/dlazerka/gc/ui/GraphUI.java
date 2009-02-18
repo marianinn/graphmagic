@@ -1,8 +1,9 @@
 package name.dlazerka.gc.ui;
 
-import name.dlazerka.gc.model.Arc;
-import name.dlazerka.gc.model.Graph;
-import name.dlazerka.gc.model.Vertex;
+import name.dlazerka.gc.bean.Arc;
+import name.dlazerka.gc.bean.Graph;
+import name.dlazerka.gc.bean.Vertex;
+import name.dlazerka.gc.model.Model;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -12,7 +13,8 @@ import java.util.Map;
  * @author Dzmitry Lazerka
  */
 public class GraphUI {
-	private Graph graph = Model.getGraph(null);
+	private Graph graph = Model.getGraph();
+
 	private static final Color COLOR_ARC = new Color(0, 0, 0);
 	private static final Stroke STROKE_ARC = new BasicStroke(4.0f);
 
@@ -60,8 +62,6 @@ public class GraphUI {
 			VertexUI.draw(g2, center, vertex.getNumber());
 		}
 	}
-
-
 
 	private static void drawArc(Graphics2D g2, Point headPoint, Point tailPoint) {
 		g2 = (Graphics2D) g2.create();

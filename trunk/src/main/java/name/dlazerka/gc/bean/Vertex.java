@@ -1,4 +1,4 @@
-package name.dlazerka.gc.model;
+package name.dlazerka.gc.bean;
 
 /**
  * @author Dzmitry Lazerka
