@@ -1,7 +1,5 @@
 package name.dlazerka.gc.ui;
 
-import name.dlazerka.gc.ui.GraphUI;
-
 import javax.swing.*;
 import java.awt.*;
 
