@@ -51,7 +51,7 @@ public class Graph {
 		return vertexSet;
 	}
 
-	public Set<Edge> getArcSet() {
+	public Set<Edge> getEdgeSet() {
 		return edgeSet;
 	}
 

@@ -1,1 +1,2 @@
-* Window instead of dialog
+* Moving of vertices
+* Zooming
