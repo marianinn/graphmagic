@@ -11,7 +11,7 @@ import java.util.HashMap;
  */
 public class Graph {
 	private final Set<Vertex> vertexSet = new HashSet<Vertex>();
-	private final Set<Arc> arcSet = new HashSet<Arc>();
+	private final Set<Edge> edgeSet = new HashSet<Edge>();
 	private final Map<Integer, Vertex> vertexByOrder = new HashMap<Integer, Vertex>();
 
 	public Graph() {
@@ -25,11 +25,11 @@ public class Graph {
 		addVertex(vertex3);
 		addVertex(vertex4);
 
-		Arc arc1 = new Arc(vertex1, vertex2);
-		Arc arc2 = new Arc(vertex2, vertex3);
-		Arc arc3 = new Arc(vertex3, vertex1);
-		Arc arc4 = new Arc(vertex3, vertex4);
-		Arc arc5 = new Arc(vertex4, vertex1);
+		Edge arc1 = new Edge(vertex1, vertex2);
+		Edge arc2 = new Edge(vertex2, vertex3);
+		Edge arc3 = new Edge(vertex3, vertex1);
+		Edge arc4 = new Edge(vertex3, vertex4);
+		Edge arc5 = new Edge(vertex4, vertex1);
 
 		addArc(arc1);
 		addArc(arc2);
@@ -38,8 +38,8 @@ public class Graph {
 		addArc(arc5);
 	}
 
-	private void addArc(Arc arc) {
-		arcSet.add(arc);
+	private void addArc(Edge edge) {
+		edgeSet.add(edge);
 	}
 
 	public void addVertex(Vertex vertex) {
@@ -51,8 +51,8 @@ public class Graph {
 		return vertexSet;
 	}
 
-	public Set<Arc> getArcSet() {
-		return arcSet;
+	public Set<Edge> getArcSet() {
+		return edgeSet;
 	}
 
 	public Vertex getVertexByOrder(int i) {

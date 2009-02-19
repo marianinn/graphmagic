@@ -3,11 +3,11 @@ package name.dlazerka.gc.bean;
 /**
  * @author Dzmitry Lazerka
  */
-public class Arc {
+public class Edge {
 	private final Vertex tail;
 	private final Vertex head;
 
-	public Arc(Vertex tail, Vertex head) {
+	public Edge(Vertex tail, Vertex head) {
 		this.tail = tail;
 		this.head = head;
 	}
@@ -23,12 +23,12 @@ public class Arc {
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (!(o instanceof Arc)) return false;
+		if (!(o instanceof Edge)) return false;
 
-		Arc arc = (Arc) o;
+		Edge edge = (Edge) o;
 
-		if (!tail.equals(arc.tail)) return false;
-		if (!head.equals(arc.head)) return false;
+		if (!tail.equals(edge.tail)) return false;
+		if (!head.equals(edge.head)) return false;
 
 		return true;
 	}
@@ -42,7 +42,7 @@ public class Arc {
 
 	@Override
 	public String toString() {
-		return "Arc{" +
+		return "Edge{" +
 		       "tail=" + tail +
 		       ", head=" + head +
 		       '}';

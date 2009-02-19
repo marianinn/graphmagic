@@ -1,6 +1,6 @@
 package name.dlazerka.gc.ui;
 
-import name.dlazerka.gc.bean.Arc;
+import name.dlazerka.gc.bean.Edge;
 import name.dlazerka.gc.bean.Graph;
 import name.dlazerka.gc.bean.Vertex;
 import name.dlazerka.gc.model.Model;
@@ -47,9 +47,9 @@ public class GraphUI {
 	}
 
 	private void drawArcs(Graphics2D g2, Map<Vertex, Point> vertexPositions) {
-		for (Arc arc : graph.getArcSet()) {
-			Point headPoint = vertexPositions.get(arc.getHead());
-			Point tailPoint = vertexPositions.get(arc.getTail());
+		for (Edge edge : graph.getArcSet()) {
+			Point headPoint = vertexPositions.get(edge.getHead());
+			Point tailPoint = vertexPositions.get(edge.getTail());
 
 			drawArc(g2, headPoint, tailPoint);
 		}
