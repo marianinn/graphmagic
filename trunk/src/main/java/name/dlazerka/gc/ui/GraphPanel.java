@@ -3,7 +3,7 @@ package name.dlazerka.gc.ui;
 import name.dlazerka.gc.bean.Edge;
 import name.dlazerka.gc.bean.Graph;
 import name.dlazerka.gc.bean.Vertex;
-import name.dlazerka.gc.util.LinkedSet2;
+import name.dlazerka.gc.util.LinkedSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,12 +26,12 @@ public class GraphPanel extends JPanel implements MouseListener, MouseWheelListe
 	/**
 	 * Order represents Z-index.
 	 */
-	private final LinkedSet2<VertexUI> vertexUISet = new LinkedSet2<VertexUI>();
+	private final LinkedSet<VertexUI> vertexUISet = new LinkedSet<VertexUI>();
 
 	/**
 	 * Order represents Z-index.
 	 */
-	private final LinkedSet2<EdgeUI> edgeUISet = new LinkedSet2<EdgeUI>();
+	private final LinkedSet<EdgeUI> edgeUISet = new LinkedSet<EdgeUI>();
 
 	private final Map<Vertex, VertexUI> vertexToVertexUI = new HashMap<Vertex, VertexUI>();
 	private final Map<Edge, EdgeUI> edgeToEdgeUI = new HashMap<Edge, EdgeUI>();
@@ -114,7 +114,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseWheelListe
 	 * @return a {@link VertexUI} or null of not found.
 	 */
 	private VertexUI getVertexUIUnder(Point point) {
-		LinkedSet2<VertexUI> set = vertexUISet;
+		LinkedSet<VertexUI> set = vertexUISet;
 		ListIterator<VertexUI> listIterator = set.listIterator(set.size());
 		while (listIterator.hasPrevious()) {
 			VertexUI vertexUI = listIterator.previous();
