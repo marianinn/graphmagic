@@ -13,8 +13,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Dzmitry Lazerka
@@ -38,6 +37,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseWheelListe
 	private final Map<Edge, EdgeUI> edgeToEdgeUI = new HashMap<Edge, EdgeUI>();
 
 	private final static Dimension DEFAULT_DIMENSION = new Dimension(600, 400);
+	private Collection<Draggable> draggingObjects = new LinkedList<Draggable>();
 
 	public GraphPanel() {
 		addMouseListener(this);
@@ -58,7 +58,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseWheelListe
 	private void createUI() {
 		for (Vertex vertex : graph.getVertexSet()) {
 			VertexUI vertexUI = new VertexUI(vertex);
-			vertexUI.setContainer(this);
+			vertexUI.setGraphPanel(this);
 //			add(vertexUI);
 			vertexUISet.add(vertexUI);
 			vertexToVertexUI.put(vertex, vertexUI);
@@ -108,8 +108,16 @@ public class GraphPanel extends JPanel implements MouseListener, MouseWheelListe
 		drawGraph(g2);
 	}
 
+	/**
+	 * Iterates through {@link #vertexUISet} and checks if any of them {@link VertexUI#contains(Point)} 
+	 * @param point point under which to search
+	 * @return a {@link VertexUI} or null of not found.
+	 */
 	private VertexUI getVertexUIUnder(Point point) {
-		for (VertexUI vertexUI : vertexUISet) {
+		LinkedSet2<VertexUI> set = vertexUISet;
+		ListIterator<VertexUI> listIterator = set.listIterator(set.size());
+		while (listIterator.hasPrevious()) {
+			VertexUI vertexUI = listIterator.previous();
 			if (vertexUI.contains(point)) {
 				return vertexUI;
 			}
@@ -118,45 +126,56 @@ public class GraphPanel extends JPanel implements MouseListener, MouseWheelListe
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		VertexUI vertexUI = getVertexUIUnder(e.getPoint());
-//		logger.debug("mouseClicked() on vertexUI: {}", vertexUI);
-		if (vertexUI != null) {
-			 vertexUI.mouseClicked(e);
-		}
+		// NO OP
 	}
 
 	public void mousePressed(MouseEvent e) {
-		VertexUI vertexUI = getVertexUIUnder(e.getPoint());
-//		logger.debug("mousePressed() on vertexUI: {}", vertexUI);
-		if (vertexUI != null) {
-			 vertexUI.mousePressed(e);
+		MouseListener listener = getVertexUIUnder(e.getPoint());
+		logger.debug("mousePressed() on listener: {}", listener);
+		if (listener != null) {
+			 listener.mousePressed(e);
 		}
 	}
 
 	public void mouseReleased(MouseEvent e) {
-		VertexUI vertexUI = getVertexUIUnder(e.getPoint());
-//		logger.debug("mouseReleased() on vertexUI: {}", vertexUI);
-		if (vertexUI != null) {
-			 vertexUI.mouseReleased(e);
+		MouseListener listener = null;
+
+		for (Draggable draggable : draggingObjects) {
+			if (draggable.contains(e.getPoint())) {
+				listener = draggable;
+				break;
+			}
+		}
+
+		if (listener == null) {
+			listener = getVertexUIUnder(e.getPoint());
+		}
+
+		logger.debug("mouseReleased() on listener: {}", listener);
+		if (listener != null) {
+			 listener.mouseReleased(e);
 		}
 	}
 
 	public void mouseEntered(MouseEvent e) {
-		VertexUI vertexUI = getVertexUIUnder(e.getPoint());
-//		logger.debug("mouseEntered() on vertexUI: {}", vertexUI);
-		if (vertexUI != null) {
-			 vertexUI.mouseEntered(e);
-		}
+		// NO OP
 	}
 
 	public void mouseExited(MouseEvent e) {
-		VertexUI vertexUI = getVertexUIUnder(e.getPoint());
-//		logger.debug("mouseExited() on vertexUI: {}", vertexUI);
-		if (vertexUI != null) {
-			 vertexUI.mouseExited(e);
-		}
+		// NO OP
 	}
 
 	public void mouseWheelMoved(MouseWheelEvent e) {
+		// NO OP
+	}
+
+	public void addDraggingObject(Draggable object) {
+		draggingObjects.add(object);
+		addMouseMotionListener(object);
+	}
+
+	public void removeDraggingObject(Draggable object) {
+		draggingObjects.remove(object);
+		removeMouseMotionListener(object);
 	}
 }

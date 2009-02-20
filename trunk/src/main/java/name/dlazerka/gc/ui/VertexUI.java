@@ -7,15 +7,13 @@ import org.slf4j.LoggerFactory;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
 
 /**
  * @author Dzmitry Lazerka
  */
-public class VertexUI implements MouseListener, MouseMotionListener {
+public class VertexUI implements Draggable {
 	private final static Logger logger = LoggerFactory.getLogger(VertexUI.class);
 
 	private static final Dimension SIZE = new Dimension(50, 50);
@@ -26,7 +24,7 @@ public class VertexUI implements MouseListener, MouseMotionListener {
 	private static final Color COLOR_NUMBER = new Color(0, 0, 0);
 
 	private final Vertex vertex;
-	private JComponent container;
+	private GraphPanel graphPanel;
 	private Point center;
 	private Point mouseCenteredPosition;
 
@@ -69,12 +67,12 @@ public class VertexUI implements MouseListener, MouseMotionListener {
 
 	}
 
-	public JComponent getContainer() {
-		return container;
+	public JComponent getGraphPanel() {
+		return graphPanel;
 	}
 
-	public void setContainer(JComponent container) {
-		this.container = container;
+	public void setGraphPanel(GraphPanel graphPanel) {
+		this.graphPanel = graphPanel;
 	}
 
 	@Override
@@ -117,11 +115,11 @@ public class VertexUI implements MouseListener, MouseMotionListener {
 	}
 
 	private void startFollowingMouse(MouseEvent e) {
-		container.addMouseMotionListener(this);
+		graphPanel.addDraggingObject(this);
 	}
 
 	private void stopFollowingMouse(MouseEvent e) {
-		container.removeMouseMotionListener(this);
+		graphPanel.removeDraggingObject(this);
 	}
 
 	public void mouseClicked(MouseEvent e) {
@@ -145,7 +143,7 @@ public class VertexUI implements MouseListener, MouseMotionListener {
 	public void mouseDragged(MouseEvent e) {
 		center.x = e.getPoint().x - mouseCenteredPosition.x;
 		center.y = e.getPoint().y - mouseCenteredPosition.y;
-		container.repaint();
+		graphPanel.repaint();
 	}
 
 	public void mouseMoved(MouseEvent e) {

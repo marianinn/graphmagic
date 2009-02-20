@@ -10,6 +10,8 @@ public class MainFrame extends JFrame {
 	private GraphPanel graphPanel;
 	private JLabel statusBarLabel;
 	private JTextArea textArea1;
+	private JButton vertexButton;
+	private JButton edgeButton;
 
 	public MainFrame() {
 		setContentPane(contentPane);
@@ -32,6 +34,18 @@ public class MainFrame extends JFrame {
 				}
 			}, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT
 		);
+
+		registerCommands();
+	}
+
+	private void registerCommands() {
+
+		vertexButton.setRolloverEnabled(false);
+		vertexButton.setAction(new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+//				graphPanel.setVertexButtonPressed();
+			}
+		});
 	}
 
 	private void onClose() {
