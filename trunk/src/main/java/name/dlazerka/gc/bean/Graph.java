@@ -15,6 +15,24 @@ public class Graph {
 	private final Map<Integer, Vertex> vertexByOrder = new HashMap<Integer, Vertex>();
 
 	public Graph() {
+		create4();
+	}
+
+	private void create1() {
+		Vertex vertex1 = new Vertex(1);
+
+		addVertex(vertex1);
+	}
+
+	private void create2() {
+		Vertex vertex1 = new Vertex(1);
+		Vertex vertex2 = new Vertex(2);
+
+		addVertex(vertex1);
+		addVertex(vertex2);
+	}
+
+	private void create4() {
 		Vertex vertex1 = new Vertex(1);
 		Vertex vertex2 = new Vertex(2);
 		Vertex vertex3 = new Vertex(3);

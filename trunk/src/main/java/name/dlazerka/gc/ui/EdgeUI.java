@@ -2,6 +2,7 @@ package name.dlazerka.gc.ui;
 
 import name.dlazerka.gc.bean.Edge;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -14,6 +15,7 @@ public class EdgeUI {
 	private final Edge edge;
 	private final VertexUI headUI;
 	private final VertexUI tailUI;
+	private JComponent container;
 
 	public EdgeUI(Edge edge, VertexUI headUI, VertexUI tailUI) {
 		this.edge = edge;
@@ -21,8 +23,8 @@ public class EdgeUI {
 		this.tailUI = tailUI;
 	}
 
-	public  void draw(Graphics2D g2) {
-		g2 = (Graphics2D) g2.create();
+	public void paint(Graphics g) {
+		Graphics2D g2 = (Graphics2D) g.create();
 
 		g2.setColor(COLOR_ARC);
 		g2.setStroke(STROKE_ARC);
@@ -44,5 +46,13 @@ public class EdgeUI {
 	@Override
 	public int hashCode() {
 		return edge.hashCode();
+	}
+
+	public JComponent getContainer() {
+		return container;
+	}
+
+	public void setContainer(JComponent container) {
+		this.container = container;
 	}
 }
