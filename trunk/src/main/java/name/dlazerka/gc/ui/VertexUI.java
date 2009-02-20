@@ -1,6 +1,8 @@
 package name.dlazerka.gc.ui;
 
 import name.dlazerka.gc.bean.Vertex;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,6 +16,8 @@ import java.awt.font.GlyphVector;
  * @author Dzmitry Lazerka
  */
 public class VertexUI implements MouseListener, MouseMotionListener {
+	private final static Logger logger = LoggerFactory.getLogger(VertexUI.class);
+
 	private static final Dimension SIZE = new Dimension(50, 50);
 	private static final int NUM_SHIFT_X = -8;
 	private static final int NUM_SHIFT_Y = 12;
@@ -32,7 +36,7 @@ public class VertexUI implements MouseListener, MouseMotionListener {
 
 	public void paint(Graphics g) {
 
-		Graphics2D g2 = (Graphics2D) g  ;
+		Graphics2D g2 = (Graphics2D) g;
 //		Graphics2D g2 = (Graphics2D) g.create();
 
 		int x = center.x - SIZE.width / 2;
@@ -94,6 +98,8 @@ public class VertexUI implements MouseListener, MouseMotionListener {
 	public String toString() {
 		return "VertexUI{" +
 		       "vertex=" + vertex +
+		       ", center=" + center +
+		       ", mouseCenteredPosition=" + mouseCenteredPosition +
 		       '}';
 	}
 
@@ -106,8 +112,8 @@ public class VertexUI implements MouseListener, MouseMotionListener {
 	}
 
 	public boolean contains(Point point) {
-		return (center.x - point.x) <= SIZE.width &&
-		       (center.y - point.y) <= SIZE.height;
+		return Math.abs(center.x - point.x) <= SIZE.width &&
+		       Math.abs(center.y - point.y) <= SIZE.height;
 	}
 
 	private void startFollowingMouse(MouseEvent e) {

@@ -1,5 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module relativePaths="true" MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+  <component name="BuildJarSettings">
+    <containerInfo>
+      <containerElement type="module" name="gc">
+        <attribute name="method" value="1" />
+        <attribute name="URI" value="/" />
+      </containerElement>
+      <containerElement type="library" name="Maven: org.slf4j:slf4j-log4j13:1.0.1" level="project">
+        <attribute name="method" value="1" />
+        <attribute name="URI" value="/" />
+      </containerElement>
+      <containerElement type="library" name="Maven: org.slf4j:slf4j-api:1.5.6" level="project">
+        <attribute name="method" value="1" />
+        <attribute name="URI" value="/" />
+      </containerElement>
+    </containerInfo>
+    <setting name="jarUrl" value="file://$MODULE_DIR$/gc.jar" />
+    <setting name="buildJar" value="true" />
+    <setting name="mainClass" value="name.dlazerka.gc.Main" />
+  </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_6" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
@@ -11,7 +30,9 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="Maven: commons-collections:commons-collections:3.2.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.slf4j:slf4j-api:1.5.6" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.slf4j:slf4j-log4j12:1.5.6" level="project" />
+    <orderEntry type="library" exported="" name="Maven: log4j:log4j:1.2.14" level="project" />
   </component>
 </module>
 
