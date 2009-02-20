@@ -1,2 +1,13 @@
-* Moving of vertices
+* Adding vertices
+* Adding edges
+* Removing vertices
+* Removing edges
+* More than one window with a graph.
+* Selecting multiple vertices.
+* Renumbering of vertices (by hand, randomly)
+* Marking (weighing) edges
+* Changing properties of the graph (digraph, multigraph, pseudograph)
 * Zooming
+* History of graph view actions for the Undo/Redo.
+* Export/Import a graph to a file.
+* Printing graph
