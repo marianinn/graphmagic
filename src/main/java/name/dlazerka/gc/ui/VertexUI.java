@@ -110,8 +110,8 @@ public class VertexUI implements Draggable {
 	}
 
 	public boolean contains(Point point) {
-		return Math.abs(center.x - point.x) <= SIZE.width &&
-		       Math.abs(center.y - point.y) <= SIZE.height;
+		return Math.abs(center.x - point.x) <= SIZE.width / 2 &&
+		       Math.abs(center.y - point.y) <= SIZE.height / 2;
 	}
 
 	private void startFollowingMouse(MouseEvent e) {
