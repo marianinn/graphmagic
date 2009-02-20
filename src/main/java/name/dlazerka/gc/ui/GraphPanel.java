@@ -4,13 +4,15 @@ import name.dlazerka.gc.bean.Edge;
 import name.dlazerka.gc.bean.Graph;
 import name.dlazerka.gc.bean.Vertex;
 import name.dlazerka.gc.util.LinkedSet2;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.MouseWheelListener;
 import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,6 +20,8 @@ import java.util.Map;
  * @author Dzmitry Lazerka
  */
 public class GraphPanel extends JPanel implements MouseListener, MouseWheelListener {
+	private final static Logger logger = LoggerFactory.getLogger(GraphPanel.class);
+
 	private final Graph graph = new Graph();
 
 	/**
@@ -115,6 +119,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseWheelListe
 
 	public void mouseClicked(MouseEvent e) {
 		VertexUI vertexUI = getVertexUIUnder(e.getPoint());
+//		logger.debug("mouseClicked() on vertexUI: {}", vertexUI);
 		if (vertexUI != null) {
 			 vertexUI.mouseClicked(e);
 		}
@@ -122,6 +127,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseWheelListe
 
 	public void mousePressed(MouseEvent e) {
 		VertexUI vertexUI = getVertexUIUnder(e.getPoint());
+//		logger.debug("mousePressed() on vertexUI: {}", vertexUI);
 		if (vertexUI != null) {
 			 vertexUI.mousePressed(e);
 		}
@@ -129,6 +135,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseWheelListe
 
 	public void mouseReleased(MouseEvent e) {
 		VertexUI vertexUI = getVertexUIUnder(e.getPoint());
+//		logger.debug("mouseReleased() on vertexUI: {}", vertexUI);
 		if (vertexUI != null) {
 			 vertexUI.mouseReleased(e);
 		}
@@ -136,6 +143,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseWheelListe
 
 	public void mouseEntered(MouseEvent e) {
 		VertexUI vertexUI = getVertexUIUnder(e.getPoint());
+//		logger.debug("mouseEntered() on vertexUI: {}", vertexUI);
 		if (vertexUI != null) {
 			 vertexUI.mouseEntered(e);
 		}
@@ -143,6 +151,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseWheelListe
 
 	public void mouseExited(MouseEvent e) {
 		VertexUI vertexUI = getVertexUIUnder(e.getPoint());
+//		logger.debug("mouseExited() on vertexUI: {}", vertexUI);
 		if (vertexUI != null) {
 			 vertexUI.mouseExited(e);
 		}
