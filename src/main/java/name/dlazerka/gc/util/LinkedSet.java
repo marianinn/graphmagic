@@ -7,7 +7,7 @@ import java.util.Set;
 /**
  * @author Dzmitry Lazerka
  */
-public class LinkedSet2<E> extends LinkedList<E> implements Set<E>, List<E> {
+public class LinkedSet<E> extends LinkedList<E> implements Set<E>, List<E> {
 	@Override
 	public void addFirst(E e) {
 		if (!contains(e)) {
