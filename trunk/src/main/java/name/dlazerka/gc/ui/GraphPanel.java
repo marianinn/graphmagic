@@ -9,16 +9,13 @@ import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
+import java.awt.event.*;
 import java.util.*;
 
 /**
  * @author Dzmitry Lazerka
  */
-public class GraphPanel extends JPanel implements MouseListener, MouseWheelListener {
+public class GraphPanel extends JPanel implements MouseListener, MouseWheelListener, MouseMotionListener {
 	private final static Logger logger = LoggerFactory.getLogger(GraphPanel.class);
 
 	private final Graph graph = new Graph();
@@ -41,6 +38,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseWheelListe
 
 	public GraphPanel() {
 		addMouseListener(this);
+		addMouseMotionListener(this);
 		setPreferredSize(DEFAULT_DIMENSION);
 		createUI();
 	}
@@ -137,6 +135,11 @@ public class GraphPanel extends JPanel implements MouseListener, MouseWheelListe
 		}
 	}
 
+	/**
+	 * Looks at first for currently dragged object and if there is no such under mouse cursor,
+	 * looks at other objects.
+	 * @param e a {@link MouseEvent}
+	 */
 	public void mouseReleased(MouseEvent e) {
 		MouseListener listener = null;
 
@@ -177,5 +180,21 @@ public class GraphPanel extends JPanel implements MouseListener, MouseWheelListe
 	public void removeDraggingObject(Draggable object) {
 		draggingObjects.remove(object);
 		removeMouseMotionListener(object);
+	}
+
+	public void mouseDragged(MouseEvent e) {
+	}
+
+	public void mouseMoved(MouseEvent e) {
+		MouseListener listener = getVertexUIUnder(e.getPoint());
+
+//		logger.debug("mouseMoved() on listener: {}", listener);
+		if (listener != null) {
+			 this.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
+		}
+		else {
+			setCursor(Cursor.getDefaultCursor());
+		}
+
 	}
 }

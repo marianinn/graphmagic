@@ -1,17 +1,19 @@
 package name.dlazerka.gc.ui;
 
 import name.dlazerka.gc.Main;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.event.*;
 
 public class MainFrame extends JFrame {
+	private final static Logger logger = LoggerFactory.getLogger(MainFrame.class);
+
 	private JPanel contentPane;
 	private GraphPanel graphPanel;
 	private JLabel statusBarLabel;
 	private JTextArea textArea1;
-	private JButton vertexButton;
-	private JButton edgeButton;
 
 	public MainFrame() {
 		setContentPane(contentPane);
@@ -39,13 +41,6 @@ public class MainFrame extends JFrame {
 	}
 
 	private void registerCommands() {
-
-		vertexButton.setRolloverEnabled(false);
-		vertexButton.setAction(new AbstractAction() {
-			public void actionPerformed(ActionEvent e) {
-//				graphPanel.setVertexButtonPressed();
-			}
-		});
 	}
 
 	private void onClose() {
@@ -53,6 +48,6 @@ public class MainFrame extends JFrame {
 	}
 
 	private void createUIComponents() {
-		graphPanel = new GraphPanel(); 
+		graphPanel = new GraphPanel();
 	}
 }
