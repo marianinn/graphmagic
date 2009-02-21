@@ -7,6 +7,7 @@
 * Renumbering of vertices (by hand, randomly)
 * Marking (weighing) edges
 * Changing properties of the graph (digraph, multigraph, pseudograph)
+* Pluggable algorithms
 * Zooming
 * History of graph view actions for the Undo/Redo.
 * Export/Import a graph to a file.
