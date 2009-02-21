@@ -2,9 +2,9 @@ package name.dlazerka.gc.bean;
 
 
 import java.util.HashSet;
-import java.util.Map;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
-import java.util.HashMap;
 
 /**
  * @author Dzmitry Lazerka
@@ -12,10 +12,14 @@ import java.util.HashMap;
 public class Graph {
 	private final Set<Vertex> vertexSet = new HashSet<Vertex>();
 	private final Set<Edge> edgeSet = new HashSet<Edge>();
-	private final Map<Integer, Vertex> vertexByOrder = new HashMap<Integer, Vertex>();
+	private final List<GraphChangeListener> changeListeners = new LinkedList<GraphChangeListener>();
 
 	public Graph() {
 		create4();
+	}
+
+	public boolean addChangeListener(GraphChangeListener listener) {
+		return changeListeners.add(listener);
 	}
 
 	private void create1() {
@@ -60,9 +64,24 @@ public class Graph {
 		edgeSet.add(edge);
 	}
 
+	public void addVertex() {
+		int max = Integer.MIN_VALUE;
+		for (Vertex vertex : vertexSet) {
+			if (vertex.getNumber() > max) {
+				max = vertex.getNumber();
+			}
+		}
+		Vertex vertex = new Vertex(max + 1);
+
+		addVertex(vertex);
+	}
+
 	public void addVertex(Vertex vertex) {
-		vertexByOrder.put(vertexSet.size(), vertex);
 		vertexSet.add(vertex);
+		
+		for (GraphChangeListener listener : changeListeners) {
+			listener.vertexAdded(vertex);
+		}
 	}
 
 	public Set<Vertex> getVertexSet() {
@@ -71,9 +90,5 @@ public class Graph {
 
 	public Set<Edge> getEdgeSet() {
 		return edgeSet;
-	}
-
-	public Vertex getVertexByOrder(int i) {
-		return vertexByOrder.get(i);
 	}
 }

@@ -4,7 +4,6 @@ import name.dlazerka.gc.bean.Vertex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.font.FontRenderContext;
@@ -24,7 +23,6 @@ public class VertexUI implements Draggable {
 	private static final Color COLOR_NUMBER = new Color(0, 0, 0);
 
 	private final Vertex vertex;
-	private GraphPanel graphPanel;
 	private Point center;
 	private Point mouseCenteredPosition;
 
@@ -67,14 +65,6 @@ public class VertexUI implements Draggable {
 
 	}
 
-	public JComponent getGraphPanel() {
-		return graphPanel;
-	}
-
-	public void setGraphPanel(GraphPanel graphPanel) {
-		this.graphPanel = graphPanel;
-	}
-
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
@@ -114,36 +104,16 @@ public class VertexUI implements Draggable {
 		       Math.abs(center.y - point.y) <= SIZE.height / 2;
 	}
 
-	private void startFollowingMouse(MouseEvent e) {
-		graphPanel.addDraggingObject(this);
-	}
-
-	private void stopFollowingMouse(MouseEvent e) {
-		graphPanel.removeDraggingObject(this);
-	}
-
-	public void mouseClicked(MouseEvent e) {
-	}
-
-	public void mousePressed(MouseEvent e) {
+	public void startFollowingMouse(MouseEvent e) {
 		mouseCenteredPosition = new Point(e.getPoint().x - center.x, e.getPoint().y - center.y);
-		startFollowingMouse(e);
 	}
 
-	public void mouseReleased(MouseEvent e) {
-		stopFollowingMouse(e);
-	}
-
-	public void mouseEntered(MouseEvent e) {
-	}
-
-	public void mouseExited(MouseEvent e) {
+	public void stopFollowingMouse(MouseEvent e) {
 	}
 
 	public void mouseDragged(MouseEvent e) {
 		center.x = e.getPoint().x - mouseCenteredPosition.x;
 		center.y = e.getPoint().y - mouseCenteredPosition.y;
-		graphPanel.repaint();
 	}
 
 	public void mouseMoved(MouseEvent e) {

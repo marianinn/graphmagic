@@ -21,8 +21,4 @@ public class VertexPanel extends JPanel {
 		g2.drawOval(0, 0, 100, 100);
 	}
 
-	@Override
-	public Dimension getPreferredSize() {
-		return new Dimension(102, 102);
-	}
 }

@@ -5,7 +5,6 @@ package name.dlazerka.gc.bean;
  */
 public class Vertex {
 	private final int number;
-	private int orderNumber;
 
 
 	public Vertex(int number) {
@@ -33,19 +32,10 @@ public class Vertex {
 		return number;
 	}
 
-	public int getOrderNumber() {
-		return orderNumber;
-	}
-
-	public void setOrderNumber(int orderNumber) {
-		this.orderNumber = orderNumber;
-	}
-
 	@Override
 	public String toString() {
 		return "Vertex{" +
 		       "number=" + number +
-		       ", orderNumber=" + orderNumber +
 		       '}';
 	}
 }
