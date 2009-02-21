@@ -1,12 +1,14 @@
 package name.dlazerka.gc.ui;
 
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 
 /**
  * @author Dzmitry Lazerka
  */
-public interface Draggable extends MouseListener, MouseMotionListener {
+public interface Draggable extends MouseMotionListener {
 	public boolean contains(Point point);
+	public void startFollowingMouse(MouseEvent e);
+	public void stopFollowingMouse(MouseEvent e);
 }
