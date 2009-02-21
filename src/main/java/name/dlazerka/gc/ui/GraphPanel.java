@@ -1,27 +1,66 @@
 package name.dlazerka.gc.ui;
 
 import name.dlazerka.gc.Main;
+import name.dlazerka.gc.bean.Vertex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author Dzmitry Lazerka
  */
-public class GraphPanel extends JPanel implements MouseListener, MouseWheelListener, MouseMotionListener {
+public class GraphPanel extends JPanel {
 	private final static Logger logger = LoggerFactory.getLogger(GraphPanel.class);
 	private final static Dimension DEFAULT_DIMENSION = new Dimension(600, 400);
 
-	private GraphPanelModel model = new GraphPanelModel(DEFAULT_DIMENSION);
+	private GraphPanelModel model;
+	private List<VertexPanel> vertexPanelList = new LinkedList<VertexPanel>();
 
 	public GraphPanel() {
-		addMouseListener(this);
-		addMouseMotionListener(this);
+//		addMouseListener(this);
+//		addMouseMotionListener(this);
+		setModel(new GraphPanelModel(DEFAULT_DIMENSION));
+
+		setLayout(new GraphLayoutManager(model));
+
 		setPreferredSize(DEFAULT_DIMENSION);
+
 		setComponentPopupMenu(createPopupMenu());
+
+		addVertexPanels();
+
+	}
+
+
+	public Component add(Component component) {
+		if (component instanceof VertexPanel) {
+			VertexPanel panel = (VertexPanel) component;
+			vertexPanelList.add(panel);
+		}
+		return super.add(component);
+	}
+
+	private void addVertexPanels() {
+		for (Vertex vertex : model.getGraph().getVertexSet()) {
+			VertexPanel vertexPanel = new VertexPanel(vertex);
+			add(vertexPanel);
+		}
+		validate();
+		((GraphLayoutManager) getLayout()).layoutDefault(this);
+	}
+
+	public void setModel(GraphPanelModel model) {
+		this.model = model;
+	}
+
+	public List<VertexPanel> getVertexPanelList() {
+		return vertexPanelList;
 	}
 
 	private class AddVertexAction extends AbstractAction {
@@ -39,65 +78,68 @@ public class GraphPanel extends JPanel implements MouseListener, MouseWheelListe
 		popupMenu.add(new AddVertexAction());
 		return popupMenu;
 	}
-
+/*
 	public void drawGraph(Graphics2D g2) {
-		for (EdgeUI edgeUI : model.edgeUISet) {
+		for (EdgePanel edgeUI : model.edgeModelSet) {
 			edgeUI.paint(g2);
 		}
 
-		for (VertexUI vertexUI : model.vertexUISet) {
+		for (VertexPanelModel vertexUI : model.vertexModelSet) {
 			vertexUI.paint(g2);
 		}
 	}
 
+*/
 
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-
-		Graphics2D g2 = (Graphics2D) g;
-
-		drawGraph(g2);
 	}
 
-
-	private void mousePopupTriggered(MouseEvent e) {
-//		popupMenu.set
-//		popupMenu.setVisible(true);
-
+	@Override
+	protected void paintChildren(Graphics g) {
+		super.paintChildren(g);
 	}
 
-	public void mouseClicked(MouseEvent e) {
-		if (e.isPopupTrigger()) {
-			mousePopupTriggered(e);
-			return;
-		}
-	}
+	/*
+	 private void mousePopupTriggered(MouseEvent e) {
+ //		popupMenu.set
+ //		popupMenu.setVisible(true);
 
-	public void mousePressed(MouseEvent e) {
-		if (e.isPopupTrigger()) {
-			mousePopupTriggered(e);
-			return;
-		}
+	 }
 
-		if (e.getButton() != MouseEvent.BUTTON1) {
-			return;
-		}
+	 public void mouseClicked(MouseEvent e) {
+		 if (e.isPopupTrigger()) {
+			 mousePopupTriggered(e);
+			 return;
+		 }
+	 }
 
-		Draggable draggable = model.getVertexUIUnder(e.getPoint());
-		logger.debug("mousePressed() on draggable: {}", draggable);
-		if (draggable != null) {
-			addDraggingObject(draggable);
-			draggable.startFollowingMouse(e);
-		}
-	}
+	 public void mousePressed(MouseEvent e) {
+		 if (e.isPopupTrigger()) {
+			 mousePopupTriggered(e);
+			 return;
+		 }
 
+		 if (e.getButton() != MouseEvent.BUTTON1) {
+			 return;
+		 }
+
+		 Draggable draggable = model.getVertexUIUnder(e.getPoint());
+		 logger.debug("mousePressed() on draggable: {}", draggable);
+		 if (draggable != null) {
+			 addDraggingObject(draggable);
+			 draggable.startFollowingMouse(e);
+		 }
+	 }
+ */
 	/**
 	 * Looks at first for currently dragged object and if there is no such under mouse cursor,
 	 * looks at other objects.
 	 *
 	 * @param e a {@link MouseEvent}
 	 */
+/*
 	public void mouseReleased(MouseEvent e) {
 		if (e.isPopupTrigger()) {
 			mousePopupTriggered(e);
@@ -164,4 +206,5 @@ public class GraphPanel extends JPanel implements MouseListener, MouseWheelListe
 		}
 
 	}
+	*/
 }
