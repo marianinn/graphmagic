@@ -5,6 +5,11 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * A simple implementation of {@link Set} and {@link List} interfaces
+ * implemented by using {@link LinkedList} class.
+ * Thus, adding to the {@link LinkedSet} is asymptotically inefficient -- O(N),
+ * do not use it for large collections (more than 50 elements).
+ *
  * @author Dzmitry Lazerka
  */
 public class LinkedSet<E> extends LinkedList<E> implements Set<E>, List<E> {
