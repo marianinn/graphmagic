@@ -42,13 +42,14 @@ public class VertexPanel extends JPanel {
 
 	
 	private static final Color COLOR_BORDER = new Color(0, 0, 0);
-	private static final Color COLOR_INNER = new Color(255, 255, 255);
+	private static final Color COLOR_INNER = new Color(0xFF, 0xFF, 0xFF);
+	private static final Color COLOR_INNER_HOVER = new Color(0xA0, 0xFF, 0xA0);
 	private static final Color COLOR_NUMBER = new Color(0, 0, 0);
 
 
 	protected final Vertex vertex;
 
-	private final DragMouseListener mouseAdapter = new DragMouseListener();
+	private boolean isHovered = false;
 
 	public VertexPanel(Vertex vertex) {
 		this.vertex = vertex;
@@ -56,9 +57,8 @@ public class VertexPanel extends JPanel {
 		setPreferredSize(SIZE);
 		setSize(SIZE);
 
-		addMouseListener(mouseAdapter);
-		addMouseMotionListener(mouseAdapter);
-		addMouseWheelListener(mouseAdapter);
+		addMouseMotionListener(new DragMouseListener());
+		addMouseListener(new HoverMouseListener());
 	}
 
 	@Override
@@ -69,12 +69,16 @@ public class VertexPanel extends JPanel {
 	public void paintComponent(Graphics g) {
 
 		Graphics2D g2 = (Graphics2D) g;
-//		Graphics2D g2 = (Graphics2D) g.create();
 
 		g2.setColor(COLOR_BORDER);
 		g2.fillOval(0, 0, SIZE.width, SIZE.height);
 
-		g2.setColor(COLOR_INNER);
+		if (!isHovered) {
+			g2.setColor(COLOR_INNER);
+		}
+		else {
+			g2.setColor(COLOR_INNER_HOVER);
+		}
 		g2.fillOval(3, 3, SIZE.width - 6, SIZE.height - 6);
 
 		g2.setColor(COLOR_NUMBER);
@@ -126,6 +130,22 @@ public class VertexPanel extends JPanel {
 			int moveByX = e.getX() - mouseX;
 			int moveByY = e.getY() - mouseY;
 			setLocation(getX() + moveByX, getY() + moveByY);
+		}
+	}
+
+	protected class HoverMouseListener extends MouseAdapter {
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			super.mouseEntered(e);
+			isHovered = true;
+			repaint();
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			super.mouseExited(e);
+			isHovered = false;
+			repaint();
 		}
 	}
 }
