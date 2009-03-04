@@ -1,3 +1,4 @@
+User stories:
 * Adding vertices
 * Adding edges
 * Removing vertices
@@ -12,3 +13,7 @@
 * History of graph view actions for the Undo/Redo.
 * Export/Import a graph to a file.
 * Printing graph
+
+Bugs:
+* Make dragged vertex in top of other vertices.
+* Numbers 

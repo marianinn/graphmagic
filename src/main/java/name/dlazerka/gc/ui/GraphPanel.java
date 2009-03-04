@@ -1,6 +1,7 @@
 package name.dlazerka.gc.ui;
 
 import name.dlazerka.gc.Main;
+import name.dlazerka.gc.bean.GraphChangeListener;
 import name.dlazerka.gc.bean.Vertex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,15 +17,16 @@ import java.util.List;
 /**
  * @author Dzmitry Lazerka
  */
-public class GraphPanel extends JPanel {
+public class GraphPanel extends JPanel implements GraphChangeListener {
 	private final static Logger logger = LoggerFactory.getLogger(GraphPanel.class);
 	private final static Dimension DEFAULT_DIMENSION = new Dimension(600, 400);
 
 	private GraphPanelModel model;
 	private List<VertexPanel> vertexPanelList = new LinkedList<VertexPanel>();
+	private final Point popupLocation = new Point();
 
 	public GraphPanel() {
-//		addMouseListener(this);
+		addMouseListener(new PopupLocationRememberer());
 //		addMouseMotionListener(this);
 		setModel(new GraphPanelModel(DEFAULT_DIMENSION));
 
@@ -34,7 +37,6 @@ public class GraphPanel extends JPanel {
 		setComponentPopupMenu(createPopupMenu());
 
 		addVertexPanels();
-
 	}
 
 
@@ -49,9 +51,9 @@ public class GraphPanel extends JPanel {
 	private void addVertexPanels() {
 		for (Vertex vertex : model.getGraph().getVertexSet()) {
 			VertexPanel vertexPanel = new VertexPanel(vertex);
+			vertexPanel.setLocation(popupLocation);
 			add(vertexPanel);
 		}
-		validate();
 		((GraphLayoutManager) getLayout()).layoutDefault(this);
 	}
 
@@ -63,18 +65,42 @@ public class GraphPanel extends JPanel {
 		return vertexPanelList;
 	}
 
+	public void vertexAdded(Vertex vertex) {
+		VertexPanel vertexPanel = new VertexPanel(vertex);
+		add(vertexPanel);
+	}
+
 	private class AddVertexAction extends AbstractAction {
 		public AddVertexAction() {
 			super(Main.getString("add.vertex"));
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			model.addVertex();
+			Vertex vertex = model.addVertex();
+			VertexPanel vertexPanel = new VertexPanel(vertex);
+			vertexPanel.setLocation(popupLocation);
+			add(vertexPanel);
+			vertexPanel.repaint();
+		}
+	}
+
+	private class MyPopupMenu extends JPopupMenu {
+	}
+
+	protected class PopupLocationRememberer extends MouseAdapter {
+		protected void rememberLocation(MouseEvent e) {
+			popupLocation.x = e.getX();
+			popupLocation.y = e.getY();
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			rememberLocation(e);
 		}
 	}
 
 	private JPopupMenu createPopupMenu() {
-		JPopupMenu popupMenu = new JPopupMenu();
+		JPopupMenu popupMenu = new MyPopupMenu();
 		popupMenu.add(new AddVertexAction());
 		return popupMenu;
 	}
@@ -94,11 +120,6 @@ public class GraphPanel extends JPanel {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-	}
-
-	@Override
-	protected void paintChildren(Graphics g) {
-		super.paintChildren(g);
 	}
 
 	/*
