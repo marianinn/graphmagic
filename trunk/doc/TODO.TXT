@@ -14,5 +14,3 @@ User stories:
 * Printing graph
 
 Bugs:
-* Make dragged vertex in top of other vertices.
-* Numbers 
