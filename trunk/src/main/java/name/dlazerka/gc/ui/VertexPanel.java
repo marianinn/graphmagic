@@ -17,18 +17,38 @@ import java.awt.font.GlyphVector;
 public class VertexPanel extends JPanel {
 	private static final Logger logger = LoggerFactory.getLogger(VertexPanel.class);
 
-
+	/**
+	 * Default diameter of the vertex.
+	 */
 	private static final Dimension SIZE = new Dimension(50, 50);
-	private static final int NUM_SHIFT_X = 17;
-	private static final int NUM_SHIFT_Y = 36;
+
+	private static final int FONT_SIZE = 30;
+	private static final Font NUMBER_FONT = new Font("courier", Font.PLAIN, FONT_SIZE);
+
+	/**
+	 * Horizintal shift of the vertex number for one-digit numbers.
+	 */
+	private static final int NUMBER_SHIFT_X1 = 17;
+
+	/**
+	 * Horizontal shift of the vertex number for two-digit numbers.
+	 */
+	private static final int NUMBER_SHIFT_X2 = 9;
+
+	/**
+	 * Vertical shift of the vertex number.
+	 */
+	private static final int NUMBER_SHIFT_Y = 36;
+
+	
 	private static final Color COLOR_BORDER = new Color(0, 0, 0);
 	private static final Color COLOR_INNER = new Color(255, 255, 255);
 	private static final Color COLOR_NUMBER = new Color(0, 0, 0);
 
 
 	protected final Vertex vertex;
-	private final InnerMouseAdapter mouseAdapter = new InnerMouseAdapter();
-	private boolean dragging = false;
+
+	private final DragMouseListener mouseAdapter = new DragMouseListener();
 
 	public VertexPanel(Vertex vertex) {
 		this.vertex = vertex;
@@ -59,16 +79,20 @@ public class VertexPanel extends JPanel {
 
 		g2.setColor(COLOR_NUMBER);
 
-		int fontSize = 30;
-		Font font = new Font("courier", Font.PLAIN, fontSize);
 		FontRenderContext fontRenderContext = g2.getFontRenderContext();
-		GlyphVector glyphVector = font.createGlyphVector(fontRenderContext, "" + vertex.getNumber());
+		GlyphVector glyphVector = NUMBER_FONT.createGlyphVector(fontRenderContext, "" + vertex.getNumber());
 
 		// todo: many digits
-		int digits = (int) Math.floor(vertex.getNumber() / 10) + 1;
+//		int digits = (int) Math.floor(vertex.getNumber() / 10) + 1;
+		int glyphStartX;
+		if (vertex.getNumber() < 10) {
+			glyphStartX = NUMBER_SHIFT_X1;
+		}
+		else {
+			glyphStartX = NUMBER_SHIFT_X2;
+		}
 
-		int glyphStartX = NUM_SHIFT_X;
-		int glyphStartY = NUM_SHIFT_Y;
+		int glyphStartY = NUMBER_SHIFT_Y;
 
 		g2.drawGlyphVector(glyphVector, glyphStartX, glyphStartY);
 
@@ -87,7 +111,7 @@ public class VertexPanel extends JPanel {
 		       '}';
 	}
 
-	private class InnerMouseAdapter extends MouseAdapter {
+	protected class DragMouseListener extends MouseAdapter {
 		private int mouseX;
 		private int mouseY;
 
@@ -99,9 +123,9 @@ public class VertexPanel extends JPanel {
 
 		@Override
 		public void mouseDragged(MouseEvent e) {
-			int moveToX = e.getX() - mouseX;
-			int moveToY = e.getY() - mouseY;
-			setLocation(getX() + moveToX, getY() + moveToY);
+			int moveByX = e.getX() - mouseX;
+			int moveByY = e.getY() - mouseY;
+			setLocation(getX() + moveByX, getY() + moveByY);
 		}
 	}
 }

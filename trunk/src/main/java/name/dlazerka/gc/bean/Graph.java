@@ -64,7 +64,7 @@ public class Graph {
 		edgeSet.add(edge);
 	}
 
-	public void addVertex() {
+	public Vertex addVertex() {
 		int max = Integer.MIN_VALUE;
 		for (Vertex vertex : vertexSet) {
 			if (vertex.getNumber() > max) {
@@ -73,15 +73,17 @@ public class Graph {
 		}
 		Vertex vertex = new Vertex(max + 1);
 
-		addVertex(vertex);
+		return addVertex(vertex);
 	}
 
-	public void addVertex(Vertex vertex) {
+	public Vertex addVertex(Vertex vertex) {
 		vertexSet.add(vertex);
 		
 		for (GraphChangeListener listener : changeListeners) {
 			listener.vertexAdded(vertex);
 		}
+
+		return vertex;
 	}
 
 	public Set<Vertex> getVertexSet() {
