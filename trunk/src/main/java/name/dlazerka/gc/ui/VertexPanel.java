@@ -40,7 +40,7 @@ public class VertexPanel extends JPanel {
 	 */
 	private static final int NUMBER_SHIFT_Y = 36;
 
-	
+
 	private static final Color COLOR_BORDER = new Color(0, 0, 0);
 	private static final Color COLOR_INNER = new Color(0xFF, 0xFF, 0xFF);
 	private static final Color COLOR_INNER_HOVER = new Color(0xA0, 0xFF, 0xA0);
@@ -137,19 +137,17 @@ public class VertexPanel extends JPanel {
 		@Override
 		public void mouseEntered(MouseEvent e) {
 			isHovered = true;
-			GraphPanel parent = (GraphPanel) getParent();
-			parent.setComponentZOrder(VertexPanel.this, 0);
 
-			// repainting parent instead of VertexPanel.this because
-			// there may be situation when a isHovered==true but the VertexPanel.this
-			// is under another 
-			parent.repaint();
+			GraphPanel parent = (GraphPanel) getParent();
+			parent.setHoveredVertexPanel(VertexPanel.this);
 		}
 
 		@Override
 		public void mouseExited(MouseEvent e) {
 			isHovered = false;
-			repaint();
+
+			GraphPanel parent = (GraphPanel) getParent();
+			parent.setHoveredVertexPanel(null);
 		}
 	}
 }

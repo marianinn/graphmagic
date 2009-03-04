@@ -24,19 +24,24 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 	private GraphPanelModel model;
 	private List<VertexPanel> vertexPanelList = new LinkedList<VertexPanel>();
 	private final Point popupLocation = new Point();
+	private JComponent addEdgePanel = new AddEdgePanel();
 
 	public GraphPanel() {
 		addMouseListener(new PopupLocationRememberer());
 //		addMouseMotionListener(this);
 		setModel(new GraphPanelModel(DEFAULT_DIMENSION));
 
-		setLayout(new GraphLayoutManager(model));
+		GraphLayoutManager layoutManager = new GraphLayoutManager(model);
+		setLayout(layoutManager);
 
 		setPreferredSize(DEFAULT_DIMENSION);
 
 		setComponentPopupMenu(createPopupMenu());
 
 		addVertexPanels();
+		layoutManager.layoutDefault(this);
+
+		add(addEdgePanel);
 	}
 
 
@@ -54,7 +59,6 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 			vertexPanel.setLocation(popupLocation);
 			add(vertexPanel);
 		}
-		((GraphLayoutManager) getLayout()).layoutDefault(this);
 	}
 
 	public void setModel(GraphPanelModel model) {
@@ -68,6 +72,24 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 	public void vertexAdded(Vertex vertex) {
 		VertexPanel vertexPanel = new VertexPanel(vertex);
 		add(vertexPanel);
+	}
+
+	public void setHoveredVertexPanel(VertexPanel vertexPanel) {
+		if (vertexPanel != null) {
+			setComponentZOrder(vertexPanel, 0);
+			repaint();
+
+/*
+			addEdgePanel.setLocation(
+				vertexPanel.getX() + vertexPanel.getWidth(),
+				vertexPanel.getY()
+			);
+			addEdgePanel.setVisible(true);
+*/
+		}
+		else {
+//			addEdgePanel.setVisible(false);
+		}
 	}
 
 	private class AddVertexAction extends AbstractAction {
@@ -84,9 +106,6 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 		}
 	}
 
-	private class MyPopupMenu extends JPopupMenu {
-	}
-
 	protected class PopupLocationRememberer extends MouseAdapter {
 		protected void rememberLocation(MouseEvent e) {
 			popupLocation.x = e.getX();
@@ -100,7 +119,7 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 	}
 
 	private JPopupMenu createPopupMenu() {
-		JPopupMenu popupMenu = new MyPopupMenu();
+		JPopupMenu popupMenu = new JPopupMenu();
 		popupMenu.add(new AddVertexAction());
 		return popupMenu;
 	}
@@ -116,11 +135,6 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 	}
 
 */
-
-	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-	}
 
 	/*
 	 private void mousePopupTriggered(MouseEvent e) {
