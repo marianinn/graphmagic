@@ -136,14 +136,18 @@ public class VertexPanel extends JPanel {
 	protected class HoverMouseListener extends MouseAdapter {
 		@Override
 		public void mouseEntered(MouseEvent e) {
-			super.mouseEntered(e);
 			isHovered = true;
-			repaint();
+			GraphPanel parent = (GraphPanel) getParent();
+			parent.setComponentZOrder(VertexPanel.this, 0);
+
+			// repainting parent instead of VertexPanel.this because
+			// there may be situation when a isHovered==true but the VertexPanel.this
+			// is under another 
+			parent.repaint();
 		}
 
 		@Override
 		public void mouseExited(MouseEvent e) {
-			super.mouseExited(e);
 			isHovered = false;
 			repaint();
 		}
