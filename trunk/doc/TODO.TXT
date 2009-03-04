@@ -1,5 +1,4 @@
 User stories:
-* Adding vertices
 * Adding edges
 * Removing vertices
 * Removing edges
