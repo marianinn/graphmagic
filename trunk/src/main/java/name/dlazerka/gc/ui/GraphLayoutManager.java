@@ -12,13 +12,8 @@ import java.util.List;
 public class GraphLayoutManager implements LayoutManager {
 	public static final Logger logger = LoggerFactory.getLogger(GraphLayoutManager.class);
 
-	private final GraphPanelModel model;
 //	private List<VertexPanel> vertexPanelList = new LinkedList<VertexPanel>();
 	private static final Dimension MINIMUM_LAYOUT_SIZE = new Dimension(0, 0);
-
-	public GraphLayoutManager(GraphPanelModel model) {
-		this.model = model;
-	}
 
 	public void addLayoutComponent(String name, Component comp) {
 		logger.debug("addLayoutComponent(): name={}, comp={}", new Object[]{name, comp});
@@ -34,7 +29,8 @@ public class GraphLayoutManager implements LayoutManager {
 	}
 
 	public Dimension preferredLayoutSize(Container parent) {
-		return parent.getPreferredSize();
+		return null;
+//		return parent.getPreferredSize();
 	}
 
 	public Dimension minimumLayoutSize(Container parent) {
@@ -59,7 +55,7 @@ public class GraphLayoutManager implements LayoutManager {
 	}
 
 	private void circleVertices(GraphPanel parent) {
-		Dimension size = parent.getPreferredSize();
+		Dimension size = parent.getSize();
 		List<VertexPanel> vertexPanelList = parent.getVertexPanelList();
 
 		logger.debug("circleVertices(size={})", size);
