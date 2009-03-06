@@ -21,7 +21,7 @@ public class VertexPanel extends JPanel {
 	/**
 	 * Default diameter of the vertex.
 	 */
-	private static final Dimension SIZE = new Dimension(50, 50);
+	private static final Dimension VERTEX_OVAL_SIZE = new Dimension(50, 50);
 
 	private static final int FONT_SIZE = 30;
 	private static final Font NUMBER_FONT = new Font("courier", Font.PLAIN, FONT_SIZE);
@@ -48,24 +48,28 @@ public class VertexPanel extends JPanel {
 	private static final Color COLOR_NUMBER = new Color(0, 0, 0);
 
 
-	protected final Vertex vertex;
+	private final Vertex vertex;
 
 	private boolean isHovered = false;
 	private final AddEdgePanel addEdgePanel = new AddEdgePanel();
 	private boolean isDraggingEdge = false;
+	private final Dimension panelSize = new Dimension(
+		VERTEX_OVAL_SIZE.width + addEdgePanel.getPreferredSize().width,
+		VERTEX_OVAL_SIZE.height
+	);
 
 	public VertexPanel(Vertex vertex) {
 		super(null);
 
 		this.vertex = vertex;
 
-		setPreferredSize(SIZE);
-		setSize(SIZE);
+		setPreferredSize(panelSize);
+		setSize(panelSize);
 //		setDoubleBuffered(true); is needed?
 
 		Dimension preferredSize = addEdgePanel.getPreferredSize();
 		addEdgePanel.setBounds(// top right corner
-		                       SIZE.width,
+		                       VERTEX_OVAL_SIZE.width,
 		                       0,
 		                       preferredSize.width,
 		                       preferredSize.height
@@ -74,7 +78,11 @@ public class VertexPanel extends JPanel {
 		add(addEdgePanel);
 
 		addMouseMotionListener(new DragMouseListener());
-		addMouseListener(new HoverMouseListener());
+		addMouseListener(new MouseListener());
+	}
+
+	public Vertex getVertex() {
+		return vertex;
 	}
 
 	@Override
@@ -87,7 +95,7 @@ public class VertexPanel extends JPanel {
 		Graphics2D g2 = (Graphics2D) g;
 
 		g2.setColor(COLOR_BORDER);
-		g2.fillOval(0, 0, SIZE.width, SIZE.height);
+		g2.fillOval(0, 0, VERTEX_OVAL_SIZE.width, VERTEX_OVAL_SIZE.height);
 
 		if (!isHovered) {
 			g2.setColor(COLOR_INNER);
@@ -95,7 +103,7 @@ public class VertexPanel extends JPanel {
 		else {
 			g2.setColor(COLOR_INNER_HOVER);
 		}
-		g2.fillOval(3, 3, SIZE.width - 6, SIZE.height - 6);
+		g2.fillOval(3, 3, VERTEX_OVAL_SIZE.width - 6, VERTEX_OVAL_SIZE.height - 6);
 
 		g2.setColor(COLOR_NUMBER);
 
@@ -120,22 +128,47 @@ public class VertexPanel extends JPanel {
 //		g2.drawLine(getSize().width / 2, 0, getSize().width / 2, getSize().height);
 	}
 
+	/**
+	 * Overrides default {@link JComponent#contains(int, int)} by returning false
+	 * when coordinates are not over square containing vertex oval and square containing
+	 * {@link #addEdgePanel}. In other words, by removing rectangle under {@link #addEdgePanel}.
+	 *
+	 *
+	 * @param x see {@link JComponent#contains(int, int)}
+	 * @param y see {@link JComponent#contains(int, int)}
+	 * @return see {@link JComponent#contains(int, int)}
+	 */
+	@Override
+	public boolean contains(int x, int y) {
+		if (!super.contains(x, y)) {
+			return false;
+		}
+
+		if (x > VERTEX_OVAL_SIZE.width && y > addEdgePanel.getHeight()) {
+			return false;
+		}
+
+		return true;
+	}
+
 	protected void setHovered(boolean isHovered) {
 		logger.debug("setHovered({})", isHovered);
 		this.isHovered = isHovered;
 
-		int newWidth = SIZE.width + (isHovered ? 20 : 0);
+		int newWidth = VERTEX_OVAL_SIZE.width + (isHovered ? 20 : 0);
 
 		setBounds(
 			getX(),
 			getY(),
 			newWidth,
-			SIZE.height
+			VERTEX_OVAL_SIZE.height
 		);
 
-		GraphPanel graphPanel = getParentGraphPanel();
-		graphPanel.setHoveredVertexPanel(VertexPanel.this);
-
+		if (isHovered) {
+			GraphPanel graphPanel = getParentGraphPanel();
+			graphPanel.setHoveredVertexPanel(VertexPanel.this);
+		}
+		
 		repaint();
 	}
 
@@ -154,14 +187,14 @@ public class VertexPanel extends JPanel {
 	 * @return center of the vertex oval, not the panel itself
 	 */
 	public int getVertexCenterX() {
-		return getX() + SIZE.width / 2;
+		return getX() + VERTEX_OVAL_SIZE.width / 2;
 	}
 
 	/**
 	 * @return center of the vertex oval, not the panel itself
 	 */
 	public int getVertexCenterY() {
-		return getY() + SIZE.height / 2;
+		return getY() + VERTEX_OVAL_SIZE.height / 2;
 	}
 
 	public void startDraggingEdge() {
@@ -209,7 +242,7 @@ public class VertexPanel extends JPanel {
 
 	}
 
-	protected class HoverMouseListener extends MouseAdapter {
+	protected class MouseListener extends MouseAdapter {
 		@Override
 		public void mouseEntered(MouseEvent e) {
 			setHovered(true);
@@ -220,6 +253,16 @@ public class VertexPanel extends JPanel {
 			if (!isDraggingEdge) {
 				setHovered(false);
 			}
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			logger.debug("mousePressed()");
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			logger.debug("mouseReleased()");
 		}
 	}
 }
