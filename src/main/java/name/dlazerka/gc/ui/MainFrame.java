@@ -14,6 +14,7 @@ public class MainFrame extends JFrame {
 	private GraphPanel graphPanel;
 	private JLabel statusBarLabel;
 	private JTextArea textArea1;
+	private JButton button1;
 
 	public MainFrame() {
 		setContentPane(contentPane);

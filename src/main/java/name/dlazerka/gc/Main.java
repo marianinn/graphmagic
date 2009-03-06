@@ -9,7 +9,7 @@ import java.util.ResourceBundle;
  * @author Dzmitry Lazerka
  */
 public class Main {
-	private static ResourceBundle resourceBundle; 
+	private static ResourceBundle resourceBundle = ResourceBundle.getBundle("messages");
 
 	public static String getString(String key) {
 		return resourceBundle.getString(key);
@@ -18,7 +18,6 @@ public class Main {
 	public static void main(String[] args) {
 		Locale.setDefault(Locale.ENGLISH);
 
-		resourceBundle = ResourceBundle.getBundle("messages");
 		UI.show();
 	}
 }

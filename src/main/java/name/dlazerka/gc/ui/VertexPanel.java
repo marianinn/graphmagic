@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
 
@@ -50,12 +51,27 @@ public class VertexPanel extends JPanel {
 	protected final Vertex vertex;
 
 	private boolean isHovered = false;
+	private final AddEdgePanel addEdgePanel = new AddEdgePanel();
+	private boolean isDraggingEdge = false;
 
 	public VertexPanel(Vertex vertex) {
+		super(null);
+
 		this.vertex = vertex;
 
 		setPreferredSize(SIZE);
 		setSize(SIZE);
+//		setDoubleBuffered(true); is needed?
+
+		Dimension preferredSize = addEdgePanel.getPreferredSize();
+		addEdgePanel.setBounds(// top right corner
+		                       SIZE.width,
+		                       0,
+		                       preferredSize.width,
+		                       preferredSize.height
+		);
+//		addEdgePanel.addMouseMotionListener(new DragMouseListener());
+		add(addEdgePanel);
 
 		addMouseMotionListener(new DragMouseListener());
 		addMouseListener(new HoverMouseListener());
@@ -104,6 +120,60 @@ public class VertexPanel extends JPanel {
 //		g2.drawLine(getSize().width / 2, 0, getSize().width / 2, getSize().height);
 	}
 
+	protected void setHovered(boolean isHovered) {
+		logger.debug("setHovered({})", isHovered);
+		this.isHovered = isHovered;
+
+		int newWidth = SIZE.width + (isHovered ? 20 : 0);
+
+		setBounds(
+			getX(),
+			getY(),
+			newWidth,
+			SIZE.height
+		);
+
+		GraphPanel graphPanel = getParentGraphPanel();
+		graphPanel.setHoveredVertexPanel(VertexPanel.this);
+
+		repaint();
+	}
+
+	public GraphPanel getParentGraphPanel() {
+		GraphPanel graphPanel = (GraphPanel) getParent();
+		return graphPanel;
+	}
+
+	public void checkHovered() {
+		Point mousePosition = getMousePosition();
+		logger.debug("checkHovered(): mousePosition={}", mousePosition);
+		setHovered(mousePosition != null);
+	}
+
+	/**
+	 * @return center of the vertex oval, not the panel itself
+	 */
+	public int getVertexCenterX() {
+		return getX() + SIZE.width / 2;
+	}
+
+	/**
+	 * @return center of the vertex oval, not the panel itself
+	 */
+	public int getVertexCenterY() {
+		return getY() + SIZE.height / 2;
+	}
+
+	public void startDraggingEdge() {
+		isDraggingEdge = true;
+		getParentGraphPanel().startDraggingEdge(this);
+	}
+
+	public void stopDraggingEdge() {
+		isDraggingEdge = false;
+		getParentGraphPanel().stopDraggingEdge();
+	}
+
 	@Override
 	public String toString() {
 		return "VertexPanel{" +
@@ -115,7 +185,7 @@ public class VertexPanel extends JPanel {
 		       '}';
 	}
 
-	protected class DragMouseListener extends MouseAdapter {
+	protected class DragMouseListener extends MouseMotionAdapter {
 		private int mouseX;
 		private int mouseY;
 
@@ -130,24 +200,26 @@ public class VertexPanel extends JPanel {
 			int moveByX = e.getX() - mouseX;
 			int moveByY = e.getY() - mouseY;
 			setLocation(getX() + moveByX, getY() + moveByY);
+
+			// fix for too-fast-moving mouse :) 
+			if (!isHovered) {
+				setHovered(true);
+			}
 		}
+
 	}
 
 	protected class HoverMouseListener extends MouseAdapter {
 		@Override
 		public void mouseEntered(MouseEvent e) {
-			isHovered = true;
-
-			GraphPanel parent = (GraphPanel) getParent();
-			parent.setHoveredVertexPanel(VertexPanel.this);
+			setHovered(true);
 		}
 
 		@Override
 		public void mouseExited(MouseEvent e) {
-			isHovered = false;
-
-			GraphPanel parent = (GraphPanel) getParent();
-			parent.setHoveredVertexPanel(null);
+			if (!isDraggingEdge) {
+				setHovered(false);
+			}
 		}
 	}
 }
