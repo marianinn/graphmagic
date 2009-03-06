@@ -1,5 +1,5 @@
 User stories:
-* Adding edges
+* Showing edges
 * Removing vertices
 * Removing edges
 * Develop build process and packaging.
@@ -15,3 +15,5 @@ User stories:
 * Printing graph
 
 Bugs:
+* While adding an edge it is possible to mark as hovered all vertices.
+* Now VertexPanel contains coordinates over addEdgePanel even if it is not visible.

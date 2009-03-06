@@ -1,6 +1,9 @@
 package name.dlazerka.gc.bean;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -10,6 +13,8 @@ import java.util.Set;
  * @author Dzmitry Lazerka
  */
 public class Graph {
+	private static final Logger logger = LoggerFactory.getLogger(Graph.class);
+
 	private final Set<Vertex> vertexSet = new HashSet<Vertex>();
 	private final Set<Edge> edgeSet = new HashSet<Edge>();
 	private final List<GraphChangeListener> changeListeners = new LinkedList<GraphChangeListener>();
@@ -53,14 +58,16 @@ public class Graph {
 		Edge arc4 = new Edge(vertex3, vertex4);
 		Edge arc5 = new Edge(vertex4, vertex1);
 
-		addArc(arc1);
-		addArc(arc2);
-		addArc(arc3);
-		addArc(arc4);
-		addArc(arc5);
+		addEdge(arc1);
+		addEdge(arc2);
+		addEdge(arc3);
+		addEdge(arc4);
+		addEdge(arc5);
 	}
 
-	private void addArc(Edge edge) {
+	public void addEdge(Edge edge) {
+		logger.debug("addEdge({})", edge);
+		
 		edgeSet.add(edge);
 	}
 
@@ -77,6 +84,8 @@ public class Graph {
 	}
 
 	public Vertex addVertex(Vertex vertex) {
+		logger.debug("addVertex({})", vertex);
+
 		vertexSet.add(vertex);
 		
 		for (GraphChangeListener listener : changeListeners) {

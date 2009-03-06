@@ -1,6 +1,7 @@
 package name.dlazerka.gc.ui;
 
 import name.dlazerka.gc.Main;
+import name.dlazerka.gc.bean.Edge;
 import name.dlazerka.gc.bean.Graph;
 import name.dlazerka.gc.bean.GraphChangeListener;
 import name.dlazerka.gc.bean.Vertex;
@@ -24,10 +25,21 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 	private final static Dimension DEFAULT_DIMENSION = new Dimension(600, 400);
 
 	private final Graph graph;
-	private List<VertexPanel> vertexPanelList = new LinkedList<VertexPanel>();
 	private final Point popupLocation = new Point();
+
+	private List<VertexPanel> vertexPanelList = new LinkedList<VertexPanel>();
+
+	/**
+	 * Panel on which user has started dragging a new edge.
+	 * @see #lastHoveredVertexPanel
+	 */
 	private VertexPanel draggingEdgeFrom;
-//	private JComponent addEdgePanel = new AddEdgePanel();
+
+	/**
+	 * For determining of panel on which mouse was released when dragging a new edge.
+	 * @see #draggingEdgeFrom
+	 */
+	private VertexPanel lastHoveredVertexPanel;
 
 	public GraphPanel() {
 		graph = new Graph();
@@ -42,8 +54,6 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 		setComponentPopupMenu(createPopupMenu());
 		addVertexPanels();
 		layoutManager.layoutDefault(this);
-
-//		add(addEdgePanel);
 	}
 
 
@@ -73,7 +83,10 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 	}
 
 	public void setHoveredVertexPanel(VertexPanel vertexPanel) {
+		logger.debug("setHoveredVertexPanel({})", vertexPanel);
 		if (vertexPanel != null) {
+			lastHoveredVertexPanel = vertexPanel;
+			logger.debug("lastHoveredVertexPanel now {}", lastHoveredVertexPanel);
 			setComponentZOrder(vertexPanel, 0);
 			repaint(
 				vertexPanel.getX(),
@@ -81,13 +94,6 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 				vertexPanel.getWidth(),
 				vertexPanel.getHeight()
 			);
-/*
-			addEdgePanel.setLocation(
-				vertexPanel.getX() + vertexPanel.getWidth(),
-				vertexPanel.getY()
-			);
-			addEdgePanel.setVisible(true);
-*/
 		}
 		else {
 //			addEdgePanel.setVisible(false);
@@ -100,6 +106,12 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 	}
 
 	public void stopDraggingEdge() {
+		Vertex tail = draggingEdgeFrom.getVertex();
+		Vertex head = lastHoveredVertexPanel.getVertex();
+		Edge edge = new Edge(tail, head);
+
+		graph.addEdge(edge);
+
 		draggingEdgeFrom = null;
 		repaint();
 	}
@@ -110,11 +122,15 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 
 		super.paintComponent(g);
 
+		Graphics2D g2 = (Graphics2D) g;
+
+		paintEdges(g2);
+
 //		g.setColor(new Color(0, 0, 0));
 		if (draggingEdgeFrom != null) {
 			Point mousePos = getMousePosition();
 			if (mousePos != null) {
-				g.drawLine(
+				g2.drawLine(
 					draggingEdgeFrom.getVertexCenterX(),
 					draggingEdgeFrom.getVertexCenterY(),
 					mousePos.x,
@@ -123,6 +139,24 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 //				logger.debug("draggingEdgeFrom.getVertexCenterX()={}", draggingEdgeFrom.getVertexCenterX());
 			}
 		}
+	}
+
+	private void paintEdges(Graphics2D g2) {
+		for (Edge edge : graph.getEdgeSet()) {
+			drawEdge(edge.getTail(), edge.getHead(), g2);
+		}
+	}
+
+	private void drawEdge(Vertex tail, Vertex head, Graphics2D g2) {
+// TODO		
+/*
+		g2.drawLine(
+			draggingEdgeFrom.getVertexCenterX(),
+			draggingEdgeFrom.getVertexCenterY(),
+			mousePos.x,
+			mousePos.y
+		);
+*/
 	}
 
 	private class AddVertexAction extends AbstractAction {
