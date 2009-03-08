@@ -14,4 +14,3 @@ User stories:
 * Printing graph
 
 Bugs:
-A new half-constructed(dragging) edge is not shown. 

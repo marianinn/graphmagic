@@ -1,0 +1,3 @@
+* Vertices are represented by VertexPanel (JPanel) for each vertex. Each panel is wider than vertex oval and contains
+one AddEdgePanel (JPanel).
+* Each edge represented by EdgePanel (JPanel). Each new half-constructed edge is represented by one NewEdgePanel (JPanel).

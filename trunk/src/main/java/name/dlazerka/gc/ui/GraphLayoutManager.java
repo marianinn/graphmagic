@@ -18,6 +18,7 @@ public class GraphLayoutManager implements LayoutManager2 {
 
 	private Collection<VertexPanel> vertexPanels = new LinkedList<VertexPanel>();
 	private Collection<EdgePanel> edgePanels = new LinkedList<EdgePanel>();
+	private NewEdgePanel newEdgePanel;
 
 	public void addLayoutComponent(String name, Component comp) {
 		addLayoutComponent(comp);
@@ -38,6 +39,9 @@ public class GraphLayoutManager implements LayoutManager2 {
 			EdgePanel panel = (EdgePanel) component;
 			edgePanels.add(panel);
 		}
+		else if (component instanceof NewEdgePanel) {
+			newEdgePanel = ((NewEdgePanel) component);
+		}
 	}
 
 	public void removeLayoutComponent(Component comp) {
@@ -50,7 +54,7 @@ public class GraphLayoutManager implements LayoutManager2 {
 
 	public Dimension preferredLayoutSize(Container parent) {
 		return null;
-//		return parent.getPreferredSize();
+//		return parent.getPreferredSize(); // produces infinite loop
 	}
 
 	public Dimension maximumLayoutSize(Container target) {
@@ -78,9 +82,7 @@ public class GraphLayoutManager implements LayoutManager2 {
 			edgePanel.setBounds(0, 0, parent.getWidth(), parent.getHeight());
 		}
 
-//		NewEdgePanel newEdgePanel = panel.getNewEdgePanel();
-//		newEdgePanel.setBounds(0, 0, parent.getWidth(), parent.getHeight());
-
+		newEdgePanel.setBounds(0, 0, parent.getWidth(), parent.getHeight());
 /*
 		for (VertexPanel vertexPanel : vertexPanelList) {
 			vertexPanel.setLocation(

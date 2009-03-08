@@ -25,14 +25,15 @@ public class AddEdgePanel extends JPanel {
 		checkImageLoadedSuccess(HOVER_ICON);
 	}
 
+	private ImageIcon icon = DEFAULT_ICON;
+	private boolean visible;
+
 	private static void checkImageLoadedSuccess(ImageIcon icon) {
 		if (icon.getImageLoadStatus() != MediaTracker.COMPLETE) {
 			logger.error("Unable to load image, filepath='{}'", IMAGE_FILENAME);
 			throw new RuntimeException();
 		}
 	}
-
-	private ImageIcon icon = DEFAULT_ICON;
 
 	public AddEdgePanel() {
 		super();
@@ -46,42 +47,65 @@ public class AddEdgePanel extends JPanel {
 		setVisible(false);
 		setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0x80), 1));
 
-
 		addMouseMotionListener(new DragMouseListener());
 		addMouseListener(new MouseListener());
 	}
 
+
+	@Override
+	protected void paintBorder(Graphics g) {
+		if (visible) {
+			super.paintBorder(g);
+		}
+	}
+
 	@Override
 	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
+//		super.paintComponent(g);
 
-		icon.paintIcon(null, g, 0, 0);
+		if (visible) {
+			icon.paintIcon(null, g, 0, 0);
+		}
+	}
+
+	@Override
+	public void setVisible(boolean visible) {
+		this.visible = visible;
 	}
 
 	public ImageIcon getIcon() {
 		return icon;
 	}
 
-	private VertexPanel getParentVertexPanel() {
+	private VertexPanel getVertexPanel() {
 		return (VertexPanel) getParent();
 	}
 
 	private void startDraggingEdge() {
-		getParentVertexPanel().startDraggingEdge();
+		getVertexPanel().startDraggingEdge();
 	}
 
 	private boolean isDraggingEdge() {
-		return getParentVertexPanel().isDraggingEdge();
+		return getVertexPanel().isDraggingEdge();
 	}
 
 	private void stopDraggingEdge() {
-		getParentVertexPanel().stopDraggingEdge();
+		getVertexPanel().stopDraggingEdge();
 	}
 
 	private class DragMouseListener extends MouseMotionAdapter {
 		@Override
 		public void mouseDragged(MouseEvent e) {
-			getParentVertexPanel().getParentGraphPanel().repaint();
+			GraphPanel graphPanel = getVertexPanel().getGraphPanel();
+
+			Point head = graphPanel.getNewEdgePanel().getHead();
+
+//			Point mousePositionRelativeToGraphPanel = graphPanel.getMousePosition();
+			NewEdgePanel newEdgePanel = graphPanel.getNewEdgePanel();
+			newEdgePanel.trackMouseDragged();
+//			newEdgePanel.setHead(mousePositionRelativeToGraphPanel);
+
+//			graphPanel.repaint();
 		}
 	}
 
@@ -90,7 +114,7 @@ public class AddEdgePanel extends JPanel {
 		public void mouseEntered(MouseEvent e) {
 			logger.trace("");
 			icon = HOVER_ICON;
-			getParentVertexPanel().setHovered(true);
+			getVertexPanel().setHovered(true);
 		}
 
 		@Override
@@ -99,7 +123,7 @@ public class AddEdgePanel extends JPanel {
 
 			if (!isDraggingEdge()) {
 				icon = DEFAULT_ICON;
-				getParentVertexPanel().setHovered(false);
+				getVertexPanel().setHovered(false);
 			}
 		}
 
@@ -121,7 +145,7 @@ public class AddEdgePanel extends JPanel {
 			}
 
 			// for repainting vertex when mouse was released outside this vertex
-			getParentVertexPanel().checkHovered();
+			getVertexPanel().checkHovered();
 		}
 	}
 }

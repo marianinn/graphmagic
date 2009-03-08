@@ -63,7 +63,7 @@ public class VertexPanelModel {
 	public void stopFollowingMouse(MouseEvent e) {
 	}
 
-	public void mouseDragged(MouseEvent e) {
+	public void trackMouseDragged(MouseEvent e) {
 		center.x = e.getPoint().x - mouseCenteredPosition.x;
 		center.y = e.getPoint().y - mouseCenteredPosition.y;
 	}
