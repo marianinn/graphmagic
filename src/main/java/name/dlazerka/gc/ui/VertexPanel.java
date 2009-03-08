@@ -70,7 +70,8 @@ public class VertexPanel extends JPanel {
 
 		setPreferredSize(panelSize);
 		setSize(panelSize);
-//		setDoubleBuffered(true); is needed?
+		setOpaque(false);
+//		setDoubleBuffered(true); // is needed?
 
 //		setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0), 1));
 
@@ -98,7 +99,6 @@ public class VertexPanel extends JPanel {
 	}
 
 	public void paintComponent(Graphics g) {
-
 		Graphics2D g2 = (Graphics2D) g;
 
 		g2.setColor(COLOR_BORDER);
@@ -163,7 +163,7 @@ public class VertexPanel extends JPanel {
 
 		this.isHovered = isHovered;
 
-		GraphPanel graphPanel = getParentGraphPanel();
+		GraphPanel graphPanel = getGraphPanel();
 
 		if (!graphPanel.isDraggingEdge()) {
 			addEdgePanel.setVisible(isHovered);
@@ -172,19 +172,16 @@ public class VertexPanel extends JPanel {
 		if (isHovered) {
 			graphPanel.setHoveredVertexPanel(VertexPanel.this);
 		}
-
-		// if we call this.repaint() then onMouseExit addEdgePanel is still visible
-		graphPanel.repaint();
+		repaint();
 	}
 
-	public GraphPanel getParentGraphPanel() {
-		GraphPanel graphPanel = (GraphPanel) getParent();
-		return graphPanel;
+	public GraphPanel getGraphPanel() {
+		return (GraphPanel) getParent();
 	}
 
 	public void checkHovered() {
 		Point mousePosition = getMousePosition();
-		logger.debug("mousePosition={}", mousePosition);
+		logger.trace("mousePosition={}", mousePosition);
 		setHovered(mousePosition != null);
 	}
 
@@ -215,11 +212,11 @@ public class VertexPanel extends JPanel {
 
 	public void startDraggingEdge() {
 		draggingEdgeFromThis = true;
-		getParentGraphPanel().startDraggingEdge(this);
+		getGraphPanel().startDraggingEdge(this);
 	}
 
 	public boolean isDraggingEdge() {
-		return getParentGraphPanel().isDraggingEdge();
+		return getGraphPanel().isDraggingEdge();
 	}
 
 	public boolean isDraggingEdgeFromThis() {
@@ -228,7 +225,7 @@ public class VertexPanel extends JPanel {
 
 	public void stopDraggingEdge() {
 		draggingEdgeFromThis = false;
-		getParentGraphPanel().stopDraggingEdge();
+		getGraphPanel().stopDraggingEdge();
 	}
 
 	@Override

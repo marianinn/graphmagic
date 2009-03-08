@@ -59,7 +59,7 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 
 		addVertexPanels();
 		addEdgePanels();
-//		add(newEdgePanel);
+		add(newEdgePanel);
 		
 		layoutManager.layoutDefault(this);
 	}
@@ -105,6 +105,9 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 
 		tailPanel.addAdjacentEdgePanel(edgePanel);
 		headPanel.addAdjacentEdgePanel(edgePanel);
+
+		edgePanel.setBounds(0, 0, getWidth(), getHeight());
+
 		return edgePanel;
 	}
 
@@ -119,12 +122,6 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 		if (vertexPanel != null) {
 			lastHoveredVertexPanel = vertexPanel;
 			setComponentZOrder(vertexPanel, 0);
-			repaint(
-				vertexPanel.getX(),
-				vertexPanel.getY(),
-				vertexPanel.getWidth(),
-				vertexPanel.getHeight()
-			);
 		}
 	}
 
@@ -132,8 +129,7 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 		draggingEdgeFrom = vertexPanel;
 
 		newEdgePanel.setTail(vertexPanel);
-
-		repaint();
+		newEdgePanel.setVisible(true);
 	}
 
 	public boolean isDraggingEdge() {
@@ -151,38 +147,12 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 		graph.addEdge(edge);
 
 		draggingEdgeFrom = null;
-		repaint();
-	}
-
-	@Override
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-
-		Graphics2D g2 = (Graphics2D) g;
-
-		if (isDraggingEdge()) {
-			Point mousePos = getMousePosition();
-			if (mousePos != null) {
-//				drawEdge(draggingEdgeFrom, mousePos, g2);
-//				logger.debug("draggingEdgeFrom.getVertexCenterX()={}", draggingEdgeFrom.getVertexCenterX());
-			}
-		}
+		newEdgePanel.setVisible(false);
 	}
 
 	public NewEdgePanel getNewEdgePanel() {
 		return newEdgePanel;
 	}
-
-/*
-	private void drawEdge(VertexPanel tailPanel, Point mousePos, Graphics2D g) {
-		g.drawLine(
-			tailPanel.getVertexCenterX(),
-			tailPanel.getVertexCenterY(),
-			mousePos.x,
-			mousePos.y
-		);
-	}
-*/
 
 	private class AddVertexAction extends AbstractAction {
 		public AddVertexAction() {
@@ -206,7 +176,9 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			rememberLocation(e);
+			if (e.isPopupTrigger()) {
+				rememberLocation(e);
+			}
 		}
 	}
 
