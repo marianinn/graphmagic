@@ -72,9 +72,7 @@ public class VertexPanel extends JPanel {
 		setSize(panelSize);
 //		setDoubleBuffered(true); is needed?
 
-/*
-		setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0), 1));
-*/
+//		setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0), 1));
 
 		Dimension preferredSize = addEdgePanel.getPreferredSize();
 		addEdgePanel.setBounds(// top right corner
@@ -161,7 +159,8 @@ public class VertexPanel extends JPanel {
 
 
 	protected void setHovered(boolean isHovered) {
-		logger.debug("{}", isHovered);
+		logger.trace("{}", isHovered);
+
 		this.isHovered = isHovered;
 
 		GraphPanel graphPanel = getParentGraphPanel();

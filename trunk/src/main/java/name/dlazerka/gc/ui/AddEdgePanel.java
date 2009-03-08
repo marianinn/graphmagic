@@ -66,7 +66,6 @@ public class AddEdgePanel extends JPanel {
 		return (VertexPanel) getParent();
 	}
 
-
 	private void startDraggingEdge() {
 		getParentVertexPanel().startDraggingEdge();
 	}
