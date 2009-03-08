@@ -28,7 +28,7 @@ public class GraphLayoutManager implements LayoutManager2 {
 	}
 
 	private void addLayoutComponent(Component component) {
-		logger.debug("{}", component);
+		logger.trace("{}", component);
 
 		if (component instanceof VertexPanel) {
 			VertexPanel panel = (VertexPanel) component;

@@ -37,7 +37,7 @@ public class AddEdgePanel extends JPanel {
 	public AddEdgePanel() {
 		super();
 
-		logger.debug("AddEdgePanel(): imageLoadStatus={}", icon.getImageLoadStatus());
+//		logger.debug("imageLoadStatus={}", icon.getImageLoadStatus());
 
 		Dimension size = new Dimension(icon.getIconWidth(), icon.getIconHeight());
 		setPreferredSize(size);
@@ -88,14 +88,14 @@ public class AddEdgePanel extends JPanel {
 	private class MouseListener extends MouseAdapter {
 		@Override
 		public void mouseEntered(MouseEvent e) {
-			logger.debug("");
+			logger.trace("");
 			icon = HOVER_ICON;
 			getParentVertexPanel().setHovered(true);
 		}
 
 		@Override
 		public void mouseExited(MouseEvent e) {
-			logger.debug("");
+			logger.trace("");
 
 			if (!isDraggingEdge()) {
 				icon = DEFAULT_ICON;
@@ -105,14 +105,14 @@ public class AddEdgePanel extends JPanel {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			logger.debug("");
+			logger.trace("");
 			startDraggingEdge();
 		}
 
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			logger.debug("");
+			logger.trace("");
 
 			stopDraggingEdge();
 

@@ -277,13 +277,13 @@ public class VertexPanel extends JPanel {
 	protected class MouseListener extends MouseAdapter {
 		@Override
 		public void mouseEntered(MouseEvent e) {
-			logger.debug("");
+			logger.trace("");
 			setHovered(true);
 		}
 
 		@Override
 		public void mouseExited(MouseEvent e) {
-			logger.debug("");
+			logger.trace("");
 			if (!isDraggingEdgeFromThis()) {
 				setHovered(false);
 			}
@@ -291,12 +291,12 @@ public class VertexPanel extends JPanel {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			logger.debug("");
+			logger.trace("");
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			logger.debug("");
+			logger.trace("");
 		}
 	}
 }
