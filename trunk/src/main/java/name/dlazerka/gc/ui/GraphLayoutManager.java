@@ -33,6 +33,12 @@ public class GraphLayoutManager implements LayoutManager2 {
 
 		if (component instanceof VertexPanel) {
 			VertexPanel panel = (VertexPanel) component;
+
+			Point defaultLocation = component.getParent().getMousePosition(true);
+			if (defaultLocation != null) {
+				panel.setVertexCenter(defaultLocation);
+			}
+			
 			vertexPanels.add(panel);
 		}
 		else if (component instanceof EdgePanel) {
@@ -82,7 +88,9 @@ public class GraphLayoutManager implements LayoutManager2 {
 			edgePanel.setBounds(0, 0, parent.getWidth(), parent.getHeight());
 		}
 
-		newEdgePanel.setBounds(0, 0, parent.getWidth(), parent.getHeight());
+		if (newEdgePanel != null) {
+			newEdgePanel.setBounds(0, 0, parent.getWidth(), parent.getHeight());
+		}
 /*
 		for (VertexPanel vertexPanel : vertexPanelList) {
 			vertexPanel.setLocation(

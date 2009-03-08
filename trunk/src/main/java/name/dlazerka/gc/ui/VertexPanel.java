@@ -65,7 +65,6 @@ public class VertexPanel extends JPanel {
 
 	public VertexPanel(Vertex vertex) {
 		super(null);
-
 		this.vertex = vertex;
 
 		setPreferredSize(panelSize);
@@ -82,7 +81,6 @@ public class VertexPanel extends JPanel {
 		                       preferredSize.width,
 		                       preferredSize.height
 		);
-//		addEdgePanel.addMouseMotionListener(new DragMouseListener());
 		add(addEdgePanel);
 
 		addMouseMotionListener(new DragMouseListener());
@@ -137,7 +135,6 @@ public class VertexPanel extends JPanel {
 	 * Overrides default {@link JComponent#contains(int, int)} by returning false
 	 * when coordinates are not over square containing vertex oval and square containing
 	 * {@link #addEdgePanel}. In other words, by removing rectangle under {@link #addEdgePanel}.
-	 *
 	 *
 	 * @param x see {@link JComponent#contains(int, int)}
 	 * @param y see {@link JComponent#contains(int, int)}
@@ -241,6 +238,13 @@ public class VertexPanel extends JPanel {
 
 	public void addAdjacentEdgePanel(EdgePanel edgePanel) {
 		adjacentEdgePanels.add(edgePanel);
+	}
+
+	public void setVertexCenter(Point center) {
+		setLocation(
+			center.x - VERTEX_OVAL_SIZE.width / 2,
+			center.y - VERTEX_OVAL_SIZE.height / 2
+		);
 	}
 
 	protected class DragMouseListener extends MouseMotionAdapter {

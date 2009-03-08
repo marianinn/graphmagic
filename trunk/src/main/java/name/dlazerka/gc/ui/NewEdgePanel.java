@@ -3,7 +3,6 @@ package name.dlazerka.gc.ui;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -12,7 +11,7 @@ import java.awt.*;
  *
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class NewEdgePanel extends JPanel {
+public class NewEdgePanel extends AbstractEdgePanel {
 	private static final Logger logger = LoggerFactory.getLogger(NewEdgePanel.class);
 
 	private Point head = new Point();
@@ -49,7 +48,7 @@ public class NewEdgePanel extends JPanel {
 
 		if (visible) {
 			Graphics2D g = (Graphics2D) g0;
-			EdgePanel.drawEdge(g, tail.getVertexCenter(), head);
+			drawEdge(g, tail.getVertexCenter(), head);
 		}
 	}
 
