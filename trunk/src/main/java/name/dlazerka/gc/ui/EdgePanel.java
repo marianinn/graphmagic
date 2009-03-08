@@ -38,7 +38,7 @@ public class EdgePanel extends JPanel {
 		);
 	}
 
-	protected void drawEdge(Graphics2D g, Point from, Point to) {
+	protected static void drawEdge(Graphics2D g, Point from, Point to) {
 		g.setColor(EDGE_COLOR);
 		g.setStroke(EDGE_STROKE);
 		g.drawLine(
@@ -55,22 +55,5 @@ public class EdgePanel extends JPanel {
 
 	protected Point getToPoint() {
 		return tail.getVertexCenter();
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (!(o instanceof EdgePanel)) return false;
-
-		EdgePanel edgePanel = (EdgePanel) o;
-
-		if (!edge.equals(edgePanel.edge)) return false;
-
-		return true;
-	}
-
-	@Override
-	public int hashCode() {
-		return edge.hashCode();
 	}
 }

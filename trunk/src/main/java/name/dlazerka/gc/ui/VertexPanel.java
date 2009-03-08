@@ -233,23 +233,6 @@ public class VertexPanel extends JPanel {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-
-		VertexPanel that = (VertexPanel) o;
-
-		if (!vertex.equals(that.vertex)) return false;
-
-		return true;
-	}
-
-	@Override
-	public int hashCode() {
-		return vertex.hashCode();
-	}
-
-	@Override
 	public String toString() {
 		return "VertexPanel{" +
 		       "vertex=" + vertex +
