@@ -66,7 +66,7 @@ public class Graph {
 	}
 
 	public void addEdge(Edge edge) {
-		logger.debug("addEdge({})", edge);
+		logger.trace("{}", edge);
 		
 		edgeSet.add(edge);
 	}
@@ -84,7 +84,7 @@ public class Graph {
 	}
 
 	public Vertex addVertex(Vertex vertex) {
-		logger.debug("addVertex({})", vertex);
+		logger.trace("{}", vertex);
 
 		vertexSet.add(vertex);
 		
