@@ -15,5 +15,6 @@ User stories:
 * Printing graph
 
 Bugs:
-* While adding an edge it is possible to mark as hovered all vertices.
+* While adding an edge it is possible to mark as hovered all vertices (exit mouse through addEdgePanel).
+* Do not show addEdgePanel while dragging a new edge on other vertices.
 * Now VertexPanel contains coordinates over addEdgePanel even if it is not visible.
