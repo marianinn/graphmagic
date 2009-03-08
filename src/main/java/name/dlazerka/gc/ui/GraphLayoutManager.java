@@ -5,27 +5,47 @@ import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class GraphLayoutManager implements LayoutManager {
+public class GraphLayoutManager implements LayoutManager2 {
 	public static final Logger logger = LoggerFactory.getLogger(GraphLayoutManager.class);
 
-//	private List<VertexPanel> vertexPanelList = new LinkedList<VertexPanel>();
+	//	private List<VertexPanel> vertexPanelList = new LinkedList<VertexPanel>();
 	private static final Dimension MINIMUM_LAYOUT_SIZE = new Dimension(0, 0);
 
-	public void addLayoutComponent(String name, Component comp) {
-		logger.debug("{}, {}", new Object[]{name, comp});
+	private Collection<VertexPanel> vertexPanels = new LinkedList<VertexPanel>();
+	private Collection<EdgePanel> edgePanels = new LinkedList<EdgePanel>();
 
-//		if (comp instanceof VertexPanel) {
-//			VertexPanel vertexPanel = (VertexPanel) comp;
-//			vertexPanelList.add(vertexPanel);
-//		}
+	public void addLayoutComponent(String name, Component comp) {
+		addLayoutComponent(comp);
+	}
+
+	public void addLayoutComponent(Component comp, Object constraints) {
+		addLayoutComponent(comp);
+	}
+
+	private void addLayoutComponent(Component component) {
+		logger.debug("{}", component);
+
+		if (component instanceof VertexPanel) {
+			VertexPanel panel = (VertexPanel) component;
+			vertexPanels.add(panel);
+		}
+		else if (component instanceof EdgePanel) {
+			EdgePanel panel = (EdgePanel) component;
+			edgePanels.add(panel);
+		}
 	}
 
 	public void removeLayoutComponent(Component comp) {
 		// todo
+	}
+
+	public Dimension minimumLayoutSize(Container parent) {
+		return MINIMUM_LAYOUT_SIZE;
 	}
 
 	public Dimension preferredLayoutSize(Container parent) {
@@ -33,19 +53,33 @@ public class GraphLayoutManager implements LayoutManager {
 //		return parent.getPreferredSize();
 	}
 
-	public Dimension minimumLayoutSize(Container parent) {
-		return MINIMUM_LAYOUT_SIZE;
+	public Dimension maximumLayoutSize(Container target) {
+		return null;
+	}
+
+	public float getLayoutAlignmentX(Container target) {
+		return 0;
+	}
+
+	public float getLayoutAlignmentY(Container target) {
+		return 0;
+	}
+
+	public void invalidateLayout(Container target) {
+		logger.trace("");
 	}
 
 	public void layoutContainer(Container parent) {
-		logger.debug("{}", parent);
+		logger.trace("{}", parent);
 
 		GraphPanel panel = (GraphPanel) parent;
 
-
-		for (EdgePanel edgePanel : panel.getEdgePanels()) {
+		for (EdgePanel edgePanel : edgePanels) {
 			edgePanel.setBounds(0, 0, parent.getWidth(), parent.getHeight());
 		}
+
+//		NewEdgePanel newEdgePanel = panel.getNewEdgePanel();
+//		newEdgePanel.setBounds(0, 0, parent.getWidth(), parent.getHeight());
 
 /*
 		for (VertexPanel vertexPanel : vertexPanelList) {
@@ -58,16 +92,19 @@ public class GraphLayoutManager implements LayoutManager {
 	}
 
 	public void layoutDefault(GraphPanel graphPanel) {
-		circleVertices(graphPanel);
+		circleVertexPanels(graphPanel);
 	}
 
-	private void circleVertices(GraphPanel graphPanel) {
+	/**
+	 * Places but not resizes {@link #vertexPanels} along the circle
+	 * around center of the parent component.
+	 *
+	 * @param graphPanel a container graph panel we layout
+	 */
+	private void circleVertexPanels(GraphPanel graphPanel) {
 		Dimension size = graphPanel.getSize();
-		Collection<VertexPanel> vertexPanelList = graphPanel.getVertexPanels();
 
-		logger.debug("circleVertices(size={})", size);
-		
-		int vertexCount = vertexPanelList.size();
+		int vertexCount = vertexPanels.size();
 
 		Point circleCenter = new Point(size.width / 2, size.height / 2);
 		int radius = Math.min(size.width * 3 / 4 - circleCenter.x, size.height * 3 / 4 - circleCenter.y);
@@ -75,12 +112,12 @@ public class GraphLayoutManager implements LayoutManager {
 		double angleStep = 2 * Math.PI / vertexCount;
 
 		int i = 0;
-		for (VertexPanel vertexPanel : vertexPanelList) {
+		for (VertexPanel vertexPanel : vertexPanels) {
 			double angle = i * angleStep;
 
 			vertexPanel.setLocation(
-				(int) Math.round(radius * Math.cos(angle)) + circleCenter.x,
-				(int) Math.round(radius * -Math.sin(angle)) + circleCenter.y
+				(int) Math.round(radius * Math.cos(angle)) + circleCenter.x - vertexPanel.getVertexCenterX(),
+				(int) Math.round(radius * -Math.sin(angle)) + circleCenter.y - vertexPanel.getVertexCenterY()
 			);
 
 			i++;

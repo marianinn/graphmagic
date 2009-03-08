@@ -1,11 +1,11 @@
 package name.dlazerka.gc.ui;
 
 import name.dlazerka.gc.Main;
-import name.dlazerka.gc.util.ListMap;
 import name.dlazerka.gc.bean.Edge;
 import name.dlazerka.gc.bean.Graph;
 import name.dlazerka.gc.bean.GraphChangeListener;
 import name.dlazerka.gc.bean.Vertex;
+import name.dlazerka.gc.util.ListMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,8 +14,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Collection;
-import java.util.LinkedList;
 import java.util.Map;
 
 /**
@@ -29,9 +27,6 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 	private final Graph graph;
 	private final Point popupLocation = new Point();
 
-	private Collection<VertexPanel> vertexPanels = new LinkedList<VertexPanel>();
-	private Collection<EdgePanel> edgePanels = new LinkedList<EdgePanel>();
-
 	private Map<Vertex, VertexPanel> vertexToVertexPanel = new ListMap<Vertex, VertexPanel>();
 	private Map<Edge, EdgePanel> edgeToEdgePanel = new ListMap<Edge, EdgePanel>();
 
@@ -41,6 +36,7 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 	 * @see #lastHoveredVertexPanel
 	 */
 	private VertexPanel draggingEdgeFrom;
+	private final NewEdgePanel newEdgePanel = new NewEdgePanel();
 
 	/**
 	 * For determining of panel on which mouse was released when dragging a new edge.
@@ -60,8 +56,11 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 		setSize(DEFAULT_DIMENSION);// for GraphLayoutManager@58
 
 		setComponentPopupMenu(createPopupMenu());
+
 		addVertexPanels();
 		addEdgePanels();
+//		add(newEdgePanel);
+		
 		layoutManager.layoutDefault(this);
 	}
 
@@ -69,12 +68,10 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 	public Component add(Component component) {
 		if (component instanceof VertexPanel) {
 			VertexPanel panel = (VertexPanel) component;
-			vertexPanels.add(panel);
 			vertexToVertexPanel.put(panel.getVertex(), panel);
 		}
 		else if (component instanceof EdgePanel) {
 			EdgePanel panel = (EdgePanel) component;
-			edgePanels.add(panel);
 			edgeToEdgePanel.put(panel.getEdge(), panel);
 		}
 
@@ -111,14 +108,6 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 		return edgePanel;
 	}
 
-	public Collection<VertexPanel> getVertexPanels() {
-		return vertexPanels;
-	}
-
-	public Collection<EdgePanel> getEdgePanels() {
-		return edgePanels;
-	}
-
 	public void vertexAdded(Vertex vertex) {
 		VertexPanel vertexPanel = new VertexPanel(vertex);
 		add(vertexPanel);
@@ -141,7 +130,7 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 	public void startDraggingEdge(VertexPanel vertexPanel) {
 		draggingEdgeFrom = vertexPanel;
 
-		EndlessEdgePanel endlessEdgePanel = new EndlessEdgePanel(vertexPanel);
+		newEdgePanel.setTail(vertexPanel);
 
 		repaint();
 	}
@@ -177,6 +166,10 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 //				logger.debug("draggingEdgeFrom.getVertexCenterX()={}", draggingEdgeFrom.getVertexCenterX());
 			}
 		}
+	}
+
+	public NewEdgePanel getNewEdgePanel() {
+		return newEdgePanel;
 	}
 
 /*
