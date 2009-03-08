@@ -1,5 +1,4 @@
 User stories:
-* Showing edges
 * Removing vertices
 * Removing edges
 * Develop build process and packaging.
@@ -15,3 +14,4 @@ User stories:
 * Printing graph
 
 Bugs:
+A new half-constructed(dragging) edge is not shown. 

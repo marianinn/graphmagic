@@ -90,20 +90,25 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 
 	private void addEdgePanels() {
 		for (Edge edge : graph.getEdgeSet()) {
-			VertexPanel tailPanel = vertexToVertexPanel.get(edge.getTail());
-			VertexPanel headPanel = vertexToVertexPanel.get(edge.getHead());
-
-			EdgePanel edgePanel = new EdgePanel(
-				edge,
-				tailPanel,
-				headPanel
-			);
-
-			tailPanel.addAdjacentEdgePanel(edgePanel);
-			headPanel.addAdjacentEdgePanel(edgePanel);
+			EdgePanel edgePanel = createEdgePanel(edge);
 
 			add(edgePanel);
 		}
+	}
+
+	private EdgePanel createEdgePanel(Edge edge) {
+		VertexPanel tailPanel = vertexToVertexPanel.get(edge.getTail());
+		VertexPanel headPanel = vertexToVertexPanel.get(edge.getHead());
+
+		EdgePanel edgePanel = new EdgePanel(
+			edge,
+			tailPanel,
+			headPanel
+		);
+
+		tailPanel.addAdjacentEdgePanel(edgePanel);
+		headPanel.addAdjacentEdgePanel(edgePanel);
+		return edgePanel;
 	}
 
 	public Collection<VertexPanel> getVertexPanels() {
@@ -149,6 +154,9 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 		Vertex tail = draggingEdgeFrom.getVertex();
 		Vertex head = lastHoveredVertexPanel.getVertex();
 		Edge edge = new Edge(tail, head);
+
+		EdgePanel edgePanel = createEdgePanel(edge);
+		add(edgePanel);
 
 		graph.addEdge(edge);
 
