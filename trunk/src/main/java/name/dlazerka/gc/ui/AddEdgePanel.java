@@ -19,6 +19,7 @@ public class AddEdgePanel extends JPanel {
 
 	private static final ImageIcon DEFAULT_ICON = new ImageIcon(IMAGE_FILENAME);
 	private static final ImageIcon HOVER_ICON = new ImageIcon(IMAGE_HOVER_FILENAME);
+
 	static {
 		checkImageLoadedSuccess(DEFAULT_ICON);
 		checkImageLoadedSuccess(HOVER_ICON);
@@ -65,6 +66,19 @@ public class AddEdgePanel extends JPanel {
 		return (VertexPanel) getParent();
 	}
 
+
+	private void startDraggingEdge() {
+		getParentVertexPanel().startDraggingEdge();
+	}
+
+	private boolean isDraggingEdge() {
+		return getParentVertexPanel().isDraggingEdge();
+	}
+
+	private void stopDraggingEdge() {
+		getParentVertexPanel().stopDraggingEdge();
+	}
+
 	private class DragMouseListener extends MouseMotionAdapter {
 		@Override
 		public void mouseDragged(MouseEvent e) {
@@ -83,14 +97,17 @@ public class AddEdgePanel extends JPanel {
 		@Override
 		public void mouseExited(MouseEvent e) {
 			logger.debug("");
-			icon = DEFAULT_ICON;
-			getParentVertexPanel().setHovered(false);
+
+			if (!isDraggingEdge()) {
+				icon = DEFAULT_ICON;
+				getParentVertexPanel().setHovered(false);
+			}
 		}
 
 		@Override
 		public void mousePressed(MouseEvent e) {
 			logger.debug("");
-			getParentVertexPanel().startDraggingEdge();
+			startDraggingEdge();
 		}
 
 
@@ -98,10 +115,14 @@ public class AddEdgePanel extends JPanel {
 		public void mouseReleased(MouseEvent e) {
 			logger.debug("");
 
+			stopDraggingEdge();
+
+			if (!contains(e.getX(), e.getY())) {
+				icon = DEFAULT_ICON;
+			}
+
 			// for repainting vertex when mouse was released outside this vertex
 			getParentVertexPanel().checkHovered();
-
-			getParentVertexPanel().stopDraggingEdge();
 		}
 	}
 }
