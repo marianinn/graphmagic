@@ -1,6 +1,5 @@
 package name.dlazerka.gc.ui;
 
-import name.dlazerka.gc.Main;
 import name.dlazerka.gc.bean.Vertex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,11 +52,11 @@ public class VertexPanel extends JPanel {
 
 	private boolean isHovered = false;
 	private final AddEdgePanel addEdgePanel = new AddEdgePanel();
-	private boolean isDraggingEdge = false;
 	private final Dimension panelSize = new Dimension(
 		VERTEX_OVAL_SIZE.width + addEdgePanel.getPreferredSize().width / 2,
 		VERTEX_OVAL_SIZE.height
 	);
+	private boolean draggingEdgeFromThis = false;
 
 	public VertexPanel(Vertex vertex) {
 		super(null);
@@ -68,9 +67,9 @@ public class VertexPanel extends JPanel {
 		setSize(panelSize);
 //		setDoubleBuffered(true); is needed?
 
-		if (!Main.isProduction()) {
-			setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0), 1));
-		}
+/*
+		setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0), 1));
+*/
 
 		Dimension preferredSize = addEdgePanel.getPreferredSize();
 		addEdgePanel.setBounds(// top right corner
@@ -143,7 +142,7 @@ public class VertexPanel extends JPanel {
 	 * @param y see {@link JComponent#contains(int, int)}
 	 * @return see {@link JComponent#contains(int, int)}
 	 */
-/*
+
 	@Override
 	public boolean contains(int x, int y) {
 		if (!super.contains(x, y)) {
@@ -156,21 +155,24 @@ public class VertexPanel extends JPanel {
 
 		return true;
 	}
-*/
+
 
 	protected void setHovered(boolean isHovered) {
 		logger.debug("{}", isHovered);
 		this.isHovered = isHovered;
 
-		addEdgePanel.setVisible(isHovered);
-
 		GraphPanel graphPanel = getParentGraphPanel();
+
+		if (!graphPanel.isDraggingEdge()) {
+			addEdgePanel.setVisible(isHovered);
+		}
+
 		if (isHovered) {
 			graphPanel.setHoveredVertexPanel(VertexPanel.this);
 		}
 
-//		graphPanel.repaint();
-		repaint();
+		// if we call this.repaint() then onMouseExit addEdgePanel is still visible
+		graphPanel.repaint();
 	}
 
 	public GraphPanel getParentGraphPanel() {
@@ -199,12 +201,20 @@ public class VertexPanel extends JPanel {
 	}
 
 	public void startDraggingEdge() {
-		isDraggingEdge = true;
+		draggingEdgeFromThis = true;
 		getParentGraphPanel().startDraggingEdge(this);
 	}
 
+	public boolean isDraggingEdge() {
+		return getParentGraphPanel().isDraggingEdge();
+	}
+
+	public boolean isDraggingEdgeFromThis() {
+		return draggingEdgeFromThis;
+	}
+
 	public void stopDraggingEdge() {
-		isDraggingEdge = false;
+		draggingEdgeFromThis = false;
 		getParentGraphPanel().stopDraggingEdge();
 	}
 
@@ -246,12 +256,14 @@ public class VertexPanel extends JPanel {
 	protected class MouseListener extends MouseAdapter {
 		@Override
 		public void mouseEntered(MouseEvent e) {
+			logger.debug("");
 			setHovered(true);
 		}
 
 		@Override
 		public void mouseExited(MouseEvent e) {
-			if (!isDraggingEdge) {
+			logger.debug("");
+			if (!isDraggingEdgeFromThis()) {
 				setHovered(false);
 			}
 		}

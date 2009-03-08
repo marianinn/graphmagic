@@ -105,6 +105,10 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 		repaint();
 	}
 
+	public boolean isDraggingEdge() {
+		return draggingEdgeFrom != null;
+	}
+
 	public void stopDraggingEdge() {
 		Vertex tail = draggingEdgeFrom.getVertex();
 		Vertex head = lastHoveredVertexPanel.getVertex();
@@ -127,7 +131,7 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 		paintEdges(g2);
 
 //		g.setColor(new Color(0, 0, 0));
-		if (draggingEdgeFrom != null) {
+		if (isDraggingEdge()) {
 			Point mousePos = getMousePosition();
 			if (mousePos != null) {
 				g2.drawLine(
