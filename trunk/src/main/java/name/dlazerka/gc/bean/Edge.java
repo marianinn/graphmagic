@@ -1,7 +1,7 @@
 package name.dlazerka.gc.bean;
 
 /**
- * @author Dzmitry Lazerka
+ * @author Dzmitry Lazerka www.dlazerka.name
  */
 public class Edge {
 	private final Vertex tail;

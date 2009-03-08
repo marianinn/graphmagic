@@ -3,7 +3,7 @@ package name.dlazerka.gc.ui;
 import javax.swing.*;
 
 /**
- * @author Dzmitry Lazerka
+ * @author Dzmitry Lazerka www.dlazerka.name
  */
 public class UI {
 	public static void show() {

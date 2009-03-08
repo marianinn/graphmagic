@@ -11,9 +11,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
+import java.util.Collection;
+import java.util.LinkedList;
 
 /**
- * @author Dzmitry Lazerka
+ * @author Dzmitry Lazerka www.dlazerka.name
  */
 public class VertexPanel extends JPanel {
 	private static final Logger logger = LoggerFactory.getLogger(VertexPanel.class);
@@ -57,6 +59,9 @@ public class VertexPanel extends JPanel {
 		VERTEX_OVAL_SIZE.height
 	);
 	private boolean draggingEdgeFromThis = false;
+
+	private final Point vertexCenter = new Point();
+	private final Collection<EdgePanel> adjacentEdgePanels = new LinkedList<EdgePanel>();
 
 	public VertexPanel(Vertex vertex) {
 		super(null);
@@ -114,8 +119,6 @@ public class VertexPanel extends JPanel {
 		FontRenderContext fontRenderContext = g2.getFontRenderContext();
 		GlyphVector glyphVector = NUMBER_FONT.createGlyphVector(fontRenderContext, "" + vertex.getNumber());
 
-		// todo: many digits
-//		int digits = (int) Math.floor(vertex.getNumber() / 10) + 1;
 		int glyphStartX;
 		if (vertex.getNumber() < 10) {
 			glyphStartX = NUMBER_SHIFT_X1;
@@ -200,6 +203,17 @@ public class VertexPanel extends JPanel {
 		return getY() + VERTEX_OVAL_SIZE.height / 2;
 	}
 
+	/**
+	 * @return center of the vertex oval, not the panel itself
+	 */
+	public Point getVertexCenter() {
+		vertexCenter.setLocation(
+			getVertexCenterX(),
+			getVertexCenterY()
+		);
+		return vertexCenter;
+	}
+
 	public void startDraggingEdge() {
 		draggingEdgeFromThis = true;
 		getParentGraphPanel().startDraggingEdge(this);
@@ -219,6 +233,23 @@ public class VertexPanel extends JPanel {
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		VertexPanel that = (VertexPanel) o;
+
+		if (!vertex.equals(that.vertex)) return false;
+
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		return vertex.hashCode();
+	}
+
+	@Override
 	public String toString() {
 		return "VertexPanel{" +
 		       "vertex=" + vertex +
@@ -227,6 +258,10 @@ public class VertexPanel extends JPanel {
 		       "width=" + getSize().width +
 		       "height=" + getSize().height +
 		       '}';
+	}
+
+	public void addAdjacentEdgePanel(EdgePanel edgePanel) {
+		adjacentEdgePanels.add(edgePanel);
 	}
 
 	protected class DragMouseListener extends MouseMotionAdapter {
@@ -244,6 +279,10 @@ public class VertexPanel extends JPanel {
 			int moveByX = e.getX() - mouseX;
 			int moveByY = e.getY() - mouseY;
 			setLocation(getX() + moveByX, getY() + moveByY);
+
+			for (EdgePanel adjacentEdgePanel : adjacentEdgePanels) {
+				adjacentEdgePanel.repaint();
+			}
 
 			// fix for too-fast-moving mouse :) 
 			if (!isHovered) {

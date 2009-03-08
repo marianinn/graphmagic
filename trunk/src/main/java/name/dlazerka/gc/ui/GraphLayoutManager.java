@@ -4,10 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.awt.*;
-import java.util.List;
+import java.util.Collection;
 
 /**
- * @author Dzmitry Lazerka
+ * @author Dzmitry Lazerka www.dlazerka.name
  */
 public class GraphLayoutManager implements LayoutManager {
 	public static final Logger logger = LoggerFactory.getLogger(GraphLayoutManager.class);
@@ -16,7 +16,7 @@ public class GraphLayoutManager implements LayoutManager {
 	private static final Dimension MINIMUM_LAYOUT_SIZE = new Dimension(0, 0);
 
 	public void addLayoutComponent(String name, Component comp) {
-		logger.debug("addLayoutComponent(): name={}, comp={}", new Object[]{name, comp});
+		logger.debug("{}, {}", new Object[]{name, comp});
 
 //		if (comp instanceof VertexPanel) {
 //			VertexPanel vertexPanel = (VertexPanel) comp;
@@ -38,7 +38,14 @@ public class GraphLayoutManager implements LayoutManager {
 	}
 
 	public void layoutContainer(Container parent) {
-		logger.debug("layoutContainer(): parent={}", parent);
+		logger.debug("{}", parent);
+
+		GraphPanel panel = (GraphPanel) parent;
+
+
+		for (EdgePanel edgePanel : panel.getEdgePanels()) {
+			edgePanel.setBounds(0, 0, parent.getWidth(), parent.getHeight());
+		}
 
 /*
 		for (VertexPanel vertexPanel : vertexPanelList) {
@@ -50,13 +57,13 @@ public class GraphLayoutManager implements LayoutManager {
 */
 	}
 
-	public void layoutDefault(GraphPanel parent) {
-		circleVertices(parent);
+	public void layoutDefault(GraphPanel graphPanel) {
+		circleVertices(graphPanel);
 	}
 
-	private void circleVertices(GraphPanel parent) {
-		Dimension size = parent.getSize();
-		List<VertexPanel> vertexPanelList = parent.getVertexPanelList();
+	private void circleVertices(GraphPanel graphPanel) {
+		Dimension size = graphPanel.getSize();
+		Collection<VertexPanel> vertexPanelList = graphPanel.getVertexPanels();
 
 		logger.debug("circleVertices(size={})", size);
 		

@@ -10,7 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
 /**
- * @author Dzmitry Lazerka
+ * @author Dzmitry Lazerka www.dlazerka.name
  */
 public class AddEdgePanel extends JPanel {
 	private static final Logger logger = LoggerFactory.getLogger(AddEdgePanel.class);

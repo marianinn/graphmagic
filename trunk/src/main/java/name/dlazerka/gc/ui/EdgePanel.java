@@ -6,33 +6,55 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * @author Dzmitry Lazerka
+ * @author Dzmitry Lazerka www.dlazerka.name
  */
 public class EdgePanel extends JPanel {
-	private static final Color COLOR_ARC = new Color(0, 0, 0);
-	private static final Stroke STROKE_ARC = new BasicStroke(2.0f);
+	private static final Color EDGE_COLOR = new Color(0, 0, 0);
+	private static final Stroke EDGE_STROKE = new BasicStroke(2.0f);
 
 	private final Edge edge;
-	private final VertexPanel head;
 	private final VertexPanel tail;
+	private final VertexPanel head;
 
-	public EdgePanel(Edge edge, VertexPanel head, VertexPanel tail) {
+	public EdgePanel(Edge edge, VertexPanel tail, VertexPanel head) {
 		this.edge = edge;
-		this.head = head;
 		this.tail = tail;
+		this.head = head;
+
+		setOpaque(false);
+	}
+
+	public Edge getEdge() {
+		return edge;
 	}
 
 	public void paintComponent(Graphics g) {
-		Graphics2D g2 = (Graphics2D) g.create();
+		Graphics2D g2 = (Graphics2D) g;
 
-		g2.setColor(COLOR_ARC);
-		g2.setStroke(STROKE_ARC);
-		g2.drawLine(
-			head.getLocation().x + head.getSize().width / 2,
-			head.getLocation().y + head.getSize().height / 2,
-			tail.getLocation().x + tail.getSize().width / 2,
-			tail.getLocation().y + tail.getSize().height / 2
+		drawEdge(
+			g2,
+			getFromPoint(),
+			getToPoint()
 		);
+	}
+
+	protected void drawEdge(Graphics2D g, Point from, Point to) {
+		g.setColor(EDGE_COLOR);
+		g.setStroke(EDGE_STROKE);
+		g.drawLine(
+			from.x,
+			from.y,
+			to.x,
+			to.y
+		);
+	}
+
+	protected Point getFromPoint() {
+		return head.getVertexCenter();
+	}
+
+	protected Point getToPoint() {
+		return tail.getVertexCenter();
 	}
 
 	@Override
