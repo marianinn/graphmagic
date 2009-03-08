@@ -11,7 +11,7 @@ import java.util.Properties;
 import java.util.ResourceBundle;
 
 /**
- * @author Dzmitry Lazerka
+ * @author Dzmitry Lazerka www.dlazerka.name
  */
 public class Main {
 	private static final Logger logger = LoggerFactory.getLogger(Main.class);

@@ -10,7 +10,7 @@ import java.util.Set;
  * Thus, adding to the {@link LinkedSet} is asymptotically inefficient -- O(N),
  * do not use it for large collections (more than 50 elements).
  *
- * @author Dzmitry Lazerka
+ * @author Dzmitry Lazerka www.dlazerka.name
  */
 public class LinkedSet<E> extends LinkedList<E> implements Set<E>, List<E> {
 	@Override
