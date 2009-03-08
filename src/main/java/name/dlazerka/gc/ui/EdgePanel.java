@@ -2,16 +2,12 @@ package name.dlazerka.gc.ui;
 
 import name.dlazerka.gc.bean.Edge;
 
-import javax.swing.*;
 import java.awt.*;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class EdgePanel extends JPanel {
-	private static final Color EDGE_COLOR = new Color(0, 0, 0);
-	private static final Stroke EDGE_STROKE = new BasicStroke(2.0f);
-
+public class EdgePanel extends AbstractEdgePanel {
 	private final Edge edge;
 	private final VertexPanel tail;
 	private final VertexPanel head;
@@ -38,17 +34,6 @@ public class EdgePanel extends JPanel {
 		);
 	}
 
-	protected static void drawEdge(Graphics2D g, Point from, Point to) {
-		g.setColor(EDGE_COLOR);
-		g.setStroke(EDGE_STROKE);
-		g.drawLine(
-			from.x,
-			from.y,
-			to.x,
-			to.y
-		);
-	}
-
 	protected Point getFromPoint() {
 		return head.getVertexCenter();
 	}
@@ -56,4 +41,31 @@ public class EdgePanel extends JPanel {
 	protected Point getToPoint() {
 		return tail.getVertexCenter();
 	}
+
+/*
+	public int getX() {
+		return Math.min(
+			head.getVertexCenterX(),
+			tail.getVertexCenterX()
+		);
+	}
+
+	@Override
+	public int getY() {
+		return Math.min(
+			head.getVertexCenterY(),
+			tail.getVertexCenterY()
+		);
+	}
+
+	@Override
+	public int getWidth() {
+		return Math.abs(head.getVertexCenterX() - tail.getVertexCenterX());
+	}
+
+	@Override
+	public int getHeight() {
+		return Math.abs(head.getVertexCenterY() - tail.getVertexCenterY());
+	}
+*/
 }

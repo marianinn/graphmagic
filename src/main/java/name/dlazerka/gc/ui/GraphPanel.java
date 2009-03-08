@@ -12,8 +12,6 @@ import org.slf4j.LoggerFactory;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.Map;
 
 /**
@@ -25,7 +23,6 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 	private final static Dimension DEFAULT_DIMENSION = new Dimension(600, 400);
 
 	private final Graph graph;
-	private final Point popupLocation = new Point();
 
 	private Map<Vertex, VertexPanel> vertexToVertexPanel = new ListMap<Vertex, VertexPanel>();
 	private Map<Edge, EdgePanel> edgeToEdgePanel = new ListMap<Edge, EdgePanel>();
@@ -48,11 +45,8 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 	public GraphPanel() {
 		graph = new Graph();
 
-		addMouseListener(new PopupLocationRememberer());
-
 		GraphLayoutManager layoutManager = new GraphLayoutManager();
 		setLayout(layoutManager);
-
 		setSize(DEFAULT_DIMENSION);// for GraphLayoutManager@58
 
 		setComponentPopupMenu(createPopupMenu());
@@ -60,12 +54,25 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 		addVertexPanels();
 		addEdgePanels();
 		add(newEdgePanel);
-		
+
 		layoutManager.layoutDefault(this);
 	}
 
+	/**
+	 * Overrides default and returns false since our children can overlap each other.
+	 * Though it seems unnecessary because it works for true pretty well. Let is be here for confidence.
+	 * See <a href="http://java.sun.com/products/jfc/tsc/articles/painting/#props">Painting in AWT and Swing</a>.
+	 *
+	 * @return false
+	 * @see <a href="http://java.sun.com/products/jfc/tsc/articles/painting/#props">Painting in AWT and Swing</a>
+	 */
+	@Override
+	public boolean isOptimizedDrawingEnabled() {
+		return false;
+	}
 
 	public Component add(Component component) {
+
 		if (component instanceof VertexPanel) {
 			VertexPanel panel = (VertexPanel) component;
 			vertexToVertexPanel.put(panel.getVertex(), panel);
@@ -162,12 +169,11 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 		public void actionPerformed(ActionEvent e) {
 			Vertex vertex = graph.addVertex();
 			VertexPanel vertexPanel = new VertexPanel(vertex);
-			vertexPanel.setLocation(popupLocation);
 			add(vertexPanel);
-			vertexPanel.repaint();
 		}
 	}
 
+/*
 	protected class PopupLocationRememberer extends MouseAdapter {
 		protected void rememberLocation(MouseEvent e) {
 			popupLocation.x = e.getX();
@@ -176,11 +182,11 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			if (e.isPopupTrigger()) {
-				rememberLocation(e);
-			}
+			logger.trace("point={}", e.getPoint());
+			rememberLocation(e);
 		}
 	}
+*/
 
 	private JPopupMenu createPopupMenu() {
 		JPopupMenu popupMenu = new JPopupMenu();
