@@ -15,25 +15,36 @@ import java.awt.event.MouseMotionAdapter;
 public class AddEdgePanel extends JPanel {
 	private static final Logger logger = LoggerFactory.getLogger(AddEdgePanel.class);
 	private static final String IMAGE_FILENAME = "addEdgeIcon.png";
+	private static final String IMAGE_HOVER_FILENAME = "addEdgeIconHover.png";
 
-	private final ImageIcon icon = new ImageIcon(IMAGE_FILENAME);
+	private static final ImageIcon DEFAULT_ICON = new ImageIcon(IMAGE_FILENAME);
+	private static final ImageIcon HOVER_ICON = new ImageIcon(IMAGE_HOVER_FILENAME);
+	static {
+		checkImageLoadedSuccess(DEFAULT_ICON);
+		checkImageLoadedSuccess(HOVER_ICON);
+	}
+
+	private static void checkImageLoadedSuccess(ImageIcon icon) {
+		if (icon.getImageLoadStatus() != MediaTracker.COMPLETE) {
+			logger.error("Unable to load image, filepath='{}'", IMAGE_FILENAME);
+			throw new RuntimeException();
+		}
+	}
+
+	private ImageIcon icon = DEFAULT_ICON;
 
 	public AddEdgePanel() {
 		super();
 
 		logger.debug("AddEdgePanel(): imageLoadStatus={}", icon.getImageLoadStatus());
 
-//		setVisible(false);
-		setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0), 1));
+		Dimension size = new Dimension(icon.getIconWidth(), icon.getIconHeight());
+		setPreferredSize(size);
+		setSize(size);
 
-		if (icon.getImageLoadStatus() == MediaTracker.COMPLETE) {
-			Dimension size = new Dimension(icon.getIconWidth(), icon.getIconHeight());
-			setPreferredSize(size);
-			setSize(size);
-		}
-		else {
-			logger.error("Unable to load image, filepath='{}'", IMAGE_FILENAME);
-		}
+		setVisible(false);
+		setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0x80), 1));
+
 
 		addMouseMotionListener(new DragMouseListener());
 		addMouseListener(new MouseListener());
@@ -57,7 +68,6 @@ public class AddEdgePanel extends JPanel {
 	private class DragMouseListener extends MouseMotionAdapter {
 		@Override
 		public void mouseDragged(MouseEvent e) {
-//			logger.debug("mouseDragged()");
 			getParentVertexPanel().getParentGraphPanel().repaint();
 		}
 	}
@@ -65,20 +75,28 @@ public class AddEdgePanel extends JPanel {
 	private class MouseListener extends MouseAdapter {
 		@Override
 		public void mouseEntered(MouseEvent e) {
-			logger.debug("mouseEntered()");
+			logger.debug("");
+			icon = HOVER_ICON;
 			getParentVertexPanel().setHovered(true);
 		}
 
 		@Override
+		public void mouseExited(MouseEvent e) {
+			logger.debug("");
+			icon = DEFAULT_ICON;
+			getParentVertexPanel().setHovered(false);
+		}
+
+		@Override
 		public void mousePressed(MouseEvent e) {
-			logger.debug("mousePressed()");
+			logger.debug("");
 			getParentVertexPanel().startDraggingEdge();
 		}
 
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			logger.debug("mouseReleased()");
+			logger.debug("");
 
 			// for repainting vertex when mouse was released outside this vertex
 			getParentVertexPanel().checkHovered();
