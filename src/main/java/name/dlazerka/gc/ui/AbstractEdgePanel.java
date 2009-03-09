@@ -34,7 +34,7 @@ public abstract class AbstractEdgePanel extends JPanel {
 	@Override
 	public boolean contains(int x, int y) {
 		boolean b = lastShownShape.contains(x, y);
-		if (b) logger.debug("{}", b);
+//		if (b) logger.debug("{}", b);
 		return b;
 	}
 }

@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
 /**
@@ -59,26 +60,43 @@ public class EdgePanel extends AbstractEdgePanel {
 		return tail.getVertexCenter();
 	}
 
-	public void setCurved() {
-		this.curved = true;
+	public void setCurved(boolean curved) {
+		this.curved = curved;
+	}
+
+	/**
+	 * If the curve seems like line (contains(ctrlPoint)==true) then sets curved to false
+	 * @param x which point.x the curve should contain
+	 * @param y which point.y the curve should contain
+	 */
+	private void setCurvedTo(int x, int y) {
+		setCurved(true);
+
+		int centerX = (getFromPoint().x + getToPoint().x) / 2;
+		int centerY = (getFromPoint().y + getToPoint().y) / 2;
+
 		ctrlPoint.move(
-			(getFromPoint().x + getToPoint().x) / 2,
-			(getFromPoint().y + getToPoint().y) / 2
+			x * 2 - centerX,
+			y * 2 - centerY
 		);
+
+		if (contains(ctrlPoint)) {
+			setCurved(false);
+		}
 	}
 
 	private class DragMouseListener extends MouseMotionAdapter {
-/* TODO unimportant feature
+
+		//  TODO unimportant feature
 		@Override
 		public void mouseDragged(MouseEvent e) {
 			logger.trace("{}", e.getPoint());
 
-			setCurved();
+			setCurvedTo(e.getX(), e.getY());
 
-			ctrlPoint.move(e.getX(), e.getY());
 			repaint();
 		}
-*/
+
 	}
 /*
 	public int getX() {
