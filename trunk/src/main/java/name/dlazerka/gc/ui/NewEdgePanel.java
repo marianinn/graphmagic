@@ -48,7 +48,12 @@ public class NewEdgePanel extends AbstractEdgePanel {
 
 		if (visible) {
 			Graphics2D g = (Graphics2D) g0;
-			drawEdge(g, tail.getVertexCenter(), head);
+			drawEdge(
+				g,
+				tail.getVertexCenter(),
+				tail.getVertexCenter(),
+				head
+			);
 		}
 	}
 
