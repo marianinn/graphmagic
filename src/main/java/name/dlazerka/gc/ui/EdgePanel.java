@@ -1,12 +1,15 @@
 package name.dlazerka.gc.ui;
 
 import name.dlazerka.gc.bean.Edge;
+import name.dlazerka.gc.Main;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.event.ActionEvent;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
@@ -29,6 +32,7 @@ public class EdgePanel extends AbstractEdgePanel {
 
 		setOpaque(false);
 		addMouseMotionListener(new DragMouseListener());
+		setComponentPopupMenu(new PopupMenu());
 	}
 
 	public Edge getEdge() {
@@ -50,6 +54,10 @@ public class EdgePanel extends AbstractEdgePanel {
 			curved ? ctrlPoint : getFromPoint(),
 			getToPoint()
 		);
+	}
+
+	private GraphPanel getGraphPanel() {
+		return (GraphPanel) getParent();
 	}
 
 	protected Point getFromPoint() {
@@ -97,6 +105,25 @@ public class EdgePanel extends AbstractEdgePanel {
 			repaint();
 		}
 
+	}
+
+//	private class MouseListener extends MouseAdapter {
+//	}
+
+	private class PopupMenu extends JPopupMenu  {
+		private PopupMenu() {
+			add(new DeleteAction());
+		}
+
+		private class DeleteAction extends AbstractAction {
+			public DeleteAction() {
+				super(Main.getString("delete.edge"));
+			}
+
+			public void actionPerformed(ActionEvent e) {
+				getGraphPanel().getGraph().remove(edge);
+			}
+		}
 	}
 /*
 	public int getX() {

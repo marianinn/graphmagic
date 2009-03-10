@@ -1,6 +1,4 @@
 User stories:
-* Removing vertices
-* Removing edges
 * Develop build process and packaging.
 * More than one window with a graph.
 * Selecting multiple vertices.
@@ -14,4 +12,4 @@ User stories:
 * Printing graph
 
 Bugs:
-* New vertex appear in wrong place.
+* manually created vertices do not want to remove

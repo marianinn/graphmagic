@@ -44,12 +44,13 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 
 	public GraphPanel() {
 		graph = new Graph();
+		graph.addChangeListener(this);
 
 		GraphLayoutManager layoutManager = new GraphLayoutManager();
 		setLayout(layoutManager);
 		setSize(DEFAULT_DIMENSION);// for GraphLayoutManager@58
 
-		setComponentPopupMenu(createPopupMenu());
+		setComponentPopupMenu(new PopupMenu());
 
 		addVertexPanels();
 		addEdgePanels();
@@ -83,6 +84,12 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 		}
 
 		return super.add(component);
+	}
+
+	@Override
+	public void remove(Component comp) {
+		super.remove(comp);
+		repaint();
 	}
 
 	private void addVertexPanels() {
@@ -119,8 +126,24 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 	}
 
 	public void vertexAdded(Vertex vertex) {
-		VertexPanel vertexPanel = new VertexPanel(vertex);
-		add(vertexPanel);
+		VertexPanel panel = new VertexPanel(vertex);
+		add(panel);
+	}
+
+	public void edgeAdded(Edge edge) {
+		EdgePanel panel = createEdgePanel(edge);
+		add(panel);
+	}
+
+	public void vertexDeleted(Vertex vertex) {
+		VertexPanel panel = vertexToVertexPanel.get(vertex);
+
+		remove(panel);
+	}
+
+	public void edgeDeleted(Edge edge) {
+		EdgePanel panel = edgeToEdgePanel.get(edge);
+		remove(panel);
 	}
 
 	public void setHoveredVertexPanel(VertexPanel vertexPanel) {
@@ -151,7 +174,7 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 		EdgePanel edgePanel = createEdgePanel(edge);
 		add(edgePanel);
 
-		graph.addEdge(edge);
+		graph.add(edge);
 
 		draggingEdgeFrom = null;
 		newEdgePanel.setVisible(false);
@@ -161,16 +184,8 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 		return newEdgePanel;
 	}
 
-	private class AddVertexAction extends AbstractAction {
-		public AddVertexAction() {
-			super(Main.getString("add.vertex"));
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			Vertex vertex = graph.addVertex();
-			VertexPanel vertexPanel = new VertexPanel(vertex);
-			add(vertexPanel);
-		}
+	public Graph getGraph() {
+		return graph;
 	}
 
 /*
@@ -188,9 +203,19 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 	}
 */
 
-	private JPopupMenu createPopupMenu() {
-		JPopupMenu popupMenu = new JPopupMenu();
-		popupMenu.add(new AddVertexAction());
-		return popupMenu;
+	private class PopupMenu extends JPopupMenu  {
+		private PopupMenu() {
+			add(new AddVertexAction());
+		}
+
+		private class AddVertexAction extends AbstractAction {
+			public AddVertexAction() {
+				super(Main.getString("add.vertex"));
+			}
+
+			public void actionPerformed(ActionEvent e) {
+				graph.addVertex();
+			}
+		}
 	}
 }
