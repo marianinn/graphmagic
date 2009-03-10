@@ -28,30 +28,55 @@ public class GraphLayoutManager implements LayoutManager2 {
 		addLayoutComponent(comp);
 	}
 
+	private void addLayoutComponent(VertexPanel panel) {
+		Point defaultLocation = panel.getParent().getMousePosition(true);
+		if (defaultLocation != null) {
+			panel.setVertexCenter(defaultLocation);
+		}
+		else {
+			panel.setVertexCenter(
+				panel.getGraphPanel().getWidth() / 2,
+				panel.getGraphPanel().getHeight() / 2
+			);
+		}
+
+		vertexPanels.add(panel);
+	}
+
+	private void addLayoutComponent(EdgePanel panel) {
+		panel.setBounds(
+			0, 0,
+			panel.getGraphPanel().getWidth(),
+			panel.getGraphPanel().getHeight()
+		);
+		edgePanels.add(panel);
+	}
+
+	private void addLayoutComponent(NewEdgePanel panel) {
+		newEdgePanel = panel;
+	}
+
 	private void addLayoutComponent(Component component) {
-		logger.trace("{}", component);
-
 		if (component instanceof VertexPanel) {
-			VertexPanel panel = (VertexPanel) component;
-
-			Point defaultLocation = component.getParent().getMousePosition(true);
-			if (defaultLocation != null) {
-				panel.setVertexCenter(defaultLocation);
-			}
-			
-			vertexPanels.add(panel);
+			addLayoutComponent(((VertexPanel) component));
 		}
 		else if (component instanceof EdgePanel) {
-			EdgePanel panel = (EdgePanel) component;
-			edgePanels.add(panel);
+			addLayoutComponent(((EdgePanel) component));
 		}
 		else if (component instanceof NewEdgePanel) {
-			newEdgePanel = ((NewEdgePanel) component);
+			addLayoutComponent(((NewEdgePanel) component));
 		}
 	}
 
 	public void removeLayoutComponent(Component comp) {
-		// todo
+		if (comp instanceof VertexPanel) {
+			VertexPanel panel = (VertexPanel) comp;
+			vertexPanels.remove(panel);
+		}
+		else if (comp instanceof EdgePanel) {
+			EdgePanel panel = (EdgePanel) comp;
+			edgePanels.remove(panel);
+		}
 	}
 
 	public Dimension minimumLayoutSize(Container parent) {
@@ -81,8 +106,6 @@ public class GraphLayoutManager implements LayoutManager2 {
 
 	public void layoutContainer(Container parent) {
 		logger.trace("{}", parent);
-
-		GraphPanel panel = (GraphPanel) parent;
 
 		for (EdgePanel edgePanel : edgePanels) {
 			edgePanel.setBounds(0, 0, parent.getWidth(), parent.getHeight());

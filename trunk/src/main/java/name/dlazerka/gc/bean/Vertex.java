@@ -46,8 +46,6 @@ public class Vertex {
 
 	@Override
 	public String toString() {
-		return "Vertex{" +
-		       "number=" + number +
-		       '}';
+		return number + "";
 	}
 }

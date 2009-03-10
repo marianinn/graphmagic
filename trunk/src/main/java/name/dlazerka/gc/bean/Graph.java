@@ -20,11 +20,13 @@ public class Graph {
 	private final List<GraphChangeListener> changeListeners = new LinkedList<GraphChangeListener>();
 
 	public Graph() {
-		create4();
+//		create4();
 	}
 
 	public boolean addChangeListener(GraphChangeListener listener) {
-		return changeListeners.add(listener);
+		boolean result = changeListeners.add(listener);
+		listener.notifyAttached();
+		return result;
 	}
 
 	private void create1() {
@@ -92,7 +94,8 @@ public class Graph {
 	 * @param vertex vertex to remove
 	 */
 	public void remove(Vertex vertex) {
-		for (Edge edge : vertex.getAdjacentEdgeSet()) {
+		while (vertex.getAdjacentEdgeSet().size() != 0) {
+			Edge edge = vertex.getAdjacentEdgeSet().iterator().next();
 			remove(edge);
 		}
 
@@ -114,6 +117,9 @@ public class Graph {
 	}
 
 	public void remove(Edge edge) {
+		edge.getHead().getAdjacentEdgeSet().remove(edge);
+		edge.getTail().getAdjacentEdgeSet().remove(edge);
+
 		edgeSet.remove(edge);
 
 		for (GraphChangeListener changeListener : changeListeners) {
