@@ -1,6 +1,7 @@
 package name.dlazerka.gc.ui;
 
 import name.dlazerka.gc.bean.Vertex;
+import name.dlazerka.gc.Main;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,6 +10,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.event.ActionEvent;
 import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
 import java.util.Collection;
@@ -85,6 +87,8 @@ public class VertexPanel extends JPanel {
 
 		addMouseMotionListener(new DragMouseListener());
 		addMouseListener(new MouseListener());
+
+		setComponentPopupMenu(new PopupMenu());
 	}
 
 	public Vertex getVertex() {
@@ -172,7 +176,7 @@ public class VertexPanel extends JPanel {
 		repaint();
 	}
 
-	public GraphPanel getGraphPanel() {
+	private GraphPanel getGraphPanel() {
 		return (GraphPanel) getParent();
 	}
 
@@ -298,6 +302,22 @@ public class VertexPanel extends JPanel {
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			logger.trace("");
+		}
+	}
+
+	private class PopupMenu extends JPopupMenu  {
+		private PopupMenu() {
+			add(new DeleteAction());
+		}
+
+		private class DeleteAction extends AbstractAction {
+			public DeleteAction() {
+				super(Main.getString("delete.vertex"));
+			}
+
+			public void actionPerformed(ActionEvent e) {
+				getGraphPanel().getGraph().remove(vertex);
+			}
 		}
 	}
 }
