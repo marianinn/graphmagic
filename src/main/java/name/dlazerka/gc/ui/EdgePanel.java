@@ -56,7 +56,7 @@ public class EdgePanel extends AbstractEdgePanel {
 		);
 	}
 
-	private GraphPanel getGraphPanel() {
+	public GraphPanel getGraphPanel() {
 		return (GraphPanel) getParent();
 	}
 
@@ -98,7 +98,7 @@ public class EdgePanel extends AbstractEdgePanel {
 		//  TODO unimportant feature
 		@Override
 		public void mouseDragged(MouseEvent e) {
-			logger.trace("{}", e.getPoint());
+//			logger.trace("{}", e.getPoint());
 
 			setCurvedTo(e.getX(), e.getY());
 

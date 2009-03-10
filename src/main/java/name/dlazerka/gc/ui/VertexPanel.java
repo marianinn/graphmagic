@@ -176,7 +176,7 @@ public class VertexPanel extends JPanel {
 		repaint();
 	}
 
-	private GraphPanel getGraphPanel() {
+	public GraphPanel getGraphPanel() {
 		return (GraphPanel) getParent();
 	}
 
@@ -245,11 +245,16 @@ public class VertexPanel extends JPanel {
 	}
 
 	public void setVertexCenter(Point center) {
+		setVertexCenter(center.x, center.y);
+	}
+
+	public void setVertexCenter(int x, int y) {
 		setLocation(
-			center.x - VERTEX_OVAL_SIZE.width / 2,
-			center.y - VERTEX_OVAL_SIZE.height / 2
+			x - VERTEX_OVAL_SIZE.width / 2,
+			y - VERTEX_OVAL_SIZE.height / 2
 		);
 	}
+
 
 	protected class DragMouseListener extends MouseMotionAdapter {
 		private int mouseX;

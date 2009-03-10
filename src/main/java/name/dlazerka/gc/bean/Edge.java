@@ -45,9 +45,6 @@ public class Edge {
 
 	@Override
 	public String toString() {
-		return "Edge{" +
-		       "tail=" + tail +
-		       ", head=" + head +
-		       '}';
+		return tail + " -> " + head;
 	}
 }

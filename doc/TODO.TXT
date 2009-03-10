@@ -12,4 +12,4 @@ User stories:
 * Printing graph
 
 Bugs:
-* manually created vertices do not want to remove
+* Half-constructed but dropped edge creates pseudo-edge to the tail vertex.

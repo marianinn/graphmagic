@@ -6,6 +6,8 @@ import java.util.EventListener;
  * @author Dzmitry Lazerka www.dlazerka.name
  */
 public interface GraphChangeListener extends EventListener {
+	void notifyAttached();
+
 	void vertexAdded(Vertex vertex);
 
 	void edgeAdded(Edge edge);

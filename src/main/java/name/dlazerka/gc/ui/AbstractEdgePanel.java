@@ -18,6 +18,10 @@ public abstract class AbstractEdgePanel extends JPanel {
 	private final QuadCurve2D curve = new QuadCurve2D.Double();
 	private Shape lastShownShape = curve;
 
+	protected AbstractEdgePanel() {
+		super(null);
+	}
+
 	protected void drawEdge(Graphics2D g, Point from, Point ctrl, Point to) {
 		g.setColor(EDGE_COLOR);
 		g.setStroke(EDGE_STROKE);

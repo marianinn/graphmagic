@@ -17,7 +17,7 @@ import java.util.Map;
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class GraphPanel extends JPanel implements GraphChangeListener {
+public class GraphPanel extends JPanel {
 	private final static Logger logger = LoggerFactory.getLogger(GraphPanel.class);
 
 	private final static Dimension DEFAULT_DIMENSION = new Dimension(600, 400);
@@ -43,19 +43,16 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 	private VertexPanel lastHoveredVertexPanel;
 
 	public GraphPanel() {
-		graph = new Graph();
-		graph.addChangeListener(this);
-
 		GraphLayoutManager layoutManager = new GraphLayoutManager();
 		setLayout(layoutManager);
 		setSize(DEFAULT_DIMENSION);// for GraphLayoutManager@58
 
 		setComponentPopupMenu(new PopupMenu());
 
-		addVertexPanels();
-		addEdgePanels();
 		add(newEdgePanel);
 
+		graph = new Graph();
+		graph.addChangeListener(new GraphChangeListenerImpl());
 		layoutManager.layoutDefault(this);
 	}
 
@@ -72,78 +69,28 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 		return false;
 	}
 
-	public Component add(Component component) {
+	public Component add(VertexPanel panel) {
+		throw new IllegalStateException("Should be called only from GraphChangeListenerImpl");
+	}
 
-		if (component instanceof VertexPanel) {
-			VertexPanel panel = (VertexPanel) component;
-			vertexToVertexPanel.put(panel.getVertex(), panel);
-		}
-		else if (component instanceof EdgePanel) {
-			EdgePanel panel = (EdgePanel) component;
-			edgeToEdgePanel.put(panel.getEdge(), panel);
-		}
-
-		return super.add(component);
+	public Component add(EdgePanel panel) {
+		throw new IllegalStateException("Should be called only from GraphChangeListenerImpl");
 	}
 
 	@Override
-	public void remove(Component comp) {
-		super.remove(comp);
-		repaint();
-	}
-
-	private void addVertexPanels() {
-		for (Vertex vertex : graph.getVertexSet()) {
-			VertexPanel vertexPanel = new VertexPanel(vertex);
-			add(vertexPanel);
+	public void remove(Component component) {
+		if (component instanceof VertexPanel) {
+			VertexPanel panel = (VertexPanel) component;
+			vertexToVertexPanel.remove(panel.getVertex());
 		}
-	}
-
-	private void addEdgePanels() {
-		for (Edge edge : graph.getEdgeSet()) {
-			EdgePanel edgePanel = createEdgePanel(edge);
-
-			add(edgePanel);
+		else if (component instanceof EdgePanel) {
+			EdgePanel panel = (EdgePanel) component;
+			edgeToEdgePanel.remove(panel.getEdge());
 		}
-	}
 
-	private EdgePanel createEdgePanel(Edge edge) {
-		VertexPanel tailPanel = vertexToVertexPanel.get(edge.getTail());
-		VertexPanel headPanel = vertexToVertexPanel.get(edge.getHead());
+		super.remove(component);
 
-		EdgePanel edgePanel = new EdgePanel(
-			edge,
-			tailPanel,
-			headPanel
-		);
-
-		tailPanel.addAdjacentEdgePanel(edgePanel);
-		headPanel.addAdjacentEdgePanel(edgePanel);
-
-		edgePanel.setBounds(0, 0, getWidth(), getHeight());
-
-		return edgePanel;
-	}
-
-	public void vertexAdded(Vertex vertex) {
-		VertexPanel panel = new VertexPanel(vertex);
-		add(panel);
-	}
-
-	public void edgeAdded(Edge edge) {
-		EdgePanel panel = createEdgePanel(edge);
-		add(panel);
-	}
-
-	public void vertexDeleted(Vertex vertex) {
-		VertexPanel panel = vertexToVertexPanel.get(vertex);
-
-		remove(panel);
-	}
-
-	public void edgeDeleted(Edge edge) {
-		EdgePanel panel = edgeToEdgePanel.get(edge);
-		remove(panel);
+		repaint();// essential
 	}
 
 	public void setHoveredVertexPanel(VertexPanel vertexPanel) {
@@ -171,9 +118,6 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 		Vertex head = lastHoveredVertexPanel.getVertex();
 		Edge edge = new Edge(tail, head);
 
-		EdgePanel edgePanel = createEdgePanel(edge);
-		add(edgePanel);
-
 		graph.add(edge);
 
 		draggingEdgeFrom = null;
@@ -188,22 +132,77 @@ public class GraphPanel extends JPanel implements GraphChangeListener {
 		return graph;
 	}
 
-/*
-	protected class PopupLocationRememberer extends MouseAdapter {
-		protected void rememberLocation(MouseEvent e) {
-			popupLocation.x = e.getX();
-			popupLocation.y = e.getY();
+
+	private class GraphChangeListenerImpl implements GraphChangeListener {
+		public void notifyAttached() {
+			addVertexPanels();
+			addEdgePanels();
 		}
 
-		@Override
-		public void mousePressed(MouseEvent e) {
-			logger.trace("point={}", e.getPoint());
-			rememberLocation(e);
+		private void addVertexPanels() {
+			for (Vertex vertex : graph.getVertexSet()) {
+				VertexPanel vertexPanel = new VertexPanel(vertex);
+				add(vertexPanel);
+			}
+		}
+
+		private void addEdgePanels() {
+			for (Edge edge : graph.getEdgeSet()) {
+				EdgePanel edgePanel = createEdgePanel(edge);
+				add(edgePanel);
+			}
+		}
+
+		private EdgePanel createEdgePanel(Edge edge) {
+			VertexPanel tailPanel = vertexToVertexPanel.get(edge.getTail());
+			VertexPanel headPanel = vertexToVertexPanel.get(edge.getHead());
+
+			EdgePanel edgePanel = new EdgePanel(
+				edge,
+				tailPanel,
+				headPanel
+			);
+
+			tailPanel.addAdjacentEdgePanel(edgePanel);
+			headPanel.addAdjacentEdgePanel(edgePanel);
+
+//			edgePanel.setBounds(0, 0, getWidth(), getHeight());
+
+			return edgePanel;
+		}
+
+		public void vertexAdded(Vertex vertex) {
+			VertexPanel panel = new VertexPanel(vertex);
+			add(panel);
+		}
+
+		public void edgeAdded(Edge edge) {
+			EdgePanel panel = createEdgePanel(edge);
+			add(panel);
+		}
+
+		public void vertexDeleted(Vertex vertex) {
+			VertexPanel panel = vertexToVertexPanel.get(vertex);
+			remove(panel);
+		}
+
+		public void edgeDeleted(Edge edge) {
+			EdgePanel panel = edgeToEdgePanel.get(edge);
+			remove(panel);
+		}
+
+		private Component add(VertexPanel panel) {
+			vertexToVertexPanel.put(panel.getVertex(), panel);
+			return GraphPanel.super.add(panel);
+		}
+
+		private Component add(EdgePanel panel) {
+			edgeToEdgePanel.put(panel.getEdge(), panel);
+			return GraphPanel.super.add(panel);
 		}
 	}
-*/
 
-	private class PopupMenu extends JPopupMenu  {
+	private class PopupMenu extends JPopupMenu {
 		private PopupMenu() {
 			add(new AddVertexAction());
 		}
