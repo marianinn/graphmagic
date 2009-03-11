@@ -19,7 +19,7 @@ import java.util.LinkedList;
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class VertexPanel extends JPanel {
+public class VertexPanel extends JPanel implements Paintable {
 	private static final Logger logger = LoggerFactory.getLogger(VertexPanel.class);
 
 	/**
