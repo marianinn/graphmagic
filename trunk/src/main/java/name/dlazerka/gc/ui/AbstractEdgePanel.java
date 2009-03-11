@@ -10,7 +10,7 @@ import java.awt.geom.QuadCurve2D;
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public abstract class AbstractEdgePanel extends JPanel {
+public abstract class AbstractEdgePanel extends JPanel implements Paintable {
 	private static final Logger logger = LoggerFactory.getLogger(AbstractEdgePanel.class);
 
 	private static final Color EDGE_COLOR = Color.BLACK;

@@ -69,12 +69,16 @@ public class GraphPanel extends JPanel {
 		return false;
 	}
 
-	public Component add(VertexPanel panel) {
-		throw new IllegalStateException("Should be called only from GraphChangeListenerImpl");
-	}
+	@Override
+	protected void addImpl(Component comp, Object constraints, int index) {
+		if (!(comp instanceof Paintable)) {
+			throw new IllegalArgumentException(
+				"Unable to add component of type " + comp.getName()
+				+ " only Paintable are accepted"
+			);
+		}
 
-	public Component add(EdgePanel panel) {
-		throw new IllegalStateException("Should be called only from GraphChangeListenerImpl");
+		super.addImpl(comp, constraints, index);
 	}
 
 	@Override
@@ -165,8 +169,6 @@ public class GraphPanel extends JPanel {
 
 			tailPanel.addAdjacentEdgePanel(edgePanel);
 			headPanel.addAdjacentEdgePanel(edgePanel);
-
-//			edgePanel.setBounds(0, 0, getWidth(), getHeight());
 
 			return edgePanel;
 		}
