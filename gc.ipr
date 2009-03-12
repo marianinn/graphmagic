@@ -77,8 +77,16 @@
       <entry name="?*.tld" />
     </wildcardResourcePatterns>
   </component>
-  <component name="CopyrightManager" default="">
-    <module2copyright />
+  <component name="CopyrightManager" default="GNU GPL v2">
+    <copyright>
+      <option name="notice" value="GraphMagic, package for scientists working in graph theory.&#10;Copyright (C) &amp;#36;today.year Dzmitry Lazerka dlazerka@dlazerka.name&#10;&#10;This program is free software; you can redistribute it and/or modify&#10;it under the terms of the GNU General Public License version 2 as&#10;published by the Free Software Foundation.&#10;&#10;This program is distributed in the hope that it will be useful,&#10;but WITHOUT ANY WARRANTY; without even the implied warranty of&#10;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the&#10;GNU General Public License for more details.&#10;&#10;You should have received a copy of the GNU General Public License along&#10;with this program; if not, write to the Free Software Foundation, Inc.,&#10;51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.&#10;&#10;Author: Dzmitry Lazerka dlazerka@dlazerka.name" />
+      <option name="keyword" value="Copyright" />
+      <option name="myName" value="GNU GPL v2" />
+      <option name="myLocal" value="true" />
+    </copyright>
+    <module2copyright>
+      <element module="All" copyright="GNU GPL v2" />
+    </module2copyright>
   </component>
   <component name="DependenciesAnalyzeManager">
     <option name="myForwardDirection" value="false" />
@@ -441,9 +449,7 @@
       <CLASSES>
         <root url="jar://$MAVEN_REPO$/org/slf4j/slf4j-api/1.5.6/slf4j-api-1.5.6.jar!/" />
       </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPO$/org/slf4j/slf4j-api/1.5.6/slf4j-api-1.5.6-javadoc.jar!/" />
-      </JAVADOC>
+      <JAVADOC />
       <SOURCES>
         <root url="jar://$MAVEN_REPO$/org/slf4j/slf4j-api/1.5.6/slf4j-api-1.5.6-sources.jar!/" />
       </SOURCES>
@@ -452,9 +458,7 @@
       <CLASSES>
         <root url="jar://$MAVEN_REPO$/org/slf4j/slf4j-log4j12/1.5.6/slf4j-log4j12-1.5.6.jar!/" />
       </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPO$/org/slf4j/slf4j-log4j12/1.5.6/slf4j-log4j12-1.5.6-javadoc.jar!/" />
-      </JAVADOC>
+      <JAVADOC />
       <SOURCES>
         <root url="jar://$MAVEN_REPO$/org/slf4j/slf4j-log4j12/1.5.6/slf4j-log4j12-1.5.6-sources.jar!/" />
       </SOURCES>
@@ -463,9 +467,7 @@
       <CLASSES>
         <root url="jar://$MAVEN_REPO$/log4j/log4j/1.2.14/log4j-1.2.14.jar!/" />
       </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPO$/log4j/log4j/1.2.14/log4j-1.2.14-javadoc.jar!/" />
-      </JAVADOC>
+      <JAVADOC />
       <SOURCES>
         <root url="jar://$MAVEN_REPO$/log4j/log4j/1.2.14/log4j-1.2.14-sources.jar!/" />
       </SOURCES>
