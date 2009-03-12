@@ -1,10 +1,10 @@
 User stories:
-* Develop build process and packaging.
+* Develop cross-IDE build process and packaging.
+* Pluggable algorithms
 * More than one window with a graph.
 * Selecting multiple vertices.
 * Renumbering of vertices (by hand, randomly)
 * Marking (weighing) edges
-* Pluggable algorithms
 * Changing properties of the graph (digraph, multigraph, pseudograph)
 * Zooming
 * History of graph view actions for the Undo/Redo.
