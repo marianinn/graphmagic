@@ -25,7 +25,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>name.dlazerka.gc.Main</mainClass>
+                            <mainClass>name.dlazerka.gm.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
