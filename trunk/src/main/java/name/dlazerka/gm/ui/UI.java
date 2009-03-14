@@ -20,8 +20,6 @@
 
 package name.dlazerka.gm.ui;
 
-import name.dlazerka.gc.ui.MainFrame;
-
 import javax.swing.*;
 
 /**

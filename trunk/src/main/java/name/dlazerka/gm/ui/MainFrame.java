@@ -18,9 +18,10 @@
  * Author: Dzmitry Lazerka dlazerka@dlazerka.name
  */
 
-package name.dlazerka.gc.ui;
+package name.dlazerka.gm.ui;
 
-import name.dlazerka.gc.Main;
+import name.dlazerka.gm.Main;
+import name.dlazerka.gm.ui.GraphPanel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

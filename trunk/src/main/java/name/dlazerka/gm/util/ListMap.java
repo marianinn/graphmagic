@@ -20,8 +20,6 @@
 
 package name.dlazerka.gm.util;
 
-import name.dlazerka.gc.util.LinkedSet;
-
 import java.util.AbstractMap;
 import java.util.Map;
 import java.util.Set;
