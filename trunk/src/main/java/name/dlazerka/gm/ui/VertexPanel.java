@@ -1,7 +1,27 @@
-package name.dlazerka.gc.ui;
+/*
+ * GraphMagic, package for scientists working in graph theory.
+ * Copyright (C) 2009 Dzmitry Lazerka dlazerka@dlazerka.name
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Author: Dzmitry Lazerka dlazerka@dlazerka.name
+ */
 
-import name.dlazerka.gc.Main;
-import name.dlazerka.gc.bean.Vertex;
+package name.dlazerka.gm.ui;
+
+import name.dlazerka.gm.bean.Vertex;
+import name.dlazerka.gm.Main;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,13 +30,16 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.event.ActionEvent;
 import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
+import java.util.Collection;
+import java.util.LinkedList;
 
 /**
- * @author Dzmitry Lazerka
+ * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class VertexPanel extends JPanel {
+public class VertexPanel extends JPanel implements Paintable {
 	private static final Logger logger = LoggerFactory.getLogger(VertexPanel.class);
 
 	/**
@@ -53,24 +76,25 @@ public class VertexPanel extends JPanel {
 
 	private boolean isHovered = false;
 	private final AddEdgePanel addEdgePanel = new AddEdgePanel();
-	private boolean isDraggingEdge = false;
 	private final Dimension panelSize = new Dimension(
 		VERTEX_OVAL_SIZE.width + addEdgePanel.getPreferredSize().width / 2,
 		VERTEX_OVAL_SIZE.height
 	);
+	private boolean draggingEdgeFromThis = false;
+
+	private final Point vertexCenter = new Point();
+	private final Collection<EdgePanel> adjacentEdgePanels = new LinkedList<EdgePanel>();
 
 	public VertexPanel(Vertex vertex) {
 		super(null);
-
 		this.vertex = vertex;
 
 		setPreferredSize(panelSize);
 		setSize(panelSize);
-//		setDoubleBuffered(true); is needed?
+		setOpaque(false);
+//		setDoubleBuffered(true); // is needed?
 
-		if (!Main.isProduction()) {
-			setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0), 1));
-		}
+//		setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0), 1));
 
 		Dimension preferredSize = addEdgePanel.getPreferredSize();
 		addEdgePanel.setBounds(// top right corner
@@ -79,11 +103,12 @@ public class VertexPanel extends JPanel {
 		                       preferredSize.width,
 		                       preferredSize.height
 		);
-//		addEdgePanel.addMouseMotionListener(new DragMouseListener());
 		add(addEdgePanel);
 
 		addMouseMotionListener(new DragMouseListener());
 		addMouseListener(new MouseListener());
+
+		setComponentPopupMenu(new PopupMenu());
 	}
 
 	public Vertex getVertex() {
@@ -96,7 +121,6 @@ public class VertexPanel extends JPanel {
 	}
 
 	public void paintComponent(Graphics g) {
-
 		Graphics2D g2 = (Graphics2D) g;
 
 		g2.setColor(COLOR_BORDER);
@@ -115,8 +139,6 @@ public class VertexPanel extends JPanel {
 		FontRenderContext fontRenderContext = g2.getFontRenderContext();
 		GlyphVector glyphVector = NUMBER_FONT.createGlyphVector(fontRenderContext, "" + vertex.getNumber());
 
-		// todo: many digits
-//		int digits = (int) Math.floor(vertex.getNumber() / 10) + 1;
 		int glyphStartX;
 		if (vertex.getNumber() < 10) {
 			glyphStartX = NUMBER_SHIFT_X1;
@@ -138,12 +160,11 @@ public class VertexPanel extends JPanel {
 	 * when coordinates are not over square containing vertex oval and square containing
 	 * {@link #addEdgePanel}. In other words, by removing rectangle under {@link #addEdgePanel}.
 	 *
-	 *
 	 * @param x see {@link JComponent#contains(int, int)}
 	 * @param y see {@link JComponent#contains(int, int)}
 	 * @return see {@link JComponent#contains(int, int)}
 	 */
-/*
+
 	@Override
 	public boolean contains(int x, int y) {
 		if (!super.contains(x, y)) {
@@ -156,31 +177,32 @@ public class VertexPanel extends JPanel {
 
 		return true;
 	}
-*/
+
 
 	protected void setHovered(boolean isHovered) {
-		logger.debug("{}", isHovered);
+		logger.trace("{}", isHovered);
+
 		this.isHovered = isHovered;
 
-		addEdgePanel.setVisible(isHovered);
+		GraphPanel graphPanel = getGraphPanel();
 
-		GraphPanel graphPanel = getParentGraphPanel();
+		if (!graphPanel.isDraggingEdge()) {
+			addEdgePanel.setVisible(isHovered);
+		}
+
 		if (isHovered) {
 			graphPanel.setHoveredVertexPanel(VertexPanel.this);
 		}
-
-//		graphPanel.repaint();
 		repaint();
 	}
 
-	public GraphPanel getParentGraphPanel() {
-		GraphPanel graphPanel = (GraphPanel) getParent();
-		return graphPanel;
+	public GraphPanel getGraphPanel() {
+		return (GraphPanel) getParent();
 	}
 
 	public void checkHovered() {
 		Point mousePosition = getMousePosition();
-		logger.debug("mousePosition={}", mousePosition);
+		logger.trace("mousePosition={}", mousePosition);
 		setHovered(mousePosition != null);
 	}
 
@@ -198,14 +220,33 @@ public class VertexPanel extends JPanel {
 		return getY() + VERTEX_OVAL_SIZE.height / 2;
 	}
 
+	/**
+	 * @return center of the vertex oval, not the panel itself
+	 */
+	public Point getVertexCenter() {
+		vertexCenter.setLocation(
+			getVertexCenterX(),
+			getVertexCenterY()
+		);
+		return vertexCenter;
+	}
+
 	public void startDraggingEdge() {
-		isDraggingEdge = true;
-		getParentGraphPanel().startDraggingEdge(this);
+		draggingEdgeFromThis = true;
+		getGraphPanel().startDraggingEdge(this);
+	}
+
+	public boolean isDraggingEdge() {
+		return getGraphPanel().isDraggingEdge();
+	}
+
+	public boolean isDraggingEdgeFromThis() {
+		return draggingEdgeFromThis;
 	}
 
 	public void stopDraggingEdge() {
-		isDraggingEdge = false;
-		getParentGraphPanel().stopDraggingEdge();
+		draggingEdgeFromThis = false;
+		getGraphPanel().stopDraggingEdge();
 	}
 
 	@Override
@@ -218,6 +259,22 @@ public class VertexPanel extends JPanel {
 		       "height=" + getSize().height +
 		       '}';
 	}
+
+	public void addAdjacentEdgePanel(EdgePanel edgePanel) {
+		adjacentEdgePanels.add(edgePanel);
+	}
+
+	public void setVertexCenter(Point center) {
+		setVertexCenter(center.x, center.y);
+	}
+
+	public void setVertexCenter(int x, int y) {
+		setLocation(
+			x - VERTEX_OVAL_SIZE.width / 2,
+			y - VERTEX_OVAL_SIZE.height / 2
+		);
+	}
+
 
 	protected class DragMouseListener extends MouseMotionAdapter {
 		private int mouseX;
@@ -235,7 +292,11 @@ public class VertexPanel extends JPanel {
 			int moveByY = e.getY() - mouseY;
 			setLocation(getX() + moveByX, getY() + moveByY);
 
-			// fix for too-fast-moving mouse :) 
+			for (EdgePanel adjacentEdgePanel : adjacentEdgePanels) {
+				adjacentEdgePanel.repaint();
+			}
+
+			// fix for too-fast-moving mouse :)
 			if (!isHovered) {
 				setHovered(true);
 			}
@@ -246,24 +307,42 @@ public class VertexPanel extends JPanel {
 	protected class MouseListener extends MouseAdapter {
 		@Override
 		public void mouseEntered(MouseEvent e) {
+			logger.trace("");
 			setHovered(true);
 		}
 
 		@Override
 		public void mouseExited(MouseEvent e) {
-			if (!isDraggingEdge) {
+			logger.trace("");
+			if (!isDraggingEdgeFromThis()) {
 				setHovered(false);
 			}
 		}
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			logger.debug("");
+			logger.trace("");
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			logger.debug("");
+			logger.trace("");
+		}
+	}
+
+	private class PopupMenu extends JPopupMenu  {
+		private PopupMenu() {
+			add(new DeleteAction());
+		}
+
+		private class DeleteAction extends AbstractAction {
+			public DeleteAction() {
+				super(Main.getString("delete.vertex"));
+			}
+
+			public void actionPerformed(ActionEvent e) {
+				getGraphPanel().getGraph().remove(vertex);
+			}
 		}
 	}
 }

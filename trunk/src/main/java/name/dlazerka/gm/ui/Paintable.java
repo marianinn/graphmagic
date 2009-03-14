@@ -20,47 +20,12 @@
 
 package name.dlazerka.gm.ui;
 
-import name.dlazerka.gc.ui.MainFrame;
-
-import javax.swing.*;
+import name.dlazerka.gm.ui.GraphPanel;
 
 /**
+ * Implementations may be painted on the {@link GraphPanel}.
+ *
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class UI {
-	public static void show() {
-		initLookAndFeel();
-
-		MainFrame mainFrame = new MainFrame();
-		mainFrame.pack();
-		mainFrame.setVisible(true);
-	}
-
-	private static void initLookAndFeel() {
-		try {
-			try {
-				UIManager.setLookAndFeel(
-					UIManager.getSystemLookAndFeelClassName()
-				);
-			}
-			catch (UnsupportedLookAndFeelException e) {
-				UIManager.setLookAndFeel(
-					UIManager.getCrossPlatformLookAndFeelClassName()
-				);
-
-			}
-		}
-		catch (ClassNotFoundException e1) {
-			e1.printStackTrace();
-		}
-		catch (InstantiationException e1) {
-			e1.printStackTrace();
-		}
-		catch (IllegalAccessException e1) {
-			e1.printStackTrace();
-		}
-		catch (UnsupportedLookAndFeelException e1) {
-			e1.printStackTrace();
-		}
-	}
+public interface Paintable {
 }

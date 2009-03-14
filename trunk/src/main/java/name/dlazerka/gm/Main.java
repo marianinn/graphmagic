@@ -20,7 +20,7 @@
 
 package name.dlazerka.gm;
 
-import name.dlazerka.gc.ui.UI;
+import name.dlazerka.gm.ui.UI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -18,49 +18,40 @@
  * Author: Dzmitry Lazerka dlazerka@dlazerka.name
  */
 
-package name.dlazerka.gm.ui;
+package name.dlazerka.gm.util;
 
-import name.dlazerka.gc.ui.MainFrame;
+import name.dlazerka.gc.util.LinkedSet;
 
-import javax.swing.*;
+import java.util.AbstractMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class UI {
-	public static void show() {
-		initLookAndFeel();
+public class ListMap<K, V> extends AbstractMap<K, V> implements Map<K, V> {
+	LinkedSet<Entry<K, V>> entrySet = new LinkedSet<Entry<K,V>>();
 
-		MainFrame mainFrame = new MainFrame();
-		mainFrame.pack();
-		mainFrame.setVisible(true);
+	@Override
+	public Set<Entry<K, V>> entrySet() {
+		return entrySet;
 	}
 
-	private static void initLookAndFeel() {
-		try {
-			try {
-				UIManager.setLookAndFeel(
-					UIManager.getSystemLookAndFeelClassName()
-				);
-			}
-			catch (UnsupportedLookAndFeelException e) {
-				UIManager.setLookAndFeel(
-					UIManager.getCrossPlatformLookAndFeelClassName()
-				);
+	@Override
+	public V put(K key, V value) {
+		V result;
+		Entry<K, V> entry = new SimpleEntry<K, V>(key, value);
 
-			}
+		int index = entrySet.indexOf(entry);
+		if (index != -1) {
+			result = entrySet.get(index).getValue();
+			entrySet.get(index).setValue(value);
 		}
-		catch (ClassNotFoundException e1) {
-			e1.printStackTrace();
+		else {
+			entrySet.add(entry);
+			result = null;
 		}
-		catch (InstantiationException e1) {
-			e1.printStackTrace();
-		}
-		catch (IllegalAccessException e1) {
-			e1.printStackTrace();
-		}
-		catch (UnsupportedLookAndFeelException e1) {
-			e1.printStackTrace();
-		}
+
+		return result;
 	}
 }
