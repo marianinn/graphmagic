@@ -2,7 +2,7 @@
 <module relativePaths="true" MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
   <component name="BuildJarSettings">
     <containerInfo>
-      <containerElement type="module" name="gc">
+      <containerElement type="module" name="gm">
         <attribute name="method" value="1" />
         <attribute name="URI" value="/" />
       </containerElement>
@@ -15,9 +15,9 @@
         <attribute name="URI" value="/" />
       </containerElement>
     </containerInfo>
-    <setting name="jarUrl" value="file://$MODULE_DIR$/gc.jar" />
+    <setting name="jarUrl" value="file://$MODULE_DIR$/gm.jar" />
     <setting name="buildJar" value="true" />
-    <setting name="mainClass" value="name.dlazerka.gc.Main" />
+    <setting name="mainClass" value="name.dlazerka.gm.Main" />
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_6" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/target/classes" />
