@@ -29,7 +29,7 @@ public class UI {
 	public static void show() {
 		initLookAndFeel();
 
-		MainFrame mainFrame = new MainFrame();
+		MainFrame2 mainFrame = new MainFrame2();
 		mainFrame.pack();
 		mainFrame.setVisible(true);
 	}
