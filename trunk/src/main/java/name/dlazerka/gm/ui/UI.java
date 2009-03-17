@@ -21,6 +21,7 @@
 package name.dlazerka.gm.ui;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
@@ -30,7 +31,8 @@ public class UI {
 		initLookAndFeel();
 
 		MainFrame2 mainFrame = new MainFrame2();
-		mainFrame.pack();
+//		mainFrame.pack();
+		mainFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
 		mainFrame.setVisible(true);
 	}
 
@@ -45,7 +47,6 @@ public class UI {
 				UIManager.setLookAndFeel(
 					UIManager.getCrossPlatformLookAndFeelClassName()
 				);
-
 			}
 		}
 		catch (ClassNotFoundException e1) {
