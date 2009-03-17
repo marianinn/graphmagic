@@ -40,7 +40,7 @@ public class Graph {
 	private final List<GraphChangeListener> changeListeners = new LinkedList<GraphChangeListener>();
 
 	public Graph() {
-//		create4();
+		create4();
 	}
 
 	public boolean addChangeListener(GraphChangeListener listener) {
@@ -77,17 +77,28 @@ public class Graph {
 		add(vertex3);
 		add(vertex4);
 
-		Edge edge1 = new Edge(vertex1, vertex2);
-		Edge edge2 = new Edge(vertex2, vertex3);
-		Edge edge3 = new Edge(vertex3, vertex1);
-		Edge edge4 = new Edge(vertex3, vertex4);
-		Edge edge5 = new Edge(vertex4, vertex1);
+		Edge edge12 = new Edge(vertex1, vertex2);
+		Edge edge23 = new Edge(vertex2, vertex3);
+		Edge edge31 = new Edge(vertex3, vertex1);
+		Edge edge34 = new Edge(vertex3, vertex4);
+		Edge edge41 = new Edge(vertex4, vertex1);
 
-		add(edge1);
-		add(edge2);
-		add(edge3);
-		add(edge4);
-		add(edge5);
+		add(edge12);
+		add(edge23);
+		add(edge31);
+		add(edge34);
+		add(edge41);
+	}
+
+	private void create5() {
+		create4();
+		Vertex vertex5 = new Vertex(5);
+
+		add(vertex5);
+
+//		Edge edge41 = new Edge(vertex4, vertex1);
+
+//		add(edge5);
 	}
 
 	public Set<Vertex> getVertexSet() {

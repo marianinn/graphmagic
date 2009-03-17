@@ -169,8 +169,8 @@ public class GraphLayoutManager implements LayoutManager2 {
 			double angle = i * angleStep;
 
 			vertexPanel.setLocation(
-				(int) Math.round(radius * Math.cos(angle)) + circleCenter.x - vertexPanel.getVertexCenterX(),
-				(int) Math.round(radius * -Math.sin(angle)) + circleCenter.y - vertexPanel.getVertexCenterY()
+				(int) Math.round(radius * Math.cos(angle)) + circleCenter.x, // - vertexPanel.getVertexCenterX(),
+				(int) Math.round(radius * -Math.sin(angle)) + circleCenter.y // - vertexPanel.getVertexCenterY()
 			);
 
 			i++;

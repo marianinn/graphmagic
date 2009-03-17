@@ -67,6 +67,10 @@ public class EdgePanel extends AbstractEdgePanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
+		Point mousePosition = getMousePosition();
+		if (mousePosition != null && contains(mousePosition)) {
+			g2.setColor(EDGE_HOVER_COLOR);
+		}
 
 		drawEdge(
 			g2,

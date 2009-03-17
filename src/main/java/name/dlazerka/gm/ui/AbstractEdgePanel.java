@@ -20,7 +20,6 @@
 
 package name.dlazerka.gm.ui;
 
-import name.dlazerka.gm.ui.Paintable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,8 +33,10 @@ import java.awt.geom.QuadCurve2D;
 public abstract class AbstractEdgePanel extends JPanel implements Paintable {
 	private static final Logger logger = LoggerFactory.getLogger(AbstractEdgePanel.class);
 
-	private static final Color EDGE_COLOR = Color.BLACK;
-	private static final Stroke EDGE_STROKE = new BasicStroke(2f);
+	protected static final Color EDGE_COLOR = Color.BLACK;
+	protected static final Color EDGE_HOVER_COLOR = Color.GREEN;
+	protected static final Stroke EDGE_STROKE = new BasicStroke(2f);
+	protected static final Stroke EDGE_HOVER_STROKE = new BasicStroke(3f);
 	private final QuadCurve2D curve = new QuadCurve2D.Double();
 	private Shape lastShownShape = curve;
 

@@ -25,19 +25,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
+import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ResourceBundle;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
 public class MainFrame2 extends JFrame {
-	private final static Logger logger = LoggerFactory.getLogger(MainFrame.class);
+	private final static Logger logger = LoggerFactory.getLogger(MainFrame2.class);
 
 	private JPanel contentPane = new JPanel();
 	private GraphPanel graphPanel = new GraphPanel();
-	private JTabbedPane tabbedPane1;
-	private JTable table1;
+	private JTabbedPane controlsTabbedPane;
+	private JTable pluginsTable;
 	private JButton addPluginButton;
 
 	public MainFrame2() {
@@ -46,6 +48,7 @@ public class MainFrame2 extends JFrame {
 		setContentPane(contentPane);
 		setTitle(Main.getString("main.title"));
 
+		this.setExtendedState(Frame.MAXIMIZED_BOTH);
 		registerCommands();
 	}
 
@@ -67,6 +70,7 @@ public class MainFrame2 extends JFrame {
 				}
 			}, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT
 		);
+
 	}
 
 	private void onClose() {
@@ -81,24 +85,41 @@ public class MainFrame2 extends JFrame {
 		contentPane.setInheritsPopupMenu(false);
 		contentPane.setRequestFocusEnabled(true);
 		contentPane.setToolTipText("");
-//		final JSplitPane splitPane1 = new JSplitPane();
-//		splitPane1.setDividerLocation(200);
-//		splitPane1.setOrientation(1);
-//		splitPane1.setResizeWeight(1.0);
-//		contentPane.add(
-//			splitPane1, new com.intellij.uiDesigner.core.GridConstraints(
+//		contentPane.setPreferredSize(new Dimension(800, 600));
+
+		final JMenuBar menuBar = new JMenuBar();
+		JMenuItem fileMenuItem = new JMenuItem(Main.getString("file"));
+		menuBar.add(fileMenuItem);
+		this.getRootPane().setJMenuBar(menuBar);
+
+
+		final JSplitPane splitPane = new JSplitPane();
+		splitPane.setDividerLocation(200);
+		splitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
+		splitPane.setOneTouchExpandable(true);
+		splitPane.setResizeWeight(0);
+		contentPane.add(
+			splitPane
+			, new GridBagConstraints(
+				GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE,
+				1, 1,
+				1, 1,
+				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+				new Insets(0, 0, 0, 0),
+				0, 0
 //				1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER,
 //				com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH,
 //				com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW,
 //				com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW,
 //				null, null, null, 0, false
-//			)
-//		);
-//		final JPanel panel1 = new JPanel();
-//		panel1.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-//		splitPane1.setRightComponent(panel1);
-//		graphPanel.setBackground(new Color(-1));
-//		panel1.add(
+			)
+		);
+
+		final JPanel graphCardLayoutPanel = new JPanel(new CardLayout());
+		splitPane.setRightComponent(graphCardLayoutPanel);
+		graphPanel.setBackground(new Color(-1));
+		graphCardLayoutPanel.add(
+			graphPanel, "graph1"
 //			graphPanel, new com.intellij.uiDesigner.core.GridConstraints(
 //				0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER,
 //				com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH,
@@ -106,45 +127,57 @@ public class MainFrame2 extends JFrame {
 //				com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW,
 //				null, new Dimension(800, 600), null, 0, false
 //			)
-//		);
-//		tabbedPane1 = new JTabbedPane();
-//		splitPane1.setLeftComponent(tabbedPane1);
-//		final JPanel panel2 = new JPanel();
-//		panel2.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-//		tabbedPane1.addTab(ResourceBundle.getBundle("messages").getString("controls"), panel2);
-//		final JPanel panel3 = new JPanel();
-//		panel3.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
-//		tabbedPane1.addTab(ResourceBundle.getBundle("messages").getString("plugins"), panel3);
-//		table1 = new JTable();
-//		panel3.add(
-//			table1, new com.intellij.uiDesigner.core.GridConstraints(
+		);
+		controlsTabbedPane = new JTabbedPane();
+		splitPane.setLeftComponent(controlsTabbedPane);
+		final JPanel controlsPanel = new JPanel();
+//		controlsPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+		controlsTabbedPane.addTab(ResourceBundle.getBundle("messages").getString("controls"), controlsPanel);
+		final JPanel pluginsPanel = new JPanel(new GridBagLayout());
+//		pluginsPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
+		controlsTabbedPane.addTab(ResourceBundle.getBundle("messages").getString("plugins"), pluginsPanel);
+		controlsTabbedPane.setSelectedIndex(1);
+
+		addPluginButton = new JButton();
+		this.loadButtonText(addPluginButton, ResourceBundle.getBundle("messages").getString("add.plugin"));
+		pluginsPanel.add(
+			addPluginButton, new GridBagConstraints(
+				GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE,
+				1, 1,
+				1, 0,
+				GridBagConstraints.CENTER,
+				GridBagConstraints.HORIZONTAL,
+				new Insets(0, 0, 0, 0),
+				0, 0
+			)
+//			, new com.intellij.uiDesigner.core.GridConstraints(
+//				0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER,
+//				com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL,
+//				com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW,
+//				com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false
+//			)
+		);
+
+		pluginsTable = new JTable();
+		pluginsTable.addColumn(new TableColumn());
+		pluginsPanel.add(
+			pluginsTable, new GridBagConstraints(
+				0, GridBagConstraints.RELATIVE,
+				1, 1,
+				1, 1,
+				GridBagConstraints.CENTER,
+				GridBagConstraints.BOTH,
+				new Insets(0, 0, 0, 0),
+				0, 0
+			)
+//			 , new com.intellij.uiDesigner.core.GridConstraints(
 //				1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER,
 //				com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH,
 //				com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW,
 //				com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null,
 //				0, false
 //			)
-//		);
-//		addPluginButton = new JButton();
-//		this.$$$loadButtonText$$$(addPluginButton, ResourceBundle.getBundle("messages").getString("add.plugin"));
-//		panel3.add(
-//			addPluginButton, new com.intellij.uiDesigner.core.GridConstraints(
-//				0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER,
-//				com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL,
-//				com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW,
-//				com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false
-//			)
-//		);
-//		final JToolBar toolBar1 = new JToolBar();
-//		contentPane.add(
-//			toolBar1, new com.intellij.uiDesigner.core.GridConstraints(
-//				0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER,
-//				com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL,
-//				com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW,
-//				com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(-1, 20), null, 0,
-//				false
-//			)
-//		);
+		);
 	}
 
 

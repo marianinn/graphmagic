@@ -41,6 +41,7 @@ public class GraphPanel extends JPanel {
 	private final static Logger logger = LoggerFactory.getLogger(GraphPanel.class);
 
 	private final static Dimension DEFAULT_DIMENSION = new Dimension(600, 400);
+	private final static Dimension MINIMUM_DIMENSION = new Dimension(300, 200);
 
 	private final Graph graph;
 
@@ -65,7 +66,9 @@ public class GraphPanel extends JPanel {
 	public GraphPanel() {
 		GraphLayoutManager layoutManager = new GraphLayoutManager();
 		setLayout(layoutManager);
+		setPreferredSize(DEFAULT_DIMENSION);// for MainFrame2
 		setSize(DEFAULT_DIMENSION);// for GraphLayoutManager@58
+		setMinimumSize(MINIMUM_DIMENSION);// to not to reduce to zero while "Restoring Down"
 
 		setComponentPopupMenu(new PopupMenu());
 
