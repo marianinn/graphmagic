@@ -1,6 +1,6 @@
 User stories:
-* Develop cross-IDE build process and packaging.
-* Pluggable algorithms
+> Pluggable algorithms
+* Develop packaging process.
 * More than one window with a graph.
 * Selecting multiple vertices.
 * Renumbering of vertices (by hand, randomly)
@@ -15,5 +15,3 @@ Bugs:
 * Half-constructed but dropped edge creates pseudo-edge to the tail vertex.
 
 Improvements:
-> Hovering edge and increase its hover area.
-> 

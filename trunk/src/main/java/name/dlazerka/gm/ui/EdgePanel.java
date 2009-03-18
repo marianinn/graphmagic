@@ -20,16 +20,17 @@
 
 package name.dlazerka.gm.ui;
 
-import name.dlazerka.gm.bean.Edge;
 import name.dlazerka.gm.Main;
+import name.dlazerka.gm.bean.Edge;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-import java.awt.event.ActionEvent;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
@@ -42,6 +43,7 @@ public class EdgePanel extends AbstractEdgePanel {
 	private final VertexPanel head;
 	private final Point ctrlPoint = new Point();
 	private boolean curved = false;
+	private boolean dragging;
 
 	public EdgePanel(Edge edge, VertexPanel tail, VertexPanel head) {
 		this.edge = edge;
@@ -52,6 +54,7 @@ public class EdgePanel extends AbstractEdgePanel {
 
 		setOpaque(false);
 		addMouseMotionListener(new DragMouseListener());
+		addMouseListener(new MouseListener());
 		setComponentPopupMenu(new PopupMenu());
 	}
 
@@ -117,9 +120,12 @@ public class EdgePanel extends AbstractEdgePanel {
 		}
 	}
 
+	public void setDragging(boolean dragging) {
+		this.dragging = dragging;
+	}
+
 	private class DragMouseListener extends MouseMotionAdapter {
 
-		//  TODO unimportant feature
 		@Override
 		public void mouseDragged(MouseEvent e) {
 //			logger.trace("{}", e.getPoint());
@@ -128,13 +134,35 @@ public class EdgePanel extends AbstractEdgePanel {
 
 			repaint();
 		}
-
 	}
 
-//	private class MouseListener extends MouseAdapter {
-//	}
+	private class MouseListener extends MouseAdapter {
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			setColor(EDGE_HOVER_COLOR);
+			repaint();
+		}
 
-	private class PopupMenu extends JPopupMenu  {
+		@Override
+		public void mouseExited(MouseEvent e) {
+			if (!dragging) {
+				setColor(EDGE_COLOR);
+				repaint();
+			}
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			setDragging(true);
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			setDragging(false);
+		}
+	}
+
+	private class PopupMenu extends JPopupMenu {
 		private PopupMenu() {
 			add(new DeleteAction());
 		}
