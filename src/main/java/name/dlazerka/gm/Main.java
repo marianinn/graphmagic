@@ -42,7 +42,7 @@ public class Main {
 	private static final String CONFIG_DEFAULT_PRODUCTION_VALUE = "false";
 
 	private static ResourceBundle resourceBundle = ResourceBundle.getBundle(MESSAGES_FILENAME);
-	//	private static ResourceBundle configBundle = ResourceBundle.getBundle("messages");
+	//	private static ResourceBundle configBundle = Main;
 	private static Properties configProperties = new Properties();
 
 	static {

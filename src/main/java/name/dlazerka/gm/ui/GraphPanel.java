@@ -66,7 +66,7 @@ public class GraphPanel extends JPanel {
 	public GraphPanel() {
 		GraphLayoutManager layoutManager = new GraphLayoutManager();
 		setLayout(layoutManager);
-		setPreferredSize(DEFAULT_DIMENSION);// for MainFrame2
+		setPreferredSize(DEFAULT_DIMENSION);// for MainFrame
 		setSize(DEFAULT_DIMENSION);// for GraphLayoutManager@58
 		setMinimumSize(MINIMUM_DIMENSION);// to not to reduce to zero while "Restoring Down"
 
