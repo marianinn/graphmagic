@@ -20,46 +20,29 @@
 
 package name.dlazerka.gm.ui;
 
+import name.dlazerka.gm.Main;
+
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class UI {
-	public static void show() {
-		initLookAndFeel();
+public class AddPluginActionListener extends JFileChooser implements ActionListener {
+	private final Component parent;
+	public AddPluginActionListener(Component parent) {
+		super(System.getProperty("user.dir"));
+		this.parent = parent;
 
-		MainFrame mainFrame = new MainFrame();
-//		mainFrame.pack();
-		mainFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
-		mainFrame.setVisible(true);
+		setDialogTitle(Main.getString("add.plugin"));
+		setFileSelectionMode(JFileChooser.FILES_ONLY);
+		setFileFilter(new FileNameExtensionFilter(Main.getString("jar.file"), "jar"));
 	}
 
-	private static void initLookAndFeel() {
-		try {
-			try {
-				UIManager.setLookAndFeel(
-					UIManager.getSystemLookAndFeelClassName()
-				);
-			}
-			catch (UnsupportedLookAndFeelException e) {
-				UIManager.setLookAndFeel(
-					UIManager.getCrossPlatformLookAndFeelClassName()
-				);
-			}
-		}
-		catch (ClassNotFoundException e1) {
-			e1.printStackTrace();
-		}
-		catch (InstantiationException e1) {
-			e1.printStackTrace();
-		}
-		catch (IllegalAccessException e1) {
-			e1.printStackTrace();
-		}
-		catch (UnsupportedLookAndFeelException e1) {
-			e1.printStackTrace();
-		}
+	public void actionPerformed(ActionEvent e) {
+		showDialog(parent, Main.getString("add"));
 	}
 }

@@ -28,21 +28,20 @@ import javax.swing.*;
 import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ResourceBundle;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class MainFrame2 extends JFrame {
-	private final static Logger logger = LoggerFactory.getLogger(MainFrame2.class);
+public class MainFrame extends JFrame {
+	private final static Logger logger = LoggerFactory.getLogger(MainFrame.class);
 
 	private JPanel contentPane = new JPanel();
 	private GraphPanel graphPanel = new GraphPanel();
 	private JTabbedPane controlsTabbedPane;
 	private JTable pluginsTable;
-	private JButton addPluginButton;
+	private JButton addPluginButton = new JButton(Main.getString("add.plugin"));
 
-	public MainFrame2() {
+	public MainFrame() {
 		setupUI();
 
 		setContentPane(contentPane);
@@ -71,6 +70,7 @@ public class MainFrame2 extends JFrame {
 			}, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT
 		);
 
+		addPluginButton.addActionListener(new AddPluginActionListener(MainFrame.this));
 	}
 
 	private void onClose() {
@@ -132,14 +132,12 @@ public class MainFrame2 extends JFrame {
 		splitPane.setLeftComponent(controlsTabbedPane);
 		final JPanel controlsPanel = new JPanel();
 //		controlsPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-		controlsTabbedPane.addTab(ResourceBundle.getBundle("messages").getString("controls"), controlsPanel);
+		controlsTabbedPane.addTab(Main.getString("controls"), controlsPanel);
 		final JPanel pluginsPanel = new JPanel(new GridBagLayout());
 //		pluginsPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
-		controlsTabbedPane.addTab(ResourceBundle.getBundle("messages").getString("plugins"), pluginsPanel);
+		controlsTabbedPane.addTab(Main.getString("plugins"), pluginsPanel);
 		controlsTabbedPane.setSelectedIndex(1);
 
-		addPluginButton = new JButton();
-		this.loadButtonText(addPluginButton, ResourceBundle.getBundle("messages").getString("add.plugin"));
 		pluginsPanel.add(
 			addPluginButton, new GridBagConstraints(
 				GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE,
