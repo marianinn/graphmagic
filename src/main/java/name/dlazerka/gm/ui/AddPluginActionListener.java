@@ -21,12 +21,14 @@
 package name.dlazerka.gm.ui;
 
 import name.dlazerka.gm.Main;
+import name.dlazerka.gm.plugin.PluginLoader;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
@@ -43,6 +45,11 @@ public class AddPluginActionListener extends JFileChooser implements ActionListe
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		showDialog(parent, Main.getString("add"));
+		int ret = showDialog(parent, Main.getString("add"));
+
+		if (ret == JFileChooser.APPROVE_OPTION) {
+			File file = getSelectedFile();
+			PluginLoader.load(file);
+		}
 	}
 }
