@@ -20,35 +20,22 @@
 
 package name.dlazerka.gm.plugin;
 
-import java.io.File;
-import java.net.URLClassLoader;
-import java.net.URL;
-import java.net.URI;
-import java.net.MalformedURLException;
-
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class PluginLoader {
-	public static void load(File file) throws PluginLoadingException, PluginMainClassNotFoundException {
-		try {
-			URI uri = file.toURI();
-			URL url = uri.toURL();
-			URLClassLoader loader = URLClassLoader.newInstance(
-				new URL[]{url},
-				PluginLoader.class.getClassLoader()
-			);
+public class PluginMainClassNotFoundException extends PluginException {
+	public PluginMainClassNotFoundException() {
+	}
 
-			Class<?> pluginMainClass;
-			try {
-				pluginMainClass = loader.loadClass("Main");
-			}
-			catch (ClassNotFoundException e) {
-				throw new PluginMainClassNotFoundException(e);
-			}
-		}
-		catch (MalformedURLException e) {
-			throw new PluginLoadingException(e);
-		}
+	public PluginMainClassNotFoundException(String message) {
+		super(message);
+	}
+
+	public PluginMainClassNotFoundException(String message, Throwable cause) {
+		super(message, cause);
+	}
+
+	public PluginMainClassNotFoundException(Throwable cause) {
+		super(cause);
 	}
 }
