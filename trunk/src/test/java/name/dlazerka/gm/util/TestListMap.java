@@ -18,24 +18,22 @@
  * Author: Dzmitry Lazerka dlazerka@dlazerka.name
  */
 
-package name.dlazerka.gm.plugin;
+package name.dlazerka.gm.util;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class PluginMainClassNotFoundException extends PluginLoadingException {
-	public PluginMainClassNotFoundException() {
-	}
+public class TestListMap {
+    @Test
+    public void test() {
+        ListMap<String, Object> map = new ListMap<String, Object>();
+        String key = "asdfasdf";
+        map.put(key, "fgh");
+        map.put(key, "h");
 
-	public PluginMainClassNotFoundException(String message) {
-		super(message);
-	}
-
-	public PluginMainClassNotFoundException(String message, Throwable cause) {
-		super(message, cause);
-	}
-
-	public PluginMainClassNotFoundException(Throwable cause) {
-		super(cause);
-	}
+        Assert.assertEquals("h", map.get(key));
+    }
 }

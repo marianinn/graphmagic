@@ -20,9 +20,7 @@
 
 package name.dlazerka.gm.util;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * A simple implementation of {@link Set} and {@link List} interfaces
@@ -32,36 +30,81 @@ import java.util.Set;
  *
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class LinkedSet<E> extends LinkedList<E> implements Set<E>, List<E> {
-	@Override
-	public void addFirst(E e) {
-		if (!contains(e)) {
-			super.addFirst(e);
-		}
-	}
+public class LinkedSet<E> extends LinkedList<E> implements Set<E> {
+    public LinkedSet() {
+    }
 
-	@Override
-	public void addLast(E e) {
-		if (!contains(e)) {
-			super.addLast(e);
-		}
-	}
+    public LinkedSet(Collection<? extends E> c) {
+        super(c);
+    }
 
-	@Override
-	public boolean add(E e) {
-		if (!contains(e)) {
-			return super.add(e);
-		}
-		return false;
-	}
+    public LinkedSet(E... initialValues) {
+        for (E initialValue : initialValues) {
+            add(initialValue);
+        }
+    }
 
-	@Override
-	public E set(int index, E element) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public void addFirst(E e) {
+        if (!contains(e)) {
+            super.addFirst(e);
+        }
+    }
 
-	@Override
-	public void add(int index, E element) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public void addLast(E e) {
+        if (!contains(e)) {
+            super.addLast(e);
+        }
+    }
+
+    @Override
+    public boolean add(E e) {
+        if (!contains(e)) {
+            return super.add(e);
+        }
+        return false;
+    }
+
+    @Override
+    public E set(int index, E element) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void add(int index, E element) {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * We MUST use here hashCode() from the AbstractSet, see {@link #equals(Object)}
+     * @return hashcode as computed in {@link Set}s.
+     */
+    @Override
+    public int hashCode() {
+        int h = 0;
+        Iterator<E> i = iterator();
+        while (i.hasNext()) {
+            E obj = i.next();
+                if (obj != null)
+                    h += obj.hashCode();
+            }
+        return h;
+
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) return true;
+        if (!(o instanceof Set)) return false;
+
+        if (o instanceof LinkedSet) {
+            return super.equals(o);
+        }
+
+        // flipping (delegating) equals to o. Caution!
+        // In this case we must prevent infinite loop (check o instanceof LinkedSet), done above.
+        // Also we must set hashCode() to match o.hashCode().
+        return o.equals(this);
+    }
 }
