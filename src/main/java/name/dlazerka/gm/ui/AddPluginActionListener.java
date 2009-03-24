@@ -22,6 +22,9 @@ package name.dlazerka.gm.ui;
 
 import name.dlazerka.gm.Main;
 import name.dlazerka.gm.plugin.PluginLoader;
+import name.dlazerka.gm.plugin.PluginLoadingException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -34,6 +37,8 @@ import java.io.File;
  * @author Dzmitry Lazerka www.dlazerka.name
  */
 public class AddPluginActionListener extends JFileChooser implements ActionListener {
+	private static final Logger logger = LoggerFactory.getLogger(AddPluginActionListener.class);
+
 	private final Component parent;
 	public AddPluginActionListener(Component parent) {
 		super(System.getProperty("user.dir"));
@@ -49,7 +54,12 @@ public class AddPluginActionListener extends JFileChooser implements ActionListe
 
 		if (ret == JFileChooser.APPROVE_OPTION) {
 			File file = getSelectedFile();
-			PluginLoader.load(file);
+			try {
+				PluginLoader.load(file);
+			}
+			catch (PluginLoadingException ex) {
+				logger.error(ex.getMessage());
+			}
 		}
 	}
 }

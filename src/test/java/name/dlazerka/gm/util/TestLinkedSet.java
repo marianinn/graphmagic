@@ -18,24 +18,21 @@
  * Author: Dzmitry Lazerka dlazerka@dlazerka.name
  */
 
-package name.dlazerka.gm.plugin;
+package name.dlazerka.gm.util;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class PluginMainClassNotFoundException extends PluginLoadingException {
-	public PluginMainClassNotFoundException() {
-	}
-
-	public PluginMainClassNotFoundException(String message) {
-		super(message);
-	}
-
-	public PluginMainClassNotFoundException(String message, Throwable cause) {
-		super(message, cause);
-	}
-
-	public PluginMainClassNotFoundException(Throwable cause) {
-		super(cause);
-	}
+public class TestLinkedSet {
+    @Test
+    public void test() {
+        LinkedSet<String> set = new LinkedSet<String>();
+        set.add("asdfsdf234");
+        set.add("asdfsdf");
+        set.add("asdfsd3646f");
+        Assert.assertFalse(set.add("asdfsdf"));
+    }
 }
