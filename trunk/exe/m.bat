@@ -1,8 +1,0 @@
-@ECHO OFF
-
-SET CLASSPATH=
-SET SEPARATOR=;
-FOR %%a IN (*) DO @CALL append.bat %%a
-
-
-ECHO %CLASSPATH%
