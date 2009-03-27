@@ -30,9 +30,6 @@ public class Edge {
 	public Edge(Vertex tail, Vertex head) {
 		this.tail = tail;
 		this.head = head;
-
-		tail.addAdjacentEdge(this);
-		head.addAdjacentEdge(this);
 	}
 
 	public Vertex getTail() {

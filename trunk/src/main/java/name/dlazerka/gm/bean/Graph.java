@@ -118,6 +118,7 @@ public class Graph {
 	public Set<Edge> getEdgeSet() {
 		return edgeSet;
 	}
+
 	public Vertex add(Vertex vertex) {
 		logger.trace("{}", vertex);
 
@@ -132,11 +133,21 @@ public class Graph {
 
 	/**
 	 * Firstly removes adjacent edges one by one, then removes the vertex notifying {@link #changeListeners}
+	 *
 	 * @param vertex vertex to remove
 	 */
 	public void remove(Vertex vertex) {
-		while (vertex.getAdjacentEdgeSet().size() != 0) {
-			Edge edge = vertex.getAdjacentEdgeSet().iterator().next();
+		LinkedList<Edge> edgesToRemove = new LinkedList<Edge>();
+
+		for (Edge edge : edgeSet) {
+			if (edge.getHead().equals(vertex) ||
+			    edge.getTail().equals(vertex))
+			{
+				edgesToRemove.add(edge);
+			}
+		}
+
+		for (Edge edge : edgesToRemove) {
 			remove(edge);
 		}
 
@@ -158,9 +169,6 @@ public class Graph {
 	}
 
 	public void remove(Edge edge) {
-		edge.getHead().getAdjacentEdgeSet().remove(edge);
-		edge.getTail().getAdjacentEdgeSet().remove(edge);
-
 		edgeSet.remove(edge);
 
 		for (GraphChangeListener changeListener : changeListeners) {
