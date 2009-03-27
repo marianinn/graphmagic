@@ -141,6 +141,7 @@ public class GraphPanel extends JPanel {
 	}
 
 	public void stopDraggingEdge() {
+
 		Vertex tail = draggingEdgeFrom.getVertex();
 		Vertex head = lastHoveredVertexPanel.getVertex();
 		Edge edge = new Edge(tail, head);
@@ -149,6 +150,8 @@ public class GraphPanel extends JPanel {
 
 		draggingEdgeFrom = null;
 		newEdgePanel.setVisible(false);
+		
+		lastHoveredVertexPanel.checkHovered();
 	}
 
 	public NewEdgePanel getNewEdgePanel() {
@@ -207,12 +210,12 @@ public class GraphPanel extends JPanel {
 		}
 
 		public void vertexDeleted(Vertex vertex) {
-			VertexPanel panel = vertexToVertexPanel.get(vertex);
+			VertexPanel panel = vertexToVertexPanel.remove(vertex);
 			remove(panel);
 		}
 
 		public void edgeDeleted(Edge edge) {
-			EdgePanel panel = edgeToEdgePanel.get(edge);
+			EdgePanel panel = edgeToEdgePanel.remove(edge);
 			remove(panel);
 		}
 
