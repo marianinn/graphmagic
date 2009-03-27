@@ -24,8 +24,8 @@ import name.dlazerka.gm.ui.UI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
@@ -37,22 +37,13 @@ public class Main {
 	private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
 	private static final String MESSAGES_FILENAME = "messages";
-	private static final String CONFIG_FILENAME = "graphmagic.properties";
+	private static final URL CONFIG_FILEPATH = Main.class.getResource("/graphmagic.properties");
 	private static final String CONFIG_PRODUCTION_KEY = "production";
 	private static final String CONFIG_DEFAULT_PRODUCTION_VALUE = "false";
 
 	private static ResourceBundle resourceBundle = ResourceBundle.getBundle(MESSAGES_FILENAME);
-	//	private static ResourceBundle configBundle = Main;
+	
 	private static Properties configProperties = new Properties();
-
-	static {
-		try {
-			configProperties.load(new FileInputStream(CONFIG_FILENAME));
-		}
-		catch (IOException e) {
-			logger.error("Unable to load config at {}", CONFIG_FILENAME);
-		}
-	}
 
 	public static String getString(String key) {
 		return resourceBundle.getString(key);
@@ -63,7 +54,14 @@ public class Main {
 		return Boolean.valueOf(str);
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
+		try {
+			configProperties.load(CONFIG_FILEPATH.openStream());
+		}
+		catch (IOException e) {
+			logger.error("Unable to load config at {}", CONFIG_FILEPATH);
+			throw e;
+		}
 		Locale.setDefault(Locale.ENGLISH);
 
 		UI.show();

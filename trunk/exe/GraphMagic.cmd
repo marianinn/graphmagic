@@ -1,6 +1,6 @@
 @echo off
 
-:: GraphMagic, package for scientists working in graph theory.
+:: ${pom.name}, package for scientists working in graph theory.
 :: Copyright (C) 2009 Dzmitry Lazerka dlazerka@dlazerka.name
 ::
 :: This program is free software; you can redistribute it and/or modify
@@ -20,27 +20,26 @@
 
 
 :: ---------------------------------------------------------------------
-:: Before you run GraphMagic specify the location of the
-:: JDK installation directory which will be used for running GraphMagic
+:: Before you run ${pom.name} specify the location of the
+:: JDK installation directory which will be used for running ${pom.name}
 :: ---------------------------------------------------------------------
 
 IF "%JAVA_HOME%" == "" GOTO error
-SET JAVA_EXE=%JAVA_HOME%\jre\bin\java.exe
+SET java_exe=%JAVA_HOME%\jre\bin\java
 
-SET GRAPHMAGIC_HOME=.
-SET gm_shell=${pom.build.name}.jar
-SET CLASSPATH=
-SET SEPARATOR=;
-FOR %%f IN (lib\*) DO @CALL append.bat %%f
+SET graphmagic_home=.
+SET classpath=
+SET separator=;
+FOR %%f IN (lib\*) DO @CALL append %%f
 
-echo %gm_shell%
-rem %JAVA_EXE% -jar "%gm_shell%" %*
+"%JAVA_EXE%" -cp "%classpath%" name.dlazerka.gm.Main %*
 
 GOTO end
 :error
-echo ---------------------------------------------------------------------
-echo ERROR: cannot start GraphMagic.
-echo No JDK found to run GraphMagic. Please validate JAVA_HOME points to valid JDK installation.
-echo ---------------------------------------------------------------------
-pause
+ECHO ---------------------------------------------------------------------
+ECHO ERROR: cannot start ${pom.name}.
+ECHO No JDK found to run ${pom.name}. Please validate JAVA_HOME points to valid JDK installation.
+ECHO ---------------------------------------------------------------------
+PAUSE
+
 :end
