@@ -46,6 +46,8 @@ public class PluginLoader {
 			catch (ClassNotFoundException e) {
 				throw new PluginMainClassNotFoundException(e);
 			}
+
+			pluginMainClass.isAssignableFrom(Plugin.class);
 		}
 		catch (MalformedURLException e) {
 			throw new PluginLoadingException(e);
