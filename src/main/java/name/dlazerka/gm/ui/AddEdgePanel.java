@@ -28,17 +28,18 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.net.URL;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
 public class AddEdgePanel extends JPanel {
 	private static final Logger logger = LoggerFactory.getLogger(AddEdgePanel.class);
-	private static final String IMAGE_FILENAME = "addEdgeIcon.png";
-	private static final String IMAGE_HOVER_FILENAME = "addEdgeIconHover.png";
+	private static final URL DEFAULT_IMAGE_URL = AddEdgePanel.class.getResource("/addEdgeIcon.png"); 
+	private static final URL HOVER_IMAGE_URL = AddEdgePanel.class.getResource("/addEdgeIconHover.png");
 
-	private static final ImageIcon DEFAULT_ICON = new ImageIcon(IMAGE_FILENAME);
-	private static final ImageIcon HOVER_ICON = new ImageIcon(IMAGE_HOVER_FILENAME);
+	private static final ImageIcon DEFAULT_ICON = new ImageIcon(DEFAULT_IMAGE_URL);
+	private static final ImageIcon HOVER_ICON = new ImageIcon(HOVER_IMAGE_URL);
 
 	static {
 		checkImageLoadedSuccess(DEFAULT_ICON);
@@ -50,7 +51,7 @@ public class AddEdgePanel extends JPanel {
 
 	private static void checkImageLoadedSuccess(ImageIcon icon) {
 		if (icon.getImageLoadStatus() != MediaTracker.COMPLETE) {
-			logger.error("Unable to load image, filepath='{}'", IMAGE_FILENAME);
+			logger.error("Unable to load image, filepath='{}'", DEFAULT_IMAGE_URL);
 			throw new RuntimeException();
 		}
 	}

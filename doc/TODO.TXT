@@ -1,6 +1,6 @@
 User stories:
 > Pluggable algorithms
-* Develop packaging process.
+* Localization
 * More than one window with a graph.
 * Selecting multiple vertices.
 * Renumbering of vertices (by hand, randomly)
@@ -13,5 +13,6 @@ User stories:
 
 Bugs:
 * Half-constructed but dropped edge creates pseudo-edge to the tail vertex.
+* Dropping a vertex leave its adjacent edges shown. 
 
 Improvements:
