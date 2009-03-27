@@ -35,10 +35,9 @@ public abstract class AbstractEdgePanel extends JPanel implements Paintable {
 
 	protected static final Color EDGE_COLOR = Color.BLACK;
 	protected static final Color EDGE_HOVER_COLOR = new Color(0x80, 0xA0, 0x00);
-	protected static final Stroke EDGE_STROKE = new BasicStroke(2f);
+	protected static final Stroke EDGE_STROKE = new BasicStroke(2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
 	protected static final Stroke EDGE_HOVER_STROKE = new BasicStroke(8f);
 	private final QuadCurve2D curve = new QuadCurve2D.Double();
-	private Shape lastShownShape = curve;
 	private Shape hoverShape = curve;
 	private Color color = EDGE_COLOR;
 
@@ -50,14 +49,11 @@ public abstract class AbstractEdgePanel extends JPanel implements Paintable {
 		g.setColor(color);
 		g.setStroke(EDGE_STROKE);
 
-//		Point point = new Point((to.x + from.x) / 2, (to.y + from.y) / 2);
 		curve.setCurve(from, ctrl, to);
 
-		lastShownShape = curve;
-		hoverShape = EDGE_HOVER_STROKE.createStrokedShape(lastShownShape);
-		lastShownShape = EDGE_STROKE.createStrokedShape(lastShownShape);
+		hoverShape = EDGE_HOVER_STROKE.createStrokedShape(curve);
 
-		g.draw(lastShownShape);
+		g.draw(curve);
 	}
 
 	@Override
