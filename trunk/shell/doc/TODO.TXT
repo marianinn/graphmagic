@@ -13,6 +13,5 @@ User stories:
 
 Bugs:
 * Half-constructed but dropped edge creates pseudo-edge to the tail vertex.
-* Dropping a vertex leave its adjacent edges shown. 
 
 Improvements:
