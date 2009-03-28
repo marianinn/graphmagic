@@ -30,7 +30,7 @@ IF "%JAVA_HOME%" == "" GOTO error
 SET graphmagic_home=.
 SET classpath=
 SET separator=;
-FOR %%f IN (lib\*) DO @CALL append %%f
+FOR %%f IN (lib\*) DO @CALL util\append %%f
 
 
 :: Run
