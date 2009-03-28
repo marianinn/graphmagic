@@ -1,0 +1,7 @@
+This file describes how to build package from the sources.
+
+1. Ensure that you have installed the Maven tool (http://apache.maven.org). Proved working with version 2.0.7.
+
+2. Execute "mvn package assembly:assembly" command here. Wait until it builds (it may take a few minutes first time).
+
+Now you can find project package in the "target" directory.
