@@ -31,11 +31,6 @@
     <fileSets>
         <fileSet>
             <directory>exe</directory>
-<!--
-            <includes>
-                <include>exe/*</include>
-            </includes>
--->
             <filtered>true</filtered>
             <outputDirectory/>
         </fileSet>

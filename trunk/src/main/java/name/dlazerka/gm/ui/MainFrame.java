@@ -88,8 +88,24 @@ public class MainFrame extends JFrame {
 //		contentPane.setPreferredSize(new Dimension(800, 600));
 
 		final JMenuBar menuBar = new JMenuBar();
-		JMenuItem fileMenuItem = new JMenuItem(Main.getString("file"));
-		menuBar.add(fileMenuItem);
+		JMenu fileMenu = new JMenu(Main.getString("file"));
+		fileMenu.setMnemonic(KeyEvent.VK_F);
+		JMenuItem loadPluginMenuItem = new JMenuItem(Main.getString("load.plugin"));
+		loadPluginMenuItem.addActionListener(new AddPluginActionListener(MainFrame.this));
+		loadPluginMenuItem.setMnemonic(KeyEvent.VK_P);
+		fileMenu.add(loadPluginMenuItem);
+		JMenuItem exitMenuItem = new JMenuItem(Main.getString("exit"));
+		exitMenuItem.setMnemonic(KeyEvent.VK_X);
+		exitMenuItem.addActionListener(
+			new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					onClose();
+				}
+			}
+		);
+		fileMenu.add(exitMenuItem);
+		menuBar.add(fileMenu);
 		this.getRootPane().setJMenuBar(menuBar);
 
 
@@ -177,32 +193,6 @@ public class MainFrame extends JFrame {
 //			)
 		);
 	}
-
-
-	private void loadButtonText(AbstractButton component, String text) {
-		StringBuffer result = new StringBuffer();
-		boolean haveMnemonic = false;
-		char mnemonic = '\0';
-		int mnemonicIndex = -1;
-		for (int i = 0; i < text.length(); i++) {
-			if (text.charAt(i) == '&') {
-				i++;
-				if (i == text.length()) break;
-				if (!haveMnemonic && text.charAt(i) != '&') {
-					haveMnemonic = true;
-					mnemonic = text.charAt(i);
-					mnemonicIndex = result.length();
-				}
-			}
-			result.append(text.charAt(i));
-		}
-		component.setText(result.toString());
-		if (haveMnemonic) {
-			component.setMnemonic(mnemonic);
-			component.setDisplayedMnemonicIndex(mnemonicIndex);
-		}
-	}
-
 
 	public JComponent getRootComponent() {
 		return contentPane;

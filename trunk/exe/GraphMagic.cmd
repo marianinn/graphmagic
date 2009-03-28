@@ -23,16 +23,18 @@
 :: Before you run ${pom.name} specify the location of the
 :: JDK installation directory which will be used for running ${pom.name}
 :: ---------------------------------------------------------------------
-
 IF "%JAVA_HOME%" == "" GOTO error
-SET java_exe=%JAVA_HOME%\jre\bin\java
 
+
+:: Trick to list all the files from the "lib" directory to the %classpath% 
 SET graphmagic_home=.
 SET classpath=
 SET separator=;
 FOR %%f IN (lib\*) DO @CALL append %%f
 
-"%JAVA_EXE%" -cp "%classpath%" name.dlazerka.gm.Main %*
+
+:: Run
+"%JAVA_HOME%\jre\bin\java" -cp "%classpath%" name.dlazerka.gm.Main %*
 
 GOTO end
 :error
