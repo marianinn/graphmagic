@@ -28,6 +28,13 @@
     <version>0.1</version>
     <packaging>jar</packaging>
 
+    <parent>
+        <groupId>name.dlazerka.gm</groupId>
+        <artifactId>gm-all</artifactId>
+        <version>0.1</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
     <build>
         <finalName>${pom.artifactId}-${pom.version}</finalName>
         <plugins>
@@ -56,26 +63,6 @@
                 <artifactId>maven-resources-plugin</artifactId>
                 <configuration>
                     <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.2-beta-3</version>
-                <executions>
-                    <execution>
-                        <id>assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>assembly</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <descriptors>
-                        <descriptor>assembly.xml</descriptor>
-                    </descriptors>
-                    <finalName>GraphMagic</finalName>
-                    <outputDirectory>target/build</outputDirectory>
                 </configuration>
             </plugin>
         </plugins>
