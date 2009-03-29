@@ -49,7 +49,7 @@
     </moduleSets>
     <fileSets>
         <fileSet>
-            <directory>shell/exe</directory>
+            <directory>gm-shell/exe</directory>
             <filtered>true</filtered>
             <outputDirectory/>
         </fileSet>

@@ -1,6 +1,7 @@
 User stories:
 > Pluggable algorithms
 * Localization
+* Show pseudo-edges.
 * More than one window with a graph.
 * Selecting multiple vertices.
 * Renumbering of vertices (by hand, randomly)
@@ -12,6 +13,8 @@ User stories:
 * Printing graph
 
 Bugs:
-* Half-constructed but dropped edge creates pseudo-edge to the tail vertex.
+* Half-constructed but dropped edge creates an invisible pseudo-edge to the tail vertex.
+* While constructing a new edge we can hover an edge, then leave it unhovered,
+  release button, but an edge is still created.
 
 Improvements:

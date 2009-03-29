@@ -233,6 +233,7 @@ public class GraphPanel extends JPanel {
 	private class PopupMenu extends JPopupMenu {
 		private PopupMenu() {
 			add(new AddVertexAction());
+			add(new ClearAllAction());
 		}
 
 		private class AddVertexAction extends AbstractAction {
@@ -244,5 +245,24 @@ public class GraphPanel extends JPanel {
 				graph.addVertex();
 			}
 		}
+		private class ClearAllAction extends AbstractAction {
+			public ClearAllAction() {
+				super(Main.getString("clear.all"));
+			}
+
+			public void actionPerformed(ActionEvent e) {
+				int answer = JOptionPane.showConfirmDialog(
+					GraphPanel.this,
+					Main.getString("clear.all.confirm.message"),
+					Main.getString("clear.all.confirm.title"),
+					JOptionPane.YES_NO_OPTION
+				);
+
+				if (answer == JOptionPane.YES_OPTION) {
+					graph.clear();
+				}
+			}
+		}
+
 	}
 }

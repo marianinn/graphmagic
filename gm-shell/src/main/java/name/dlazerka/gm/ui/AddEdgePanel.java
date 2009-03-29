@@ -119,14 +119,8 @@ public class AddEdgePanel extends JPanel {
 		public void mouseDragged(MouseEvent e) {
 			GraphPanel graphPanel = getVertexPanel().getGraphPanel();
 
-			Point head = graphPanel.getNewEdgePanel().getHead();
-
-//			Point mousePositionRelativeToGraphPanel = graphPanel.getMousePosition();
 			NewEdgePanel newEdgePanel = graphPanel.getNewEdgePanel();
 			newEdgePanel.trackMouseDragged();
-//			newEdgePanel.setHead(mousePositionRelativeToGraphPanel);
-
-//			graphPanel.repaint();
 		}
 	}
 
