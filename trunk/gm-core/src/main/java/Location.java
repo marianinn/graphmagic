@@ -18,50 +18,39 @@
  * Author: Dzmitry Lazerka dlazerka@dlazerka.name
  */
 
-package name.dlazerka.gm.bean;
+package name.dlazerka.gm;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class Edge {
-	private final Vertex tail;
-	private final Vertex head;
+public class Location {
+	private double x;
+	private double y;
 
-	public Edge(Vertex tail, Vertex head) {
-		this.tail = tail;
-		this.head = head;
+	public Location(double x, double y) {
+		setX(x);
+		setY(y);
 	}
 
-	public Vertex getTail() {
-		return tail;
+	public double getX() {
+		return x;
 	}
 
-	public Vertex getHead() {
-		return head;
+	public void setX(double x) {
+		if (x < -1.0 || x > 1.0) {
+			throw new IllegalArgumentException("The X coordinate must belong to the [-1, 1] interval");
+		}
+		this.x = x;
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (!(o instanceof Edge)) return false;
-
-		Edge edge = (Edge) o;
-
-		if (!tail.equals(edge.tail)) return false;
-		if (!head.equals(edge.head)) return false;
-
-		return true;
+	public double getY() {
+		return y;
 	}
 
-	@Override
-	public int hashCode() {
-		int result = tail.hashCode();
-		result = 31 * result + head.hashCode();
-		return result;
-	}
-
-	@Override
-	public String toString() {
-		return tail + " -> " + head;
+	public void setY(double y) {
+		if (y < -1.0 || y > 1.0) {
+			throw new IllegalArgumentException("The Y coordinate must belong to the [-1, 1] interval");
+		}
+		this.y = y;
 	}
 }

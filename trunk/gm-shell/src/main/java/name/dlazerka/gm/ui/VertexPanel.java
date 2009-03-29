@@ -20,17 +20,17 @@
 
 package name.dlazerka.gm.ui;
 
-import name.dlazerka.gm.bean.Vertex;
 import name.dlazerka.gm.Main;
+import name.dlazerka.gm.Vertex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-import java.awt.event.ActionEvent;
 import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
 import java.util.Collection;

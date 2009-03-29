@@ -35,4 +35,12 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
+    <dependencies>
+        <dependency>
+            <groupId>name.dlazerka.gm</groupId>
+            <artifactId>gm-core</artifactId>
+            <version>0.1</version>
+        </dependency>
+    </dependencies>
+
 </project>

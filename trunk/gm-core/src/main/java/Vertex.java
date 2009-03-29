@@ -18,12 +18,18 @@
  * Author: Dzmitry Lazerka dlazerka@dlazerka.name
  */
 
-package name.dlazerka.gm.ui;
+package name.dlazerka.gm;
 
-import java.util.ResourceBundle;
+import java.util.Set;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class Messages {
+public interface Vertex {
+
+	int getNumber();
+
+	Visual getVisual();
+
+	Set<Edge> getAdjacentEdges();
 }

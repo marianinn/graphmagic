@@ -18,24 +18,37 @@
  * Author: Dzmitry Lazerka dlazerka@dlazerka.name
  */
 
-package name.dlazerka.gm.bean;
+package name.dlazerka.gm;
 
-import name.dlazerka.gm.Edge;
-import name.dlazerka.gm.Vertex;
-
-import java.util.EventListener;
+import java.util.Set;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public interface GraphChangeListener extends EventListener {
-	void notifyAttached();
+public interface Graph {
+	/**
+	 * Return the number of vertices: <code>|V|</code>.
+	 * @return the number of vertices.
+	 */
+	int getOrder();
 
-	void vertexAdded(Vertex vertex);
+	/**
+	 * Return the number of edges: <code>|E|</code>.
+	 * @return the number of edges.
+	 */
+	int getSize();
 
-	void edgeAdded(Edge edge);
+	Set<Vertex> getVertexSet();
 
-	void vertexDeleted(Vertex vertex);
+	Set<Edge> getEdgeSet();
 
-	void edgeDeleted(Edge edge);
+	Vertex createVertex();
+
+	Edge createEdge(Vertex tail, Vertex head);
+
+	void remove(Vertex vertex);
+
+	void remove(Edge edge);
+
+	void clear();
 }
