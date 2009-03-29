@@ -187,4 +187,11 @@ public class Graph {
 
 		return add(vertex);
 	}
+
+	public void clear() {
+		LinkedSet<Vertex> tempSet = new LinkedSet<Vertex>(vertexSet);
+		for (Vertex vertex : tempSet) {
+			remove(vertex);
+		}
+	}
 }

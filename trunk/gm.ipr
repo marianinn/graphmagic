@@ -346,7 +346,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/gm-all.iml" filepath="$PROJECT_DIR$/gm-all.iml" />
-      <module fileurl="file://$PROJECT_DIR$/shell/gm-shell.iml" filepath="$PROJECT_DIR$/shell/gm-shell.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gm-core/gm-core.iml" filepath="$PROJECT_DIR$/gm-core/gm-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gm-graphmaker/gm-graphmaker.iml" filepath="$PROJECT_DIR$/gm-graphmaker/gm-graphmaker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gm-shell/gm-shell.iml" filepath="$PROJECT_DIR$/gm-shell/gm-shell.iml" />
     </modules>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="1.6" project-jdk-type="JavaSDK">
@@ -357,7 +359,7 @@
       <option name="MAIN_CLASS_NAME" value="name.dlazerka.gm.Main" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/target/classes" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/gm-shell/target/classes" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
       <option name="ENABLE_SWING_INSPECTOR" value="false" />

@@ -20,9 +20,6 @@
 
 package name.dlazerka.gm.ui;
 
-import name.dlazerka.gm.ui.AbstractEdgePanel;
-import name.dlazerka.gm.ui.GraphPanel;
-import name.dlazerka.gm.ui.VertexPanel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,20 +34,21 @@ import java.awt.*;
 public class NewEdgePanel extends AbstractEdgePanel {
 	private static final Logger logger = LoggerFactory.getLogger(NewEdgePanel.class);
 
-	private Point head = new Point();
+	private Point headPoint = new Point();
 	private VertexPanel tail;
 	private boolean visible;
+	private static final Stroke EDGE_NEW_STROKE = new BasicStroke(2f);
 
 	public NewEdgePanel() {
 		setOpaque(false);
 	}
 
-	public Point getHead() {
-		return head;
+	public Point getHeadPoint() {
+		return headPoint;
 	}
 
-	public void setHead(Point head) {
-		this.head = head;
+	public void setHeadPoint(Point headPoint) {
+		this.headPoint = headPoint;
 	}
 
 	public void setTail(VertexPanel tail) {
@@ -64,20 +62,26 @@ public class NewEdgePanel extends AbstractEdgePanel {
 	}
 
 	@Override
-	protected void paintComponent(Graphics g0) {
+	protected void paintComponent(Graphics g) {
 		if (tail == null) {
 			return;
 		}
 
 		if (visible) {
-			Graphics2D g = (Graphics2D) g0;
-			drawEdge(
-				g,
-				tail.getVertexCenter(),
-				tail.getVertexCenter(),
-				head
+			Graphics2D g2 = (Graphics2D) g;
+			curve.setCurve(
+				getFromPoint(),
+				getFromPoint(),
+				headPoint
 			);
+
+			g2.setStroke(EDGE_NEW_STROKE);
+			g2.draw(curve);
 		}
+	}
+
+	private Point getFromPoint() {
+		return tail.getVertexCenter();
 	}
 
 	private GraphPanel getGraphPanel() {
@@ -86,11 +90,10 @@ public class NewEdgePanel extends AbstractEdgePanel {
 
 	public void trackMouseDragged() {
 		Point mousePosition = getGraphPanel().getMousePosition();
-//		mousePosition.translate(10, 10);
 //		logger.debug("{}", mousePosition);
 
 		if (mousePosition != null) {
-			head = mousePosition;
+			headPoint = mousePosition;
 			repaint();
 		}
 		else {
