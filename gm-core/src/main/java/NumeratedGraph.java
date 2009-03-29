@@ -18,24 +18,13 @@
  * Author: Dzmitry Lazerka dlazerka@dlazerka.name
  */
 
-package name.dlazerka.gm.bean;
-
-import name.dlazerka.gm.Edge;
-import name.dlazerka.gm.Vertex;
-
-import java.util.EventListener;
+package name.dlazerka.gm;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public interface GraphChangeListener extends EventListener {
-	void notifyAttached();
+public interface NumeratedGraph extends Graph {
+	Vertex getVertex(int num);
 
-	void vertexAdded(Vertex vertex);
-
-	void edgeAdded(Edge edge);
-
-	void vertexDeleted(Vertex vertex);
-
-	void edgeDeleted(Edge edge);
+	Edge createEdge(int tailNum, int headNum);
 }

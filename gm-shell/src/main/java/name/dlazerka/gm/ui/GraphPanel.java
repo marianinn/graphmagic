@@ -20,11 +20,12 @@
 
 package name.dlazerka.gm.ui;
 
+import name.dlazerka.gm.Edge;
+import name.dlazerka.gm.Graph;
 import name.dlazerka.gm.Main;
-import name.dlazerka.gm.bean.Edge;
-import name.dlazerka.gm.bean.Graph;
+import name.dlazerka.gm.Vertex;
 import name.dlazerka.gm.bean.GraphChangeListener;
-import name.dlazerka.gm.bean.Vertex;
+import name.dlazerka.gm.bean.GraphImpl;
 import name.dlazerka.gm.util.ListMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +44,7 @@ public class GraphPanel extends JPanel {
 	private final static Dimension DEFAULT_DIMENSION = new Dimension(600, 400);
 	private final static Dimension MINIMUM_DIMENSION = new Dimension(300, 200);
 
-	private final Graph graph;
+	private final GraphImpl graph;
 
 	private Map<Vertex, VertexPanel> vertexToVertexPanel = new ListMap<Vertex, VertexPanel>();
 	private Map<Edge, EdgePanel> edgeToEdgePanel = new ListMap<Edge, EdgePanel>();
@@ -74,7 +75,7 @@ public class GraphPanel extends JPanel {
 
 		add(newEdgePanel);
 
-		graph = new Graph();
+		graph = new GraphImpl();
 		graph.addChangeListener(new GraphChangeListenerImpl());
 		layoutManager.layoutDefault(this);
 	}
@@ -144,9 +145,8 @@ public class GraphPanel extends JPanel {
 
 		Vertex tail = draggingEdgeFrom.getVertex();
 		Vertex head = lastHoveredVertexPanel.getVertex();
-		Edge edge = new Edge(tail, head);
 
-		graph.add(edge);
+		graph.createEdge(tail, head);
 
 		draggingEdgeFrom = null;
 		newEdgePanel.setVisible(false);
@@ -242,7 +242,7 @@ public class GraphPanel extends JPanel {
 			}
 
 			public void actionPerformed(ActionEvent e) {
-				graph.addVertex();
+				graph.createVertex();
 			}
 		}
 		private class ClearAllAction extends AbstractAction {

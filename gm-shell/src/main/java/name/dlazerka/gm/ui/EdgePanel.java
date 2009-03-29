@@ -20,8 +20,8 @@
 
 package name.dlazerka.gm.ui;
 
+import name.dlazerka.gm.Edge;
 import name.dlazerka.gm.Main;
-import name.dlazerka.gm.bean.Edge;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,8 +61,6 @@ public class EdgePanel extends AbstractEdgePanel {
 		addMouseMotionListener(new DragMouseListener());
 		addMouseListener(new MouseListener());
 		setComponentPopupMenu(new PopupMenu());
-
-		setBorder(LineBorder.createBlackLineBorder());
 	}
 
 	public Edge getEdge() {
