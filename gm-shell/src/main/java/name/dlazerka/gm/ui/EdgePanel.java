@@ -26,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
@@ -41,14 +42,18 @@ public class EdgePanel extends AbstractEdgePanel {
 	private final Edge edge;
 	private final VertexPanel tail;
 	private final VertexPanel head;
-	private final Point ctrlPoint = new Point();
+	private final Point ctrlPoint;
 	private boolean curved = false;
 	private boolean dragging;
+	private Shape hoverShape = curve;
+	private Color color = EDGE_COLOR;
+	private Stroke stroke = EDGE_STROKE;
 
 	public EdgePanel(Edge edge, VertexPanel tail, VertexPanel head) {
 		this.edge = edge;
 		this.tail = tail;
 		this.head = head;
+		ctrlPoint = new Point(head.getVertexCenterX(), head.getVertexCenterY());
 
 		logger.debug("{}", ctrlPoint);
 
@@ -56,6 +61,8 @@ public class EdgePanel extends AbstractEdgePanel {
 		addMouseMotionListener(new DragMouseListener());
 		addMouseListener(new MouseListener());
 		setComponentPopupMenu(new PopupMenu());
+
+		setBorder(LineBorder.createBlackLineBorder());
 	}
 
 	public Edge getEdge() {
@@ -63,24 +70,27 @@ public class EdgePanel extends AbstractEdgePanel {
 	}
 
 	@Override
-	public void setBounds(int x, int y, int width, int height) {
-		super.setBounds(x, y, width, height);
-	}
-
-	@Override
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
-		Point mousePosition = getMousePosition();
-		if (mousePosition != null && contains(mousePosition)) {
-			g2.setColor(EDGE_HOVER_COLOR);
-		}
+		g2.setColor(color);
+		g2.setStroke(stroke);
 
-		drawEdge(
-			g2,
+		curve.setCurve(
 			getFromPoint(),
 			curved ? ctrlPoint : getFromPoint(),
 			getToPoint()
 		);
+
+		hoverShape = EDGE_HOVER_STROKE.createStrokedShape(curve);
+
+		g2.draw(curve);
+	}
+
+	@Override
+	public boolean contains(int x, int y) {
+		boolean b = hoverShape.contains(x, y);
+//		if (b) logger.debug("{}", b);
+		return b;
 	}
 
 	public GraphPanel getGraphPanel() {
@@ -100,12 +110,13 @@ public class EdgePanel extends AbstractEdgePanel {
 	}
 
 	/**
+	 * Moves control poins so that edge will contain given (x, y) point.
 	 * If the curve seems like line (contains(ctrlPoint)==true) then sets curved to false
+	 *
 	 * @param x which point.x the curve should contain
 	 * @param y which point.y the curve should contain
 	 */
 	private void setCurvedTo(int x, int y) {
-		setCurved(true);
 
 		int centerX = (getFromPoint().x + getToPoint().x) / 2;
 		int centerY = (getFromPoint().y + getToPoint().y) / 2;
@@ -115,13 +126,15 @@ public class EdgePanel extends AbstractEdgePanel {
 			y * 2 - centerY
 		);
 
-		if (contains(ctrlPoint)) {
-			setCurved(false);
-		}
+		setCurved(!contains(ctrlPoint));
 	}
 
 	public void setDragging(boolean dragging) {
 		this.dragging = dragging;
+	}
+
+	public void onAdjacentVertexMoved() {
+		repaint();
 	}
 
 	private class DragMouseListener extends MouseMotionAdapter {
@@ -139,14 +152,16 @@ public class EdgePanel extends AbstractEdgePanel {
 	private class MouseListener extends MouseAdapter {
 		@Override
 		public void mouseEntered(MouseEvent e) {
-			setColor(EDGE_HOVER_COLOR);
+			color = EDGE_HOVER_COLOR;
+			stroke = EDGE_HOVER_STROKE;
 			repaint();
 		}
 
 		@Override
 		public void mouseExited(MouseEvent e) {
 			if (!dragging) {
-				setColor(EDGE_COLOR);
+				color = EDGE_COLOR;
+				stroke = EDGE_STROKE;
 				repaint();
 			}
 		}

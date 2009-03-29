@@ -293,7 +293,7 @@ public class VertexPanel extends JPanel implements Paintable {
 			setLocation(getX() + moveByX, getY() + moveByY);
 
 			for (EdgePanel adjacentEdgePanel : adjacentEdgePanels) {
-				adjacentEdgePanel.repaint();
+				adjacentEdgePanel.onAdjacentVertexMoved();
 			}
 
 			// fix for too-fast-moving mouse :)
