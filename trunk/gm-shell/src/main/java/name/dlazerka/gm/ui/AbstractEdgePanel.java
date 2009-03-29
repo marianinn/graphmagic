@@ -34,36 +34,12 @@ public abstract class AbstractEdgePanel extends JPanel implements Paintable {
 	private static final Logger logger = LoggerFactory.getLogger(AbstractEdgePanel.class);
 
 	protected static final Color EDGE_COLOR = Color.BLACK;
-	protected static final Color EDGE_HOVER_COLOR = new Color(0x80, 0xA0, 0x00);
-	protected static final Stroke EDGE_STROKE = new BasicStroke(2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
-	protected static final Stroke EDGE_HOVER_STROKE = new BasicStroke(8f);
-	private final QuadCurve2D curve = new QuadCurve2D.Double();
-	private Shape hoverShape = curve;
-	private Color color = EDGE_COLOR;
+	protected static final Color EDGE_HOVER_COLOR = new Color(0x00, 0x00, 0x00);
+	protected static final Stroke EDGE_STROKE = new BasicStroke(2f);
+	protected static final Stroke EDGE_HOVER_STROKE = new BasicStroke(6f);
+	protected final QuadCurve2D curve = new QuadCurve2D.Double();
 
 	protected AbstractEdgePanel() {
 		super(null);
-	}
-
-	protected void drawEdge(Graphics2D g, Point from, Point ctrl, Point to) {
-		g.setColor(color);
-		g.setStroke(EDGE_STROKE);
-
-		curve.setCurve(from, ctrl, to);
-
-		hoverShape = EDGE_HOVER_STROKE.createStrokedShape(curve);
-
-		g.draw(curve);
-	}
-
-	@Override
-	public boolean contains(int x, int y) {
-		boolean b = hoverShape.contains(x, y);
-//		if (b) logger.debug("{}", b);
-		return b;
-	}
-
-	protected void setColor(Color color) {
-		this.color = color;
 	}
 }
