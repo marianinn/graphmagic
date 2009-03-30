@@ -18,9 +18,11 @@
  * Author: Dzmitry Lazerka dlazerka@dlazerka.name
  */
 
-package name.dlazerka.gm;
+package name.dlazerka.gm.ui;
 
-import name.dlazerka.gm.ui.UI;
+import name.dlazerka.gm.pluginloader.PluginLoader;
+import name.dlazerka.gm.GraphMagicAPI;
+import name.dlazerka.gm.GraphsContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,6 +46,9 @@ public class Main {
 	private static ResourceBundle resourceBundle = ResourceBundle.getBundle(MESSAGES_FILENAME);
 	
 	private static Properties configProperties = new Properties();
+	private static Locale currentLocale = Locale.ENGLISH;
+	private static GraphMagicAPI graphMagicAPI = new GraphsContainer();
+	private static PluginLoader pluginLoader = new PluginLoader(graphMagicAPI);
 
 	public static String getString(String key) {
 		return resourceBundle.getString(key);
@@ -62,8 +67,20 @@ public class Main {
 			logger.error("Unable to load config at {}", CONFIG_FILEPATH);
 			throw e;
 		}
-		Locale.setDefault(Locale.ENGLISH);
+		Locale.setDefault(getCurrentLocale());
 
 		UI.show();
+	}
+
+	public static Locale getCurrentLocale() {
+		return currentLocale;
+	}
+
+	public static GraphMagicAPI getGraphMagicAPI() {
+		return graphMagicAPI;
+	}
+
+	public static PluginLoader getPluginLoader() {
+		return pluginLoader;
 	}
 }

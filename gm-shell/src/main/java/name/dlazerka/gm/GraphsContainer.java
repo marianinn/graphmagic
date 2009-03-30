@@ -20,10 +20,46 @@
 
 package name.dlazerka.gm;
 
+import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public interface GraphMagicAPI {
-	Graph getGraph();
+public class GraphsContainer extends LinkedList<Graph> implements GraphMagicAPI {
+	private final LinkedList<GraphsListener> listenerList = new LinkedList<GraphsListener>();
+	private Graph focused;
+
+	@Override
+	public Graph getFocusedGraph() {
+		return focused;
+	}
+
+	public void setFocused(Graph graph) {
+		if (!contains(graph)) {
+			throw new IllegalArgumentException("Does not contain the graph " + graph);
+		}
+		
+		this.focused = graph;
+	}
+
+	@Override
+	public Collection<Graph> getGraphs() {
+		return this;
+	}
+
+	@Override
+	public void attachListener(GraphsListener listener) {
+		listenerList.add(listener);
+		listener.attached();
+	}
+
+	@Override
+	public void detachListener(GraphsListener listener) {
+		if (listenerList.remove(listener)) {
+			listener.detached();
+		}
+	}
+
+
 }

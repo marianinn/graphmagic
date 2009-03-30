@@ -18,11 +18,24 @@
  * Author: Dzmitry Lazerka dlazerka@dlazerka.name
  */
 
-package name.dlazerka.gm.plugin;
+package name.dlazerka.gm.basic;
+
+import name.dlazerka.gm.Edge;
+import name.dlazerka.gm.Vertex;
+
+import java.util.EventListener;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public interface Plugin {
-	void jo();
+public interface GraphModificationListener extends EventListener {
+	void notifyAttached();
+
+	void vertexAdded(Vertex vertex);
+
+	void edgeAdded(Edge edge);
+
+	void vertexDeleted(Vertex vertex);
+
+	void edgeDeleted(Edge edge);
 }

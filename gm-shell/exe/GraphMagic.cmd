@@ -34,7 +34,7 @@ FOR %%f IN (lib\*) DO @CALL util\append %%f
 
 
 :: Run
-"%JAVA_HOME%\jre\bin\java" -cp "%classpath%" name.dlazerka.gm.Main %*
+"%JAVA_HOME%\jre\bin\java" -cp "%classpath%" name.dlazerka.gm.ui.Main %*
 
 GOTO end
 :error

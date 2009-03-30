@@ -20,8 +20,18 @@
 
 package name.dlazerka.gm;
 
+import javax.swing.*;
+import java.util.List;
+import java.util.Locale;
+
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
 public interface GraphMagicPlugin {
+
+	void setGraphMagicAPI(GraphMagicAPI api);
+
+	void setLocale(Locale locale);
+	
+	List<Action> getActions();
 }

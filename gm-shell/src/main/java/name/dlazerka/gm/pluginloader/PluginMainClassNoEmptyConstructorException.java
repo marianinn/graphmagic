@@ -18,40 +18,15 @@
  * Author: Dzmitry Lazerka dlazerka@dlazerka.name
  */
 
-package name.dlazerka.gm.graphmaker;
+package name.dlazerka.gm.pluginloader;
 
-import name.dlazerka.gm.AbstractPlugin;
 import name.dlazerka.gm.GraphMagicPlugin;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class Main extends AbstractPlugin implements GraphMagicPlugin {
-	private static final Logger logger = LoggerFactory.getLogger(AbstractPlugin.class);
-
-	@Override
-	public List<Action> getActions() {
-		LinkedList<Action> actionList = new LinkedList<Action>();
-		AbstractAction action = new MakeGraphAction();
-		actionList.add(action);
-		return actionList;
-	}
-
-	private class MakeGraphAction extends AbstractAction {
-		private MakeGraphAction() {
-			super("Make Graph");
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			logger.trace("sdf");
-		}
+public class PluginMainClassNoEmptyConstructorException extends PluginLoadingException {
+	public PluginMainClassNoEmptyConstructorException(Class<GraphMagicPlugin> pluginMainClass) {
+		super("Unable to get the empty constructor for class " + pluginMainClass);
 	}
 }

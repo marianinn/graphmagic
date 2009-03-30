@@ -21,12 +21,11 @@
 package name.dlazerka.gm.ui;
 
 import name.dlazerka.gm.Edge;
-import name.dlazerka.gm.Main;
+import name.dlazerka.gm.ui.Main;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;

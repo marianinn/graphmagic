@@ -18,24 +18,30 @@
  * Author: Dzmitry Lazerka dlazerka@dlazerka.name
  */
 
-package name.dlazerka.gm.plugin;
+package name.dlazerka.gm.pluginloader;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class PluginLoadingException extends PluginException {
-	public PluginLoadingException() {
+public class PluginMainClassNotExtendPluginException extends PluginLoadingException {
+	public PluginMainClassNotExtendPluginException() {
 	}
 
-	public PluginLoadingException(String message) {
+	public PluginMainClassNotExtendPluginException(String message) {
 		super(message);
 	}
 
-	public PluginLoadingException(String message, Throwable cause) {
+	public PluginMainClassNotExtendPluginException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
-	public PluginLoadingException(Throwable cause) {
+	public PluginMainClassNotExtendPluginException(Throwable cause) {
 		super(cause);
+	}
+
+	public PluginMainClassNotExtendPluginException(Class<?> mainClass) {
+		super(
+			"Plugin " + mainClass + " class does not implement the name.dlazerka.gm.GraphMagicPlugin interface"
+		);
 	}
 }

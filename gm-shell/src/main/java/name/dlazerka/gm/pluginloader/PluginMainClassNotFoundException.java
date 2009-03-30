@@ -18,24 +18,24 @@
  * Author: Dzmitry Lazerka dlazerka@dlazerka.name
  */
 
-package name.dlazerka.gm.plugin;
+package name.dlazerka.gm.pluginloader;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public abstract class PluginException extends Exception {
-	protected PluginException() {
+public class PluginMainClassNotFoundException extends PluginLoadingException {
+	public PluginMainClassNotFoundException() {
 	}
 
-	protected PluginException(String message) {
+	public PluginMainClassNotFoundException(String message) {
 		super(message);
 	}
 
-	protected PluginException(String message, Throwable cause) {
+	public PluginMainClassNotFoundException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
-	protected PluginException(Throwable cause) {
+	public PluginMainClassNotFoundException(Throwable cause) {
 		super(cause);
 	}
 }

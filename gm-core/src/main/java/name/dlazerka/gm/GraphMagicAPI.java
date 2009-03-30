@@ -18,39 +18,28 @@
  * Author: Dzmitry Lazerka dlazerka@dlazerka.name
  */
 
-package name.dlazerka.gm.plugin;
+package name.dlazerka.gm;
 
-import java.io.File;
-import java.net.URLClassLoader;
-import java.net.URL;
-import java.net.URI;
-import java.net.MalformedURLException;
+import java.util.Collection;
+
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class PluginLoader {
-	public static void load(File file) throws PluginLoadingException, PluginMainClassNotFoundException {
-		try {
-			URI uri = file.toURI();
-			URL url = uri.toURL();
-			URLClassLoader loader = URLClassLoader.newInstance(
-				new URL[]{url},
-				PluginLoader.class.getClassLoader()
-			);
+public interface GraphMagicAPI {
+	/**
+	 * Returns on of the graphs that is of most interest, usually last used.
+	 * @return one of the graphs that is of most interest, usually last used.
+	 */
+	Graph getFocusedGraph();
 
-			Class<?> pluginMainClass;
-			try {
-				pluginMainClass = loader.loadClass("Main");
-			}
-			catch (ClassNotFoundException e) {
-				throw new PluginMainClassNotFoundException(e);
-			}
+	/**
+	 * Returns all of the graphs in the scope of this API.
+	 * @return all of the graphs in the scope of this API.
+	 */
+	Collection<Graph> getGraphs();
 
-			pluginMainClass.isAssignableFrom(Plugin.class);
-		}
-		catch (MalformedURLException e) {
-			throw new PluginLoadingException(e);
-		}
-	}
+	void attachListener(GraphsListener listener);
+
+	void detachListener(GraphsListener listener);
 }

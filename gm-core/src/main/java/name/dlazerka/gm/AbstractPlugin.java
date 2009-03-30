@@ -18,40 +18,32 @@
  * Author: Dzmitry Lazerka dlazerka@dlazerka.name
  */
 
-package name.dlazerka.gm.graphmaker;
+package name.dlazerka.gm;
 
-import name.dlazerka.gm.AbstractPlugin;
-import name.dlazerka.gm.GraphMagicPlugin;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Locale;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class Main extends AbstractPlugin implements GraphMagicPlugin {
-	private static final Logger logger = LoggerFactory.getLogger(AbstractPlugin.class);
+public abstract class AbstractPlugin implements GraphMagicPlugin {
+	private GraphMagicAPI graphMagicAPI;
+	private Locale locale;
 
 	@Override
-	public List<Action> getActions() {
-		LinkedList<Action> actionList = new LinkedList<Action>();
-		AbstractAction action = new MakeGraphAction();
-		actionList.add(action);
-		return actionList;
+	public void setGraphMagicAPI(GraphMagicAPI graphMagicAPI) {
+		this.graphMagicAPI = graphMagicAPI;
 	}
 
-	private class MakeGraphAction extends AbstractAction {
-		private MakeGraphAction() {
-			super("Make Graph");
-		}
+	@Override
+	public void setLocale(Locale locale) {
+		this.locale = locale;
+	}
 
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			logger.trace("sdf");
-		}
+	protected GraphMagicAPI getGraphMagicAPI() {
+		return graphMagicAPI;
+	}
+
+	protected Locale getLocale() {
+		return locale;
 	}
 }
