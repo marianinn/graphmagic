@@ -46,6 +46,20 @@
                 </dependencySets>
             </binaries>
         </moduleSet>
+        <moduleSet>
+            <includes>
+                <include>name.dlazerka.gm.plugin:*</include>
+            </includes>
+            <binaries>
+                <unpack>false</unpack>
+                <outputDirectory>plugin</outputDirectory>
+                <dependencySets>
+                    <dependencySet>
+                        <outputDirectory>lib</outputDirectory>
+                    </dependencySet>
+                </dependencySets>
+            </binaries>
+        </moduleSet>
     </moduleSets>
     <fileSets>
         <fileSet>

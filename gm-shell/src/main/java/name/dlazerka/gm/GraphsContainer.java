@@ -26,16 +26,16 @@ import java.util.LinkedList;
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class GraphsContainer extends LinkedList<Graph> implements GraphMagicAPI {
+public class GraphsContainer extends LinkedList<GraphWithUI> implements GraphMagicAPI {
 	private final LinkedList<GraphsListener> listenerList = new LinkedList<GraphsListener>();
-	private Graph focused;
+	private GraphWithUI focused;
 
 	@Override
-	public Graph getFocusedGraph() {
+	public GraphWithUI getFocusedGraph() {
 		return focused;
 	}
 
-	public void setFocused(Graph graph) {
+	public void setFocused(GraphWithUI graph) {
 		if (!contains(graph)) {
 			throw new IllegalArgumentException("Does not contain the graph " + graph);
 		}
@@ -44,7 +44,7 @@ public class GraphsContainer extends LinkedList<Graph> implements GraphMagicAPI 
 	}
 
 	@Override
-	public Collection<Graph> getGraphs() {
+	public Collection<GraphWithUI> getGraphs() {
 		return this;
 	}
 
