@@ -22,6 +22,7 @@ package name.dlazerka.gm.graphmaker;
 
 import name.dlazerka.gm.AbstractPlugin;
 import name.dlazerka.gm.GraphMagicPlugin;
+import name.dlazerka.gm.GraphWithUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,6 +36,7 @@ import java.util.List;
  */
 public class Main extends AbstractPlugin implements GraphMagicPlugin {
 	private static final Logger logger = LoggerFactory.getLogger(AbstractPlugin.class);
+	private MakeGraphFrame makeGraphFrame;
 
 	@Override
 	public List<Action> getActions() {
@@ -56,7 +58,12 @@ public class Main extends AbstractPlugin implements GraphMagicPlugin {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			logger.trace("sdf");
+			if (makeGraphFrame == null) {
+				GraphWithUI ui = getGraphMagicAPI().getFocusedGraph();
+				makeGraphFrame = new MakeGraphFrame(ui.getFrame(), "Make Graph");
+			}
+
+			makeGraphFrame.setVisible(true);
 		}
 	}
 }

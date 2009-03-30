@@ -18,28 +18,15 @@
  * Author: Dzmitry Lazerka dlazerka@dlazerka.name
  */
 
+
 package name.dlazerka.gm;
 
-import java.util.Collection;
-
+import javax.swing.*;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public interface GraphMagicAPI {
-	/**
-	 * Returns on of the graphs that is of most interest, usually last used.
-	 * @return one of the graphs that is of most interest, usually last used.
-	 */
-	GraphWithUI getFocusedGraph();
-
-	/**
-	 * Returns all of the graphs in the scope of this API.
-	 * @return all of the graphs in the scope of this API.
-	 */
-	Collection<GraphWithUI> getGraphs();
-
-	void attachListener(GraphsListener listener);
-
-	void detachListener(GraphsListener listener);
+public interface GraphWithUI extends Graph {
+	Graph getGraph();
+	JFrame getFrame();
 }
