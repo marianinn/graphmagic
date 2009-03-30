@@ -20,14 +20,16 @@
 
 package name.dlazerka.gm.ui;
 
+import name.dlazerka.gm.GraphMagicPlugin;
 import name.dlazerka.gm.basic.ObservableBasicGraph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
-import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
@@ -37,9 +39,10 @@ public class MainFrame extends JFrame {
 
 	private JPanel contentPane = new JPanel();
 	private GraphPanel graphPanel;
-	private JTabbedPane controlsTabbedPane;
-	private JTable pluginsTable;
+	private JTabbedPane leftTabbedPane;
+	private PluginsTable pluginsTable;
 	private JButton addPluginButton = new JButton(Main.getString("add.plugin"));
+	private Collection<GraphMagicPlugin> plugins = new LinkedList<GraphMagicPlugin>();
 
 	public MainFrame() {
 		ObservableBasicGraph graph = new ObservableBasicGraph();
@@ -148,15 +151,15 @@ public class MainFrame extends JFrame {
 //				null, new Dimension(800, 600), null, 0, false
 //			)
 		);
-		controlsTabbedPane = new JTabbedPane();
-		splitPane.setLeftComponent(controlsTabbedPane);
+		leftTabbedPane = new JTabbedPane();
+		splitPane.setLeftComponent(leftTabbedPane);
 		final JPanel controlsPanel = new JPanel();
 //		controlsPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-		controlsTabbedPane.addTab(Main.getString("controls"), controlsPanel);
+		leftTabbedPane.addTab(Main.getString("controls"), controlsPanel);
 		final JPanel pluginsPanel = new JPanel(new GridBagLayout());
 //		pluginsPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
-		controlsTabbedPane.addTab(Main.getString("plugins"), pluginsPanel);
-		controlsTabbedPane.setSelectedIndex(1);
+		leftTabbedPane.addTab(Main.getString("plugins"), pluginsPanel);
+		leftTabbedPane.setSelectedIndex(1);
 
 		pluginsPanel.add(
 			addPluginButton, new GridBagConstraints(
@@ -176,8 +179,7 @@ public class MainFrame extends JFrame {
 //			)
 		);
 
-		pluginsTable = new JTable();
-		pluginsTable.addColumn(new TableColumn());
+		pluginsTable = new PluginsTable();
 		pluginsPanel.add(
 			pluginsTable, new GridBagConstraints(
 				0, GridBagConstraints.RELATIVE,
@@ -200,5 +202,9 @@ public class MainFrame extends JFrame {
 
 	public JComponent getRootComponent() {
 		return contentPane;
+	}
+
+	public void addPlugin(GraphMagicPlugin plugin) {
+		pluginsTable.addPlugin(plugin);
 	}
 }

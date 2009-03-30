@@ -34,4 +34,6 @@ public interface GraphMagicPlugin {
 	void setLocale(Locale locale);
 	
 	List<Action> getActions();
+
+	String getName();
 }

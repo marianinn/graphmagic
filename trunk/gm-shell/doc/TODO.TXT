@@ -18,3 +18,5 @@ Bugs:
   release button, but an edge is still created.
 
 Improvements:
+* Loading plugins from *.class.
+* Loading C/C++ plugins using JNI.
