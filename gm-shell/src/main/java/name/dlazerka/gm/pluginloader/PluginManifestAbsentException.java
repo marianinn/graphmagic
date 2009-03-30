@@ -18,52 +18,15 @@
  * Author: Dzmitry Lazerka dlazerka@dlazerka.name
  */
 
-package name.dlazerka.gm;
+package name.dlazerka.gm.pluginloader;
 
-import java.util.Observable;
+import java.io.File;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class Location extends Observable {
-	private double x;
-	private double y;
-
-	public Location(double x, double y) {
-		setX(x);
-		setY(y);
-	}
-
-	public double getX() {
-		return x;
-	}
-
-	public void setX(double x) {
-		if (x < -1.0 || x > 1.0) {
-			throw new IllegalArgumentException("The X coordinate must belong to the [-1, 1] interval");
-		}
-		this.x = x;
-		this.notifyObservers();
-	}
-
-	public double getY() {
-		return y;
-	}
-
-	public void setY(double y) {
-		if (y < -1.0 || y > 1.0) {
-			throw new IllegalArgumentException("The Y coordinate must belong to the [-1, 1] interval");
-		}
-		this.y = y;
-		this.notifyObservers();
-	}
-
-	public void move(double x, double y) {
-		setX(x);
-		setY(y);
-	}
-
-	public void translate(double dx, double dy) {
-		move(x + dx, y + dy);
+public class PluginManifestAbsentException extends PluginLoadingException {
+	public PluginManifestAbsentException(File file) {
+		super(file.getAbsolutePath());
 	}
 }

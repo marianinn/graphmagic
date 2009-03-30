@@ -44,6 +44,11 @@ public class Main extends AbstractPlugin implements GraphMagicPlugin {
 		return actionList;
 	}
 
+	@Override
+	public String getName() {
+		return "GraphMaker";
+	}
+
 	private class MakeGraphAction extends AbstractAction {
 		private MakeGraphAction() {
 			super("Make Graph");

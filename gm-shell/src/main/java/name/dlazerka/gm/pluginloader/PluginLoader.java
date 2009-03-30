@@ -20,19 +20,23 @@
 
 package name.dlazerka.gm.pluginloader;
 
-import name.dlazerka.gm.GraphMagicPlugin;
 import name.dlazerka.gm.GraphMagicAPI;
+import name.dlazerka.gm.GraphMagicPlugin;
 import name.dlazerka.gm.ui.Main;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.jar.JarFile;
+import java.util.jar.Manifest;
+import java.util.jar.Attributes;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
@@ -41,12 +45,34 @@ public class PluginLoader {
 	private static final Logger logger = LoggerFactory.getLogger(PluginLoader.class);
 
 	private final GraphMagicAPI graphMagicAPI;
+	private static final String PLUGIN_CLASS_MANIFEST_ATTRIBUTE_NAME = "GraphMagicPlugin-Class";
 
 	public PluginLoader(GraphMagicAPI graphMagicAPI) {
 		this.graphMagicAPI = graphMagicAPI;
 	}
 
-	public void load(File file) throws PluginLoadingException {
+	public GraphMagicPlugin load(File file) throws PluginLoadingException {
+		JarFile jarFile;
+		Manifest manifest;
+		try {
+			jarFile = new JarFile(file);
+			manifest = jarFile.getManifest();
+		}
+		catch (IOException e) {
+			throw new PluginLoadingException(e);
+		}
+
+		if (manifest == null) {
+			throw new PluginManifestAbsentException(file);
+		}
+
+		Attributes mainAttributes = manifest.getMainAttributes();
+		String pluginClassName = mainAttributes.getValue(PLUGIN_CLASS_MANIFEST_ATTRIBUTE_NAME);
+
+		if (pluginClassName == null) {
+			throw new PluginMainClassNotSpecifiedException(file);
+		}
+
 		URLClassLoader loader;
 		try {
 			URI uri = file.toURI();
@@ -62,16 +88,16 @@ public class PluginLoader {
 
 		Class<?> mainClass;
 		try {
-			mainClass = loader.loadClass("Main");
+			mainClass = loader.loadClass(pluginClassName);
 		}
 		catch (ClassNotFoundException e) {
 			throw new PluginMainClassNotFoundException(e);
 		}
 
-		load(mainClass);
+		return load(mainClass);
 	}
 
-	public void load(Class<?> mainClass) throws PluginLoadingException {
+	public GraphMagicPlugin load(Class<?> mainClass) throws PluginLoadingException {
 		if (!GraphMagicPlugin.class.isAssignableFrom(mainClass)) {
 			throw new PluginMainClassNotExtendPluginException(mainClass);
 		}
@@ -101,11 +127,15 @@ public class PluginLoader {
 			throw new PluginLoadingException(e);
 		}
 
-		load(pluginInstance);
+		init(pluginInstance);
+
+		return pluginInstance;
 	}
 
-	public void load(GraphMagicPlugin pluginInstance) {
+	public GraphMagicPlugin init(GraphMagicPlugin pluginInstance) {
 		pluginInstance.setGraphMagicAPI(graphMagicAPI);
 		pluginInstance.setLocale(Main.getCurrentLocale());
+
+		return pluginInstance;
 	}
 }

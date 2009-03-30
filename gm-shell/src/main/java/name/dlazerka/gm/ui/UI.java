@@ -20,6 +20,10 @@
 
 package name.dlazerka.gm.ui;
 
+import name.dlazerka.gm.GraphMagicPlugin;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -27,12 +31,16 @@ import java.awt.*;
  * @author Dzmitry Lazerka www.dlazerka.name
  */
 public class UI {
+	private static final Logger logger = LoggerFactory.getLogger(UI.class);
+
+	private static MainFrame mainFrame;
+
 	public static void show() {
 		initLookAndFeel();
 
-		MainFrame mainFrame = new MainFrame();
+		mainFrame = new MainFrame();
 //		mainFrame.pack();
-		mainFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
+		mainFrame.setExtendedState(Frame.NORMAL);
 		mainFrame.setVisible(true);
 	}
 
@@ -61,5 +69,10 @@ public class UI {
 		catch (UnsupportedLookAndFeelException e1) {
 			e1.printStackTrace();
 		}
+	}
+
+	public static void addPlugin(GraphMagicPlugin plugin) {
+		mainFrame.addPlugin(plugin);
+		logger.info("Added plugin {} ({})", new Object[]{plugin.getName(), plugin.getClass()});
 	}
 }
