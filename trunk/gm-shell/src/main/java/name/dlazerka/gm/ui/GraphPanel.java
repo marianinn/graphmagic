@@ -22,10 +22,9 @@ package name.dlazerka.gm.ui;
 
 import name.dlazerka.gm.Edge;
 import name.dlazerka.gm.Graph;
-import name.dlazerka.gm.Main;
+import name.dlazerka.gm.ObservableGraph;
 import name.dlazerka.gm.Vertex;
-import name.dlazerka.gm.bean.GraphChangeListener;
-import name.dlazerka.gm.bean.GraphImpl;
+import name.dlazerka.gm.basic.GraphModificationListener;
 import name.dlazerka.gm.util.ListMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +43,7 @@ public class GraphPanel extends JPanel {
 	private final static Dimension DEFAULT_DIMENSION = new Dimension(600, 400);
 	private final static Dimension MINIMUM_DIMENSION = new Dimension(300, 200);
 
-	private final GraphImpl graph;
+	private final ObservableGraph graph;
 
 	private Map<Vertex, VertexPanel> vertexToVertexPanel = new ListMap<Vertex, VertexPanel>();
 	private Map<Edge, EdgePanel> edgeToEdgePanel = new ListMap<Edge, EdgePanel>();
@@ -64,7 +63,9 @@ public class GraphPanel extends JPanel {
 	 */
 	private VertexPanel lastHoveredVertexPanel;
 
-	public GraphPanel() {
+	public GraphPanel(ObservableGraph graph) {
+		this.graph = graph;
+
 		GraphLayoutManager layoutManager = new GraphLayoutManager();
 		setLayout(layoutManager);
 		setPreferredSize(DEFAULT_DIMENSION);// for MainFrame
@@ -75,8 +76,7 @@ public class GraphPanel extends JPanel {
 
 		add(newEdgePanel);
 
-		graph = new GraphImpl();
-		graph.addChangeListener(new GraphChangeListenerImpl());
+		graph.addChangeListener(new GraphModificationListenerImpl());
 		layoutManager.layoutDefault(this);
 	}
 
@@ -163,7 +163,7 @@ public class GraphPanel extends JPanel {
 	}
 
 
-	private class GraphChangeListenerImpl implements GraphChangeListener {
+	private class GraphModificationListenerImpl implements GraphModificationListener {
 		public void notifyAttached() {
 			addVertexPanels();
 			addEdgePanels();

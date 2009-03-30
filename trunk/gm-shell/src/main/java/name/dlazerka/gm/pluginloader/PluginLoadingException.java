@@ -18,24 +18,24 @@
  * Author: Dzmitry Lazerka dlazerka@dlazerka.name
  */
 
-package name.dlazerka.gm.bean;
-
-import name.dlazerka.gm.Edge;
-import name.dlazerka.gm.Vertex;
-
-import java.util.EventListener;
+package name.dlazerka.gm.pluginloader;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public interface GraphChangeListener extends EventListener {
-	void notifyAttached();
+public class PluginLoadingException extends PluginException {
+	public PluginLoadingException() {
+	}
 
-	void vertexAdded(Vertex vertex);
+	public PluginLoadingException(String message) {
+		super(message);
+	}
 
-	void edgeAdded(Edge edge);
+	public PluginLoadingException(String message, Throwable cause) {
+		super(message, cause);
+	}
 
-	void vertexDeleted(Vertex vertex);
-
-	void edgeDeleted(Edge edge);
+	public PluginLoadingException(Throwable cause) {
+		super(cause);
+	}
 }

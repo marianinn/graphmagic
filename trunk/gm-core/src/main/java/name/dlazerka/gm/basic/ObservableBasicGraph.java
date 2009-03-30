@@ -18,13 +18,13 @@
  * Author: Dzmitry Lazerka dlazerka@dlazerka.name
  */
 
-package name.dlazerka.gm.bean;
+package name.dlazerka.gm.basic;
 
 
 import name.dlazerka.gm.Edge;
 import name.dlazerka.gm.Graph;
 import name.dlazerka.gm.Vertex;
-import name.dlazerka.gm.basic.BasicGraph;
+import name.dlazerka.gm.ObservableGraph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,17 +34,17 @@ import java.util.List;
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class GraphImpl extends BasicGraph implements Graph {
-	private static final Logger logger = LoggerFactory.getLogger(GraphImpl.class);
+public class ObservableBasicGraph extends BasicGraph implements Graph, ObservableGraph {
+	private static final Logger logger = LoggerFactory.getLogger(ObservableBasicGraph.class);
 
-	private final List<GraphChangeListener> changeListeners = new LinkedList<GraphChangeListener>();
+	private final List<GraphModificationListener> modificationListenerList = new LinkedList<GraphModificationListener>();
 
-	public GraphImpl() {
+	public ObservableBasicGraph() {
 		create5();
 	}
 
-	public boolean addChangeListener(GraphChangeListener listener) {
-		boolean result = changeListeners.add(listener);
+	public boolean addChangeListener(GraphModificationListener listener) {
+		boolean result = modificationListenerList.add(listener);
 		listener.notifyAttached();
 		return result;
 	}
@@ -89,7 +89,7 @@ public class GraphImpl extends BasicGraph implements Graph {
 	public void addVertex(Vertex vertex) {
 		super.addVertex(vertex);
 
-		for (GraphChangeListener listener : changeListeners) {
+		for (GraphModificationListener listener : modificationListenerList) {
 			listener.vertexAdded(vertex);
 		}
 	}
@@ -97,15 +97,15 @@ public class GraphImpl extends BasicGraph implements Graph {
 	public void remove(Vertex vertex) {
 		super.remove(vertex);
 
-		for (GraphChangeListener changeListener : changeListeners) {
-			changeListener.vertexDeleted(vertex);
+		for (GraphModificationListener modificationListener : modificationListenerList) {
+			modificationListener.vertexDeleted(vertex);
 		}
 	}
 
 	protected void addEdge(Edge edge) {
 		super.addEdge(edge);
 
-		for (GraphChangeListener listener : changeListeners) {
+		for (GraphModificationListener listener : modificationListenerList) {
 			listener.edgeAdded(edge);
 		}
 	}
@@ -113,8 +113,8 @@ public class GraphImpl extends BasicGraph implements Graph {
 	public void remove(Edge edge) {
 		super.remove(edge);
 
-		for (GraphChangeListener changeListener : changeListeners) {
-			changeListener.edgeDeleted(edge);
+		for (GraphModificationListener modificationListener : modificationListenerList) {
+			modificationListener.edgeDeleted(edge);
 		}
 	}
 }

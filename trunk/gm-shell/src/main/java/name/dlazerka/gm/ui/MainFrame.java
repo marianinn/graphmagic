@@ -20,7 +20,7 @@
 
 package name.dlazerka.gm.ui;
 
-import name.dlazerka.gm.Main;
+import name.dlazerka.gm.basic.ObservableBasicGraph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,16 +36,20 @@ public class MainFrame extends JFrame {
 	private final static Logger logger = LoggerFactory.getLogger(MainFrame.class);
 
 	private JPanel contentPane = new JPanel();
-	private GraphPanel graphPanel = new GraphPanel();
+	private GraphPanel graphPanel;
 	private JTabbedPane controlsTabbedPane;
 	private JTable pluginsTable;
 	private JButton addPluginButton = new JButton(Main.getString("add.plugin"));
 
 	public MainFrame() {
+		ObservableBasicGraph graph = new ObservableBasicGraph();
+		graphPanel = new GraphPanel(graph);
+
 		setupUI();
 
 		setContentPane(contentPane);
 		setTitle(Main.getString("main.title"));
+		setSize(800, 600);
 
 		this.setExtendedState(Frame.MAXIMIZED_BOTH);
 		registerCommands();

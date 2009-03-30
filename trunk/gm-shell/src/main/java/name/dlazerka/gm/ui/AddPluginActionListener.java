@@ -20,9 +20,7 @@
 
 package name.dlazerka.gm.ui;
 
-import name.dlazerka.gm.Main;
-import name.dlazerka.gm.plugin.PluginLoader;
-import name.dlazerka.gm.plugin.PluginLoadingException;
+import name.dlazerka.gm.pluginloader.PluginLoadingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,7 +53,7 @@ public class AddPluginActionListener extends JFileChooser implements ActionListe
 		if (ret == JFileChooser.APPROVE_OPTION) {
 			File file = getSelectedFile();
 			try {
-				PluginLoader.load(file);
+				Main.getPluginLoader().load(file);
 			}
 			catch (PluginLoadingException ex) {
 				logger.error(ex.getMessage());
