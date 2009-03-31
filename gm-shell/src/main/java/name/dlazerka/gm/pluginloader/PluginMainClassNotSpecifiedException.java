@@ -27,6 +27,6 @@ import java.io.File;
  */
 public class PluginMainClassNotSpecifiedException extends PluginLoadingException {
 	public PluginMainClassNotSpecifiedException(File file) {
-		super(file.getAbsolutePath());
+		super("Plugin main class is not specified. File: " + file.getAbsolutePath());
 	}
 }

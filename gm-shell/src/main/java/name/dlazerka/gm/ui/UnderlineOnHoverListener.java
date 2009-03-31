@@ -18,28 +18,33 @@
  * Author: Dzmitry Lazerka dlazerka@dlazerka.name
  */
 
-package name.dlazerka.gm.pluginloader;
+package name.dlazerka.gm.ui;
 
-import name.dlazerka.gm.ui.Main;
-
-import java.io.File;
+import javax.swing.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
- */
-public class PluginManifestAbsentException extends PluginLoadingException {
-	private final File file;
-	public PluginManifestAbsentException(File file) {
-		super("File " + file.getAbsolutePath() + " does not contain standard JAR Manifest");
-		this.file = file;
+*/
+class UnderlineOnHoverListener extends MouseAdapter {
+	private final String defaultText;
+	private final String underlinedText;
+
+	public UnderlineOnHoverListener(
+		JLabel label
+	) {
+		this.defaultText = label.getText();
+		this.underlinedText = "<html><u>" + defaultText + "</u></html>";
 	}
 
 	@Override
-	public String getLocalizedMessage() {
-		return Main.getString("plugin.manifest.absent.exception", file.getName()); 
+	public void mouseEntered(MouseEvent e) {
+		((JLabel) e.getSource()).setText(underlinedText);
 	}
 
-	public File getFile() {
-		return file;
+	@Override
+	public void mouseExited(MouseEvent e) {
+		((JLabel) e.getSource()).setText(defaultText);
 	}
 }
