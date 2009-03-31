@@ -20,14 +20,15 @@
 
 package name.dlazerka.gm.ui;
 
-import name.dlazerka.gm.pluginloader.PluginLoader;
 import name.dlazerka.gm.GraphMagicAPI;
 import name.dlazerka.gm.GraphsContainer;
+import name.dlazerka.gm.pluginloader.PluginLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
@@ -50,8 +51,15 @@ public class Main {
 	private static GraphMagicAPI graphMagicAPI = new GraphsContainer();
 	private static PluginLoader pluginLoader = new PluginLoader(graphMagicAPI);
 
-	public static String getString(String key) {
-		return resourceBundle.getString(key);
+	public static String getString(String key, String... params) {
+		String text = resourceBundle.getString(key);
+
+		if(params != null){
+			MessageFormat mf = new MessageFormat(text);
+			text = mf.format(params);
+		}
+
+		return text;
 	}
 
 	public static boolean isProduction() {

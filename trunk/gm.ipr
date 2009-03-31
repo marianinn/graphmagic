@@ -129,9 +129,26 @@
         <inspection_tool class="RequiredAttributes" level="WARNING" enabled="true">
           <option name="myAdditionalRequiredHtmlAttributes" value="type" />
         </inspection_tool>
+        <inspection_tool class="HardCodedStringLiteral" level="INFO" enabled="true">
+          <option name="ignoreForAssertStatements" value="true" />
+          <option name="ignoreForExceptionConstructors" value="true" />
+          <option name="ignoreForSpecifiedExceptionConstructors" value="" />
+          <option name="ignoreForJUnitAsserts" value="true" />
+          <option name="ignoreForClassReferences" value="true" />
+          <option name="ignoreForPropertyKeyReferences" value="true" />
+          <option name="ignoreForNonAlpha" value="true" />
+          <option name="ignoreAssignedToConstants" value="false" />
+          <option name="ignoreToString" value="false" />
+          <option name="nonNlsCommentPattern" value="NON-NLS" />
+        </inspection_tool>
       </profile>
     </profiles>
-    <list size="0" />
+    <list size="4">
+      <item index="0" class="java.lang.String" itemvalue="SERVER PROBLEM" />
+      <item index="1" class="java.lang.String" itemvalue="INFO" />
+      <item index="2" class="java.lang.String" itemvalue="WARNING" />
+      <item index="3" class="java.lang.String" itemvalue="ERROR" />
+    </list>
   </component>
   <component name="JavacSettings">
     <option name="DEBUGGING_INFO" value="true" />

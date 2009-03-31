@@ -20,9 +20,9 @@
 
 package name.dlazerka.gm.ui;
 
-import name.dlazerka.gm.pluginloader.PluginLoadingException;
-import name.dlazerka.gm.pluginloader.PluginLoader;
 import name.dlazerka.gm.GraphMagicPlugin;
+import name.dlazerka.gm.pluginloader.PluginLoader;
+import name.dlazerka.gm.pluginloader.PluginLoadingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,6 +31,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 
 /**
@@ -61,7 +63,19 @@ public class AddPluginActionListener extends JFileChooser implements ActionListe
 			}
 			catch (PluginLoadingException ex) {
 				logger.error(ex.getMessage());
+
+
+
+//				JOptionPane.showMessageDialog(
+//					parent,
+//					errorPanel,
+//					Main.getString("error"),
+//				    JOptionPane.ERROR_MESSAGE
+//				);
+////				JOptionPane errorDialog = new JOptionPane(ex.getMessage(), JOptionPane.ERROR_MESSAGE, JOptionPane.DEFAULT_OPTION);
+				ErrorDialog.showError(ex, parent);
 			}
 		}
 	}
+
 }

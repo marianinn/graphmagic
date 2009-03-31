@@ -35,6 +35,15 @@ public class ListMap<K, V> extends AbstractMap<K, V> implements Map<K, V> {
         entrySet.addAll(Arrays.asList(initialEntries));
     }
 
+	/**
+	 * Creates map with one key-value pair.
+	 * @param key key
+	 * @param value value
+	 */
+	public ListMap(K key, V value) {
+	    put(key, value);
+	}
+
     @Override
 	public Set<Map.Entry<K, V>> entrySet() {
 		return entrySet;

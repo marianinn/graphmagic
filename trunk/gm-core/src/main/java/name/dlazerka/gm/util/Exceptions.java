@@ -18,28 +18,42 @@
  * Author: Dzmitry Lazerka dlazerka@dlazerka.name
  */
 
-package name.dlazerka.gm.pluginloader;
+package name.dlazerka.gm.util;
 
-import name.dlazerka.gm.ui.Main;
-
-import java.io.File;
+import java.io.StringWriter;
+import java.io.PrintWriter;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class PluginManifestAbsentException extends PluginLoadingException {
-	private final File file;
-	public PluginManifestAbsentException(File file) {
-		super("File " + file.getAbsolutePath() + " does not contain standard JAR Manifest");
-		this.file = file;
+public class Exceptions {
+	public static String makeStackTrace(Throwable throwable) {
+		StringWriter writer = new StringWriter();
+		throwable.printStackTrace(new PrintWriter(writer));
+		return writer.toString();
 	}
 
-	@Override
-	public String getLocalizedMessage() {
-		return Main.getString("plugin.manifest.absent.exception", file.getName()); 
+	public static String makeDeepestCauseStackTrace(Throwable throwable) {
+		StringBuffer buffer = new StringBuffer();
+
+		Throwable cause = throwable;
+		while (cause != null) {
+			buffer.append(makeStackTrace(cause));
+			throwable = throwable.getCause();
+			cause = throwable.getCause();
+		}
+
+		return makeStackTrace(throwable);
 	}
 
-	public File getFile() {
-		return file;
+	public static String makeCauseMessages(Throwable throwable) {
+		StringBuffer buffer = new StringBuffer();
+
+		while (throwable != null) {
+			buffer.append(throwable.getMessage());
+			throwable = throwable.getCause();
+		}
+
+		return buffer.toString();
 	}
 }
