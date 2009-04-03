@@ -21,7 +21,7 @@
 package name.dlazerka.gm.basic;
 
 import name.dlazerka.gm.Edge;
-import name.dlazerka.gm.NumeratedGraph;
+import name.dlazerka.gm.LabeledGraph;
 import name.dlazerka.gm.Vertex;
 import name.dlazerka.gm.util.LinkedSet;
 import org.slf4j.Logger;
@@ -32,7 +32,7 @@ import java.util.Set;
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class BasicGraph implements NumeratedGraph {
+public class BasicGraph implements LabeledGraph {
 	private static final Logger logger = LoggerFactory.getLogger(BasicGraph.class);
 
 	private final Set<Vertex> vertexSet = new LinkedSet<Vertex>();
