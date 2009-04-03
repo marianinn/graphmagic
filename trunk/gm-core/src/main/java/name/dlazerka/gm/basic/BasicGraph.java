@@ -134,6 +134,10 @@ public class BasicGraph implements Graph, Serializable {
 		if (!contained) {
 			throw new NoSuchVertexException(this, vertex);
 		}
+
+		if (vertex instanceof BasicVertex) {
+			((BasicVertex) vertex).markRemoved();
+		}
 	}
 
 	@Override
@@ -142,6 +146,10 @@ public class BasicGraph implements Graph, Serializable {
 
 		if (!contained) {
 			throw new NoSuchEdgeException(this, edge);
+		}
+
+		if (edge instanceof BasicEdge) {
+			((BasicEdge) edge).markRemoved();
 		}
 	}
 
