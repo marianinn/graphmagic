@@ -20,24 +20,24 @@
 
 package name.dlazerka.gm.basic;
 
-import name.dlazerka.gm.Edge;
-import name.dlazerka.gm.LabeledGraph;
-import name.dlazerka.gm.Vertex;
+import name.dlazerka.gm.*;
 import name.dlazerka.gm.util.LinkedSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Set;
+import java.io.Serializable;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class BasicGraph implements LabeledGraph {
+public class BasicGraph implements Graph, Serializable {
 	private static final Logger logger = LoggerFactory.getLogger(BasicGraph.class);
 
 	private final Set<Vertex> vertexSet = new LinkedSet<Vertex>();
 
 	private final Set<Edge> edgeSet = new LinkedSet<Edge>();
+	private GraphUI uI;
 
 	@Override
 	public String toString() {
@@ -65,11 +65,38 @@ public class BasicGraph implements LabeledGraph {
 	}
 
 	@Override
+	public Vertex getVertex(int id) {
+		for (Vertex vertex : vertexSet) {
+			if (vertex.getId() == id) {
+				return vertex;
+			}
+		}
+
+		throw new NoSuchVertexException(this, id);
+	}
+
+	@Override
+	public Edge getEdge(int tailId, int headId) {
+		Vertex tail = getVertex(tailId);
+		Vertex head = getVertex(headId);
+
+		for (Edge edge : edgeSet) {
+			if (edge.getTail().equals(tail)
+				&& edge.getHead().equals(head))
+			{
+				return edge;
+			}
+		}
+
+		throw new NoSuchEdgeException(this, tail, head);
+	}
+
+	@Override
 	public Vertex createVertex() {
 		int max = 0;
 		for (Vertex vertex : vertexSet) {
-			if (vertex.getNumber() > max) {
-				max = vertex.getNumber();
+			if (vertex.getId() > max) {
+				max = vertex.getId();
 			}
 		}
 		Vertex vertex = new BasicVertex(this, max + 1);
@@ -81,43 +108,41 @@ public class BasicGraph implements LabeledGraph {
 
 	@Override
 	public Edge createEdge(Vertex tail, Vertex head) {
-		BasicEdge edge = new BasicEdge(tail, head);
+		BasicEdge edge = new BasicEdge(this, tail, head);
 		addEdge(edge);
 		return edge;
 	}
 
 	@Override
-	public Edge createEdge(int tailNum, int headNum) {
-		Vertex tail = getVertex(tailNum);
-		Vertex head = getVertex(headNum);
+	public Edge createEdge(int tailId, int headId) {
+		Vertex tail = getVertex(tailId);
+		Vertex head = getVertex(headId);
+
 		return createEdge(tail, head);
 	}
 
 	@Override
-	public Vertex getVertex(int num) {
-		for (Vertex vertex : vertexSet) {
-			if (vertex.getNumber() == num) {
-				return vertex;
-			}
-		}
-
-		throw new IllegalArgumentException("Graph does not contain vertex number " + num);
-	}
-
-	@Override
 	public void remove(Vertex vertex) {
-		Set<Edge> edgesToRemove = vertex.getAdjacentEdges();
+		Set<Edge> edgesToRemove = vertex.getIncidentEdgeSet();
 
 		for (Edge edge : edgesToRemove) {
 			remove(edge);
 		}
 
-		vertexSet.remove(vertex);
+		boolean contained = vertexSet.remove(vertex);
+
+		if (!contained) {
+			throw new NoSuchVertexException(this, vertex);
+		}
 	}
 
 	@Override
 	public void remove(Edge edge) {
-		edgeSet.remove(edge);
+		boolean contained = edgeSet.remove(edge);
+
+		if (!contained) {
+			throw new NoSuchEdgeException(this, edge);
+		}
 	}
 
 	@Override
@@ -126,6 +151,16 @@ public class BasicGraph implements LabeledGraph {
 		for (Vertex vertex : tempSet) {
 			remove(vertex);
 		}
+	}
+
+	@Override
+	public GraphUI getUI() {
+		return uI;
+	}
+
+	@Override
+	public void setUI(GraphUI uI) {
+		this.uI = uI;
 	}
 
 	protected void addVertex(Vertex vertex) {

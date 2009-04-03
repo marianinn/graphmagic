@@ -42,13 +42,23 @@ public interface Graph {
 
 	Set<Edge> getEdgeSet();
 
+	Vertex getVertex(int id);
+
+	Edge getEdge(int tailId, int headId);
+
 	Vertex createVertex();
 
 	Edge createEdge(Vertex tail, Vertex head);
+
+	Edge createEdge(int tailId, int headId);
 
 	void remove(Vertex vertex);
 
 	void remove(Edge edge);
 
 	void clear();
+
+	GraphUI getUI();
+	
+	void setUI(GraphUI uI);
 }

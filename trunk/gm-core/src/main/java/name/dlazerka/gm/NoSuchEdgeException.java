@@ -20,24 +20,15 @@
 
 package name.dlazerka.gm;
 
-import java.util.Set;
-
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public interface Edge {
+public class NoSuchEdgeException extends RuntimeException {
+	public NoSuchEdgeException(Graph graph, Edge edge) {
+		super("Graph does not contain edge " + edge);
+	}
 
-	Graph getGraph();
-
-	Vertex getHead();
-
-	Vertex getTail();
-
-	Visual getVisual();
-
-	Set<Edge> getIncidentEdgeSet();
-
-	boolean isIncident(Vertex vertex);
-	
-	boolean isIncident(Edge edge);
+	public NoSuchEdgeException(Graph graph, Vertex tail, Vertex head) {
+		super("Graph does not contain edge that from " + tail + " to " + head);
+	}
 }

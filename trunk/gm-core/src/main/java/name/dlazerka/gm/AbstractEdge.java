@@ -20,24 +20,29 @@
 
 package name.dlazerka.gm;
 
-import java.util.Set;
-
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public interface Edge {
+public abstract class AbstractEdge implements Edge {
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof AbstractEdge)) return false;
 
-	Graph getGraph();
+		AbstractEdge that = (AbstractEdge) o;
 
-	Vertex getHead();
+		if (getGraph() != null ? !getGraph().equals(that.getGraph()) : that.getGraph() != null) return false;
+		if (getHead() != null ? !getHead().equals(that.getHead()) : that.getHead() != null) return false;
+		if (getTail() != null ? !getTail().equals(that.getTail()) : that.getTail() != null) return false;
 
-	Vertex getTail();
+		return true;
+	}
 
-	Visual getVisual();
-
-	Set<Edge> getIncidentEdgeSet();
-
-	boolean isIncident(Vertex vertex);
-	
-	boolean isIncident(Edge edge);
+	@Override
+	public int hashCode() {
+		int result = getGraph() != null ? getGraph().hashCode() : 0;
+		result = 31 * result + (getHead() != null ? getHead().hashCode() : 0);
+		result = 31 * result + (getTail() != null ? getTail().hashCode() : 0);
+		return result;
+	}
 }

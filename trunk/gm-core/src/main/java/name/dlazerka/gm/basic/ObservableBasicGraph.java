@@ -30,11 +30,12 @@ import org.slf4j.LoggerFactory;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.io.Serializable;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class ObservableBasicGraph extends BasicGraph implements Graph, ObservableGraph {
+public class ObservableBasicGraph extends BasicGraph implements Graph, ObservableGraph, Serializable {
 	private static final Logger logger = LoggerFactory.getLogger(ObservableBasicGraph.class);
 
 	private final List<GraphModificationListener> modificationListenerList = new LinkedList<GraphModificationListener>();

@@ -18,26 +18,10 @@
  * Author: Dzmitry Lazerka dlazerka@dlazerka.name
  */
 
-package name.dlazerka.gm;
-
-import java.util.Set;
+package name.dlazerka.gm.basic;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public interface Edge {
-
-	Graph getGraph();
-
-	Vertex getHead();
-
-	Vertex getTail();
-
-	Visual getVisual();
-
-	Set<Edge> getIncidentEdgeSet();
-
-	boolean isIncident(Vertex vertex);
-	
-	boolean isIncident(Edge edge);
+public class EdgeRemovedException extends RuntimeException {
 }

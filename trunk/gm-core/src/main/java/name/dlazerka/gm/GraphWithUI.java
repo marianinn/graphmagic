@@ -21,12 +21,9 @@
 
 package name.dlazerka.gm;
 
-import javax.swing.*;
-
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
 public interface GraphWithUI extends Graph {
 	Graph getGraph();
-	JFrame getFrame();
 }

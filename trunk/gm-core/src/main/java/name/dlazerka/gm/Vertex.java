@@ -26,10 +26,18 @@ import java.util.Set;
  * @author Dzmitry Lazerka www.dlazerka.name
  */
 public interface Vertex {
+	
+	Graph getGraph();
 
-	int getNumber();
+	int getId();
 
 	Visual getVisual();
 
-	Set<Edge> getAdjacentEdges();
+	Set<Vertex> getAdjacentVertexSet();
+
+	Set<Edge> getIncidentEdgeSet();
+
+	boolean isAdjacent(Vertex vertex);
+
+	boolean isIncident(Edge edge);
 }

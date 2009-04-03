@@ -24,68 +24,116 @@ import name.dlazerka.gm.*;
 import name.dlazerka.gm.util.LinkedSet;
 
 import java.util.Set;
+import java.io.Serializable;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class BasicVertex implements Vertex {
-	private final LabeledGraph graph;
-	private final int number;
+public class BasicVertex extends AbstractVertex implements Vertex, Serializable {
+	private final Graph graph;
+	private final int label;
 	private final Visual visual;
+	private boolean removed = false;
 
 	/**
 	 * Protected constructor. To obtain new instance see {@link Graph#createVertex()}.
 	 *
 	 * @param graph
-	 *@param number number that indentifies this vertex in its graph.  @see Graph#createVertex()
+	 *@param label number that indentifies this vertex in its graph.  @see Graph#createVertex()
 	 */
-	protected BasicVertex(LabeledGraph graph, int number) {
+	protected BasicVertex(Graph graph, int label) {
 		this.graph = graph;
-		this.number = number;
+		this.label = label;
 		this.visual = new Visual();
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-
-		BasicVertex vertex = (BasicVertex) o;
-
-		return number == vertex.number;
-	}
-
-	@Override
-	public int hashCode() {
-		return number;
-	}
-
-	@Override
 	public String toString() {
-		return number + "";
+		return label + "";
 	}
 
-	public int getNumber() {
-		return number;
+	@Override
+	public Graph getGraph() {
+		checkNotRemoved();
+
+		return graph;
+	}
+
+	public int getId() {
+		checkNotRemoved();
+
+		return label;
 	}
 
 	@Override
 	public Visual getVisual() {
+		checkNotRemoved();
+
 		return visual;
 	}
 
 	@Override
-	public Set<Edge> getAdjacentEdges() {
-		LinkedSet<Edge> adjacentEdgeSet = new LinkedSet<Edge>();
+	public Set<Vertex> getAdjacentVertexSet() {
+		checkNotRemoved();
+
+		Set<Vertex> adjacentVertexSet = new LinkedSet<Vertex>();
+
+		for (Edge edge : getIncidentEdgeSet()) {
+			if (edge.getTail().equals(this)) {
+				adjacentVertexSet.add(edge.getHead());
+			}
+			else {
+				adjacentVertexSet.add(edge.getTail());
+			}
+		}
+
+		return adjacentVertexSet;
+	}
+
+	@Override
+	public Set<Edge> getIncidentEdgeSet() {
+		checkNotRemoved();
+
+		Set<Edge> incidentEdgeSet = new LinkedSet<Edge>();
 
 		for (Edge edge : graph.getEdgeSet()) {
 			if (this.equals(edge.getHead()) ||
 			    this.equals(edge.getTail()))
 			{
-				adjacentEdgeSet.add(edge);
+				incidentEdgeSet.add(edge);
 			}
 		}
 
-		return adjacentEdgeSet;
+		return incidentEdgeSet;
+	}
+
+	@Override
+	public boolean isAdjacent(Vertex vertex) {
+		checkNotRemoved();
+
+		return getAdjacentVertexSet().contains(vertex);
+	}
+
+	@Override
+	public boolean isIncident(Edge edge) {
+		checkNotRemoved();
+
+		return getIncidentEdgeSet().contains(edge);
+	}
+
+	/**
+	 * Calling this tells that this vertex has been removed from its graph.
+	 * This means that no use is expected anymore.
+	 */
+	protected void markRemoved() {
+		checkNotRemoved();
+
+		removed = false;
+	}
+
+	protected void checkNotRemoved() {
+		if (removed) {
+			throw new VertexRemovedException();
+		}
 	}
 }

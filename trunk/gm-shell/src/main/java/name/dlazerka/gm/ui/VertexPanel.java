@@ -137,10 +137,10 @@ public class VertexPanel extends JPanel implements Paintable {
 		g2.setColor(COLOR_NUMBER);
 
 		FontRenderContext fontRenderContext = g2.getFontRenderContext();
-		GlyphVector glyphVector = NUMBER_FONT.createGlyphVector(fontRenderContext, "" + vertex.getNumber());
+		GlyphVector glyphVector = NUMBER_FONT.createGlyphVector(fontRenderContext, "" + vertex.getId());
 
 		int glyphStartX;
-		if (vertex.getNumber() < 10) {
+		if (vertex.getId() < 10) {
 			glyphStartX = NUMBER_SHIFT_X1;
 		}
 		else {
