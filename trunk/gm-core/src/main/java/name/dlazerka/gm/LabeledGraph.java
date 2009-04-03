@@ -23,7 +23,7 @@ package name.dlazerka.gm;
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public interface NumeratedGraph extends Graph {
+public interface LabeledGraph extends Graph {
 	Vertex getVertex(int num);
 
 	Edge createEdge(int tailNum, int headNum);

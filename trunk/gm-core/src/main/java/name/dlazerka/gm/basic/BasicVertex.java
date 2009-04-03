@@ -29,7 +29,7 @@ import java.util.Set;
  * @author Dzmitry Lazerka www.dlazerka.name
  */
 public class BasicVertex implements Vertex {
-	private final NumeratedGraph graph;
+	private final LabeledGraph graph;
 	private final int number;
 	private final Visual visual;
 
@@ -39,7 +39,7 @@ public class BasicVertex implements Vertex {
 	 * @param graph
 	 *@param number number that indentifies this vertex in its graph.  @see Graph#createVertex()
 	 */
-	protected BasicVertex(NumeratedGraph graph, int number) {
+	protected BasicVertex(LabeledGraph graph, int number) {
 		this.graph = graph;
 		this.number = number;
 		this.visual = new Visual();
