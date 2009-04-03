@@ -32,6 +32,8 @@ import org.slf4j.LoggerFactory;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Map;
 
 /**
@@ -69,8 +71,12 @@ public class GraphPanel extends JPanel {
 		GraphLayoutManager layoutManager = new GraphLayoutManager();
 		setLayout(layoutManager);
 		setPreferredSize(DEFAULT_DIMENSION);// for MainFrame
-		setSize(DEFAULT_DIMENSION);// for GraphLayoutManager@58
-		setMinimumSize(MINIMUM_DIMENSION);// to not to reduce to zero while "Restoring Down"
+		setBorder(BorderFactory.createLineBorder(Color.BLACK));
+//		setSize(DEFAULT_DIMENSION);// for GraphLayoutManager@58
+//		setMinimumSize(MINIMUM_DIMENSION);// to not to reduce to zero while "Restoring Down"
+
+		setAutoscrolls(true);
+		addMouseMotionListener(new MouseMotionListener());
 
 		setComponentPopupMenu(new PopupMenu());
 
@@ -264,5 +270,14 @@ public class GraphPanel extends JPanel {
 			}
 		}
 
+	}
+
+	private class MouseMotionListener extends MouseMotionAdapter {
+		@Override
+		public void mouseDragged(MouseEvent e) {
+			Rectangle r = new Rectangle(e.getX(), e.getY(), 1, 1);
+			scrollRectToVisible(r);
+//			setAutoscrolls();
+		}
 	}
 }

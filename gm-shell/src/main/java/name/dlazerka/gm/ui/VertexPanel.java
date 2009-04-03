@@ -20,7 +20,6 @@
 
 package name.dlazerka.gm.ui;
 
-import name.dlazerka.gm.ui.Main;
 import name.dlazerka.gm.Vertex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
