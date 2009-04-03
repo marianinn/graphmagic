@@ -25,11 +25,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
-import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import java.awt.font.TextAttribute;
 import java.text.AttributedString;
 
@@ -42,6 +42,8 @@ public class ErrorDialog extends JDialog {
 	private static final int STYLE = JRootPane.ERROR_DIALOG;
 	private Object value;
 	private final Throwable throwable;
+	private JScrollPane stackTraceContainer;
+	private GroupLayout layout;
 
 	public ErrorDialog(Window parent, Throwable throwable) {
 		super(parent);
@@ -63,69 +65,58 @@ public class ErrorDialog extends JDialog {
 	}
 
 	protected void setupUI() {
-		String stackTraceString = Exceptions.makeStackTrace(new Exception("sdf", throwable));
-		JTextArea textArea = new JTextArea(stackTraceString);
-		textArea.setAutoscrolls(true);
-		JScrollPane stackTraceContainer = new JScrollPane(textArea);
-		stackTraceContainer.setPreferredSize(new Dimension(600, 250));
-
-		final JLabel showStackTraceLabel = new JLabel(Main.getString("show.stack.trace"));
-		showStackTraceLabel.setForeground(Color.BLUE);
-		showStackTraceLabel.addMouseMotionListener(new UnderlineOnHoverListener(showStackTraceLabel));
-
-		AttributedString attributedString = new AttributedString(stackTraceString);
-		attributedString.addAttribute(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
-
-
-//				Font font1 = showStackTraceLabel.getFont().deriveFont();
-//				showStackTraceLabel.setFont(font1.);
-		JPanel showStackTraceContainer = new JPanel(new BorderLayout());
-		showStackTraceContainer.add(showStackTraceLabel, BorderLayout.EAST);
-
+//		JPanel errorPanel = new JPanel();
+//		getContentPane().add(errorPanel);
+		layout = new GroupLayout(this.getContentPane());
+//		layout.setAutoCreateGaps(true);
+		layout.setAutoCreateContainerGaps(true);
+//		errorPanel.setLayout(layout);
+		this.getContentPane().setLayout(layout);
 
 		JTextArea messageArea = new JTextArea(throwable.getLocalizedMessage());
 		messageArea.setRows(1);
+		messageArea.setPreferredSize(new Dimension(600, 20));
 		messageArea.setBackground(getParent().getBackground());
 		messageArea.setFont(getParent().getFont());
 
-		JPanel errorPanel = new JPanel();
-		GroupLayout layout = new GroupLayout(errorPanel);
-		layout.setAutoCreateGaps(true);
-		errorPanel.setLayout(layout);
+		String stackTraceString = Exceptions.makeStackTrace(throwable);
+		JTextArea stackTraceArea = new JTextArea(stackTraceString);
+		stackTraceArea.setAutoscrolls(true);
+		stackTraceContainer = new JScrollPane(stackTraceArea);
+		stackTraceContainer.setPreferredSize(new Dimension(600, 250));
+		stackTraceContainer.setVisible(false);
+
+		final JCheckBox showStackTrace = new JCheckBox(Main.getString("show.stack.trace"));
+		showStackTrace.setForeground(Color.BLUE);
+		showStackTrace.addActionListener(new ShowStackTraceListener());
+
+		AttributedString attributedString = new AttributedString(stackTraceString);
+		attributedString.addAttribute(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+		
 		layout.setHorizontalGroup(
 			layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addComponent(messageArea)
-				.addComponent(showStackTraceContainer)
+				.addGroup(
+					layout.createSequentialGroup()
+						.addComponent(messageArea)
+						.addComponent(showStackTrace)
+				)
+//				.addComponent(messageArea)
+//				.addComponent(topContainer)
 				.addComponent(stackTraceContainer)
 		);
 		layout.setVerticalGroup(
-			layout.createSequentialGroup()
-				.addComponent(messageArea)
-				.addComponent(showStackTraceContainer)
-				.addComponent(stackTraceContainer)
+			layout.createSequentialGroup().addGroup(
+				layout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
+					.addComponent(messageArea)
+					.addComponent(showStackTrace)
+			)
+				.addComponent(stackTraceContainer, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 		);
-
-		enableEvents(AWTEvent.MOUSE_MOTION_EVENT_MASK);
-
-		getContentPane().addMouseMotionListener(
-			new MouseInputAdapter() {
-				@Override
-				public void mouseEntered(MouseEvent e) {
-					logger.debug("asdfsdfg");
-					throw new RuntimeException("asdf");
-				}
-			}
-		);
-
-		getContentPane().add(errorPanel);
 	}
 
 	protected void setupControls() {
 		setTitle(Main.getString("error"));
 
-//		Container contentPane = getContentPane();
-//		contentPane.setLayout(new BorderLayout());
-//		contentPane.add(this, BorderLayout.CENTER);
 		if (JDialog.isDefaultLookAndFeelDecorated()) {
 			boolean supportsWindowDecorations =
 				UIManager.getLookAndFeel().getSupportsWindowDecorations();
@@ -136,16 +127,30 @@ public class ErrorDialog extends JDialog {
 		}
 		pack();
 		setLocationRelativeTo(getParent());
-		addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent we) {
-				dispose();
+		addWindowListener(
+			new WindowAdapter() {
+				public void windowClosing(WindowEvent we) {
+					dispose();
+				}
 			}
-		});
+		);
 	}
 
 	public void setValue(Object newValue) {
 		Object oldValue = value;
 		value = newValue;
 		firePropertyChange(JOptionPane.VALUE_PROPERTY, oldValue, value);
+	}
+
+	private class ShowStackTraceListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			ErrorDialog dialog = ErrorDialog.this;
+			stackTraceContainer.setVisible(!stackTraceContainer.isVisible());
+			double newHeight = dialog.getPreferredSize().getHeight();
+			dialog.setSize(dialog.getWidth(), (int) newHeight);
+//			ErrorDialog.this.pack();
+//			invalidate();
+		}
 	}
 }
