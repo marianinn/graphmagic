@@ -141,8 +141,11 @@ public class MainFrame extends JFrame {
 		final JPanel graphCardLayoutPanel = new JPanel(new CardLayout());
 		splitPane.setRightComponent(graphCardLayoutPanel);
 		graphPanel.setBackground(new Color(-1));
+
+		GraphScrollPane scrollPane = new GraphScrollPane(graphPanel);
+
 		graphCardLayoutPanel.add(
-			graphPanel, "graph1"
+			scrollPane, "graph1"
 //			graphPanel, new com.intellij.uiDesigner.core.GridConstraints(
 //				0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER,
 //				com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH,
