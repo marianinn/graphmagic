@@ -20,24 +20,15 @@
 
 package name.dlazerka.gm;
 
-import java.util.Set;
-
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public interface Edge {
+public class NoSuchVertexException extends IllegalArgumentException {
+	// TODO improve
+	public NoSuchVertexException(Graph graph, Vertex vertex) {
+		super("Graph does not contain vertex " + vertex);
+	}
 
-	Graph getGraph();
-
-	Vertex getHead();
-
-	Vertex getTail();
-
-	Visual getVisual();
-
-	Set<Edge> getIncidentEdgeSet();
-
-	boolean isIncident(Vertex vertex);
-	
-	boolean isIncident(Edge edge);
+	public NoSuchVertexException(Graph graph, int id) {
+	}
 }

@@ -1,1 +1,1 @@
-GraphMagicPlugin-Class: name.dlazerka.gm.graphmaker.Main
+GraphMagicPlugin-Class: name.dlazerka.gm.graphmaker.GraphMaker

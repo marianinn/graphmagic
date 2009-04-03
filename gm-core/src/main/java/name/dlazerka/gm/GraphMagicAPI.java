@@ -31,13 +31,13 @@ public interface GraphMagicAPI {
 	 * Returns on of the graphs that is of most interest, usually last used.
 	 * @return one of the graphs that is of most interest, usually last used.
 	 */
-	GraphWithUI getFocusedGraph();
+	Graph getFocusedGraph();
 
 	/**
 	 * Returns all of the graphs in the scope of this API.
 	 * @return all of the graphs in the scope of this API.
 	 */
-	Collection<GraphWithUI> getGraphs();
+	Collection<Graph> getGraphs();
 
 	void attachListener(GraphsListener listener);
 

@@ -20,11 +20,19 @@
 
 package name.dlazerka.gm;
 
+import javax.swing.*;
+
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public interface LabeledGraph extends Graph {
-	Vertex getVertex(int num);
+public class GraphUI {
+	private JFrame ownerFrame;
 
-	Edge createEdge(int tailNum, int headNum);
+	public JFrame getOwnerFrame() {
+		return ownerFrame;
+	}
+
+	public void setOwnerFrame(JFrame ownerFrame) {
+		this.ownerFrame = ownerFrame;
+	}
 }

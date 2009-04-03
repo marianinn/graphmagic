@@ -20,43 +20,31 @@
 
 package name.dlazerka.gm.basic;
 
-import name.dlazerka.gm.Edge;
-import name.dlazerka.gm.Vertex;
-import name.dlazerka.gm.Visual;
+import name.dlazerka.gm.*;
+import name.dlazerka.gm.util.LinkedSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Set;
+import java.io.Serializable;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class BasicEdge implements Edge {
-	private static final Logger logger = LoggerFactory.getLogger(BasicEdge.class); 
+public class BasicEdge extends AbstractEdge implements Edge, Serializable {
+	private static final Logger logger = LoggerFactory.getLogger(BasicEdge.class);
 
+	private final Graph graph;
 	private final Vertex tail;
 	private final Vertex head;
 	private final Visual visual;
+	private boolean removed = false;
 
-	protected BasicEdge(Vertex tail, Vertex head) {
+	protected BasicEdge(Graph graph, Vertex tail, Vertex head) {
+		this.graph = graph;
 		this.tail = tail;
 		this.head = head;
 		visual = new Visual();
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (!(o instanceof BasicEdge)) return false;
-
-		BasicEdge edge = (BasicEdge) o;
-
-		return tail.equals(edge.tail) && head.equals(edge.head);
-	}
-
-	@Override
-	public int hashCode() {
-		int result = tail.hashCode();
-		result = 31 * result + head.hashCode();
-		return result;
 	}
 
 	@Override
@@ -64,16 +52,74 @@ public class BasicEdge implements Edge {
 		return tail + " -> " + head;
 	}
 
+	@Override
+	public Graph getGraph() {
+		checkNotRemoved();
+
+		return graph;
+	}
+
+	@Override
 	public Vertex getTail() {
+		checkNotRemoved();
+
 		return tail;
 	}
 
+	@Override
 	public Vertex getHead() {
+		checkNotRemoved();
+
 		return head;
 	}
 
+	@Override
 	public Visual getVisual() {
+		checkNotRemoved();
+
 		return visual;
 	}
 
-}
+	@Override
+	public Set<Edge> getIncidentEdgeSet() {
+		checkNotRemoved();
+
+		Set<Edge> incidentEdgeSet = new LinkedSet<Edge>();
+
+		incidentEdgeSet.addAll(getTail().getIncidentEdgeSet());
+		incidentEdgeSet.addAll(getHead().getIncidentEdgeSet());
+		incidentEdgeSet.remove(this);
+
+		return incidentEdgeSet;
+	}
+
+	@Override
+	public boolean isIncident(Vertex vertex) {
+		checkNotRemoved();
+
+		return vertex.equals(getHead())
+		       || vertex.equals(getTail());
+	}
+
+	@Override
+	public boolean isIncident(Edge edge) {
+		checkNotRemoved();
+
+		return getIncidentEdgeSet().contains(edge);
+	}
+
+	/**
+	 * Calling this tells that this vertex has been removed from its graph.
+	 * This means that no use is expected anymore.
+	 */
+	protected void markRemoved() {
+		checkNotRemoved();
+
+		removed = false;
+	}
+
+	protected void checkNotRemoved() {
+		if (removed) {
+			throw new EdgeRemovedException();
+		}
+	}}
