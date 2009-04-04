@@ -46,7 +46,12 @@ public class MainFrame extends JFrame {
 
 	public MainFrame() {
 		ObservableBasicGraph graph = new ObservableBasicGraph();
+
+		Main.getGraphMagicAPI().getGraphs().add(graph);
+		Main.getGraphMagicAPI().setFocused(graph);
+
 		graphPanel = new GraphPanel(graph);
+		graphPanel.getGraph().getUI().setOwnerFrame(this);
 
 		setupUI();
 

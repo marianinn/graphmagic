@@ -37,7 +37,7 @@ public class GraphsContainer extends LinkedList<Graph> implements GraphMagicAPI 
 
 	public void setFocused(Graph graph) {
 		if (!contains(graph)) {
-			throw new IllegalArgumentException("Does not contain the graph " + graph);
+			throw new IllegalArgumentException("Does not contain graph " + graph);
 		}
 		
 		this.focused = graph;
