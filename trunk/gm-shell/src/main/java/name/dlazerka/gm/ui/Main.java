@@ -20,7 +20,6 @@
 
 package name.dlazerka.gm.ui;
 
-import name.dlazerka.gm.GraphMagicAPI;
 import name.dlazerka.gm.GraphsContainer;
 import name.dlazerka.gm.pluginloader.PluginLoader;
 import org.slf4j.Logger;
@@ -49,7 +48,7 @@ public class Main {
 	
 	private static Properties configProperties = new Properties();
 	private static Locale currentLocale = Locale.ENGLISH;
-	private static GraphMagicAPI graphMagicAPI = new GraphsContainer();
+	private static GraphsContainer graphMagicAPI = new GraphsContainer();
 	private static PluginLoader pluginLoader = new PluginLoader(graphMagicAPI);
 
 	public static String getString(String key, String... params) {
@@ -89,7 +88,7 @@ public class Main {
 		return currentLocale;
 	}
 
-	public static GraphMagicAPI getGraphMagicAPI() {
+	public static GraphsContainer getGraphMagicAPI() {
 		return graphMagicAPI;
 	}
 

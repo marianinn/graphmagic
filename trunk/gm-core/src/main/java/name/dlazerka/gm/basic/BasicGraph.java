@@ -37,7 +37,7 @@ public class BasicGraph implements Graph, Serializable {
 	private final Set<Vertex> vertexSet = new LinkedSet<Vertex>();
 
 	private final Set<Edge> edgeSet = new LinkedSet<Edge>();
-	private GraphUI uI;
+	private GraphUI uI = new GraphUI();
 
 	@Override
 	public String toString() {
