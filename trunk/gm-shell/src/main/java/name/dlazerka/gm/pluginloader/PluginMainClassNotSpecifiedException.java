@@ -20,13 +20,11 @@
 
 package name.dlazerka.gm.pluginloader;
 
-import java.io.File;
-
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
 public class PluginMainClassNotSpecifiedException extends PluginLoadingException {
-	public PluginMainClassNotSpecifiedException(File file) {
-		super("Plugin main class is not specified. File: " + file.getAbsolutePath());
+	public PluginMainClassNotSpecifiedException(String attributeName) {
+		super("Plugin JAR manifest must contain '" + attributeName + "' attribute.");
 	}
 }

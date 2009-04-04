@@ -42,9 +42,6 @@ import java.util.Map;
 public class GraphPanel extends JPanel {
 	private final static Logger logger = LoggerFactory.getLogger(GraphPanel.class);
 
-	private final static Dimension DEFAULT_DIMENSION = new Dimension(600, 400);
-	private final static Dimension MINIMUM_DIMENSION = new Dimension(300, 200);
-
 	private final ObservableGraph graph;
 
 	private Map<Vertex, VertexPanel> vertexToVertexPanel = new ListMap<Vertex, VertexPanel>();
@@ -70,10 +67,8 @@ public class GraphPanel extends JPanel {
 
 		GraphLayoutManager layoutManager = new GraphLayoutManager();
 		setLayout(layoutManager);
-		setPreferredSize(DEFAULT_DIMENSION);// for MainFrame
-		setBorder(BorderFactory.createLineBorder(Color.BLACK));
-//		setSize(DEFAULT_DIMENSION);// for GraphLayoutManager@58
-//		setMinimumSize(MINIMUM_DIMENSION);// to not to reduce to zero while "Restoring Down"
+		setPreferredSize(new Dimension(0, 0));
+//		setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
 		setAutoscrolls(true);
 		addMouseMotionListener(new MouseMotionListener());

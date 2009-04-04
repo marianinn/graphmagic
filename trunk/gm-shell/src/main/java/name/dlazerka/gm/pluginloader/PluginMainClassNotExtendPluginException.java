@@ -41,7 +41,7 @@ public class PluginMainClassNotExtendPluginException extends PluginLoadingExcept
 
 	public PluginMainClassNotExtendPluginException(Class<?> mainClass) {
 		super(
-			"Plugin " + mainClass + " class does not implement the name.dlazerka.gm.GraphMagicPlugin interface"
+			"Plugin class " + mainClass.getName() + " does not implement the name.dlazerka.gm.GraphMagicPlugin interface"
 		);
 	}
 }

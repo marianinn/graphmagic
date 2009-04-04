@@ -27,6 +27,6 @@ import name.dlazerka.gm.GraphMagicPlugin;
  */
 public class PluginMainClassNoEmptyConstructorException extends PluginLoadingException {
 	public PluginMainClassNoEmptyConstructorException(Class<GraphMagicPlugin> pluginMainClass) {
-		super("Unable to get the empty constructor for class " + pluginMainClass);
+		super("Unable to get the empty constructor for class " + pluginMainClass.getName());
 	}
 }
