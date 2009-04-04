@@ -38,5 +38,6 @@ public class GraphScrollPane extends JScrollPane {
 		setMinimumSize(MINIMUM_DIMENSION);// to not to reduce to zero while "Restoring Down"
 
 		getHorizontalScrollBar().setUnitIncrement(50);
+		getVerticalScrollBar().setUnitIncrement(50);
 	}
 }
