@@ -156,7 +156,7 @@ public class GraphPanel extends JPanel {
 
 		draggingEdgeFrom = null;
 		newEdgePanel.setVisible(false);
-		
+
 		lastHoveredVertexPanel.checkHovered();
 	}
 
@@ -168,14 +168,48 @@ public class GraphPanel extends JPanel {
 		return graph;
 	}
 
-	public void adjustBounds(VertexPanel vertexPanel) {
+	public synchronized void adjustBounds(VertexPanel vertexPanel) {
+		Rectangle visibleRect = getVisibleRect();
+
 		int oldWidth = getWidth();
 		int oldHeight = getHeight();
-		int minX = vertexPanel.getX();
-		if (minX < 0) {
-			setSize(oldWidth - minX, oldHeight);
+		{// beyond the western border
+			int minX = vertexPanel.getX();
+			if (minX < 0) {
+				setPreferredSize(new Dimension(oldWidth - minX, oldHeight));
+				for (VertexPanel panel : vertexToVertexPanel.values()) {
+					panel.setLocation(panel.getX() - minX, panel.getY());
+				}
+				visibleRect.setLocation(visibleRect.x - minX, visibleRect.y);
+			}
 		}
-		scrollRectToVisible(getVisibleRect());
+
+		{// beyond the northern border
+			int minY = vertexPanel.getY();
+			if (minY < 0) {
+				setPreferredSize(new Dimension(oldWidth, oldHeight - minY));
+				for (VertexPanel panel : vertexToVertexPanel.values()) {
+					panel.setLocation(panel.getX(), panel.getY() - minY);
+				}
+				visibleRect.setLocation(visibleRect.x, visibleRect.y - minY);
+			}
+		}
+
+		{// beyond the eastern border
+			int maxX = vertexPanel.getX() + vertexPanel.getWidth();
+			if (maxX > getWidth()) {
+				setPreferredSize(new Dimension(maxX, oldHeight));
+			}
+		}
+
+		{// beyond the southern border
+			int maxY = vertexPanel.getY() + vertexPanel.getHeight();
+			if (maxY > getHeight()) {
+				setPreferredSize(new Dimension(oldWidth, maxY));
+			}
+		}
+
+		scrollRectToVisible(visibleRect);
 	}
 
 
@@ -261,6 +295,7 @@ public class GraphPanel extends JPanel {
 				graph.createVertex();
 			}
 		}
+
 		private class ClearAllAction extends AbstractAction {
 			public ClearAllAction() {
 				super(Main.getString("clear.all"));

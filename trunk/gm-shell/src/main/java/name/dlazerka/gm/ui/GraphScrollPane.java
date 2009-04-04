@@ -36,6 +36,7 @@ public class GraphScrollPane extends JScrollPane {
 		setPreferredSize(DEFAULT_DIMENSION);// for MainFrame
 		setSize(DEFAULT_DIMENSION);// for GraphLayoutManager@58
 		setMinimumSize(MINIMUM_DIMENSION);// to not to reduce to zero while "Restoring Down"
-	}
 
+		getHorizontalScrollBar().setUnitIncrement(50);
+	}
 }
