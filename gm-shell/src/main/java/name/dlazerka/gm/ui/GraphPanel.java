@@ -168,6 +168,16 @@ public class GraphPanel extends JPanel {
 		return graph;
 	}
 
+	public void adjustBounds(VertexPanel vertexPanel) {
+		int oldWidth = getWidth();
+		int oldHeight = getHeight();
+		int minX = vertexPanel.getX();
+		if (minX < 0) {
+			setSize(oldWidth - minX, oldHeight);
+		}
+		scrollRectToVisible(getVisibleRect());
+	}
+
 
 	private class GraphModificationListenerImpl implements GraphModificationListener {
 		public void notifyAttached() {

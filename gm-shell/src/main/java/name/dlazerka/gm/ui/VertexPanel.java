@@ -84,6 +84,11 @@ public class VertexPanel extends JPanel implements Paintable {
 	private final Point vertexCenter = new Point();
 	private final Collection<EdgePanel> adjacentEdgePanels = new LinkedList<EdgePanel>();
 
+	/**
+	 * Is this vertex panel currently dragging.
+	 */
+	private boolean dragging;
+
 	public VertexPanel(Vertex vertex) {
 		super(null);
 		this.vertex = vertex;
@@ -274,6 +279,12 @@ public class VertexPanel extends JPanel implements Paintable {
 		);
 	}
 
+	/**
+	 * @param dragging see {@link #dragging}
+	 */
+	public void setDragging(boolean dragging) {
+		this.dragging = dragging;
+	}
 
 	protected class DragMouseListener extends MouseMotionAdapter {
 		private int mouseX;
@@ -294,13 +305,7 @@ public class VertexPanel extends JPanel implements Paintable {
 			for (EdgePanel adjacentEdgePanel : adjacentEdgePanels) {
 				adjacentEdgePanel.onAdjacentVertexMoved();
 			}
-
-			// fix for too-fast-moving mouse :)
-			if (!isHovered) {
-				setHovered(true);
-			}
 		}
-
 	}
 
 	protected class MouseListener extends MouseAdapter {
@@ -313,7 +318,8 @@ public class VertexPanel extends JPanel implements Paintable {
 		@Override
 		public void mouseExited(MouseEvent e) {
 			logger.trace("");
-			if (!isDraggingEdgeFromThis()) {
+			if (!isDraggingEdgeFromThis()
+				&& !dragging) {
 				setHovered(false);
 			}
 		}
@@ -321,11 +327,14 @@ public class VertexPanel extends JPanel implements Paintable {
 		@Override
 		public void mousePressed(MouseEvent e) {
 			logger.trace("");
+			setDragging(true);
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			logger.trace("");
+			getGraphPanel().adjustBounds(VertexPanel.this);
+			setDragging(false);
 		}
 	}
 
