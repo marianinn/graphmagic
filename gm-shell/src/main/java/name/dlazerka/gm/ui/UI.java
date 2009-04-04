@@ -75,4 +75,8 @@ public class UI {
 		mainFrame.addPlugin(plugin);
 		logger.info("Added plugin {} ({})", new Object[]{plugin.getName(), plugin.getClass()});
 	}
+
+	public static MainFrame getMainFrame() {
+		return mainFrame;
+	}
 }

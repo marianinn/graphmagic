@@ -23,9 +23,10 @@ package name.dlazerka.gm.ui;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Properties;
-import java.io.IOException;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
@@ -35,6 +36,7 @@ public class Config {
 
 	private static final URL CONFIG_FILEPATH = Main.class.getResource("/graphmagic.properties");
 	private static final String CONFIG_PRODUCTION_KEY = "production";
+	private static final String CONFIG_DEFAULT_PLUGINS_DIR = "plugin.default.dir";
 	private static final String CONFIG_PLUGIN_MAIN_CLASS = "plugin.manifest.attribute.key.for.main.class.name";
 	private static final String CONFIG_DEFAULT_PRODUCTION_VALUE = "false";
 	private static Properties configProperties = new Properties();
@@ -47,6 +49,26 @@ public class Config {
 
 	public String getPluginManifestAttributeKeyForMainClassName() {
 		return configProperties.getProperty(CONFIG_PLUGIN_MAIN_CLASS);
+	}
+
+	public File getDefaultPluginsDir() {
+		String defaultPluginsDirPath = configProperties.getProperty(CONFIG_DEFAULT_PLUGINS_DIR);
+		File dir = new File(defaultPluginsDirPath);
+
+		if (!dir.isDirectory()) {
+			String userDir = System.getProperty("user.dir");
+			logger.warn(
+				"{} is not a directory (user.dir is {}), falling to current user.dir",
+				new Object[]{defaultPluginsDirPath, userDir}
+			);
+			dir = new File(userDir);
+		}
+
+		if (!dir.canRead()) {
+			throw new IllegalStateException(CONFIG_DEFAULT_PLUGINS_DIR + " is not readable");
+		}
+
+		return dir;
 	}
 
 	public void load() throws IOException {

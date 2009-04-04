@@ -27,19 +27,14 @@ import java.io.File;
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class PluginManifestAbsentException extends PluginLoadingException {
-	private final File file;
+public class PluginManifestAbsentException extends PluginManifestLoadingException {
 	public PluginManifestAbsentException(File file) {
-		super("File " + file.getAbsolutePath() + " does not contain standard JAR Manifest");
-		this.file = file;
+		super("Does not contain standard JAR Manifest", file);
 	}
 
 	@Override
 	public String getLocalizedMessage() {
-		return Main.getString("plugin.manifest.absent.exception", file.getName()); 
-	}
-
-	public File getFile() {
-		return file;
+		String s = Main.getString("plugin.manifest.absent.exception");
+		return super.getLocalizedMessage() + s; 
 	}
 }

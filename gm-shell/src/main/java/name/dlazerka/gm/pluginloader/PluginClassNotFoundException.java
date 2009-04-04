@@ -20,23 +20,13 @@
 
 package name.dlazerka.gm.pluginloader;
 
-import name.dlazerka.gm.GraphMagicPlugin;
-import name.dlazerka.gm.ui.Main;
+import java.io.File;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class PluginMainClassNoEmptyConstructorException extends PluginLoadingException {
-	private final Class<GraphMagicPlugin> pluginMainClass;
-
-	public PluginMainClassNoEmptyConstructorException(Class<GraphMagicPlugin> pluginMainClass) {
-		super("Unable to find the empty constructor for class " + pluginMainClass.getName());
-		this.pluginMainClass = pluginMainClass;
-	}
-
-	@Override
-	public String getLocalizedMessage() {
-		String s = Main.getString("plugin.no.empty.constructor", pluginMainClass.getName()); 
-		return super.getLocalizedMessage() + ": " + s;
+public class PluginClassNotFoundException extends PluginLoadingException {
+	public PluginClassNotFoundException(String className, File file, Throwable cause) {
+		super("Plugin class " + className + " not found", file, cause);
 	}
 }
