@@ -20,28 +20,24 @@
 
 package name.dlazerka.gm.pluginloader;
 
+import name.dlazerka.gm.ui.Main;
+
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class PluginMainClassNotExtendPluginException extends PluginLoadingException {
-	public PluginMainClassNotExtendPluginException() {
-	}
+public class PluginMainClassNotImplementsPluginException extends PluginLoadingException {
+	private final Class<?> mainClass;
 
-	public PluginMainClassNotExtendPluginException(String message) {
-		super(message);
-	}
-
-	public PluginMainClassNotExtendPluginException(String message, Throwable cause) {
-		super(message, cause);
-	}
-
-	public PluginMainClassNotExtendPluginException(Throwable cause) {
-		super(cause);
-	}
-
-	public PluginMainClassNotExtendPluginException(Class<?> mainClass) {
+	public PluginMainClassNotImplementsPluginException(Class<?> mainClass) {
 		super(
 			"Plugin class " + mainClass.getName() + " does not implement the name.dlazerka.gm.GraphMagicPlugin interface"
 		);
+		this.mainClass = mainClass;
+	}
+
+	@Override
+	public String getLocalizedMessage() {
+		String s = Main.getString("plugin.class.not.implements.graphmagicplugin", mainClass.getName());
+		return super.getLocalizedMessage() + ": " + s;
 	}
 }

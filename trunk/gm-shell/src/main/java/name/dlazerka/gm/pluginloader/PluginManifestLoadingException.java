@@ -20,22 +20,25 @@
 
 package name.dlazerka.gm.pluginloader;
 
+import name.dlazerka.gm.ui.Main;
+
+import java.io.File;
+
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class PluginMainClassNotFoundException extends PluginLoadingException {
-	public PluginMainClassNotFoundException() {
+public class PluginManifestLoadingException extends PluginLoadingException {
+	public PluginManifestLoadingException(File file, Throwable cause) {
+		super("Error loading manifest", file, cause);
 	}
 
-	public PluginMainClassNotFoundException(String message) {
-		super(message);
+	public PluginManifestLoadingException(String message, File file) {
+		super("Error loading manifest: " + message, file);
 	}
 
-	public PluginMainClassNotFoundException(String message, Throwable cause) {
-		super(message, cause);
-	}
-
-	public PluginMainClassNotFoundException(Throwable cause) {
-		super(cause);
+	@Override
+	public String getLocalizedMessage() {
+		String s = Main.getString("plugin.error.loading.manifest");
+		return super.getLocalizedMessage() + ": " + s;
 	}
 }

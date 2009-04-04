@@ -35,6 +35,7 @@
     </modules>
 
     <properties>
+        <plugin.default.dir>plugins</plugin.default.dir>
         <pluginManifestAttributeKeyForMainClassName>GraphMagicPlugin-Class</pluginManifestAttributeKeyForMainClassName>
     </properties>
 

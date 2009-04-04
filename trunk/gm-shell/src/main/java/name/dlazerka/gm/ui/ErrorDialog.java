@@ -59,6 +59,7 @@ public class ErrorDialog extends JDialog {
 //		if (true) return;
 
 		errorDialog = new ErrorDialog((Window) owner, t);
+		errorDialog.setModal(true);
 		errorDialog.setResizable(true);
 		errorDialog.getRootPane().setWindowDecorationStyle(STYLE);
 
@@ -67,6 +68,8 @@ public class ErrorDialog extends JDialog {
 	}
 
 	protected void setupUI() {
+		setTitle(Main.getString("error"));
+
 		setContentPane(contentPane);
 
 		layout = new GroupLayout(contentPane);
@@ -75,7 +78,8 @@ public class ErrorDialog extends JDialog {
 
 		JTextArea messageArea = new JTextArea(throwable.getLocalizedMessage());
 		messageArea.setRows(1);
-		messageArea.setPreferredSize(new Dimension(600, 20));
+		messageArea.getPreferredSize().width = 600;
+//		messageArea.setPreferredSize(new Dimension(600, -1));
 		messageArea.setBackground(getParent().getBackground());
 		messageArea.setFont(getParent().getFont());
 		messageArea.setMargin(new Insets(20, 30, 30, 30));
@@ -87,6 +91,19 @@ public class ErrorDialog extends JDialog {
 		showStackTrace.setMargin(new Insets(0, 0, 10, 10));
 		showStackTrace.addActionListener(new ShowStackTraceListener());
 
+		JButton okButton = new JButton(Main.getString("ok"));
+		okButton.setMargin(new Insets(3, 50, 3, 50));
+		okButton.getModel().addActionListener(
+			new AbstractAction() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					onClose();
+				}
+			}
+		);
+		JPanel panel = new JPanel();
+		panel.add(okButton, BorderLayout.CENTER);
+
 		String stackTraceString = Exceptions.makeStackTrace(throwable);
 		JTextArea stackTraceArea = new JTextArea(stackTraceString);
 		stackTraceArea.setAutoscrolls(true);
@@ -94,31 +111,35 @@ public class ErrorDialog extends JDialog {
 		stackTraceArea.setFont(getParent().getFont());
 		stackTraceContainer = new JScrollPane(stackTraceArea);
 		stackTraceContainer.setVisible(false);
+		Dimension preferredSize = new Dimension(messageArea.getPreferredSize());
+		preferredSize.height = 400;
+		stackTraceContainer.setPreferredSize(preferredSize);
 
 		layout.setHorizontalGroup(
 			layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+				.addComponent(messageArea)
 				.addGroup(
 					layout.createSequentialGroup()
-						.addComponent(messageArea)
-						.addComponent(showStackTrace)
+							.addComponent(panel)
+							.addComponent(showStackTrace)
 				)
-//				.addComponent(messageArea)
-//				.addComponent(topContainer)
 				.addComponent(stackTraceContainer)
 		);
 		layout.setVerticalGroup(
-			layout.createSequentialGroup().addGroup(
+			layout.createSequentialGroup()
+				.addComponent(messageArea, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+				.addGroup(
 				layout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
-					.addComponent(messageArea)
+					.addComponent(panel)
 					.addComponent(showStackTrace)
 			)
-				.addComponent(stackTraceContainer, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+				.addComponent(
+				stackTraceContainer, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE
+			)
 		);
 	}
 
 	protected void setupControls() {
-		setTitle(Main.getString("error"));
-
 		if (JDialog.isDefaultLookAndFeelDecorated()) {
 			boolean supportsWindowDecorations =
 				UIManager.getLookAndFeel().getSupportsWindowDecorations();

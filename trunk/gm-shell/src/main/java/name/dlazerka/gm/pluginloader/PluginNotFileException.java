@@ -20,23 +20,21 @@
 
 package name.dlazerka.gm.pluginloader;
 
-import name.dlazerka.gm.GraphMagicPlugin;
 import name.dlazerka.gm.ui.Main;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class PluginMainClassNoEmptyConstructorException extends PluginLoadingException {
-	private final Class<GraphMagicPlugin> pluginMainClass;
-
-	public PluginMainClassNoEmptyConstructorException(Class<GraphMagicPlugin> pluginMainClass) {
-		super("Unable to find the empty constructor for class " + pluginMainClass.getName());
-		this.pluginMainClass = pluginMainClass;
+public class PluginNotFileException extends PluginLoadingException {
+	private final String filePath;
+	public PluginNotFileException(String filePath) {
+		super("File '" + filePath + "' is not a file");
+		this.filePath = filePath;
 	}
 
 	@Override
 	public String getLocalizedMessage() {
-		String s = Main.getString("plugin.no.empty.constructor", pluginMainClass.getName()); 
+		String s = Main.getString("plugin.not.file", filePath);
 		return super.getLocalizedMessage() + ": " + s;
 	}
 }

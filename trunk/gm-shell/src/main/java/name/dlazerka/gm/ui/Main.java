@@ -40,7 +40,7 @@ public class Main {
 	private static final String MESSAGES_FILENAME = "messages";
 
 	private static ResourceBundle resourceBundle = ResourceBundle.getBundle(MESSAGES_FILENAME);
-	
+
 	private static Locale currentLocale = Locale.ENGLISH;
 	private static GraphsContainer graphMagicAPI = new GraphsContainer();
 	private static PluginLoader pluginLoader = new PluginLoader(graphMagicAPI);
@@ -48,7 +48,7 @@ public class Main {
 	public static String getString(String key, String... params) {
 		String text = resourceBundle.getString(key);
 
-		if(params != null){
+		if (params != null) {
 			MessageFormat mf = new MessageFormat(text);
 			text = mf.format(params);
 		}

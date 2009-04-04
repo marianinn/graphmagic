@@ -20,22 +20,86 @@
 
 package name.dlazerka.gm.pluginloader;
 
+import name.dlazerka.gm.ui.Main;
+
+import java.io.File;
+
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
 public class PluginLoadingException extends PluginException {
-	public PluginLoadingException() {
-	}
+	private File file;
+	private String filePath;
 
 	public PluginLoadingException(String message) {
-		super(message);
+		super("Error loading plugin: " + message);
 	}
 
 	public PluginLoadingException(String message, Throwable cause) {
-		super(message, cause);
+		super("Error loading plugin: " + message, cause);
 	}
 
-	public PluginLoadingException(Throwable cause) {
-		super(cause);
+	public PluginLoadingException(String message, File file) {
+		super("Error loading plugin from file " + file.getAbsolutePath() + ": " + message);
+		this.file = file;
+	}
+
+	public PluginLoadingException(String message, File file, Throwable cause) {
+		super("Error loading plugin from file " + file.getAbsolutePath() + ": " + message, cause);
+		this.file = file;
+	}
+
+	public PluginLoadingException(String message, String filePath) {
+		super("Error loading plugin from path " + filePath + ": " + message);
+		this.filePath = filePath;
+	}
+
+	public PluginLoadingException(String message, String filePath, Throwable cause) {
+		super("Error loading plugin from path " + filePath + ": " + message, cause);
+		this.filePath = filePath;
+	}
+
+	@Override
+	public String getLocalizedMessage() {
+		if (file != null) {
+			return Main.getString("error.loading.plugin.from.file", file.getAbsolutePath());
+		}
+		else if (filePath != null) {
+			return Main.getString("error.loading.plugin.from.path", filePath);
+		}
+		else {
+			return Main.getString("error.loading.plugin");
+		}
+	}
+
+	/**
+	 * Differs from {@link super#toString()} in the way that message is obtained
+	 * from {@link #getMessage()} instead of {@link #getLocalizedMessage()}.
+	 * Others are the same:
+	 * <p/>
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+		String s = getClass().getName();
+		String message = getMessage();
+		return (message != null) ? (s + ": " + message) : s;
+	}
+
+	public File getFile() {
+		return file;
+
+	}
+
+	public void setFile(File file) {
+		this.file = file;
+	}
+
+	public String getFilePath() {
+		return filePath;
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
 	}
 }

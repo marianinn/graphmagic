@@ -20,11 +20,24 @@
 
 package name.dlazerka.gm.pluginloader;
 
+import name.dlazerka.gm.ui.Main;
+
+import java.io.File;
+
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
 public class PluginMainClassNotSpecifiedException extends PluginLoadingException {
-	public PluginMainClassNotSpecifiedException(String attributeName) {
-		super("Plugin JAR manifest must contain '" + attributeName + "' attribute.");
+	private final String attributeName;
+
+	public PluginMainClassNotSpecifiedException(String attributeName, File file) {
+		super("Plugin JAR manifest must contain '" + attributeName + "' attribute.", file);
+		this.attributeName = attributeName;
+	}
+
+	@Override
+	public String getLocalizedMessage() {
+		String s = Main.getString("plugin.manifest.must.contain.0.attribute", attributeName);
+		return super.getLocalizedMessage() + ": " + s;
 	}
 }
