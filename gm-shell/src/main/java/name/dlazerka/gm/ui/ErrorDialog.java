@@ -54,8 +54,14 @@ public class ErrorDialog extends JDialog {
 		if (!(owner instanceof Window)) {
 			owner = SwingUtilities.getWindowAncestor(owner);
 		}
+
+//		JOptionPane.showMessageDialog(owner, t.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+//		if (true) return;
+
 		errorDialog = new ErrorDialog((Window) owner, t);
 		errorDialog.setResizable(true);
+		errorDialog.getRootPane().setWindowDecorationStyle(STYLE);
+
 		errorDialog.pack();
 		errorDialog.setVisible(true);
 	}
@@ -117,7 +123,7 @@ public class ErrorDialog extends JDialog {
 			boolean supportsWindowDecorations =
 				UIManager.getLookAndFeel().getSupportsWindowDecorations();
 			if (supportsWindowDecorations) {
-				setUndecorated(true);
+//				setUndecorated(true);
 				getRootPane().setWindowDecorationStyle(STYLE);
 			}
 		}

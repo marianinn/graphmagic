@@ -34,8 +34,18 @@
         <module>gm-core</module>
     </modules>
 
+    <properties>
+        <pluginManifestAttributeKeyForMainClassName>GraphMagicPlugin-Class</pluginManifestAttributeKeyForMainClassName>
+    </properties>
+
     <build>
         <finalName>${pom.artifactId}-${pom.version}</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

@@ -45,7 +45,6 @@ public class PluginLoader {
 	private static final Logger logger = LoggerFactory.getLogger(PluginLoader.class);
 
 	private final GraphMagicAPI graphMagicAPI;
-	private static final String PLUGIN_CLASS_MANIFEST_ATTRIBUTE_NAME = "GraphMagicPlugin-Class";
 
 	public PluginLoader(GraphMagicAPI graphMagicAPI) {
 		this.graphMagicAPI = graphMagicAPI;
@@ -66,11 +65,13 @@ public class PluginLoader {
 			throw new PluginManifestAbsentException(file);
 		}
 
+		String attributeName = Main.getPluginManifestAttributeKeyForMainClassName();
+		
 		Attributes mainAttributes = manifest.getMainAttributes();
-		String pluginClassName = mainAttributes.getValue(PLUGIN_CLASS_MANIFEST_ATTRIBUTE_NAME);
+		String pluginClassName = mainAttributes.getValue(attributeName);
 
 		if (pluginClassName == null) {
-			throw new PluginMainClassNotSpecifiedException(file);
+			throw new PluginMainClassNotSpecifiedException(attributeName);
 		}
 
 		URLClassLoader loader;
