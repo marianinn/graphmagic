@@ -25,11 +25,8 @@ import name.dlazerka.gm.pluginloader.PluginLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.net.URL;
 import java.text.MessageFormat;
 import java.util.Locale;
-import java.util.Properties;
 import java.util.ResourceBundle;
 
 /**
@@ -38,15 +35,12 @@ import java.util.ResourceBundle;
 public class Main {
 	private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
+	private static final Config config = new Config();
+
 	private static final String MESSAGES_FILENAME = "messages";
-	private static final URL CONFIG_FILEPATH = Main.class.getResource("/graphmagic.properties");
-	private static final String CONFIG_PRODUCTION_KEY = "production";
-	private static final String CONFIG_PLUGIN_MAIN_CLASS = "plugin.manifest.attribute.key.for.main.class.name";
-	private static final String CONFIG_DEFAULT_PRODUCTION_VALUE = "false";
 
 	private static ResourceBundle resourceBundle = ResourceBundle.getBundle(MESSAGES_FILENAME);
 	
-	private static Properties configProperties = new Properties();
 	private static Locale currentLocale = Locale.ENGLISH;
 	private static GraphsContainer graphMagicAPI = new GraphsContainer();
 	private static PluginLoader pluginLoader = new PluginLoader(graphMagicAPI);
@@ -62,26 +56,18 @@ public class Main {
 		return text;
 	}
 
-	public static boolean isProduction() {
-		String str = configProperties.getProperty(CONFIG_PRODUCTION_KEY, CONFIG_DEFAULT_PRODUCTION_VALUE);
-		return Boolean.valueOf(str);
-	}
-
-	public static String getPluginManifestAttributeKeyForMainClassName() {
-		return configProperties.getProperty(CONFIG_PLUGIN_MAIN_CLASS);
+	public static Config getConfig() {
+		return config;
 	}
 
 	public static void main(String[] args) throws Exception {
-		try {
-			configProperties.load(CONFIG_FILEPATH.openStream());
-		}
-		catch (IOException e) {
-			logger.error("Unable to load config at {}", CONFIG_FILEPATH);
-			throw e;
-		}
+		config.load();
+
 		Locale.setDefault(getCurrentLocale());
 
 		UI.show();
+
+		pluginLoader.loadDefaultPlugins();
 	}
 
 	public static Locale getCurrentLocale() {
