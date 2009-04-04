@@ -23,6 +23,7 @@ package name.dlazerka.gm.pluginloader;
 import name.dlazerka.gm.GraphMagicAPI;
 import name.dlazerka.gm.GraphMagicPlugin;
 import name.dlazerka.gm.ui.Main;
+import name.dlazerka.gm.ui.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -65,7 +66,8 @@ public class PluginLoader {
 			throw new PluginManifestAbsentException(file);
 		}
 
-		String attributeName = Main.getPluginManifestAttributeKeyForMainClassName();
+		Config config = Main.getConfig();
+		String attributeName = config.getPluginManifestAttributeKeyForMainClassName();
 		
 		Attributes mainAttributes = manifest.getMainAttributes();
 		String pluginClassName = mainAttributes.getValue(attributeName);
@@ -138,5 +140,9 @@ public class PluginLoader {
 		pluginInstance.setLocale(Main.getCurrentLocale());
 
 		return pluginInstance;
+	}
+
+	public void loadDefaultPlugins() {
+		
 	}
 }
