@@ -18,37 +18,44 @@
  * Author: Dzmitry Lazerka dlazerka@dlazerka.name
  */
 
-package name.dlazerka.gm;
+package name.dlazerka.gm.ui;
 
-import java.util.Locale;
+import name.dlazerka.gm.pluginloader.PluginLoadingException;
+import name.dlazerka.gm.pluginloader.PluginWrapper;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public abstract class AbstractPlugin implements GraphMagicPlugin {
-	private GraphMagicAPI graphMagicAPI;
-	private Locale locale;
+public class ReloadPluginActionListener implements ActionListener {
+	private final PluginsTable pluginsTable;
+	private File file;
+	private int rowIndex;
 
-	@Override
-	public void setGraphMagicAPI(GraphMagicAPI graphMagicAPI) {
-		this.graphMagicAPI = graphMagicAPI;
+	public ReloadPluginActionListener(PluginsTable pluginsTable) {
+		this.pluginsTable = pluginsTable;
 	}
 
 	@Override
-	public void setLocale(Locale locale) {
-		this.locale = locale;
+	public void actionPerformed(ActionEvent e) {
+		PluginWrapper pluginWrapper = null;
+		try {
+			pluginWrapper = Main.getPluginLoader().load(file);
+		}
+		catch (PluginLoadingException e1) {
+			ErrorDialog.showError(e1, pluginsTable);
+		}
+		pluginsTable.setPlugin(pluginWrapper, rowIndex);
 	}
 
-	@Override
-	public String toString() {
-		return "Plugin[" + getName() + " (" + getClass() + ")]";
+	public void setFile(File file) {
+		this.file = file;
 	}
 
-	protected GraphMagicAPI getGraphMagicAPI() {
-		return graphMagicAPI;
-	}
-
-	protected Locale getLocale() {
-		return locale;
+	public void setRowIndex(int rowIndex) {
+		this.rowIndex = rowIndex;
 	}
 }

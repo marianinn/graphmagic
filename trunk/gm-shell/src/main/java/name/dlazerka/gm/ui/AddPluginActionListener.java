@@ -23,6 +23,7 @@ package name.dlazerka.gm.ui;
 import name.dlazerka.gm.GraphMagicPlugin;
 import name.dlazerka.gm.pluginloader.PluginLoader;
 import name.dlazerka.gm.pluginloader.PluginLoadingException;
+import name.dlazerka.gm.pluginloader.PluginWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,8 +32,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.File;
 
 /**
@@ -58,8 +57,8 @@ public class AddPluginActionListener extends JFileChooser implements ActionListe
 			File file = getSelectedFile();
 			try {
 				PluginLoader pluginLoader = Main.getPluginLoader();
-				GraphMagicPlugin plugin = pluginLoader.load(file);
-				UI.addPlugin(plugin);
+				PluginWrapper pluginWrapper = pluginLoader.load(file);
+				UI.registerPlugin(pluginWrapper);
 			}
 			catch (PluginLoadingException ex) {
 				logger.error(ex.getMessage());

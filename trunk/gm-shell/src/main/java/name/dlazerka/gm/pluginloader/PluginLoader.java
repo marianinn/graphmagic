@@ -23,12 +23,9 @@ package name.dlazerka.gm.pluginloader;
 import name.dlazerka.gm.GraphMagicAPI;
 import name.dlazerka.gm.GraphMagicPlugin;
 import name.dlazerka.gm.ui.Config;
-import name.dlazerka.gm.ui.ErrorDialog;
 import name.dlazerka.gm.ui.Main;
-import name.dlazerka.gm.ui.UI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.misc.JarFilter;
 
 import java.io.File;
 import java.io.IOException;
@@ -54,7 +51,7 @@ public class PluginLoader {
 		this.graphMagicAPI = graphMagicAPI;
 	}
 
-	public GraphMagicPlugin load(File file) throws PluginLoadingException {
+	public PluginWrapper load(File file) throws PluginLoadingException {
 		if (!file.isFile()) {
 			throw new PluginNotFileException(file.getName());
 		}
@@ -105,13 +102,15 @@ public class PluginLoader {
 			throw new PluginClassNotFoundException(pluginClassName, file, e);
 		}
 
+		GraphMagicPlugin plugin;
 		try {
-			return load(mainClass);
+			plugin = load(mainClass);
 		}
 		catch (PluginLoadingException e) {
 			e.setFile(file);
 			throw e;
 		}
+		return new PluginWrapper(plugin, file);
 	}
 
 	public GraphMagicPlugin load(Class<?> mainClass) throws PluginLoadingException {
@@ -154,18 +153,5 @@ public class PluginLoader {
 		pluginInstance.setLocale(Main.getCurrentLocale());
 
 		return pluginInstance;
-	}
-
-	public void loadDefaultPlugins() {
-		Config config = Main.getConfig();
-		File dir = config.getDefaultPluginsDir();
-		for (File file : dir.listFiles(new JarFilter())) {
-			try {
-				load(file);
-			}
-			catch (PluginLoadingException e) {
-				ErrorDialog.showError(e, UI.getMainFrame());
-			}
-		}
 	}
 }

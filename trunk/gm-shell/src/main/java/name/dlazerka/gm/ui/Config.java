@@ -55,17 +55,29 @@ public class Config {
 		String defaultPluginsDirPath = configProperties.getProperty(CONFIG_DEFAULT_PLUGINS_DIR);
 		File dir = new File(defaultPluginsDirPath);
 
-		if (!dir.isDirectory()) {
+		if (!dir.exists()) {
 			String userDir = System.getProperty("user.dir");
 			logger.warn(
-				"{} is not a directory (user.dir is {}), falling to current user.dir",
-				new Object[]{defaultPluginsDirPath, userDir}
+				"{} is not exists, falling to current user.dir = {}",
+				new Object[]{dir.getAbsolutePath(), userDir}
+			);
+			dir = new File(userDir);
+		}
+		else if (!dir.isDirectory()) {
+			String userDir = System.getProperty("user.dir");
+			logger.warn(
+				"{} is not a directory, falling to current user.dir = {}",
+				new Object[]{dir.getAbsolutePath(), userDir}
 			);
 			dir = new File(userDir);
 		}
 
 		if (!dir.canRead()) {
-			throw new IllegalStateException(CONFIG_DEFAULT_PLUGINS_DIR + " is not readable");
+			logger.error(
+				"{} is not readable",
+				new Object[]{dir.getAbsolutePath()}
+			);
+//			ErrorDialog.showError(new IllegalStateException(""));
 		}
 
 		return dir;

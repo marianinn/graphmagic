@@ -21,11 +21,13 @@
 package name.dlazerka.gm.ui;
 
 import name.dlazerka.gm.GraphMagicPlugin;
+import name.dlazerka.gm.pluginloader.PluginWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
@@ -71,9 +73,12 @@ public class UI {
 		}
 	}
 
-	public static void addPlugin(GraphMagicPlugin plugin) {
-		mainFrame.addPlugin(plugin);
-		logger.info("Added plugin {} ({})", new Object[]{plugin.getName(), plugin.getClass()});
+	public static void registerPlugin(PluginWrapper pluginWrapper) {
+		mainFrame.registerPlugin(pluginWrapper);
+		logger.info("Registered plugin {} from file {}", new Object[]{
+			pluginWrapper.getPlugin(),
+			pluginWrapper.getFile()
+		});
 	}
 
 	public static MainFrame getMainFrame() {
