@@ -22,9 +22,13 @@ package name.dlazerka.gm.ui;
 
 import name.dlazerka.gm.GraphsContainer;
 import name.dlazerka.gm.pluginloader.PluginLoader;
+import name.dlazerka.gm.pluginloader.PluginLoadingException;
+import name.dlazerka.gm.pluginloader.PluginWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sun.misc.JarFilter;
 
+import java.io.File;
 import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -67,7 +71,21 @@ public class Main {
 
 		UI.show();
 
-		pluginLoader.loadDefaultPlugins();
+		loadDefaultPlugins();
+	}
+
+	private static void loadDefaultPlugins() {
+		Config config = Main.getConfig();
+		File dir = config.getDefaultPluginsDir();
+		for (File file : dir.listFiles(new JarFilter())) {
+			try {
+				PluginWrapper pluginWrapper = pluginLoader.load(file);
+				UI.registerPlugin(pluginWrapper);
+			}
+			catch (PluginLoadingException e) {
+				ErrorDialog.showError(e, UI.getMainFrame());
+			}
+		}
 	}
 
 	public static Locale getCurrentLocale() {

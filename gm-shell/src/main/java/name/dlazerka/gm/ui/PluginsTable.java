@@ -21,6 +21,7 @@
 package name.dlazerka.gm.ui;
 
 import name.dlazerka.gm.GraphMagicPlugin;
+import name.dlazerka.gm.pluginloader.PluginWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,6 +30,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import java.awt.*;
+import java.io.File;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
@@ -59,17 +61,22 @@ public class PluginsTable extends JTable {
 		super.setModel(dataModel);
 	}
 
-	public void addPlugin(GraphMagicPlugin plugin) {
-		getModel().addPlugin(plugin);
+	public void addPlugin(PluginWrapper pluginWrapper) {
+		getModel().addRow(pluginWrapper);
+	}
+
+	public void setPlugin(PluginWrapper pluginWrapper, int rowModelIndex) {
+		getModel().setRow(pluginWrapper, rowModelIndex);
 	}
 
 	private class PluginCellRenderer extends DefaultTableCellRenderer {
 		@Override
 		protected void setValue(Object value) {
-			if (!(value instanceof GraphMagicPlugin)) {
+			if (!(value instanceof PluginWrapper)) {
 				throw new IllegalArgumentException("Cell value must be of type " + GraphMagicPlugin.class.getName());
 			}
-			GraphMagicPlugin plugin = (GraphMagicPlugin) value;
+			PluginWrapper pluginWrapper = (PluginWrapper) value;
+			GraphMagicPlugin plugin = pluginWrapper.getPlugin();
 			String text = plugin.getName();
 			super.setValue(text);
 		}
@@ -77,17 +84,30 @@ public class PluginsTable extends JTable {
 
 	private class ContextMenu extends JPopupMenu {
 		private final JMenuItem addPluginMenuItem;
+		private final JMenuItem reloadPluginMenuItem;
+		private ReloadPluginActionListener reloadActionListener = new ReloadPluginActionListener(PluginsTable.this);
 
 		private ContextMenu() {
 			addPluginMenuItem = new JMenuItem(Main.getString("add.plugin"));
 			addPluginMenuItem.addActionListener(new AddPluginActionListener(PluginsTable.this));
+			reloadPluginMenuItem = new JMenuItem(Main.getString("reload.plugin"));
+			reloadPluginMenuItem.addActionListener(reloadActionListener);
 		}
 
-		void setPlugin(GraphMagicPlugin plugin) {
+		void setPlugin(PluginWrapper pluginWrapper, int rowModelIndex) {
 			removeAll();
 
-			if (plugin != null) {
+			if (pluginWrapper != null) {
+				GraphMagicPlugin plugin = pluginWrapper.getPlugin();
+				File file = pluginWrapper.getFile();
+
 				setLabel(Main.getString("plugin.actions"));
+
+				reloadActionListener.setFile(file);
+				reloadActionListener.setRowIndex(rowModelIndex);
+				add(reloadPluginMenuItem);
+
+				addSeparator();
 				for (Action action : plugin.getActions()) {
 					add(action);
 				}
@@ -107,13 +127,14 @@ public class PluginsTable extends JTable {
 			int rowModelIndex = convertRowIndexToModel(rowViewIndex);
 			int columnModelIndex = convertColumnIndexToModel(columnViewIndex);
 
-			GraphMagicPlugin plugin = null;
+			PluginWrapper plugin = null;
 			if (rowModelIndex >= 0 && columnModelIndex >= 0) {
 				plugin = getModel().getValueAt(rowModelIndex, columnModelIndex);
 			}
-			PluginsTable.this.contextMenu.setPlugin(plugin);
+			setPlugin(plugin, rowModelIndex);
 
 			super.show(invoker, x, y);
 		}
 	}
+
 }

@@ -26,8 +26,8 @@
     <id>${project.version}-bin</id>
 
     <baseDirectory>${project.name}-${project.version}</baseDirectory>
-    <!--<includeBaseDirectory>false</includeBaseDirectory>-->
     <formats>
+        <format>dir</format>
         <format>zip</format>
     </formats>
 

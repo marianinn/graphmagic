@@ -20,7 +20,7 @@
 
 package name.dlazerka.gm.ui;
 
-import name.dlazerka.gm.GraphMagicPlugin;
+import name.dlazerka.gm.pluginloader.PluginWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,10 +33,14 @@ import java.util.ArrayList;
 public class PluginsTableModel extends AbstractTableModel {
 	private static final Logger logger = LoggerFactory.getLogger(PluginsTableModel.class);
 
-	private ArrayList<GraphMagicPlugin> pluginList = new ArrayList<GraphMagicPlugin>();
+	private ArrayList<PluginWrapper> pluginList = new ArrayList<PluginWrapper>();
 
-	public void addPlugin(GraphMagicPlugin plugin) {
-		this.setValueAt(plugin, getRowCount(), 0);
+	public void addRow(PluginWrapper pluginWrapper) {
+		this.setValueAt(pluginWrapper, getRowCount(), 0);
+	}
+
+	public void setRow(PluginWrapper pluginWrapper, int rowIndex) {
+		this.setValueAt(pluginWrapper, rowIndex, 0);
 	}
 
 	@Override
@@ -50,22 +54,22 @@ public class PluginsTableModel extends AbstractTableModel {
 	}
 
 	@Override
-	public GraphMagicPlugin getValueAt(int rowIndex, int columnIndex) {
+	public PluginWrapper getValueAt(int rowIndex, int columnIndex) {
 		return pluginList.get(rowIndex);
 	}
 
 	@Override
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-		if (!(aValue instanceof GraphMagicPlugin)) {
-			throw new IllegalArgumentException("Cell value must be of type " + GraphMagicPlugin.class.getName());
+		if (!(aValue instanceof PluginWrapper)) {
+			throw new IllegalArgumentException("Cell value must be of type " + PluginWrapper.class.getName());
 		}
-		GraphMagicPlugin plugin = (GraphMagicPlugin) aValue;
+		PluginWrapper pluginWrapper = (PluginWrapper) aValue;
 		if (pluginList.size() <= rowIndex) {
-			pluginList.add(rowIndex, plugin);
+			pluginList.add(rowIndex, pluginWrapper);
 			fireTableRowsInserted(rowIndex, rowIndex);
 		}
 		else {
-			pluginList.set(rowIndex, plugin);
+			pluginList.set(rowIndex, pluginWrapper);
 			fireTableCellUpdated(rowIndex, columnIndex);
 		}
 	}

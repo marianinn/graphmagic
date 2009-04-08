@@ -18,40 +18,29 @@
  * Author: Dzmitry Lazerka dlazerka@dlazerka.name
  */
 
-package name.dlazerka.gm.graphmaker;
+package name.dlazerka.gm.pluginloader;
 
-import javax.swing.*;
-import java.awt.*;
+import name.dlazerka.gm.GraphMagicPlugin;
+
+import java.io.File;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
- */
-public class MakeGraphFrame extends JDialog {
-	private JPanel contentPane = new JPanel();
+*/
+public class PluginWrapper {
+	private final GraphMagicPlugin plugin;
+	private final File file;
 
-	public MakeGraphFrame(Frame owner, String title) {
-		super(owner, title, ModalityType.DOCUMENT_MODAL);
-
-		setupUI();
+	public PluginWrapper(GraphMagicPlugin plugin, File file) {
+		this.plugin = plugin;
+		this.file = file;
 	}
 
-	private void setupUI() {
-		this.setContentPane(contentPane);
-		contentPane.setLayout(new GridBagLayout());
-		GridBagConstraints gbc = new GridBagConstraints();
+	public GraphMagicPlugin getPlugin() {
+		return plugin;
+	}
 
-		gbc.gridx = GridBagConstraints.RELATIVE;
-		gbc.gridy = GridBagConstraints.RELATIVE;
-		gbc.gridwidth = 1;
-		gbc.gridheight = 1;
-		gbc.weightx = 1;
-		gbc.anchor = GridBagConstraints.CENTER;
-		gbc.fill = GridBagConstraints.BOTH;
-//		contentPane.setBackground(new Color(-986896));
-//		contentPane.setPreferredSize(new Dimension(800, 600));
-
-		JComboBox comboBox = new JComboBox(new String[]{"asdf"});
-
-		contentPane.add(comboBox, gbc);
+	public File getFile() {
+		return file;
 	}
 }

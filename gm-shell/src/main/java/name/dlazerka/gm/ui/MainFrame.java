@@ -21,6 +21,7 @@
 package name.dlazerka.gm.ui;
 
 import name.dlazerka.gm.GraphMagicPlugin;
+import name.dlazerka.gm.pluginloader.PluginWrapper;
 import name.dlazerka.gm.basic.ObservableBasicGraph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +31,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.io.File;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
@@ -212,7 +214,7 @@ public class MainFrame extends JFrame {
 		return contentPane;
 	}
 
-	public void addPlugin(GraphMagicPlugin plugin) {
-		pluginsTable.addPlugin(plugin);
+	public void registerPlugin(PluginWrapper pluginWrapper) {
+		pluginsTable.addPlugin(pluginWrapper);
 	}
 }
