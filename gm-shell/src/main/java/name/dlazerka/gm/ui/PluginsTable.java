@@ -77,7 +77,11 @@ public class PluginsTable extends JTable {
 			}
 			PluginWrapper pluginWrapper = (PluginWrapper) value;
 			GraphMagicPlugin plugin = pluginWrapper.getPlugin();
+			File file = pluginWrapper.getFile();
+
 			String text = plugin.getName();
+			setToolTipText(file.getAbsolutePath());
+			
 			super.setValue(text);
 		}
 	}

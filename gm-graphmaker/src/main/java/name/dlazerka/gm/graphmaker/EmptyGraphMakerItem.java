@@ -20,43 +20,18 @@
 
 package name.dlazerka.gm.graphmaker;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.event.ActionEvent;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class MakeGraphFrame extends JDialog {
-	private JPanel contentPane = new JPanel();
-
-	public MakeGraphFrame(Frame owner, String title) {
-		super(owner, title, ModalityType.DOCUMENT_MODAL);
-
-		setupUI();
+public class EmptyGraphMakerItem extends GraphMakerItem {
+	@Override
+	public void actionPerformed(ActionEvent e) {
 	}
 
-	private void setupUI() {
-		this.setContentPane(contentPane);
-		contentPane.setLayout(new GridBagLayout());
-		GridBagConstraints gbc = new GridBagConstraints();
-
-		gbc.gridx = GridBagConstraints.RELATIVE;
-		gbc.gridy = GridBagConstraints.RELATIVE;
-		gbc.gridwidth = 1;
-		gbc.gridheight = 1;
-		gbc.weightx = 1;
-		gbc.anchor = GridBagConstraints.NORTH;
-		gbc.fill = GridBagConstraints.BOTH;
-		gbc.insets = new Insets(20, 20, 20, 20);
-//		contentPane.setBackground(new Color(-986896));
-//		contentPane.setPreferredSize(new Dimension(800, 600));
-
-		JComboBox comboBox = new JComboBox();
-		contentPane.add(comboBox, gbc);
-
-		comboBox.add(new EmptyGraphMakerItem());
-
-
-		pack();
+	@Override
+	public String getLabel() {
+		return "Empty Graph";
 	}
 }
