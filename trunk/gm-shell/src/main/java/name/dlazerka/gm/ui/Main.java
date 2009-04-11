@@ -28,6 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sun.misc.JarFilter;
 
+import java.awt.*;
 import java.io.File;
 import java.text.MessageFormat;
 import java.util.Locale;
@@ -68,6 +69,9 @@ public class Main {
 		config.load();
 
 		Locale.setDefault(getCurrentLocale());
+
+		EventQueue queue = Toolkit.getDefaultToolkit().getSystemEventQueue();
+		queue.push(new ErrorCatchingEventQueue());
 
 		UI.show();
 

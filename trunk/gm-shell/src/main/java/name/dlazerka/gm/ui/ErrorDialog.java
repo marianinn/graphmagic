@@ -39,7 +39,8 @@ public class ErrorDialog extends JDialog {
 	private final Throwable throwable;
 	private JPanel contentPane = new JPanel();
 	private JScrollPane stackTraceContainer;
-	private GroupLayout layout;
+	private final Font defaultFont = new Font("Dialog", Font.PLAIN, 12);
+	private final Color defaultBackground = new Color(240, 240, 240);
 
 	public ErrorDialog(Window parent, Throwable throwable) {
 		super(parent);
@@ -51,7 +52,7 @@ public class ErrorDialog extends JDialog {
 	public static void showError(Throwable t, Component owner) {
 		ErrorDialog errorDialog;
 
-		if (!(owner instanceof Window)) {
+		if (owner != null && !(owner instanceof Window)) {
 			owner = SwingUtilities.getWindowAncestor(owner);
 		}
 
@@ -72,7 +73,7 @@ public class ErrorDialog extends JDialog {
 
 		setContentPane(contentPane);
 
-		layout = new GroupLayout(contentPane);
+		GroupLayout layout = new GroupLayout(contentPane);
 		contentPane.setLayout(layout);
 		layout.setAutoCreateContainerGaps(true);
 
@@ -80,13 +81,16 @@ public class ErrorDialog extends JDialog {
 		messageArea.setRows(1);
 		messageArea.getPreferredSize().width = 600;
 //		messageArea.setPreferredSize(new Dimension(600, -1));
-		messageArea.setBackground(getParent().getBackground());
-		messageArea.setFont(getParent().getFont());
+		messageArea.setBackground(defaultBackground);
+		messageArea.setFont(defaultFont);
+
 		messageArea.setMargin(new Insets(20, 30, 30, 30));
 		messageArea.setEditable(false);
 
 		final JCheckBox showStackTrace = new JCheckBox(Main.getString("show.stack.trace"));
-		showStackTrace.setFont(getParent().getFont());
+
+		showStackTrace.setFont(defaultFont);
+
 		showStackTrace.setForeground(Color.BLUE);
 		showStackTrace.setMargin(new Insets(0, 0, 10, 10));
 		showStackTrace.addActionListener(new ShowStackTraceListener());
@@ -108,7 +112,7 @@ public class ErrorDialog extends JDialog {
 		JTextArea stackTraceArea = new JTextArea(stackTraceString);
 		stackTraceArea.setAutoscrolls(true);
 		stackTraceArea.setEditable(false);
-		stackTraceArea.setFont(getParent().getFont());
+		stackTraceArea.setFont(defaultFont);
 		stackTraceContainer = new JScrollPane(stackTraceArea);
 		stackTraceContainer.setVisible(false);
 		Dimension preferredSize = new Dimension(messageArea.getPreferredSize());
@@ -120,19 +124,21 @@ public class ErrorDialog extends JDialog {
 				.addComponent(messageArea)
 				.addGroup(
 					layout.createSequentialGroup()
-							.addComponent(panel)
-							.addComponent(showStackTrace)
+						.addComponent(panel)
+						.addComponent(showStackTrace)
 				)
 				.addComponent(stackTraceContainer)
 		);
 		layout.setVerticalGroup(
 			layout.createSequentialGroup()
-				.addComponent(messageArea, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+				.addComponent(
+					messageArea, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE
+				)
 				.addGroup(
-				layout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
-					.addComponent(panel)
-					.addComponent(showStackTrace)
-			)
+					layout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
+						.addComponent(panel)
+						.addComponent(showStackTrace)
+				)
 				.addComponent(
 				stackTraceContainer, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE
 			)
@@ -149,7 +155,11 @@ public class ErrorDialog extends JDialog {
 			}
 		}
 		pack();
-		setLocationRelativeTo(getParent());
+
+		if (getParent() != null) {
+			setLocationRelativeTo(getParent());
+		}
+
 		addWindowListener(
 			new WindowAdapter() {
 				public void windowClosing(WindowEvent we) {
