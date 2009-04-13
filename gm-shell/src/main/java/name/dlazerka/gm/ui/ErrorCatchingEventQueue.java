@@ -26,6 +26,8 @@ import java.awt.*;
  * @author Dzmitry Lazerka www.dlazerka.name
  */
 public class ErrorCatchingEventQueue extends EventQueue {
+	private boolean showingError = false;
+
 	@Override
 	protected void dispatchEvent(AWTEvent event) {
 		try {
@@ -36,8 +38,11 @@ public class ErrorCatchingEventQueue extends EventQueue {
 
 			ex.printStackTrace();
 
-
-			ErrorDialog.showError(ex, null);
+			if (!showingError) {
+					showingError = true;
+					ErrorDialog.showError(ex, null);
+					showingError = false;
+			}
 		}
 	}
 }
