@@ -68,11 +68,14 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		config.load();
 
+		// set locale
 		Locale.setDefault(getCurrentLocale());
 
+		// catch unhandled exceptions
 		EventQueue queue = Toolkit.getDefaultToolkit().getSystemEventQueue();
 		queue.push(new ErrorCatchingEventQueue());
 
+		// show user interface
 		UI.show();
 
 		loadDefaultPlugins();

@@ -25,7 +25,7 @@ package name.dlazerka.gm.ui;
  */
 public class UnknownError extends Exception {
 	public UnknownError(Throwable cause) {
-		super("Unknown error: " + cause.getClass().getName(), cause);
+		super("Unknown error", cause);
 	}
 
 	@Override
