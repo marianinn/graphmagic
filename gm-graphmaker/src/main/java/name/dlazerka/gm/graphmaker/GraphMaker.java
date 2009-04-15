@@ -53,8 +53,11 @@ public class GraphMaker extends AbstractPlugin implements GraphMagicPlugin {
 	}
 
 	private class MakeGraphAction extends AbstractAction {
+		private List<GraphMakerItem> items = new LinkedList<GraphMakerItem>();
+
 		private MakeGraphAction() {
 			super("Make Graph");
+			items.add(new EmptyGraphMakerItem(getGraphMagicAPI()));
 		}
 
 		@Override
@@ -62,7 +65,7 @@ public class GraphMaker extends AbstractPlugin implements GraphMagicPlugin {
 			if (makeGraphFrame == null) {
 				Graph graph = getGraphMagicAPI().getFocusedGraph();
 				GraphUI ui = graph.getUI();
-				makeGraphFrame = new MakeGraphFrame(ui.getOwnerFrame(), "Make Graph");
+				makeGraphFrame = new MakeGraphFrame(ui.getOwnerFrame(), "Make Graph", items);
 			}
 
 			makeGraphFrame.setVisible(true);

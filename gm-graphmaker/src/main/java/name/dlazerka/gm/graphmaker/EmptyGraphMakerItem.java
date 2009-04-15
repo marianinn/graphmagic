@@ -20,14 +20,25 @@
 
 package name.dlazerka.gm.graphmaker;
 
+import name.dlazerka.gm.GraphMagicAPI;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.awt.event.ActionEvent;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
 public class EmptyGraphMakerItem extends GraphMakerItem {
+	private static final Logger logger = LoggerFactory.getLogger(EmptyGraphMakerItem.class);
+
+	public EmptyGraphMakerItem(GraphMagicAPI graphMagicAPI) {
+		super();
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		logger.debug("");
 	}
 
 	@Override
