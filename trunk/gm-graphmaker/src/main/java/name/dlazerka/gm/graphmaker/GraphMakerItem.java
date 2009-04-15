@@ -27,4 +27,9 @@ import java.awt.event.ActionListener;
  */
 public abstract class GraphMakerItem implements ActionListener {
 	public abstract String getLabel();
+
+	@Override
+	public String toString() {
+		return getLabel();
+	}
 }
