@@ -20,28 +20,28 @@
 
 package name.dlazerka.gm.graphmaker;
 
+import name.dlazerka.gm.Graph;
 import name.dlazerka.gm.GraphMagicAPI;
 
-import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public abstract class GraphMakerItem implements ActionListener {
-	private final GraphMagicAPI graphMagicAPI;
-
-	public GraphMakerItem(GraphMagicAPI graphMagicAPI) {
-		this.graphMagicAPI = graphMagicAPI;
+public class CycleGraphMakerItem extends GraphMakerItem {
+	public CycleGraphMakerItem(GraphMagicAPI graphMagicAPI) {
+		super(graphMagicAPI);
 	}
-
-	public GraphMagicAPI getGraphMagicAPI() {
-		return graphMagicAPI;
-	}
-
-	public abstract String getLabel();
 
 	@Override
-	public String toString() {
-		return getLabel();
+	public String getLabel() {
+		return "Cycle";
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Graph graph = getGraphMagicAPI().getFocusedGraph();
+		graph.clear();
+		// todo
 	}
 }
