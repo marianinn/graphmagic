@@ -20,6 +20,7 @@
 
 package name.dlazerka.gm.graphmaker;
 
+import name.dlazerka.gm.Graph;
 import name.dlazerka.gm.GraphMagicAPI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,12 +34,14 @@ public class EmptyGraphMakerItem extends GraphMakerItem {
 	private static final Logger logger = LoggerFactory.getLogger(EmptyGraphMakerItem.class);
 
 	public EmptyGraphMakerItem(GraphMagicAPI graphMagicAPI) {
-		super();
+		super(graphMagicAPI);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		logger.debug("");
+		Graph graph = getGraphMagicAPI().getFocusedGraph();
+		graph.clear();
 	}
 
 	@Override
