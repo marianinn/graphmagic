@@ -20,10 +20,15 @@
 
 package name.dlazerka.gm.graphmaker;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.List;
 
 /**
@@ -34,6 +39,8 @@ public class MakeGraphFrame extends JDialog {
 	private List<GraphMakerItem> itemList;
 	private JButton okButton;
 	private JComboBox comboBox;
+	private static final Logger logger = LoggerFactory.getLogger(MakeGraphFrame.class);
+	private JPanel paramsPanel;
 
 	public MakeGraphFrame(Frame owner, String title, List<GraphMakerItem> itemList) {
 		super(owner, title, ModalityType.DOCUMENT_MODAL);
@@ -46,11 +53,22 @@ public class MakeGraphFrame extends JDialog {
 	}
 
 	private void setupControls() {
+		comboBox.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				GraphMakerItem item = (GraphMakerItem) e.getItem();
+				paramsPanel.removeAll();
+				item.fillParamsPanel(paramsPanel);
+				pack();
+			}
+		});
+
+
 		okButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				GraphMakerItem item = (GraphMakerItem) comboBox.getModel().getSelectedItem();
-				item.actionPerformed(e);
+				item.perform();
 			}
 		});
 	}
@@ -78,9 +96,11 @@ public class MakeGraphFrame extends JDialog {
 			comboBox.addItem(item);
 		}
 
-		okButton = new JButton("OK");
-
 		gbc.gridy = GridBagConstraints.RELATIVE;
+		paramsPanel = new JPanel();
+		contentPane.add(paramsPanel, gbc);
+
+		okButton = new JButton("OK");
 		contentPane.add(okButton, gbc);
 
 		pack();

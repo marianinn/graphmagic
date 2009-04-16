@@ -22,12 +22,12 @@ package name.dlazerka.gm.graphmaker;
 
 import name.dlazerka.gm.GraphMagicAPI;
 
-import java.awt.event.ActionListener;
+import javax.swing.*;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public abstract class GraphMakerItem implements ActionListener {
+public abstract class GraphMakerItem {
 	private final GraphMagicAPI graphMagicAPI;
 
 	public GraphMakerItem(GraphMagicAPI graphMagicAPI) {
@@ -44,4 +44,8 @@ public abstract class GraphMakerItem implements ActionListener {
 	public String toString() {
 		return getLabel();
 	}
+
+	protected abstract void perform();
+
+	public abstract void fillParamsPanel(JPanel panel);
 }

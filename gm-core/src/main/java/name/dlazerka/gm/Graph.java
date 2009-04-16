@@ -42,6 +42,10 @@ public interface Graph {
 
 	Set<Edge> getEdgeSet();
 
+	/**
+	 * @param id starts from 1
+	 * @return vertex
+	 */
 	Vertex getVertex(int id);
 
 	Edge getEdge(int tailId, int headId);
