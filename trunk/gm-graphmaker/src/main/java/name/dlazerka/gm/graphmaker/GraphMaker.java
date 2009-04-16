@@ -20,10 +20,7 @@
 
 package name.dlazerka.gm.graphmaker;
 
-import name.dlazerka.gm.AbstractPlugin;
-import name.dlazerka.gm.Graph;
-import name.dlazerka.gm.GraphMagicPlugin;
-import name.dlazerka.gm.GraphUI;
+import name.dlazerka.gm.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,6 +35,14 @@ import java.util.List;
 public class GraphMaker extends AbstractPlugin implements GraphMagicPlugin {
 	private static final Logger logger = LoggerFactory.getLogger(AbstractPlugin.class);
 	private MakeGraphFrame makeGraphFrame;
+	private List<GraphMakerItem> items = new LinkedList<GraphMakerItem>();
+
+	@Override
+	public void setGraphMagicAPI(GraphMagicAPI graphMagicAPI) {
+		super.setGraphMagicAPI(graphMagicAPI);
+		items.add(new EmptyGraphMakerItem(getGraphMagicAPI()));
+		items.add(new CycleGraphMakerItem(getGraphMagicAPI()));
+	}
 
 	@Override
 	public List<Action> getActions() {
@@ -53,11 +58,9 @@ public class GraphMaker extends AbstractPlugin implements GraphMagicPlugin {
 	}
 
 	private class MakeGraphAction extends AbstractAction {
-		private List<GraphMakerItem> items = new LinkedList<GraphMakerItem>();
 
 		private MakeGraphAction() {
 			super("Make Graph");
-			items.add(new EmptyGraphMakerItem(getGraphMagicAPI()));
 		}
 
 		@Override

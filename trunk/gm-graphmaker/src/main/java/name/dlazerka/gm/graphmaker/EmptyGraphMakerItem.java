@@ -25,7 +25,7 @@ import name.dlazerka.gm.GraphMagicAPI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.event.ActionEvent;
+import javax.swing.*;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
@@ -38,7 +38,7 @@ public class EmptyGraphMakerItem extends GraphMakerItem {
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void perform() {
 		logger.debug("");
 		Graph graph = getGraphMagicAPI().getFocusedGraph();
 		graph.clear();
@@ -46,6 +46,11 @@ public class EmptyGraphMakerItem extends GraphMakerItem {
 
 	@Override
 	public String getLabel() {
-		return "Empty Graph";
+		return "Empty";
+	}
+
+	@Override
+	public void fillParamsPanel(JPanel panel) {
+		// no params
 	}
 }
