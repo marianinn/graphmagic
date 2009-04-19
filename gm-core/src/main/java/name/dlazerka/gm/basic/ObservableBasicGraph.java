@@ -23,14 +23,14 @@ package name.dlazerka.gm.basic;
 
 import name.dlazerka.gm.Edge;
 import name.dlazerka.gm.Graph;
-import name.dlazerka.gm.Vertex;
 import name.dlazerka.gm.ObservableGraph;
+import name.dlazerka.gm.Vertex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
-import java.io.Serializable;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
@@ -41,7 +41,6 @@ public class ObservableBasicGraph extends BasicGraph implements Graph, Observabl
 	private final List<GraphModificationListener> modificationListenerList = new LinkedList<GraphModificationListener>();
 
 	public ObservableBasicGraph() {
-		create5();
 	}
 
 	public boolean addChangeListener(GraphModificationListener listener) {
@@ -49,43 +48,6 @@ public class ObservableBasicGraph extends BasicGraph implements Graph, Observabl
 		listener.notifyAttached();
 		return result;
 	}
-
-	private void create1() {
-		createVertex();
-	}
-
-	private void create2() {
-		Vertex vertex1 = createVertex();
-		Vertex vertex2 = createVertex();
-
-		createEdge(vertex1, vertex2);
-	}
-
-	private void create4() {
-		Vertex vertex1 = createVertex();
-		Vertex vertex2 = createVertex();
-		Vertex vertex3 = createVertex();
-		Vertex vertex4 = createVertex();
-
-		createEdge(vertex1, vertex2);
-		createEdge(vertex2, vertex3);
-		createEdge(vertex3, vertex1);
-		createEdge(vertex3, vertex4);
-		createEdge(vertex4, vertex1);
-	}
-
-	private void create5() {
-		create4();
-		createVertex();
-
-		createEdge(4, 2);
-
-		createEdge(5, 1);
-		createEdge(5, 2);
-		createEdge(5, 3);
-		createEdge(5, 4);
-	}
-
 
 	public void addVertex(Vertex vertex) {
 		super.addVertex(vertex);

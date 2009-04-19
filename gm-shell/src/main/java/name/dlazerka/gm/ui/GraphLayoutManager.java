@@ -134,46 +134,5 @@ public class GraphLayoutManager implements LayoutManager2 {
 		if (newEdgePanel != null) {
 			newEdgePanel.setBounds(0, 0, parent.getWidth(), parent.getHeight());
 		}
-/*
-		for (VertexPanel vertexPanel : vertexPanelList) {
-			vertexPanel.setLocation(
-				vertexPanel.getX(),
-				vertexPanel.getY()
-			);
-		}
-*/
-	}
-
-	public void layoutDefault(GraphPanel graphPanel) {
-		circleVertexPanels(graphPanel);
-	}
-
-	/**
-	 * Places but not resizes {@link #vertexPanels} along the circle
-	 * around center of the parent component.
-	 *
-	 * @param graphPanel a container graph panel we layout
-	 */
-	private void circleVertexPanels(GraphPanel graphPanel) {
-		Dimension size = graphPanel.getSize();
-
-		int vertexCount = vertexPanels.size();
-
-		Point circleCenter = new Point(size.width / 2, size.height / 2);
-		int radius = Math.min(size.width * 3 / 4 - circleCenter.x, size.height * 3 / 4 - circleCenter.y);
-
-		double angleStep = 2 * Math.PI / vertexCount;
-
-		int i = 0;
-		for (VertexPanel vertexPanel : vertexPanels) {
-			double angle = i * angleStep + Math.PI/2;
-
-			vertexPanel.setLocation(
-				(int) Math.round(radius * Math.cos(angle)) + circleCenter.x, // - vertexPanel.getVertexCenterX(),
-				(int) Math.round(radius * -Math.sin(angle)) + circleCenter.y // - vertexPanel.getVertexCenterY()
-			);
-
-			i++;
-		}
 	}
 }

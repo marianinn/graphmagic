@@ -32,8 +32,8 @@ import org.slf4j.LoggerFactory;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.util.Map;
 
 /**
@@ -78,7 +78,6 @@ public class GraphPanel extends JPanel {
 		add(newEdgePanel);
 
 		graph.addChangeListener(new GraphModificationListenerImpl());
-		layoutManager.layoutDefault(this);
 	}
 
 	/**
