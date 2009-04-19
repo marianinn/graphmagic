@@ -21,6 +21,7 @@
 package name.dlazerka.gm.ui;
 
 import name.dlazerka.gm.Vertex;
+import name.dlazerka.gm.Visual;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,11 +35,13 @@ import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.Observer;
+import java.util.Observable;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class VertexPanel extends JPanel implements Paintable {
+public class VertexPanel extends JPanel implements Paintable, Observer {
 	private static final Logger logger = LoggerFactory.getLogger(VertexPanel.class);
 
 	/**
@@ -92,6 +95,8 @@ public class VertexPanel extends JPanel implements Paintable {
 	public VertexPanel(Vertex vertex) {
 		super(null);
 		this.vertex = vertex;
+
+		vertex.getVisual().addObserver(this);
 
 		setPreferredSize(panelSize);
 		setSize(panelSize);
@@ -268,15 +273,16 @@ public class VertexPanel extends JPanel implements Paintable {
 		adjacentEdgePanels.add(edgePanel);
 	}
 
-	public void setVertexCenter(Point center) {
-		setVertexCenter(center.x, center.y);
+	public void setVertexPanelCenter(Point center) {
+		setVertexPanelCenter(center.x, center.y);
 	}
 
-	public void setVertexCenter(int x, int y) {
+	public void setVertexPanelCenter(int x, int y) {
 		setLocation(
 			x - VERTEX_OVAL_SIZE.width / 2,
 			y - VERTEX_OVAL_SIZE.height / 2
 		);
+		getGraphPanel().adjustBounds(this);
 	}
 
 	/**
@@ -284,6 +290,30 @@ public class VertexPanel extends JPanel implements Paintable {
 	 */
 	public void setDragging(boolean dragging) {
 		this.dragging = dragging;
+	}
+
+	/**
+	 * Called when the {@link #vertex}'s {@link Visual} changed, so this panel should be moved.
+	 * @param o must equal this.{@link #vertex}.{@link Vertex#getVisual()}
+	 * @param arg
+	 */
+	@Override
+	public void update(Observable o, Object arg) {
+		Visual visual = vertex.getVisual();
+		if (!visual.equals(o)) {
+			throw new IllegalStateException();
+		}
+
+		double centerX = visual.getCenterX();
+		double centerY = visual.getCenterY();
+
+		Rectangle visibleRect = getGraphPanel().getVisibleRect();
+		int x = (int) (visibleRect.getWidth() / 2 * centerX + visibleRect.getX() + visibleRect.getWidth() / 2);
+		int y = (int) (visibleRect.getHeight() / 2 * centerY + visibleRect.getY() + visibleRect.getHeight() / 2);
+
+		logger.debug("visual=({},{}), panel=({},{})", new Object[]{centerX, centerY, x, y});
+
+		setVertexPanelCenter(x, y);
 	}
 
 	protected class DragMouseListener extends MouseMotionAdapter {

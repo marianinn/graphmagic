@@ -51,10 +51,10 @@ public class GraphLayoutManager implements LayoutManager2 {
 	private void addLayoutComponent(VertexPanel panel) {
 		Point defaultLocation = panel.getParent().getMousePosition(true);
 		if (defaultLocation != null) {
-			panel.setVertexCenter(defaultLocation);
+			panel.setVertexPanelCenter(defaultLocation);
 		}
 		else {
-			panel.setVertexCenter(
+			panel.setVertexPanelCenter(
 				panel.getGraphPanel().getWidth() / 2,
 				panel.getGraphPanel().getHeight() / 2
 			);
