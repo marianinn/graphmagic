@@ -20,13 +20,40 @@
 
 package name.dlazerka.gm;
 
+import java.awt.*;
+import java.util.Observable;
+
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class Visual {
-	private Location center = new Location(0, 0);
+public class Visual extends Observable {
+	private double centerX = 0;
+	private double centerY = 0;
 
-	public Location getCenter() {
-		return center;
+	public double getCenterX() {
+		return centerX;
+	}
+
+	public void setCenterX(double centerX) {
+		setCenter(centerX, centerY);
+	}
+
+	public double getCenterY() {
+		return centerY;
+	}
+
+	public void setCenterY(double centerY) {
+		setCenter(centerX, centerY);
+	}
+
+	public void setCenter(double centerX, double centerY) {
+		this.centerX = centerX;
+		this.centerY = centerY;
+		this.setChanged();
+		this.notifyObservers();
+	}
+
+	public void setCenter(Point center) {
+		setCenter(center.x, center.y);
 	}
 }

@@ -22,12 +22,16 @@ package name.dlazerka.gm.graphmaker;
 
 import name.dlazerka.gm.Graph;
 import name.dlazerka.gm.GraphMagicAPI;
+import name.dlazerka.gm.Vertex;
+import name.dlazerka.gm.Visual;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 
 /**
+ * Creates N vertices and layouts them on the clock-wise circle.
+ *
  * @author Dzmitry Lazerka www.dlazerka.name
  */
 public class CycleGraphMakerItem extends GraphMakerItem {
@@ -51,9 +55,18 @@ public class CycleGraphMakerItem extends GraphMakerItem {
 		String nText = nField.getText();
 		Integer n = Integer.valueOf(nText);
 
+		double angleStep = 2 * Math.PI / n;
+		double radius = .75;
 
 		for (int i = 0; i < n; i++) {
-			graph.createVertex();
+			Vertex vertex = graph.createVertex();
+			Visual visual = vertex.getVisual();
+			double angle = i * angleStep + Math.PI/2;
+
+			double x = -Math.cos(angle) * radius;
+			double y = -Math.sin(angle) * radius;
+
+			visual.setCenter(x, y);
 		}
 
 		for (int i = 1; i < n; i++) {
@@ -69,6 +82,9 @@ public class CycleGraphMakerItem extends GraphMakerItem {
 	public void fillParamsPanel(JPanel panel) {
 		logger.debug("");
 		nField = new JTextField(20);
+		nField.setText("10");
+		nField.selectAll();
+		nField.requestFocusInWindow();
 		panel.add(nField);
 	}
 }
