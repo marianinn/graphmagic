@@ -25,8 +25,8 @@ import name.dlazerka.gm.util.LinkedSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Set;
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
@@ -123,6 +123,7 @@ public class BasicGraph implements Graph, Serializable {
 
 	@Override
 	public void remove(Vertex vertex) {
+		logger.debug("{}", vertex);
 		Set<Edge> edgesToRemove = vertex.getIncidentEdgeSet();
 
 		for (Edge edge : edgesToRemove) {
@@ -142,6 +143,7 @@ public class BasicGraph implements Graph, Serializable {
 
 	@Override
 	public void remove(Edge edge) {
+		logger.debug("{}", edge);
 		boolean contained = edgeSet.remove(edge);
 
 		if (!contained) {
@@ -172,12 +174,12 @@ public class BasicGraph implements Graph, Serializable {
 	}
 
 	protected void addVertex(Vertex vertex) {
-		logger.trace("{}", vertex);
+		logger.debug("{}", vertex);
 		vertexSet.add(vertex);
 	}
 
 	protected void addEdge(Edge edge) {
-		logger.trace("{}", edge);
+		logger.debug("{}", edge);
 		edgeSet.add(edge);
 	}
 }

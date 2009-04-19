@@ -1,7 +1,6 @@
 User stories:
-> Pluggable algorithms
-* Localization
 * Show pseudo-edges.
+* Localization
 * More than one window with a graph.
 * Selecting multiple vertices.
 * Renumbering of vertices (by hand, randomly)

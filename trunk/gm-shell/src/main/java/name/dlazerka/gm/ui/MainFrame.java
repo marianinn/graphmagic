@@ -21,8 +21,8 @@
 package name.dlazerka.gm.ui;
 
 import name.dlazerka.gm.GraphMagicPlugin;
-import name.dlazerka.gm.pluginloader.PluginWrapper;
 import name.dlazerka.gm.basic.ObservableBasicGraph;
+import name.dlazerka.gm.pluginloader.PluginWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +31,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Collection;
 import java.util.LinkedList;
-import java.io.File;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
@@ -57,11 +56,6 @@ public class MainFrame extends JFrame {
 
 		setupUI();
 
-		setContentPane(contentPane);
-		setTitle(Main.getString("main.title"));
-		setSize(800, 600);
-
-		this.setExtendedState(Frame.MAXIMIZED_BOTH);
 		registerCommands();
 	}
 
@@ -93,6 +87,11 @@ public class MainFrame extends JFrame {
 
 
 	private void setupUI() {
+		setTitle(Main.getString("main.title"));
+		setSize(800, 600);
+		this.setExtendedState(Frame.MAXIMIZED_BOTH);
+
+		setContentPane(contentPane);
 		contentPane.setLayout(new GridBagLayout());
 		contentPane.setBackground(new Color(-986896));
 		contentPane.setEnabled(true);
@@ -102,26 +101,8 @@ public class MainFrame extends JFrame {
 //		contentPane.setPreferredSize(new Dimension(800, 600));
 
 		final JMenuBar menuBar = new JMenuBar();
-		JMenu fileMenu = new JMenu(Main.getString("file"));
-		fileMenu.setMnemonic(KeyEvent.VK_F);
-		JMenuItem loadPluginMenuItem = new JMenuItem(Main.getString("load.plugin"));
-		loadPluginMenuItem.addActionListener(new AddPluginActionListener(MainFrame.this));
-		loadPluginMenuItem.setMnemonic(KeyEvent.VK_P);
-		fileMenu.add(loadPluginMenuItem);
-		JMenuItem exitMenuItem = new JMenuItem(Main.getString("exit"));
-		exitMenuItem.setMnemonic(KeyEvent.VK_X);
-		exitMenuItem.addActionListener(
-			new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					onClose();
-				}
-			}
-		);
-		fileMenu.add(exitMenuItem);
-		menuBar.add(fileMenu);
 		this.getRootPane().setJMenuBar(menuBar);
-
+		setUpMenuBar(menuBar);
 
 		final JSplitPane splitPane = new JSplitPane();
 		splitPane.setDividerLocation(200);
@@ -210,11 +191,130 @@ public class MainFrame extends JFrame {
 		);
 	}
 
+	private void setUpMenuBar(JMenuBar menuBar) {
+		{
+			JMenu menu = new JMenu(Main.getString("file"));
+			menuBar.add(menu);
+			menu.setMnemonic(KeyEvent.VK_F);
+			{
+				JMenuItem item = new JMenuItem(Main.getString("new.graph"));
+				item.setEnabled(false);
+				item.addActionListener(new NotImplementedActionListener(MainFrame.this));
+				item.setMnemonic(KeyEvent.VK_N);
+				menu.add(item);
+			}
+			{
+				JMenuItem item = new JMenuItem(Main.getString("save"));
+				item.setEnabled(false);
+				item.addActionListener(new NotImplementedActionListener(MainFrame.this));
+				item.setMnemonic(KeyEvent.VK_S);
+				menu.add(item);
+			}
+			{
+				JMenuItem item = new JMenuItem(Main.getString("save.as"));
+				item.setEnabled(false);
+				item.addActionListener(new NotImplementedActionListener(MainFrame.this));
+				item.setMnemonic(KeyEvent.VK_A);
+				menu.add(item);
+			}
+			{
+				JMenuItem item = new JMenuItem(Main.getString("print"));
+				item.setEnabled(false);
+				item.addActionListener(new NotImplementedActionListener(MainFrame.this));
+				item.setMnemonic(KeyEvent.VK_P);
+				menu.add(item);
+			}
+			{
+				JMenuItem item = new JMenuItem(Main.getString("export.as.image"));
+				item.setEnabled(false);
+				item.addActionListener(new NotImplementedActionListener(MainFrame.this));
+				item.setMnemonic(KeyEvent.VK_E);
+				menu.add(item);
+			}
+			{
+				JMenuItem item = new JMenuItem(Main.getString("load.plugin"));
+				item.addActionListener(new AddPluginActionListener(MainFrame.this));
+				item.setMnemonic(KeyEvent.VK_L);
+				menu.add(item);
+			}
+			{
+				JMenuItem item = new JMenuItem(Main.getString("exit"));
+				item.setMnemonic(KeyEvent.VK_X);
+				item.addActionListener(
+					new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							onClose();
+						}
+					}
+				);
+				menu.add(item);
+			}
+		}
+		{
+			JMenu menu = new JMenu("Settings");
+			menuBar.add(menu);
+			menu.setMnemonic(KeyEvent.VK_S);
+			{
+				JMenuItem item = new JMenuItem(Main.getString("graph"));
+				item.setEnabled(false);
+				item.addActionListener(new NotImplementedActionListener(MainFrame.this));
+				item.setMnemonic(KeyEvent.VK_G);
+				menu.add(item);
+			}
+			{
+				JMenuItem item = new JMenuItem(Main.getString("appearance"));
+				item.setEnabled(false);
+				item.addActionListener(new NotImplementedActionListener(MainFrame.this));
+				item.setMnemonic(KeyEvent.VK_A);
+				menu.add(item);
+			}
+		}
+		{
+			JMenu menu = new JMenu(Main.getString("about"));
+			menuBar.add(menu);
+			menu.setMnemonic(KeyEvent.VK_A);
+			{
+				JMenuItem item = new JMenuItem(Main.getString("help.topics"));
+				item.setEnabled(false);
+				item.addActionListener(new NotImplementedActionListener(MainFrame.this));
+				item.setMnemonic(KeyEvent.VK_H);
+				menu.add(item);
+			}
+			{
+				JMenuItem item = new JMenuItem(Main.getString("check.for.update"));
+				item.setEnabled(false);
+				item.addActionListener(new NotImplementedActionListener(MainFrame.this));
+				item.setMnemonic(KeyEvent.VK_C);
+				menu.add(item);
+			}
+			{
+				JMenuItem item = new JMenuItem(Main.getString("about"));
+				item.setEnabled(false);
+				item.addActionListener(new NotImplementedActionListener(MainFrame.this));
+				item.setMnemonic(KeyEvent.VK_A);
+				menu.add(item);
+			}
+		}
+	}
+
 	public JComponent getRootComponent() {
 		return contentPane;
 	}
 
 	public void registerPlugin(PluginWrapper pluginWrapper) {
 		pluginsTable.addPlugin(pluginWrapper);
+	}
+
+	private class NotImplementedActionListener implements ActionListener {
+		public NotImplementedActionListener(
+			MainFrame mainFrame
+		) {
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			ErrorDialog.showError(new UnsupportedOperationException("Not Implemented Yet"), MainFrame.this);
+		}
 	}
 }
