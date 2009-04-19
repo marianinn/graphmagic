@@ -204,6 +204,13 @@ public class MainFrame extends JFrame {
 				menu.add(item);
 			}
 			{
+				JMenuItem item = new JMenuItem(Main.getString("load"));
+				item.setEnabled(false);
+				item.addActionListener(new NotImplementedActionListener(MainFrame.this));
+				item.setMnemonic(KeyEvent.VK_L);
+				menu.add(item);
+			}
+			{
 				JMenuItem item = new JMenuItem(Main.getString("save"));
 				item.setEnabled(false);
 				item.addActionListener(new NotImplementedActionListener(MainFrame.this));
