@@ -306,6 +306,7 @@ public class GraphPanel extends JPanel {
 
 				if (answer == JOptionPane.YES_OPTION) {
 					graph.clear();
+					setBounds(getVisibleRect());
 				}
 			}
 		}

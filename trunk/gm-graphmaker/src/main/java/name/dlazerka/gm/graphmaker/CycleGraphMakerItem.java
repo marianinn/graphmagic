@@ -36,7 +36,7 @@ import javax.swing.*;
  */
 public class CycleGraphMakerItem extends GraphMakerItem {
 	private static final Logger logger = LoggerFactory.getLogger(EmptyGraphMakerItem.class);
-	private JTextField nField;
+	protected JTextField nField;
 
 	public CycleGraphMakerItem(GraphMagicAPI graphMagicAPI) {
 		super(graphMagicAPI);
@@ -49,11 +49,19 @@ public class CycleGraphMakerItem extends GraphMakerItem {
 
 	@Override
 	public void perform() {
+		String nText = nField.getText();
+		Integer n = Integer.valueOf(nText);
+
+		createCycleConnect(n);
+	}
+
+	protected void createCycleConnect(Integer n) {
 		Graph graph = getGraphMagicAPI().getFocusedGraph();
 		graph.clear();
 
-		String nText = nField.getText();
-		Integer n = Integer.valueOf(nText);
+		if (n  <= 0) {
+			return;
+		}
 
 		double angleStep = 2 * Math.PI / n;
 		double radius = .75;

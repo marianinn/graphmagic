@@ -42,6 +42,7 @@ public class GraphMaker extends AbstractPlugin implements GraphMagicPlugin {
 		super.setGraphMagicAPI(graphMagicAPI);
 		items.add(new EmptyGraphMakerItem(getGraphMagicAPI()));
 		items.add(new CycleGraphMakerItem(getGraphMagicAPI()));
+		items.add(new WheelGraphMakerItem(getGraphMagicAPI()));
 	}
 
 	@Override
