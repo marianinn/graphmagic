@@ -75,6 +75,7 @@ public class MakeGraphFrame extends JDialog {
 
 	private void setupUI() {
 		this.setContentPane(contentPane);
+		contentPane.setPreferredSize(new Dimension(300, 200));
 		contentPane.setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 
