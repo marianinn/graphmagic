@@ -109,86 +109,42 @@ public class MainFrame extends JFrame {
 		splitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 		splitPane.setOneTouchExpandable(true);
 		splitPane.setResizeWeight(0);
-		contentPane.add(
-			splitPane
-			, new GridBagConstraints(
-				GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE,
-				1, 1,
-				1, 1,
-				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-				new Insets(0, 0, 0, 0),
-				0, 0
-//				1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER,
-//				com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH,
-//				com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW,
-//				com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW,
-//				null, null, null, 0, false
-			)
+		GridBagConstraints gbc = new GridBagConstraints(
+			GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE,
+			1, 1,
+			1, 1,
+			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+			new Insets(0, 0, 0, 0),
+			0, 0
 		);
+		contentPane.add(splitPane, gbc);
 
 		final JPanel graphCardLayoutPanel = new JPanel(new CardLayout());
 		splitPane.setRightComponent(graphCardLayoutPanel);
 		graphPanel.setBackground(new Color(-1));
 
 		GraphScrollPane scrollPane = new GraphScrollPane(graphPanel);
+		graphCardLayoutPanel.add(scrollPane, "graph1");
 
-		graphCardLayoutPanel.add(
-			scrollPane, "graph1"
-//			graphPanel, new com.intellij.uiDesigner.core.GridConstraints(
-//				0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER,
-//				com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH,
-//				com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW,
-//				com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW,
-//				null, new Dimension(800, 600), null, 0, false
-//			)
-		);
 		leftTabbedPane = new JTabbedPane();
 		splitPane.setLeftComponent(leftTabbedPane);
+
 		final JPanel controlsPanel = new JPanel();
-//		controlsPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
 		leftTabbedPane.addTab(Main.getString("controls"), controlsPanel);
+
 		final JPanel pluginsPanel = new JPanel(new GridBagLayout());
-//		pluginsPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
 		leftTabbedPane.addTab(Main.getString("plugins"), pluginsPanel);
-		leftTabbedPane.setSelectedIndex(1);
+		//leftTabbedPane.setSelectedIndex(1);
 
-		pluginsPanel.add(
-			addPluginButton, new GridBagConstraints(
-				GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE,
-				1, 1,
-				1, 0,
-				GridBagConstraints.CENTER,
-				GridBagConstraints.HORIZONTAL,
-				new Insets(0, 0, 0, 0),
-				0, 0
-			)
-//			, new com.intellij.uiDesigner.core.GridConstraints(
-//				0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER,
-//				com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL,
-//				com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW,
-//				com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false
-//			)
-		);
+		gbc.gridx = GridBagConstraints.PAGE_START;
+		gbc.weighty = 0;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		pluginsPanel.add(addPluginButton, gbc);
 
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.weighty = 1;
 		pluginsTable = new PluginsTable();
-		pluginsPanel.add(
-			pluginsTable, new GridBagConstraints(
-				0, GridBagConstraints.RELATIVE,
-				1, 1,
-				1, 1,
-				GridBagConstraints.CENTER,
-				GridBagConstraints.BOTH,
-				new Insets(0, 0, 0, 0),
-				0, 0
-			)
-//			 , new com.intellij.uiDesigner.core.GridConstraints(
-//				1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER,
-//				com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH,
-//				com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW,
-//				com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null,
-//				0, false
-//			)
-		);
+		pluginsPanel.add(pluginsTable, gbc);
 	}
 
 	private void setUpMenuBar(JMenuBar menuBar) {
