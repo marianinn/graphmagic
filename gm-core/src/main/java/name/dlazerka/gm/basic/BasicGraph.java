@@ -38,6 +38,8 @@ public class BasicGraph implements Graph, Serializable {
 
 	private final Set<Edge> edgeSet = new LinkedSet<Edge>();
 	private GraphUI uI = new GraphUI();
+	private boolean directed;
+	private boolean pseudo;
 
 	@Override
 	public String toString() {
@@ -171,6 +173,18 @@ public class BasicGraph implements Graph, Serializable {
 	@Override
 	public void setUI(GraphUI uI) {
 		this.uI = uI;
+	}
+
+	@Override
+	public void setDirected(boolean directed) {
+		logger.debug("{}", directed);
+		this.directed = directed;
+	}
+
+	@Override
+	public void setPseudo(boolean pseudo) {
+		logger.debug("{}", pseudo);
+		this.pseudo = pseudo;
 	}
 
 	protected void addVertex(Vertex vertex) {

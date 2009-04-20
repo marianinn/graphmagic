@@ -65,4 +65,8 @@ public interface Graph {
 	GraphUI getUI();
 	
 	void setUI(GraphUI uI);
+
+	void setDirected(boolean directed);
+
+	void setPseudo(boolean pseudo);
 }

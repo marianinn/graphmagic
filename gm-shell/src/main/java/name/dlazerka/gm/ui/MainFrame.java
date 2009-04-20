@@ -20,6 +20,7 @@
 
 package name.dlazerka.gm.ui;
 
+import name.dlazerka.gm.Graph;
 import name.dlazerka.gm.GraphMagicPlugin;
 import name.dlazerka.gm.basic.ObservableBasicGraph;
 import name.dlazerka.gm.pluginloader.PluginWrapper;
@@ -27,6 +28,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Collection;
@@ -129,8 +132,10 @@ public class MainFrame extends JFrame {
 		leftTabbedPane = new JTabbedPane();
 		splitPane.setLeftComponent(leftTabbedPane);
 
-		final JPanel controlsPanel = new JPanel();
+		final JPanel controlsPanel = new JPanel(new GridBagLayout());
 		leftTabbedPane.addTab(Main.getString("controls"), controlsPanel);
+
+		setUpControlPanel(controlsPanel);
 
 		final JPanel pluginsPanel = new JPanel(new GridBagLayout());
 		leftTabbedPane.addTab(Main.getString("plugins"), pluginsPanel);
@@ -259,6 +264,42 @@ public class MainFrame extends JFrame {
 				menu.add(item);
 			}
 		}
+	}
+
+	private void setUpControlPanel(JPanel controlsPanel) {
+		GridBagConstraints gbc = new GridBagConstraints(
+			0, GridBagConstraints.RELATIVE,
+			1, 1,
+			1, 0,
+			GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
+			new Insets(0, 0, 0, 0),
+			0, 0
+		);
+
+		final JCheckBox directedCheckBox = new JCheckBox(Main.getString("directed"));
+		controlsPanel.add(directedCheckBox, gbc);
+		directedCheckBox.getModel().addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				Graph graph = graphPanel.getGraph();
+				boolean pressed = directedCheckBox.getModel().isPressed();
+				graph.setDirected(pressed);
+			}
+		});
+
+		final JCheckBox pseudoCheckBox = new JCheckBox(Main.getString("pseudo"));
+		pseudoCheckBox.add(pseudoCheckBox, gbc);
+		directedCheckBox.getModel().addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				Graph graph = graphPanel.getGraph();
+				boolean pressed = pseudoCheckBox.getModel().isPressed();
+				graph.setPseudo(pressed);
+			}
+		});
+
+		gbc.weighty = 1;
+		controlsPanel.add(new JPanel(), gbc);
 	}
 
 	public JComponent getRootComponent() {
