@@ -46,12 +46,17 @@ public class EdgePanel extends AbstractEdgePanel {
 	private Shape hoverShape = curve;
 	private Color color = EDGE_COLOR;
 	private Stroke stroke = EDGE_STROKE;
+	private final Point oddPoint = new Point();
 
 	public EdgePanel(Edge edge, VertexPanel tail, VertexPanel head) {
 		this.edge = edge;
 		this.tail = tail;
 		this.head = head;
-		updateCurve();
+
+		oddPoint.x = getFromPoint().x;
+		oddPoint.y = getFromPoint().y;
+		
+		updateGeometry();
 
 		logger.debug("{}", ctrlPoint);
 
@@ -70,8 +75,6 @@ public class EdgePanel extends AbstractEdgePanel {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setColor(color);
 		g2.setStroke(stroke);
-
-		hoverShape = EDGE_HOVER_STROKE.createStrokedShape(curve);
 
 		g2.draw(curve);
 	}
@@ -106,36 +109,72 @@ public class EdgePanel extends AbstractEdgePanel {
 	 * @param x which point.x the curve should contain
 	 * @param y which point.y the curve should contain
 	 */
-	private void setCurvedTo(int x, int y) {
+	private void pullTo(int x, int y) {
+		oddPoint.x = x;
+		oddPoint.y = y;
 
-		int centerX = (getFromPoint().x + getToPoint().x) / 2;
-		int centerY = (getFromPoint().y + getToPoint().y) / 2;
-
-		ctrlPoint.move(
-			x * 2 - centerX,
-			y * 2 - centerY
-		);
-
-		setCurved(!contains(ctrlPoint));
-
-		updateCurve();
+		updateGeometry();
 	}
 
 	public void setDragging(boolean dragging) {
 		this.dragging = dragging;
 	}
 
-	public void onAdjacentVertexMoved() {
-		updateCurve();
+	public void onAdjacentVertexMoved(VertexPanel vertexPanel, int moveByX, int moveByY) {
+		int x0, y0; // not moved point
+		int x1, y1; // old position of moved point
+		int x2, y2; // new position of moved point 
+		int x = oddPoint.x;
+		int y = oddPoint.y;
+
+		if (getFromPoint().equals(vertexPanel.getVertexCenter())) {
+			x0 = getToPoint().x;
+			y0 = getToPoint().y;
+			x2 = getFromPoint().x;
+			y2 = getFromPoint().y;
+		}
+		else {
+			x0 = getFromPoint().x;
+			y0 = getFromPoint().y;
+			x2 = getToPoint().x;
+			y2 = getToPoint().y;
+		}
+
+		x1 = x2 - moveByX;
+		y1 = y2 - moveByY;
+
+		if (x1 - x0 != 0) {
+			x = (int) Math.round(((double) x0 * (x1 - x) + x2 * (x - x0)) / (x1 - x0));
+		}
+		if (y1 - y0 != 0) {
+			y = (int) Math.round(((double) y0 * (y1 - y) + y2 * (y - y0)) / (y1 - y0));
+		}
+
+		oddPoint.x = x;
+		oddPoint.y = y;
+
+
+		updateGeometry();
 		repaint();
 	}
 
-	private void updateCurve() {
+	private void updateGeometry() {
+		int centerX = (getFromPoint().x + getToPoint().x) / 2;
+		int centerY = (getFromPoint().y + getToPoint().y) / 2;
+
+		ctrlPoint.move(
+			oddPoint.x * 2 - centerX,
+			oddPoint.y * 2 - centerY
+		);
+
+		setCurved(!contains(ctrlPoint));
+
 		curve.setCurve(
 			getFromPoint(),
 			curved ? ctrlPoint : getFromPoint(),
 			getToPoint()
 		);
+		hoverShape = EDGE_HOVER_STROKE.createStrokedShape(curve);
 	}
 
 	private class DragMouseListener extends MouseMotionAdapter {
@@ -144,7 +183,7 @@ public class EdgePanel extends AbstractEdgePanel {
 		public void mouseDragged(MouseEvent e) {
 //			logger.trace("{}", e.getPoint());
 
-			setCurvedTo(e.getX(), e.getY());
+			pullTo(e.getX(), e.getY());
 
 			repaint();
 		}
