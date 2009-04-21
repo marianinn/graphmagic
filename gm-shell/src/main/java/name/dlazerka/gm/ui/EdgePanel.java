@@ -21,7 +21,6 @@
 package name.dlazerka.gm.ui;
 
 import name.dlazerka.gm.Edge;
-import name.dlazerka.gm.ui.Main;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,7 +40,7 @@ public class EdgePanel extends AbstractEdgePanel {
 	private final Edge edge;
 	private final VertexPanel tail;
 	private final VertexPanel head;
-	private final Point ctrlPoint;
+	private final Point ctrlPoint = new Point();
 	private boolean curved = false;
 	private boolean dragging;
 	private Shape hoverShape = curve;
@@ -52,7 +51,7 @@ public class EdgePanel extends AbstractEdgePanel {
 		this.edge = edge;
 		this.tail = tail;
 		this.head = head;
-		ctrlPoint = new Point(head.getVertexCenterX(), head.getVertexCenterY());
+		updateCurve();
 
 		logger.debug("{}", ctrlPoint);
 
@@ -71,12 +70,6 @@ public class EdgePanel extends AbstractEdgePanel {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setColor(color);
 		g2.setStroke(stroke);
-
-		curve.setCurve(
-			getFromPoint(),
-			curved ? ctrlPoint : getFromPoint(),
-			getToPoint()
-		);
 
 		hoverShape = EDGE_HOVER_STROKE.createStrokedShape(curve);
 
@@ -124,6 +117,8 @@ public class EdgePanel extends AbstractEdgePanel {
 		);
 
 		setCurved(!contains(ctrlPoint));
+
+		updateCurve();
 	}
 
 	public void setDragging(boolean dragging) {
@@ -131,7 +126,16 @@ public class EdgePanel extends AbstractEdgePanel {
 	}
 
 	public void onAdjacentVertexMoved() {
+		updateCurve();
 		repaint();
+	}
+
+	private void updateCurve() {
+		curve.setCurve(
+			getFromPoint(),
+			curved ? ctrlPoint : getFromPoint(),
+			getToPoint()
+		);
 	}
 
 	private class DragMouseListener extends MouseMotionAdapter {
@@ -189,30 +193,4 @@ public class EdgePanel extends AbstractEdgePanel {
 			}
 		}
 	}
-/*
-	public int getX() {
-		return Math.min(
-			head.getVertexCenterX(),
-			tail.getVertexCenterX()
-		);
-	}
-
-	@Override
-	public int getY() {
-		return Math.min(
-			head.getVertexCenterY(),
-			tail.getVertexCenterY()
-		);
-	}
-
-	@Override
-	public int getWidth() {
-		return Math.abs(head.getVertexCenterX() - tail.getVertexCenterX());
-	}
-
-	@Override
-	public int getHeight() {
-		return Math.abs(head.getVertexCenterY() - tail.getVertexCenterY());
-	}
-*/
 }
