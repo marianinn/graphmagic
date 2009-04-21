@@ -22,7 +22,6 @@ package name.dlazerka.gm.ui;
 
 import name.dlazerka.gm.Edge;
 import name.dlazerka.gm.Graph;
-import name.dlazerka.gm.ObservableGraph;
 import name.dlazerka.gm.Vertex;
 import name.dlazerka.gm.basic.GraphModificationListener;
 import name.dlazerka.gm.util.ListMap;
@@ -42,7 +41,7 @@ import java.util.Map;
 public class GraphPanel extends JPanel {
 	private final static Logger logger = LoggerFactory.getLogger(GraphPanel.class);
 
-	private final ObservableGraph graph;
+	private final Graph graph;
 
 	private Map<Vertex, VertexPanel> vertexToVertexPanel = new ListMap<Vertex, VertexPanel>();
 	private Map<Edge, EdgePanel> edgeToEdgePanel = new ListMap<Edge, EdgePanel>();
@@ -62,7 +61,7 @@ public class GraphPanel extends JPanel {
 	 */
 	private VertexPanel lastHoveredVertexPanel;
 
-	public GraphPanel(ObservableGraph graph) {
+	public GraphPanel(Graph graph) {
 		this.graph = graph;
 
 		GraphLayoutManager layoutManager = new GraphLayoutManager();
@@ -209,18 +208,10 @@ public class GraphPanel extends JPanel {
 
 	private class GraphModificationListenerImpl implements GraphModificationListener {
 		public void notifyAttached() {
-			addVertexPanels();
-			addEdgePanels();
-		}
-
-		private void addVertexPanels() {
 			for (Vertex vertex : graph.getVertexSet()) {
 				VertexPanel vertexPanel = new VertexPanel(vertex);
 				add(vertexPanel);
 			}
-		}
-
-		private void addEdgePanels() {
 			for (Edge edge : graph.getEdgeSet()) {
 				EdgePanel edgePanel = createEdgePanel(edge);
 				add(edgePanel);
@@ -228,17 +219,31 @@ public class GraphPanel extends JPanel {
 		}
 
 		private EdgePanel createEdgePanel(Edge edge) {
-			VertexPanel tailPanel = vertexToVertexPanel.get(edge.getTail());
-			VertexPanel headPanel = vertexToVertexPanel.get(edge.getHead());
+			EdgePanel edgePanel;
 
-			EdgePanel edgePanel = new EdgePanel(
-				edge,
-				tailPanel,
-				headPanel
-			);
+//			if (!edge.isPseudo()) {
+				VertexPanel tailPanel = vertexToVertexPanel.get(edge.getTail());
+				VertexPanel headPanel = vertexToVertexPanel.get(edge.getHead());
 
-			tailPanel.addAdjacentEdgePanel(edgePanel);
-			headPanel.addAdjacentEdgePanel(edgePanel);
+				edgePanel = new EdgePanel(
+					edge,
+					tailPanel,
+					headPanel
+				);
+
+				tailPanel.addAdjacentEdgePanel(edgePanel);
+				headPanel.addAdjacentEdgePanel(edgePanel);
+//			}
+//			else {
+//				VertexPanel vertexPanel = vertexToVertexPanel.get(edge.getTail());
+//
+//				edgePanel = new PseudoEdgePanel(
+//					edge,
+//					vertexPanel
+//				);
+//
+//				vertexPanel.addAdjacentEdgePanel(edgePanel);
+//			}
 
 			return edgePanel;
 		}

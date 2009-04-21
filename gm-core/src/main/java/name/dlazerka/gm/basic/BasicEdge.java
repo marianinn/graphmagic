@@ -25,8 +25,8 @@ import name.dlazerka.gm.util.LinkedSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Set;
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
@@ -106,6 +106,13 @@ public class BasicEdge extends AbstractEdge implements Edge, Serializable {
 		checkNotRemoved();
 
 		return getIncidentEdgeSet().contains(edge);
+	}
+
+	@Override
+	public boolean isPseudo() {
+		checkNotRemoved();
+
+		return tail.equals(head);
 	}
 
 	/**

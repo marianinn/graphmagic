@@ -38,6 +38,8 @@ public interface Edge {
 	Set<Edge> getIncidentEdgeSet();
 
 	boolean isIncident(Vertex vertex);
-	
+
 	boolean isIncident(Edge edge);
+
+	boolean isPseudo();
 }
