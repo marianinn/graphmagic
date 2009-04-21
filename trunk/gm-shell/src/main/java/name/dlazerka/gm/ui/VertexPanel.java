@@ -35,8 +35,8 @@ import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
 import java.util.Collection;
 import java.util.LinkedList;
-import java.util.Observer;
 import java.util.Observable;
+import java.util.Observer;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
@@ -333,7 +333,7 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 			setLocation(getX() + moveByX, getY() + moveByY);
 
 			for (EdgePanel adjacentEdgePanel : adjacentEdgePanels) {
-				adjacentEdgePanel.onAdjacentVertexMoved();
+				adjacentEdgePanel.onAdjacentVertexMoved(VertexPanel.this, moveByX, moveByY);
 			}
 		}
 	}
