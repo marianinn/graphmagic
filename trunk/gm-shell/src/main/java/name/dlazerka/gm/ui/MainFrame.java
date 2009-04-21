@@ -22,14 +22,12 @@ package name.dlazerka.gm.ui;
 
 import name.dlazerka.gm.Graph;
 import name.dlazerka.gm.GraphMagicPlugin;
-import name.dlazerka.gm.basic.ObservableBasicGraph;
+import name.dlazerka.gm.basic.BasicGraph;
 import name.dlazerka.gm.pluginloader.PluginWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Collection;
@@ -49,7 +47,7 @@ public class MainFrame extends JFrame {
 	private Collection<GraphMagicPlugin> plugins = new LinkedList<GraphMagicPlugin>();
 
 	public MainFrame() {
-		ObservableBasicGraph graph = new ObservableBasicGraph();
+		BasicGraph graph = new BasicGraph();
 
 		Main.getGraphMagicAPI().getGraphs().add(graph);
 		Main.getGraphMagicAPI().setFocused(graph);
@@ -278,22 +276,33 @@ public class MainFrame extends JFrame {
 
 		final JCheckBox directedCheckBox = new JCheckBox(Main.getString("directed"));
 		controlsPanel.add(directedCheckBox, gbc);
-		directedCheckBox.getModel().addChangeListener(new ChangeListener() {
+		directedCheckBox.getModel().addActionListener(new ActionListener() {
 			@Override
-			public void stateChanged(ChangeEvent e) {
+			public void actionPerformed(ActionEvent e) {
 				Graph graph = graphPanel.getGraph();
-				boolean pressed = directedCheckBox.getModel().isPressed();
+				boolean pressed = directedCheckBox.getModel().isSelected();
 				graph.setDirected(pressed);
+			}
+		});
+
+		final JCheckBox multiCheckBox = new JCheckBox(Main.getString("multigraph"));
+		controlsPanel.add(multiCheckBox, gbc);
+		multiCheckBox.getModel().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Graph graph = graphPanel.getGraph();
+				boolean pressed = multiCheckBox.getModel().isSelected();
+				graph.setMulti(pressed);
 			}
 		});
 
 		final JCheckBox pseudoCheckBox = new JCheckBox(Main.getString("pseudo"));
 		controlsPanel.add(pseudoCheckBox, gbc);
-		directedCheckBox.getModel().addChangeListener(new ChangeListener() {
+		pseudoCheckBox.getModel().addActionListener(new ActionListener() {
 			@Override
-			public void stateChanged(ChangeEvent e) {
+			public void actionPerformed(ActionEvent e) {
 				Graph graph = graphPanel.getGraph();
-				boolean pressed = pseudoCheckBox.getModel().isPressed();
+				boolean pressed = pseudoCheckBox.getModel().isSelected();
 				graph.setPseudo(pressed);
 			}
 		});

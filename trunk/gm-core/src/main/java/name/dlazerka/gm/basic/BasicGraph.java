@@ -26,6 +26,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -38,8 +40,26 @@ public class BasicGraph implements Graph, Serializable {
 
 	private final Set<Edge> edgeSet = new LinkedSet<Edge>();
 	private GraphUI uI = new GraphUI();
+
+	/**
+	 * See {@link Graph#isDirected()}
+	 */
 	private boolean directed;
+
+	/**
+	 * See {@link Graph#isMulti()}
+	 */
+	private boolean multi;
+
+	/**
+	 * See {@link Graph#isPseudo()}
+	 */
 	private boolean pseudo;
+
+	/**
+	 * A list of observers that are notified on graph changes.
+	 */
+	protected final List<GraphModificationListener> modificationListenerList = new LinkedList<GraphModificationListener>();
 
 	@Override
 	public String toString() {
@@ -141,6 +161,10 @@ public class BasicGraph implements Graph, Serializable {
 		if (vertex instanceof BasicVertex) {
 			((BasicVertex) vertex).markRemoved();
 		}
+
+		for (GraphModificationListener modificationListener : modificationListenerList) {
+			modificationListener.vertexDeleted(vertex);
+		}
 	}
 
 	@Override
@@ -154,6 +178,10 @@ public class BasicGraph implements Graph, Serializable {
 
 		if (edge instanceof BasicEdge) {
 			((BasicEdge) edge).markRemoved();
+		}
+
+		for (GraphModificationListener modificationListener : modificationListenerList) {
+			modificationListener.edgeDeleted(edge);
 		}
 	}
 
@@ -175,10 +203,28 @@ public class BasicGraph implements Graph, Serializable {
 		this.uI = uI;
 	}
 
+	public boolean isDirected() {
+		return directed;
+	}
+
 	@Override
 	public void setDirected(boolean directed) {
 		logger.debug("{}", directed);
 		this.directed = directed;
+	}
+
+	public boolean isMulti() {
+		return multi;
+	}
+
+	@Override
+	public void setMulti(boolean multi) {
+		logger.debug("{}", multi);
+		this.multi = multi;
+	}
+
+	public boolean isPseudo() {
+		return pseudo;
 	}
 
 	@Override
@@ -190,10 +236,24 @@ public class BasicGraph implements Graph, Serializable {
 	protected void addVertex(Vertex vertex) {
 		logger.debug("{}", vertex);
 		vertexSet.add(vertex);
+
+		for (GraphModificationListener listener : modificationListenerList) {
+			listener.vertexAdded(vertex);
+		}
 	}
 
 	protected void addEdge(Edge edge) {
 		logger.debug("{}", edge);
 		edgeSet.add(edge);
+
+		for (GraphModificationListener listener : modificationListenerList) {
+			listener.edgeAdded(edge);
+		}
+	}
+
+	public boolean addChangeListener(GraphModificationListener listener) {
+		boolean result = modificationListenerList.add(listener);
+		listener.notifyAttached();
+		return result;
 	}
 }

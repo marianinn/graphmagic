@@ -20,6 +20,8 @@
 
 package name.dlazerka.gm;
 
+import name.dlazerka.gm.basic.GraphModificationListener;
+
 import java.util.Set;
 
 /**
@@ -27,13 +29,24 @@ import java.util.Set;
  */
 public interface Graph {
 	/**
+	 * Registers a {@link GraphModificationListener} that will be notified on graph changes
+	 * (e.g. vertex created, toggled directed/undirected}
+	 *
+	 * @param listener
+	 * @return
+	 */
+	boolean addChangeListener(GraphModificationListener listener);
+
+	/**
 	 * Return the number of vertices: <code>|V|</code>.
+	 *
 	 * @return the number of vertices.
 	 */
 	int getOrder();
 
 	/**
 	 * Return the number of edges: <code>|E|</code>.
+	 *
 	 * @return the number of edges.
 	 */
 	int getSize();
@@ -63,10 +76,40 @@ public interface Graph {
 	void clear();
 
 	GraphUI getUI();
-	
+
 	void setUI(GraphUI uI);
 
+
+	/**
+	 * @return is this graph a directed graph,
+	 *         i.e. are its edges directed.
+	 */
+	boolean isDirected();
+
+	/**
+	 * @param directed see {@link #isDirected()}
+	 */
 	void setDirected(boolean directed);
 
+	/**
+	 * @return is this graph a multigraph,
+	 *         i.e. does it permit to have more than one edge with the same tail and head vertices.
+	 */
+	boolean isMulti();
+
+	/**
+	 * @param multi see {@link #isMulti()}
+	 */
+	void setMulti(boolean multi);
+
+	/**
+	 * @return is this graph a pseudograph,
+	 *         i.e. does it permit to have a loop: edge that connects a vertex to itself.
+	 */
+	boolean isPseudo();
+
+	/**
+	 * @param pseudo see {@link #isPseudo()}
+	 */
 	void setPseudo(boolean pseudo);
 }
