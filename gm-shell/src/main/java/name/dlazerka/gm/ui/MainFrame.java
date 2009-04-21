@@ -288,7 +288,7 @@ public class MainFrame extends JFrame {
 		});
 
 		final JCheckBox pseudoCheckBox = new JCheckBox(Main.getString("pseudo"));
-		pseudoCheckBox.add(pseudoCheckBox, gbc);
+		controlsPanel.add(pseudoCheckBox, gbc);
 		directedCheckBox.getModel().addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
