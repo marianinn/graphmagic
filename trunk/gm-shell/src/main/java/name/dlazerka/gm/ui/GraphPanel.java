@@ -221,11 +221,11 @@ public class GraphPanel extends JPanel {
 		private EdgePanel createEdgePanel(Edge edge) {
 			EdgePanel edgePanel;
 
-//			if (!edge.isPseudo()) {
+			if (!edge.isPseudo()) {
 				VertexPanel tailPanel = vertexToVertexPanel.get(edge.getTail());
 				VertexPanel headPanel = vertexToVertexPanel.get(edge.getHead());
 
-				edgePanel = new EdgePanel(
+				edgePanel = new NoPseudoEdgePanel(
 					edge,
 					tailPanel,
 					headPanel
@@ -233,17 +233,17 @@ public class GraphPanel extends JPanel {
 
 				tailPanel.addAdjacentEdgePanel(edgePanel);
 				headPanel.addAdjacentEdgePanel(edgePanel);
-//			}
-//			else {
-//				VertexPanel vertexPanel = vertexToVertexPanel.get(edge.getTail());
-//
-//				edgePanel = new PseudoEdgePanel(
-//					edge,
-//					vertexPanel
-//				);
-//
-//				vertexPanel.addAdjacentEdgePanel(edgePanel);
-//			}
+			}
+			else {
+				VertexPanel vertexPanel = vertexToVertexPanel.get(edge.getTail());
+
+				edgePanel = new PseudoEdgePanel(
+					edge,
+					vertexPanel
+				);
+
+				vertexPanel.addAdjacentEdgePanel(edgePanel);
+			}
 
 			return edgePanel;
 		}
