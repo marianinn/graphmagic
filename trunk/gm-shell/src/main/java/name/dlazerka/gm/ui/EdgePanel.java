@@ -175,8 +175,9 @@ public class EdgePanel extends AbstractEdgePanel {
             b1y = bb.y - o.y;
         }
 
-        x = (int) Math.round(((double) ax * bx * b1x - ay * bx * b1y + ay * by * b1x + ax * by * b1y)/(bx * bx + by * by));
-        y = (int) Math.round(((double) ay * bx * b1x + ax * bx * b1y - ax * by * b1x + ay * by * b1y)/(bx * bx + by * by));
+        // rounding because simple cast works bad
+        x = Math.round(((float) ax * bx * b1x - ay * bx * b1y + ay * by * b1x + ax * by * b1y)/(bx * bx + by * by));
+        y = Math.round(((float) ay * bx * b1x + ax * bx * b1y - ax * by * b1x + ay * by * b1y)/(bx * bx + by * by));
 
         x = x + o.x;
         y = y + o.y;
@@ -189,7 +190,7 @@ public class EdgePanel extends AbstractEdgePanel {
         int centerY = (getFromPoint().y + getToPoint().y) / 2;
 
         ctrlPoint.move(
-            oddPoint.x * 2 - centerX,
+            (oddPoint.x) * 2 - centerX,
             oddPoint.y * 2 - centerY
         );
 
