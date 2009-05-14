@@ -51,8 +51,8 @@ public class AddEdgePanel extends JPanel {
 
 	private static void checkImageLoadedSuccess(ImageIcon icon) {
 		if (icon.getImageLoadStatus() != MediaTracker.COMPLETE) {
-			logger.error("Unable to load image, filepath='{}'", DEFAULT_IMAGE_URL);
-			throw new RuntimeException();
+			logger.error("Unable to load image, filepath='{}'", DEFAULT_IMAGE_URL.toString());
+			throw new RuntimeException(Main.getString("image.loading.failed", DEFAULT_IMAGE_URL.toString()));
 		}
 	}
 

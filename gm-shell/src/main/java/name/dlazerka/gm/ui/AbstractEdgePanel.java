@@ -37,7 +37,7 @@ public abstract class AbstractEdgePanel extends JPanel implements Paintable {
 	protected static final Color EDGE_HOVER_COLOR = new Color(0x00, 0x00, 0x00);
 	protected static final Stroke EDGE_STROKE = new BasicStroke(2f);
 	protected static final Stroke EDGE_HOVER_STROKE = new BasicStroke(6f);
-	protected final QuadCurve2D curve = new QuadCurve2D.Double();
+	protected final QuadCurve2D curve = new QuadCurve2D.Float();
 
 	protected AbstractEdgePanel() {
 		super(null);
