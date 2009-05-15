@@ -202,53 +202,16 @@ public class EdgePanel extends AbstractEdgePanel {
     /**
      * Places {@link #ctrlPoint} on double distance from center of line drawn between end points to the
      * {@link #oddPoint}.
+     * It equals to fact that {@link #oddPoint} equals to bezier point position at t=0.5 
      */
     private void updateGeometry2() {
         int centerX = (getFromPoint().x + getToPoint().x) / 2;
         int centerY = (getFromPoint().y + getToPoint().y) / 2;
 
         ctrlPoint.move(
-            (oddPoint.x) * 2 - centerX,
+            oddPoint.x * 2 - centerX,
             oddPoint.y * 2 - centerY
         );
-
-        setCurved(!contains(ctrlPoint));
-
-        curve.setCurve(
-            getFromPoint(),
-            curved ? ctrlPoint : getFromPoint(),
-            getToPoint()
-        );
-        hoverShape = EDGE_HOVER_STROKE.createStrokedShape(curve);
-    }
-
-    /**
-     * Sets the {@link #ctrlPoint} so, that {@link #oddPoint} will lie on the peak of curve.
-     * Thus, draws a perpendicular from the {@link #oddPoint} to the line drawn between end points (specified by points
-     * {@link #getFromPoint()} and {@link #getToPoint()}).
-     * Then places the {@link #ctrlPoint} on the perpendicular on double
-     * length from the line to {@link #oddPoint}
-     */
-    private void updateGeometry3() {
-        // let (bx, by) be the vector from fromPoint to toPoint (let fromPoint be the center of coodrinates)
-        int bx = getToPoint().x - getFromPoint().x;
-        int by = getToPoint().y - getFromPoint().y;
-        int x = oddPoint.x - getFromPoint().x;
-        int y = oddPoint.y - getFromPoint().y;
-
-        // bb is the projection of oddPoint to the line
-        float l = (((float)bx * x + by * y) / (bx * bx + by * by));
-        int bbx = (int) (bx * l);
-        int bby = (int) (by * l);
-
-        int cx = 2*(x-bbx)+bbx;
-        int cy = 2*(y-bby)+bby;
-
-        ctrlPoint.move(
-            cx + getFromPoint().x,
-            cy + getFromPoint().y
-        );
-
 
         setCurved(!contains(ctrlPoint));
 
