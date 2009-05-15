@@ -155,7 +155,7 @@ public class EdgePanel extends AbstractEdgePanel {
 
     /**
      * Moves point <code>a</code> accordingly as affine transform of line <code>o-b</code> to line <code>o-bb</code>.
-     * See /doc/affine.nb for computations.
+     * See /doc/math/affine.nb for computations.
      *
      * @param a  point to move
      * @param o  not moving point

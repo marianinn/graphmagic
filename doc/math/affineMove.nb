@@ -1,0 +1,181 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.0'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[      4084,        122]*)
+(*NotebookOutlinePosition[      4750,        145]*)
+(*  CellTagsIndexPosition[      4706,        141]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[{
+    \(\(a = {ax, ay, 0};\)\), "\[IndentingNewLine]", 
+    \(\(b = {bx, by, 0};\)\), "\[IndentingNewLine]", 
+    \(\(a1 = {a1x, a1y, 0};\)\), "\[IndentingNewLine]", 
+    \(\(b1 = {b1x, b1y, 0};\)\), "\[IndentingNewLine]", 
+    \(k = \@\(bx\^2 + by\^2\)\/\@\(ax\^2 + ay\^2\)\)}], "Input"],
+
+Cell[BoxData[
+    \(\@\(bx\^2 + by\^2\)\/\@\(ax\^2 + ay\^2\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(eq = {\[IndentingNewLine]\((a1x\^2 + a1y\^2)\) k\^2 \[Equal] 
+              b1x\^2 + 
+                b1y\^2\[IndentingNewLine] && \(Cross[a, 
+                    a1]\)\[LeftDoubleBracket]3\[RightDoubleBracket] 
+                k\^2 \[Equal] \ \(Cross[b, 
+                  b1]\)\[LeftDoubleBracket]3\[RightDoubleBracket]\
+\[IndentingNewLine]}[\([1]\)]\)], "Input"],
+
+Cell[BoxData[
+    \(\(\((a1x\^2 + a1y\^2)\)\ \((bx\^2 + by\^2)\)\)\/\(ax\^2 + ay\^2\) \
+\[Equal] b1x\^2 + 
+          b1y\^2 && \(\((a1y\ ax - a1x\ ay)\)\ \((bx\^2 + by\^2)\)\)\/\(ax\^2 \
++ ay\^2\) \[Equal] b1y\ bx - b1x\ by\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(sol = Simplify[Solve[eq, {a1x, a1y}]]\)], "Input"],
+
+Cell[BoxData[
+    \({{a1x \[Rule] \(-\(\(ax\ b1x\ bx + ay\ b1y\ bx - ay\ b1x\ by + 
+                  ax\ b1y\ by\)\/\(bx\^2 + by\^2\)\)\), 
+        a1y \[Rule] \(-\(\(ay\ b1x\ bx - ax\ b1y\ bx + ax\ b1x\ by + 
+                  ay\ b1y\ by\)\/\(bx\^2 + 
+                  by\^2\)\)\)}, {a1x \[Rule] \(ax\ b1x\ bx - ay\ b1y\ bx + ay\
+\ b1x\ by + ax\ b1y\ by\)\/\(bx\^2 + by\^2\), 
+        a1y \[Rule] \(ay\ b1x\ bx + ax\ b1y\ bx - ax\ b1x\ by + ay\ b1y\ by\)\
+\/\(bx\^2 + by\^2\)}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Refine[sol, 
+      ay \[Equal] 1 && ax \[Equal] 1 && bx \[Equal] 2 && by \[Equal] 0 && 
+        b1x \[Equal] 2 && b1y \[Equal] \(-1\)]\)], "Input"],
+
+Cell[BoxData[
+    \({{a1x \[Rule] \(-\(1\/2\)\), 
+        a1y \[Rule] \(-\(3\/2\)\)}, {a1x \[Rule] 3\/2, 
+        a1y \[Rule] 1\/2}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Refine[ax\ b1x\ bx - ay\ b1y\ bx + ay\ b1x\ by + ax\ b1y\ by, \ 
+      ay \[Equal] 1 && ax \[Equal] 1 && bx \[Equal] 2 && by \[Equal] 0 && 
+        b1x \[Equal] 2 && b1y \[Equal] \(-1\)]\)], "Input"],
+
+Cell[BoxData[
+    \(6\)], "Output"]
+}, Open  ]]
+},
+FrontEndVersion->"5.0 for Microsoft Windows",
+ScreenRectangle->{{0, 1920}, {0, 1061}},
+WindowSize->{1802, 1031},
+WindowMargins->{{-5, Automatic}, {Automatic, -5}},
+Magnification->2
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 301, 5, 250, "Input"],
+Cell[2080, 60, 74, 1, 119, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2191, 66, 385, 7, 161, "Input"],
+Cell[2579, 75, 237, 4, 109, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2853, 84, 70, 1, 55, "Input"],
+Cell[2926, 87, 495, 8, 167, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3458, 100, 167, 3, 55, "Input"],
+Cell[3628, 105, 146, 3, 99, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3811, 113, 219, 3, 55, "Input"],
+Cell[4033, 118, 35, 1, 80, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+
