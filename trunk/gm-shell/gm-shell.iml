@@ -18,5 +18,6 @@
     <orderEntry type="library" exported="" name="Maven: log4j:log4j:1.2.14" level="project" />
     <orderEntry type="module" module-name="gm-core" exported="" />
   </component>
+  <component name="libraryTable" />
 </module>
 

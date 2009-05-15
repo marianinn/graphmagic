@@ -1,6 +1,7 @@
 User stories:
-* Show pseudo-edges.
+> Pluggable algorithms
 * Localization
+* Show pseudo-edges.
 * More than one window with a graph.
 * Selecting multiple vertices.
 * Renumbering of vertices (by hand, randomly)
