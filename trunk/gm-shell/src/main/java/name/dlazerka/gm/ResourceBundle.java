@@ -18,26 +18,26 @@
  * Author: Dzmitry Lazerka dlazerka@dlazerka.name
  */
 
-package name.dlazerka.gm.pluginloader;
+package name.dlazerka.gm;
 
-import name.dlazerka.gm.ResourceBundle;
-
-import java.io.File;
+import java.text.MessageFormat;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class PluginMainClassNotSpecifiedException extends PluginLoadingException {
-	private final String attributeName;
+public class ResourceBundle {
+    private static final String MESSAGES_FILENAME = "messages";
 
-	public PluginMainClassNotSpecifiedException(String attributeName, File file) {
-		super("Plugin JAR manifest must contain '" + attributeName + "' attribute.", file);
-		this.attributeName = attributeName;
-	}
+    private static java.util.ResourceBundle resourceBundle = java.util.ResourceBundle.getBundle(MESSAGES_FILENAME);
 
-	@Override
-	public String getLocalizedMessage() {
-		String s = ResourceBundle.getString("plugin.manifest.must.contain.0.attribute", attributeName);
-		return super.getLocalizedMessage() + ": " + s;
-	}
+    public static String getString(String key, String... params) {
+        String text = resourceBundle.getString(key);
+
+        if (params != null) {
+            MessageFormat mf = new MessageFormat(text);
+            text = mf.format(params);
+        }
+
+        return text;
+    }
 }

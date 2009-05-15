@@ -22,6 +22,7 @@ package name.dlazerka.gm.ui;
 
 import name.dlazerka.gm.Edge;
 import name.dlazerka.gm.Graph;
+import name.dlazerka.gm.ResourceBundle;
 import name.dlazerka.gm.Vertex;
 import name.dlazerka.gm.basic.GraphModificationListener;
 import name.dlazerka.gm.util.ListMap;
@@ -287,7 +288,7 @@ public class GraphPanel extends JPanel {
 
 		private class AddVertexAction extends AbstractAction {
 			public AddVertexAction() {
-				super(Main.getString("add.vertex"));
+				super(ResourceBundle.getString("add.vertex"));
 			}
 
 			public void actionPerformed(ActionEvent e) {
@@ -297,14 +298,14 @@ public class GraphPanel extends JPanel {
 
 		private class ClearAllAction extends AbstractAction {
 			public ClearAllAction() {
-				super(Main.getString("clear.all"));
+				super(ResourceBundle.getString("clear.all"));
 			}
 
 			public void actionPerformed(ActionEvent e) {
 				int answer = JOptionPane.showConfirmDialog(
 					GraphPanel.this,
-					Main.getString("clear.all.confirm.message"),
-					Main.getString("clear.all.confirm.title"),
+					ResourceBundle.getString("clear.all.confirm.message"),
+					ResourceBundle.getString("clear.all.confirm.title"),
 					JOptionPane.YES_NO_OPTION
 				);
 

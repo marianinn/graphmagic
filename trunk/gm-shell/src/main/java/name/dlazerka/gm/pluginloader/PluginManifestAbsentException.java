@@ -20,7 +20,7 @@
 
 package name.dlazerka.gm.pluginloader;
 
-import name.dlazerka.gm.ui.Main;
+import name.dlazerka.gm.ResourceBundle;
 
 import java.io.File;
 
@@ -34,7 +34,7 @@ public class PluginManifestAbsentException extends PluginManifestLoadingExceptio
 
 	@Override
 	public String getLocalizedMessage() {
-		String s = Main.getString("plugin.manifest.absent.exception");
+		String s = ResourceBundle.getString("plugin.manifest.absent.exception");
 		return super.getLocalizedMessage() + s; 
 	}
 }

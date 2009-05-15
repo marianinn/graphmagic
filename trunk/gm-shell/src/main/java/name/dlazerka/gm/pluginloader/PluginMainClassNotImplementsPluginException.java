@@ -20,7 +20,7 @@
 
 package name.dlazerka.gm.pluginloader;
 
-import name.dlazerka.gm.ui.Main;
+import name.dlazerka.gm.ResourceBundle;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
@@ -37,7 +37,7 @@ public class PluginMainClassNotImplementsPluginException extends PluginLoadingEx
 
 	@Override
 	public String getLocalizedMessage() {
-		String s = Main.getString("plugin.class.not.implements.graphmagicplugin", mainClass.getName());
+		String s = ResourceBundle.getString("plugin.class.not.implements.graphmagicplugin", mainClass.getName());
 		return super.getLocalizedMessage() + ": " + s;
 	}
 }

@@ -77,7 +77,7 @@ public class LinkedSet<E> extends LinkedList<E> implements Set<E> {
     }
 
     /**
-     * We MUST use here hashCode() from the AbstractSet, see {@link #equals(Object)}
+     * We MUST use here hashCode() from the {@link AbstractSet}, see {@link #equals(Object)}
      * @return hashcode as computed in {@link Set}s.
      */
     @Override

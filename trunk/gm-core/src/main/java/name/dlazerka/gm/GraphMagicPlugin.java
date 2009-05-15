@@ -25,6 +25,8 @@ import java.util.List;
 import java.util.Locale;
 
 /**
+ * Any plugin must implement this interface.
+ *
  * @author Dzmitry Lazerka www.dlazerka.name
  */
 public interface GraphMagicPlugin {
@@ -32,7 +34,7 @@ public interface GraphMagicPlugin {
 	void setGraphMagicAPI(GraphMagicAPI api);
 
 	void setLocale(Locale locale);
-	
+
 	List<Action> getActions();
 
 	String getName();

@@ -21,6 +21,8 @@
 package name.dlazerka.gm.ui;
 
 import name.dlazerka.gm.GraphMagicPlugin;
+import name.dlazerka.gm.PluginException;
+import name.dlazerka.gm.ResourceBundle;
 import name.dlazerka.gm.pluginloader.PluginWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,6 +45,8 @@ public class PluginsTable extends JTable {
 		super(new PluginsTableModel());
 		TableColumn column0 = getColumnModel().getColumn(0);
 		column0.setCellRenderer(new PluginCellRenderer());
+
+        setFont(getFont().deriveFont(Font.PLAIN, 15));
 
 		setComponentPopupMenu(contextMenu);
 	}
@@ -70,7 +74,12 @@ public class PluginsTable extends JTable {
 	}
 
 	private class PluginCellRenderer extends DefaultTableCellRenderer {
-		@Override
+        private PluginCellRenderer() {
+            setFont(PluginsTable.this.getFont());
+//            this.set
+        }
+
+        @Override
 		protected void setValue(Object value) {
 			if (!(value instanceof PluginWrapper)) {
 				throw new IllegalArgumentException("Cell value must be of type " + GraphMagicPlugin.class.getName());
@@ -81,7 +90,7 @@ public class PluginsTable extends JTable {
 
 			String text = plugin.getName();
 			setToolTipText(file.getAbsolutePath());
-			
+
 			super.setValue(text);
 		}
 	}
@@ -92,9 +101,9 @@ public class PluginsTable extends JTable {
 		private ReloadPluginActionListener reloadActionListener = new ReloadPluginActionListener(PluginsTable.this);
 
 		private ContextMenu() {
-			addPluginMenuItem = new JMenuItem(Main.getString("add.plugin"));
+			addPluginMenuItem = new JMenuItem(ResourceBundle.getString("add.plugin"));
 			addPluginMenuItem.addActionListener(new AddPluginActionListener(PluginsTable.this));
-			reloadPluginMenuItem = new JMenuItem(Main.getString("reload.plugin"));
+			reloadPluginMenuItem = new JMenuItem(ResourceBundle.getString("reload.plugin"));
 			reloadPluginMenuItem.addActionListener(reloadActionListener);
 		}
 
@@ -105,16 +114,24 @@ public class PluginsTable extends JTable {
 				GraphMagicPlugin plugin = pluginWrapper.getPlugin();
 				File file = pluginWrapper.getFile();
 
-				setLabel(Main.getString("plugin.actions"));
+				setLabel(ResourceBundle.getString("plugin.actions"));
 
-				reloadActionListener.setFile(file);
-				reloadActionListener.setRowIndex(rowModelIndex);
-				add(reloadPluginMenuItem);
+                java.util.List<Action> actionList = plugin.getActions();
 
-				addSeparator();
-				for (Action action : plugin.getActions()) {
+                if (actionList == null) {
+                    PluginException exception = new PluginException("Action list cannot be null");
+                    throw exception;
+                }
+
+				for (Action action : actionList) {
 					add(action);
 				}
+
+                addSeparator();
+
+                reloadActionListener.setFile(file);
+                reloadActionListener.setRowIndex(rowModelIndex);
+                add(reloadPluginMenuItem);
 			}
 			else {
 				setLabel(null);

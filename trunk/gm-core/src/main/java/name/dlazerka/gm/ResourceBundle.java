@@ -18,24 +18,25 @@
  * Author: Dzmitry Lazerka dlazerka@dlazerka.name
  */
 
-package name.dlazerka.gm.pluginloader;
+package name.dlazerka.gm;
+
+import java.text.MessageFormat;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public abstract class PluginException extends Exception {
-	protected PluginException() {
-	}
+public class ResourceBundle {
+    private static final String MESSAGES_FILENAME = "messages";
+    private static java.util.ResourceBundle resourceBundle = java.util.ResourceBundle.getBundle(MESSAGES_FILENAME);
 
-	protected PluginException(String message) {
-		super(message);
-	}
+    public static String getString(String key, String... params) {
+        String text = resourceBundle.getString(key);
 
-	protected PluginException(String message, Throwable cause) {
-		super(message, cause);
-	}
+        if (params != null) {
+            MessageFormat mf = new MessageFormat(text);
+            text = mf.format(params);
+        }
 
-	protected PluginException(Throwable cause) {
-		super(cause);
-	}
+        return text;
+    }
 }

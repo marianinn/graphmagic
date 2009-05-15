@@ -21,6 +21,7 @@
 package name.dlazerka.gm.ui;
 
 import name.dlazerka.gm.Edge;
+import name.dlazerka.gm.ResourceBundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -113,6 +114,12 @@ public class EdgePanel extends AbstractEdgePanel {
         oddPoint.x = x;
         oddPoint.y = y;
 
+        setCurved(
+            !tail.contains(ctrlPoint)
+            && !head.contains(ctrlPoint)
+            && !this.contains(ctrlPoint)
+        );
+
         updateGeometry();
     }
 
@@ -178,8 +185,8 @@ public class EdgePanel extends AbstractEdgePanel {
         }
 
         // rounding because simple cast works bad
-        x = Math.round(((float) ax * bx * b1x - ay * bx * b1y + ay * by * b1x + ax * by * b1y) / (bx * bx + by * by));
-        y = Math.round(((float) ay * bx * b1x + ax * bx * b1y - ax * by * b1x + ay * by * b1y) / (bx * bx + by * by));
+        x = (int) Math.round(((double) ax * bx * b1x - ay * bx * b1y + ay * by * b1x + ax * by * b1y) / (bx * bx + by * by));
+        y = (int) Math.round(((double) ay * bx * b1x + ax * bx * b1y - ax * by * b1x + ay * by * b1y) / (bx * bx + by * by));
 
         x = x + o.x;
         y = y + o.y;
@@ -197,12 +204,12 @@ public class EdgePanel extends AbstractEdgePanel {
     private void updateGeometry() {
         updateGeometry2();
     }
-    
+
 
     /**
      * Places {@link #ctrlPoint} on double distance from center of line drawn between end points to the
      * {@link #oddPoint}.
-     * It equals to fact that {@link #oddPoint} equals to bezier point position at t=0.5 
+     * It equals to fact that {@link #oddPoint} equals to bezier point position at t=0.5
      */
     private void updateGeometry2() {
         int centerX = (getFromPoint().x + getToPoint().x) / 2;
@@ -212,8 +219,6 @@ public class EdgePanel extends AbstractEdgePanel {
             oddPoint.x * 2 - centerX,
             oddPoint.y * 2 - centerY
         );
-
-        setCurved(!contains(ctrlPoint));
 
         curve.setCurve(
             getFromPoint(),
@@ -270,7 +275,7 @@ public class EdgePanel extends AbstractEdgePanel {
 
         private class DeleteAction extends AbstractAction {
             public DeleteAction() {
-                super(Main.getString("delete.edge"));
+                super(ResourceBundle.getString("delete.edge"));
             }
 
             public void actionPerformed(ActionEvent e) {
