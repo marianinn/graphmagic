@@ -53,8 +53,8 @@ public class EdgePanel extends AbstractEdgePanel {
         this.tail = tail;
         this.head = head;
 
-        oddPoint.x = getFromPoint().x;
-        oddPoint.y = getFromPoint().y;
+        oddPoint.x = (getFromPoint().x + getToPoint().x) / 2;
+        oddPoint.y = (getFromPoint().y + getToPoint().y) / 2;
 
         updateGeometry();
 
@@ -155,9 +155,10 @@ public class EdgePanel extends AbstractEdgePanel {
 
     /**
      * Moves point a accordingly as affine transform of line o-b to line o-bb.
-     * @param a point to move
-     * @param o not moving point
-     * @param b old position of moved point
+     *
+     * @param a  point to move
+     * @param o  not moving point
+     * @param b  old position of moved point
      * @param bb new position of moved point
      */
     static void affineMove(Point a, Point o, Point b, Point bb) {
@@ -176,8 +177,8 @@ public class EdgePanel extends AbstractEdgePanel {
         }
 
         // rounding because simple cast works bad
-        x = Math.round(((float) ax * bx * b1x - ay * bx * b1y + ay * by * b1x + ax * by * b1y)/(bx * bx + by * by));
-        y = Math.round(((float) ay * bx * b1x + ax * bx * b1y - ax * by * b1x + ay * by * b1y)/(bx * bx + by * by));
+        x = Math.round(((float) ax * bx * b1x - ay * bx * b1y + ay * by * b1x + ax * by * b1y) / (bx * bx + by * by));
+        y = Math.round(((float) ay * bx * b1x + ax * bx * b1y - ax * by * b1x + ay * by * b1y) / (bx * bx + by * by));
 
         x = x + o.x;
         y = y + o.y;
