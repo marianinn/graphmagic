@@ -35,6 +35,6 @@ public class PluginManifestAbsentException extends PluginManifestLoadingExceptio
 	@Override
 	public String getLocalizedMessage() {
 		String s = ResourceBundle.getString("plugin.manifest.absent.exception");
-		return super.getLocalizedMessage() + s; 
+		return super.getLocalizedMessage() + ": " +  s; 
 	}
 }
