@@ -22,6 +22,7 @@ package name.dlazerka.gm.ui;
 
 import name.dlazerka.gm.Graph;
 import name.dlazerka.gm.GraphMagicPlugin;
+import name.dlazerka.gm.ResourceBundle;
 import name.dlazerka.gm.basic.BasicGraph;
 import name.dlazerka.gm.pluginloader.PluginWrapper;
 import org.slf4j.Logger;
@@ -43,7 +44,7 @@ public class MainFrame extends JFrame {
 	private GraphPanel graphPanel;
 	private JTabbedPane leftTabbedPane;
 	private PluginsTable pluginsTable;
-	private JButton addPluginButton = new JButton(Main.getString("add.plugin"));
+	private JButton addPluginButton = new JButton(ResourceBundle.getString("add.plugin"));
 	private Collection<GraphMagicPlugin> plugins = new LinkedList<GraphMagicPlugin>();
 
 	public MainFrame() {
@@ -88,7 +89,7 @@ public class MainFrame extends JFrame {
 
 
 	private void setupUI() {
-		setTitle(Main.getString("main.title"));
+		setTitle(ResourceBundle.getString("main.title"));
 		setSize(800, 600);
 		this.setExtendedState(Frame.MAXIMIZED_BOTH);
 
@@ -131,12 +132,12 @@ public class MainFrame extends JFrame {
 		splitPane.setLeftComponent(leftTabbedPane);
 
 		final JPanel controlsPanel = new JPanel(new GridBagLayout());
-		leftTabbedPane.addTab(Main.getString("controls"), controlsPanel);
+		leftTabbedPane.addTab(ResourceBundle.getString("controls"), controlsPanel);
 
 		setUpControlPanel(controlsPanel);
 
 		final JPanel pluginsPanel = new JPanel(new GridBagLayout());
-		leftTabbedPane.addTab(Main.getString("plugins"), pluginsPanel);
+		leftTabbedPane.addTab(ResourceBundle.getString("plugins"), pluginsPanel);
 		//leftTabbedPane.setSelectedIndex(1);
 
 		gbc.gridx = GridBagConstraints.PAGE_START;
@@ -152,59 +153,59 @@ public class MainFrame extends JFrame {
 
 	private void setUpMenuBar(JMenuBar menuBar) {
 		{
-			JMenu menu = new JMenu(Main.getString("file"));
+			JMenu menu = new JMenu(ResourceBundle.getString("file"));
 			menuBar.add(menu);
 			menu.setMnemonic(KeyEvent.VK_F);
 			{
-				JMenuItem item = new JMenuItem(Main.getString("new.graph"));
+				JMenuItem item = new JMenuItem(ResourceBundle.getString("new.graph"));
 				item.setEnabled(false);
 				item.addActionListener(new NotImplementedActionListener(MainFrame.this));
 				item.setMnemonic(KeyEvent.VK_N);
 				menu.add(item);
 			}
 			{
-				JMenuItem item = new JMenuItem(Main.getString("load"));
+				JMenuItem item = new JMenuItem(ResourceBundle.getString("load"));
 				item.setEnabled(false);
 				item.addActionListener(new NotImplementedActionListener(MainFrame.this));
 				item.setMnemonic(KeyEvent.VK_L);
 				menu.add(item);
 			}
 			{
-				JMenuItem item = new JMenuItem(Main.getString("save"));
+				JMenuItem item = new JMenuItem(ResourceBundle.getString("save"));
 				item.setEnabled(false);
 				item.addActionListener(new NotImplementedActionListener(MainFrame.this));
 				item.setMnemonic(KeyEvent.VK_S);
 				menu.add(item);
 			}
 			{
-				JMenuItem item = new JMenuItem(Main.getString("save.as"));
+				JMenuItem item = new JMenuItem(ResourceBundle.getString("save.as"));
 				item.setEnabled(false);
 				item.addActionListener(new NotImplementedActionListener(MainFrame.this));
 				item.setMnemonic(KeyEvent.VK_A);
 				menu.add(item);
 			}
 			{
-				JMenuItem item = new JMenuItem(Main.getString("print"));
+				JMenuItem item = new JMenuItem(ResourceBundle.getString("print"));
 				item.setEnabled(false);
 				item.addActionListener(new NotImplementedActionListener(MainFrame.this));
 				item.setMnemonic(KeyEvent.VK_P);
 				menu.add(item);
 			}
 			{
-				JMenuItem item = new JMenuItem(Main.getString("export.as.image"));
+				JMenuItem item = new JMenuItem(ResourceBundle.getString("export.as.image"));
 				item.setEnabled(false);
 				item.addActionListener(new NotImplementedActionListener(MainFrame.this));
 				item.setMnemonic(KeyEvent.VK_E);
 				menu.add(item);
 			}
 			{
-				JMenuItem item = new JMenuItem(Main.getString("load.plugin"));
+				JMenuItem item = new JMenuItem(ResourceBundle.getString("load.plugin"));
 				item.addActionListener(new AddPluginActionListener(MainFrame.this));
 				item.setMnemonic(KeyEvent.VK_L);
 				menu.add(item);
 			}
 			{
-				JMenuItem item = new JMenuItem(Main.getString("exit"));
+				JMenuItem item = new JMenuItem(ResourceBundle.getString("exit"));
 				item.setMnemonic(KeyEvent.VK_X);
 				item.addActionListener(
 					new ActionListener() {
@@ -222,14 +223,14 @@ public class MainFrame extends JFrame {
 			menuBar.add(menu);
 			menu.setMnemonic(KeyEvent.VK_S);
 			{
-				JMenuItem item = new JMenuItem(Main.getString("graph"));
+				JMenuItem item = new JMenuItem(ResourceBundle.getString("graph"));
 				item.setEnabled(false);
 				item.addActionListener(new NotImplementedActionListener(MainFrame.this));
 				item.setMnemonic(KeyEvent.VK_G);
 				menu.add(item);
 			}
 			{
-				JMenuItem item = new JMenuItem(Main.getString("appearance"));
+				JMenuItem item = new JMenuItem(ResourceBundle.getString("appearance"));
 				item.setEnabled(false);
 				item.addActionListener(new NotImplementedActionListener(MainFrame.this));
 				item.setMnemonic(KeyEvent.VK_A);
@@ -237,25 +238,25 @@ public class MainFrame extends JFrame {
 			}
 		}
 		{
-			JMenu menu = new JMenu(Main.getString("about"));
+			JMenu menu = new JMenu(ResourceBundle.getString("about"));
 			menuBar.add(menu);
 			menu.setMnemonic(KeyEvent.VK_A);
 			{
-				JMenuItem item = new JMenuItem(Main.getString("help.topics"));
+				JMenuItem item = new JMenuItem(ResourceBundle.getString("help.topics"));
 				item.setEnabled(false);
 				item.addActionListener(new NotImplementedActionListener(MainFrame.this));
 				item.setMnemonic(KeyEvent.VK_H);
 				menu.add(item);
 			}
 			{
-				JMenuItem item = new JMenuItem(Main.getString("check.for.update"));
+				JMenuItem item = new JMenuItem(ResourceBundle.getString("check.for.update"));
 				item.setEnabled(false);
 				item.addActionListener(new NotImplementedActionListener(MainFrame.this));
 				item.setMnemonic(KeyEvent.VK_C);
 				menu.add(item);
 			}
 			{
-				JMenuItem item = new JMenuItem(Main.getString("about"));
+				JMenuItem item = new JMenuItem(ResourceBundle.getString("about"));
 				item.setEnabled(false);
 				item.addActionListener(new NotImplementedActionListener(MainFrame.this));
 				item.setMnemonic(KeyEvent.VK_A);
@@ -274,38 +275,44 @@ public class MainFrame extends JFrame {
 			0, 0
 		);
 
-		final JCheckBox directedCheckBox = new JCheckBox(Main.getString("directed"));
+		final JCheckBox directedCheckBox = new JCheckBox(ResourceBundle.getString("directed"));
 		controlsPanel.add(directedCheckBox, gbc);
-		directedCheckBox.getModel().addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Graph graph = graphPanel.getGraph();
-				boolean pressed = directedCheckBox.getModel().isSelected();
-				graph.setDirected(pressed);
+		directedCheckBox.getModel().addActionListener(
+			new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					Graph graph = graphPanel.getGraph();
+					boolean pressed = directedCheckBox.getModel().isSelected();
+					graph.setDirected(pressed);
+				}
 			}
-		});
+		);
 
-		final JCheckBox multiCheckBox = new JCheckBox(Main.getString("multigraph"));
+		final JCheckBox multiCheckBox = new JCheckBox(ResourceBundle.getString("multigraph"));
 		controlsPanel.add(multiCheckBox, gbc);
-		multiCheckBox.getModel().addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Graph graph = graphPanel.getGraph();
-				boolean pressed = multiCheckBox.getModel().isSelected();
-				graph.setMulti(pressed);
+		multiCheckBox.getModel().addActionListener(
+			new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					Graph graph = graphPanel.getGraph();
+					boolean pressed = multiCheckBox.getModel().isSelected();
+					graph.setMulti(pressed);
+				}
 			}
-		});
+		);
 
-		final JCheckBox pseudoCheckBox = new JCheckBox(Main.getString("pseudo"));
+		final JCheckBox pseudoCheckBox = new JCheckBox(ResourceBundle.getString("pseudo"));
 		controlsPanel.add(pseudoCheckBox, gbc);
-		pseudoCheckBox.getModel().addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Graph graph = graphPanel.getGraph();
-				boolean pressed = pseudoCheckBox.getModel().isSelected();
-				graph.setPseudo(pressed);
+		pseudoCheckBox.getModel().addActionListener(
+			new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					Graph graph = graphPanel.getGraph();
+					boolean pressed = pseudoCheckBox.getModel().isSelected();
+					graph.setPseudo(pressed);
+				}
 			}
-		});
+		);
 
 		gbc.weighty = 1;
 		controlsPanel.add(new JPanel(), gbc);

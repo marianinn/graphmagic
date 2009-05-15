@@ -21,7 +21,7 @@
 package name.dlazerka.gm.pluginloader;
 
 import name.dlazerka.gm.GraphMagicPlugin;
-import name.dlazerka.gm.ui.Main;
+import name.dlazerka.gm.ResourceBundle;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
@@ -36,7 +36,7 @@ public class PluginMainClassNoEmptyConstructorException extends PluginLoadingExc
 
 	@Override
 	public String getLocalizedMessage() {
-		String s = Main.getString("plugin.no.empty.constructor", pluginMainClass.getName()); 
+		String s = ResourceBundle.getString("plugin.no.empty.constructor", pluginMainClass.getName()); 
 		return super.getLocalizedMessage() + ": " + s;
 	}
 }

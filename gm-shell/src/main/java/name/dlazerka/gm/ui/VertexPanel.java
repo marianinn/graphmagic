@@ -20,6 +20,7 @@
 
 package name.dlazerka.gm.ui;
 
+import name.dlazerka.gm.ResourceBundle;
 import name.dlazerka.gm.Vertex;
 import name.dlazerka.gm.Visual;
 import org.slf4j.Logger;
@@ -294,7 +295,8 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 
 	/**
 	 * Called when the {@link #vertex}'s {@link Visual} changed, so this panel should be moved.
-	 * @param o must equal this.{@link #vertex}.{@link Vertex#getVisual()}
+	 *
+	 * @param o   must equal this.{@link #vertex}.{@link Vertex#getVisual()}
 	 * @param arg
 	 */
 	@Override
@@ -349,7 +351,7 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 		public void mouseExited(MouseEvent e) {
 			logger.trace("");
 			if (!isDraggingEdgeFromThis()
-				&& !dragging) {
+			    && !dragging) {
 				setHovered(false);
 			}
 		}
@@ -368,14 +370,14 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 		}
 	}
 
-	private class PopupMenu extends JPopupMenu  {
+	private class PopupMenu extends JPopupMenu {
 		private PopupMenu() {
 			add(new DeleteAction());
 		}
 
 		private class DeleteAction extends AbstractAction {
 			public DeleteAction() {
-				super(Main.getString("delete.vertex"));
+				super(ResourceBundle.getString("delete.vertex"));
 			}
 
 			public void actionPerformed(ActionEvent e) {

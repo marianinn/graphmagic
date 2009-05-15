@@ -30,9 +30,7 @@ import sun.misc.JarFilter;
 
 import java.awt.*;
 import java.io.File;
-import java.text.MessageFormat;
 import java.util.Locale;
-import java.util.ResourceBundle;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
@@ -42,24 +40,10 @@ public class Main {
 
 	private static final Config config = new Config();
 
-	private static final String MESSAGES_FILENAME = "messages";
-
-	private static ResourceBundle resourceBundle = ResourceBundle.getBundle(MESSAGES_FILENAME);
 
 	private static Locale currentLocale = Locale.ENGLISH;
 	private static GraphsContainer graphMagicAPI = new GraphsContainer();
 	private static PluginLoader pluginLoader = new PluginLoader(graphMagicAPI);
-
-	public static String getString(String key, String... params) {
-		String text = resourceBundle.getString(key);
-
-		if (params != null) {
-			MessageFormat mf = new MessageFormat(text);
-			text = mf.format(params);
-		}
-
-		return text;
-	}
 
 	public static Config getConfig() {
 		return config;

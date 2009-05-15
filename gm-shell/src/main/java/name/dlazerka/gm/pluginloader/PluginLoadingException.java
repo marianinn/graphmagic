@@ -20,14 +20,14 @@
 
 package name.dlazerka.gm.pluginloader;
 
-import name.dlazerka.gm.ui.Main;
+import name.dlazerka.gm.ResourceBundle;
 
 import java.io.File;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class PluginLoadingException extends PluginException {
+public class PluginLoadingException extends Exception {
 	private File file;
 	private String filePath;
 
@@ -62,13 +62,13 @@ public class PluginLoadingException extends PluginException {
 	@Override
 	public String getLocalizedMessage() {
 		if (file != null) {
-			return Main.getString("error.loading.plugin.from.file", file.getAbsolutePath());
+			return ResourceBundle.getString("error.loading.plugin.from.file", file.getAbsolutePath());
 		}
 		else if (filePath != null) {
-			return Main.getString("error.loading.plugin.from.path", filePath);
+			return ResourceBundle.getString("error.loading.plugin.from.path", filePath);
 		}
 		else {
-			return Main.getString("error.loading.plugin");
+			return ResourceBundle.getString("error.loading.plugin");
 		}
 	}
 

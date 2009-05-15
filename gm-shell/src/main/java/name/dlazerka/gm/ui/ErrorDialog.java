@@ -20,6 +20,7 @@
 
 package name.dlazerka.gm.ui;
 
+import name.dlazerka.gm.ResourceBundle;
 import name.dlazerka.gm.util.Exceptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,7 +70,7 @@ public class ErrorDialog extends JDialog {
 	}
 
 	protected void setupUI() {
-		setTitle(Main.getString("error"));
+		setTitle(ResourceBundle.getString("error"));
 
 		setContentPane(contentPane);
 
@@ -87,7 +88,7 @@ public class ErrorDialog extends JDialog {
 		messageArea.setMargin(new Insets(20, 30, 30, 30));
 		messageArea.setEditable(false);
 
-		final JCheckBox showStackTrace = new JCheckBox(Main.getString("show.stack.trace"));
+		final JCheckBox showStackTrace = new JCheckBox(ResourceBundle.getString("show.stack.trace"));
 
 		showStackTrace.setFont(defaultFont);
 
@@ -95,7 +96,7 @@ public class ErrorDialog extends JDialog {
 		showStackTrace.setMargin(new Insets(0, 0, 10, 10));
 		showStackTrace.addActionListener(new ShowStackTraceListener());
 
-		JButton okButton = new JButton(Main.getString("ok"));
+		JButton okButton = new JButton(ResourceBundle.getString("ok"));
 		okButton.setMargin(new Insets(3, 50, 3, 50));
 		okButton.getModel().addActionListener(
 			new AbstractAction() {

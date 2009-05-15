@@ -20,7 +20,7 @@
 
 package name.dlazerka.gm.pluginloader;
 
-import name.dlazerka.gm.ui.Main;
+import name.dlazerka.gm.ResourceBundle;
 
 import java.io.File;
 
@@ -38,7 +38,7 @@ public class PluginManifestLoadingException extends PluginLoadingException {
 
 	@Override
 	public String getLocalizedMessage() {
-		String s = Main.getString("plugin.error.loading.manifest");
+		String s = ResourceBundle.getString("plugin.error.loading.manifest");
 		return super.getLocalizedMessage() + ": " + s;
 	}
 }

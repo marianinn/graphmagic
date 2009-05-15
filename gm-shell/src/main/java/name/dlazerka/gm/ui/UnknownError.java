@@ -20,6 +20,8 @@
 
 package name.dlazerka.gm.ui;
 
+import name.dlazerka.gm.ResourceBundle;
+
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
@@ -30,6 +32,6 @@ public class UnknownError extends Exception {
 
 	@Override
 	public String getLocalizedMessage() {
-		return Main.getString("unknown.error", getCause().getClass().getName());
+		return ResourceBundle.getString("unknown.error", getCause().getClass().getName());
 	}
 }

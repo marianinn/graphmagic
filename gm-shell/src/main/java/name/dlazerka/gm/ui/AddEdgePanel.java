@@ -20,6 +20,7 @@
 
 package name.dlazerka.gm.ui;
 
+import name.dlazerka.gm.ResourceBundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,7 +53,7 @@ public class AddEdgePanel extends JPanel {
 	private static void checkImageLoadedSuccess(ImageIcon icon) {
 		if (icon.getImageLoadStatus() != MediaTracker.COMPLETE) {
 			logger.error("Unable to load image, filepath='{}'", DEFAULT_IMAGE_URL.toString());
-			throw new RuntimeException(Main.getString("image.loading.failed", DEFAULT_IMAGE_URL.toString()));
+			throw new RuntimeException(ResourceBundle.getString("image.loading.failed", DEFAULT_IMAGE_URL.toString()));
 		}
 	}
 

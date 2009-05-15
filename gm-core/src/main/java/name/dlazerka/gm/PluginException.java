@@ -18,26 +18,29 @@
  * Author: Dzmitry Lazerka dlazerka@dlazerka.name
  */
 
-package name.dlazerka.gm.pluginloader;
-
-import name.dlazerka.gm.ResourceBundle;
-
-import java.io.File;
+package name.dlazerka.gm;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class PluginMainClassNotSpecifiedException extends PluginLoadingException {
-	private final String attributeName;
-
-	public PluginMainClassNotSpecifiedException(String attributeName, File file) {
-		super("Plugin JAR manifest must contain '" + attributeName + "' attribute.", file);
-		this.attributeName = attributeName;
+public class PluginException extends RuntimeException {
+	public PluginException() {
 	}
 
-	@Override
-	public String getLocalizedMessage() {
-		String s = ResourceBundle.getString("plugin.manifest.must.contain.0.attribute", attributeName);
-		return super.getLocalizedMessage() + ": " + s;
+	public PluginException(String message) {
+		super(message);
 	}
+
+	public PluginException(String message, Throwable cause) {
+		super(message, cause);
+	}
+
+	public PluginException(Throwable cause) {
+		super(cause);
+	}
+
+    @Override
+    public String getLocalizedMessage() {
+        return ResourceBundle.getString("error.in.plugin");
+    }
 }

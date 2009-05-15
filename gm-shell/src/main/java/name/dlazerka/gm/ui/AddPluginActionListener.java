@@ -20,7 +20,7 @@
 
 package name.dlazerka.gm.ui;
 
-import name.dlazerka.gm.GraphMagicPlugin;
+import name.dlazerka.gm.ResourceBundle;
 import name.dlazerka.gm.pluginloader.PluginLoader;
 import name.dlazerka.gm.pluginloader.PluginLoadingException;
 import name.dlazerka.gm.pluginloader.PluginWrapper;
@@ -45,13 +45,13 @@ public class AddPluginActionListener extends JFileChooser implements ActionListe
 		super(System.getProperty("user.dir"));
 		this.parent = parent;
 
-		setDialogTitle(Main.getString("add.plugin"));
+		setDialogTitle(ResourceBundle.getString("add.plugin"));
 		setFileSelectionMode(JFileChooser.FILES_ONLY);
-		setFileFilter(new FileNameExtensionFilter(Main.getString("jar.file"), "jar"));
+		setFileFilter(new FileNameExtensionFilter(ResourceBundle.getString("jar.file"), "jar"));
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		int ret = showDialog(parent, Main.getString("add"));
+		int ret = showDialog(parent, ResourceBundle.getString("add"));
 
 		if (ret == JFileChooser.APPROVE_OPTION) {
 			File file = getSelectedFile();

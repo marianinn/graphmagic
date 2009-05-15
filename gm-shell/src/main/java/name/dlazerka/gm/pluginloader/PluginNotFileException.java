@@ -20,13 +20,14 @@
 
 package name.dlazerka.gm.pluginloader;
 
-import name.dlazerka.gm.ui.Main;
+import name.dlazerka.gm.ResourceBundle;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
 public class PluginNotFileException extends PluginLoadingException {
 	private final String filePath;
+
 	public PluginNotFileException(String filePath) {
 		super("File '" + filePath + "' is not a file");
 		this.filePath = filePath;
@@ -34,7 +35,7 @@ public class PluginNotFileException extends PluginLoadingException {
 
 	@Override
 	public String getLocalizedMessage() {
-		String s = Main.getString("plugin.not.file", filePath);
+		String s = ResourceBundle.getString("plugin.not.file", filePath);
 		return super.getLocalizedMessage() + ": " + s;
 	}
 }
