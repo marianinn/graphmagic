@@ -20,37 +20,44 @@
 
 package name.dlazerka.gm.graphmaker;
 
-import name.dlazerka.gm.Graph;
-import name.dlazerka.gm.GraphMagicAPI;
-import name.dlazerka.gm.Vertex;
+import java.awt.geom.Point2D;
+import java.util.Iterator;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class WheelGraphMakerItem extends CycleGraphMakerItem {
-	public WheelGraphMakerItem(GraphMagicAPI graphMagicAPI) {
-		super(graphMagicAPI);
+public class CycleIterator implements Iterator<Point2D> {
+	private final int n;
+	private int i;
+	private final double angleStep;
+	private final double radius;
+
+	public CycleIterator(int n) {
+		this.n = n;
+		angleStep = 2 * Math.PI / n;
+		radius = .75;
+
+		this.i = 0;
 	}
 
 	@Override
-	public String getLabel() {
-		return "Wheel(n)";
+	public boolean hasNext() {
+		return i < n;
 	}
 
 	@Override
-	public void perform() {
-		String nText = nField.getText();
-		Integer n = Integer.valueOf(nText);
+	public Point2D next() {
+		double angle = i++ * angleStep + Math.PI / 2;
 
-		createAndConnect(n - 1);
+		double x = -Math.cos(angle) * radius;
+		double y = -Math.sin(angle) * radius;
 
-		Graph graph = getGraphMagicAPI().getFocusedGraph();
+		Point2D point2D = new Point2D.Double(x, y);
+		return point2D;
+	}
 
-		Vertex centerVertex = graph.createVertex();
-		centerVertex.getVisual().setCenter(0, 0);
-
-		for (Vertex vertex : graph.getVertexSet()) {
-			graph.createEdge(centerVertex, vertex);
-		}
+	@Override
+	public void remove() {
+		throw new UnsupportedOperationException();
 	}
 }

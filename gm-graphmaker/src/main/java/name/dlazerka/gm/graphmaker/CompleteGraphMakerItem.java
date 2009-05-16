@@ -28,35 +28,34 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.geom.Point2D;
 
 /**
- * Creates N vertices and layouts them on the clock-wise circle.
- *
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class CycleGraphMakerItem extends GraphMakerItem {
-	private static final Logger logger = LoggerFactory.getLogger(EmptyGraphMakerItem.class);
+public class CompleteGraphMakerItem extends GraphMakerItem {
+	private static final Logger logger = LoggerFactory.getLogger(BipartiteGraphMakerItem.class);
 	protected JTextField nField;
 
-	public CycleGraphMakerItem(GraphMagicAPI graphMagicAPI) {
+	public CompleteGraphMakerItem(GraphMagicAPI graphMagicAPI) {
 		super(graphMagicAPI);
 	}
 
 	@Override
 	public String getLabel() {
-		return "Cycle(n)";
+		return "Complete(n)";
 	}
 
 	@Override
-	public void perform() {
+	protected void perform() {
 		String nText = nField.getText();
 		Integer n = Integer.valueOf(nText);
 
 		createAndConnect(n);
 	}
 
-	protected void createAndConnect(int n) {
+	private void createAndConnect(int n) {
 		Graph graph = getGraphMagicAPI().getFocusedGraph();
 		graph.clear();
 
@@ -64,29 +63,30 @@ public class CycleGraphMakerItem extends GraphMakerItem {
 
 		while (cycleIterator.hasNext()) {
 			Point2D point2D = cycleIterator.next();
-				
+
 			Vertex vertex = graph.createVertex();
 			Visual visual = vertex.getVisual();
 
 			visual.setCenter(point2D.getX(), point2D.getY());
-		}
 
-		for (int i = 1; i < n; i++) {
-			graph.createEdge(i, i + 1);
-		}
 
-		if (n > 0) {
-			graph.createEdge(n, 1);
+			int id = vertex.getId();
+			for (int i = 1; i < id; i++) {
+				graph.createEdge(i, id);
+			}
 		}
 	}
 
 	@Override
 	public void fillParamsPanel(JPanel panel) {
 		logger.debug("");
+
 		nField = new JTextField(10);
-		nField.setText("10");
+		panel.add(nField, BorderLayout.WEST);
+
+		nField.setText("5");
+
 		nField.selectAll();
 		nField.requestFocusInWindow();
-		panel.add(nField);
 	}
 }
