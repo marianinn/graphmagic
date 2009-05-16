@@ -69,6 +69,7 @@ public class MakeGraphFrame extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				GraphMakerItem item = (GraphMakerItem) comboBox.getModel().getSelectedItem();
 				item.perform();
+				dispose();
 			}
 		});
 	}

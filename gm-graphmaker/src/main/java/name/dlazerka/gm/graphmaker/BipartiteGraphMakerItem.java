@@ -28,71 +28,79 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
- * Creates N vertices and layouts them on the clock-wise circle.
- *
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class CycleGraphMakerItem extends GraphMakerItem {
-	private static final Logger logger = LoggerFactory.getLogger(EmptyGraphMakerItem.class);
+public class BipartiteGraphMakerItem extends GraphMakerItem {
+	private static final Logger logger = LoggerFactory.getLogger(BipartiteGraphMakerItem.class);
 	protected JTextField nField;
+	protected JTextField kField;
 
-	public CycleGraphMakerItem(GraphMagicAPI graphMagicAPI) {
+	public BipartiteGraphMakerItem(GraphMagicAPI graphMagicAPI) {
 		super(graphMagicAPI);
 	}
 
 	@Override
 	public String getLabel() {
-		return "Cycle(n)";
+		return "Bipartite(n,k)";
 	}
 
 	@Override
-	public void perform() {
+	protected void perform() {
 		String nText = nField.getText();
+		String kText = kField.getText();
 		Integer n = Integer.valueOf(nText);
+		Integer k = Integer.valueOf(kText);
 
-		createCycleConnect(n);
+		createBipartiteConnect(n, k);
 	}
 
-	protected void createCycleConnect(Integer n) {
+	private void createBipartiteConnect(int n, int k) {
 		Graph graph = getGraphMagicAPI().getFocusedGraph();
 		graph.clear();
 
-		if (n  <= 0) {
-			return;
-		}
-
-		double angleStep = 2 * Math.PI / n;
-		double radius = .75;
-
+		double x = -1d / 3;
 		for (int i = 0; i < n; i++) {
 			Vertex vertex = graph.createVertex();
 			Visual visual = vertex.getVisual();
-			double angle = i * angleStep + Math.PI/2;
 
-			double x = -Math.cos(angle) * radius;
-			double y = -Math.sin(angle) * radius;
+			double y = (1d - n + 2 * i) / (n + 1);
 
 			visual.setCenter(x, y);
 		}
 
-		for (int i = 1; i < n; i++) {
-			graph.createEdge(i, i + 1);
-		}
+		x = 1d / 3;
+		for (int i = 0; i < k; i++) {
+			Vertex vertex = graph.createVertex();
+			Visual visual = vertex.getVisual();
 
-		if (n > 0) {
-			graph.createEdge(n, 1);
+			double y = (1d - k + 2 * i) / (k + 1);
+
+			visual.setCenter(x, y);
+
+			for (int j = 0; j < n; j++) {
+				graph.createEdge(j + 1, vertex.getId());
+			}
 		}
 	}
 
 	@Override
 	public void fillParamsPanel(JPanel panel) {
 		logger.debug("");
+
+		panel.setLayout(new BorderLayout());
+
 		nField = new JTextField(10);
-		nField.setText("10");
+		kField = new JTextField(10);
+		panel.add(nField, BorderLayout.WEST);
+		panel.add(kField, BorderLayout.EAST);
+
+		nField.setText("5");
+		kField.setText("4");
+
 		nField.selectAll();
 		nField.requestFocusInWindow();
-		panel.add(nField);
 	}
 }

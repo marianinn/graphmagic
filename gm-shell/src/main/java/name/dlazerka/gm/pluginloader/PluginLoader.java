@@ -91,7 +91,7 @@ public class PluginLoader {
 
 		URLClassLoader loader = URLClassLoader.newInstance(
 			new URL[]{url},
-			PluginLoader.class.getClassLoader()
+			this.getClass().getClassLoader()
 		);
 
 		Class<?> mainClass;

@@ -18,27 +18,28 @@
  * Author: Dzmitry Lazerka dlazerka@dlazerka.name
  */
 
-package name.dlazerka.gm;
+package name.dlazerka.gm.ui;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class NoSuchVertexException extends IllegalArgumentException {
-	private final String vertexStr;
+public class UnloadPluginActionListener implements ActionListener {
+	private final PluginsTable pluginsTable;
+	private int rowIndex;
 
-	// TODO improve
-	public NoSuchVertexException(Graph graph, Vertex vertex) {
-		super("Graph does not contain vertex " + vertex);
-		vertexStr = vertex.toString();
-	}
-
-	public NoSuchVertexException(Graph graph, int id) {
-		super("Graph does not contain vertex " + id);
-		vertexStr = String.valueOf(id);
+	public UnloadPluginActionListener(PluginsTable pluginsTable) {
+		this.pluginsTable = pluginsTable;
 	}
 
 	@Override
-	public String getLocalizedMessage() {
-		return ResourceBundle.getString("graph.does.not.contain.vertex", vertexStr);
+	public void actionPerformed(ActionEvent e) {
+		pluginsTable.removePluginAt(rowIndex);
+	}
+
+	public void setRowIndex(int rowIndex) {
+		this.rowIndex = rowIndex;
 	}
 }

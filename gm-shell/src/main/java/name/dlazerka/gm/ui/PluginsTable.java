@@ -73,6 +73,10 @@ public class PluginsTable extends JTable {
 		getModel().setRow(pluginWrapper, rowModelIndex);
 	}
 
+	public void removePluginAt(int rowIndex) {
+		getModel().setRow(null, rowIndex);
+	}
+
 	private class PluginCellRenderer extends DefaultTableCellRenderer {
         private PluginCellRenderer() {
             setFont(PluginsTable.this.getFont());
@@ -98,13 +102,17 @@ public class PluginsTable extends JTable {
 	private class ContextMenu extends JPopupMenu {
 		private final JMenuItem addPluginMenuItem;
 		private final JMenuItem reloadPluginMenuItem;
+		private final JMenuItem unloadPluginMenuItem;
 		private ReloadPluginActionListener reloadActionListener = new ReloadPluginActionListener(PluginsTable.this);
+		private UnloadPluginActionListener unloadActionListener = new UnloadPluginActionListener(PluginsTable.this);
 
 		private ContextMenu() {
 			addPluginMenuItem = new JMenuItem(ResourceBundle.getString("add.plugin"));
 			addPluginMenuItem.addActionListener(new AddPluginActionListener(PluginsTable.this));
 			reloadPluginMenuItem = new JMenuItem(ResourceBundle.getString("reload.plugin"));
 			reloadPluginMenuItem.addActionListener(reloadActionListener);
+			unloadPluginMenuItem = new JMenuItem(ResourceBundle.getString("unload.plugin"));
+			unloadPluginMenuItem.addActionListener(unloadActionListener);
 		}
 
 		void setPlugin(PluginWrapper pluginWrapper, int rowModelIndex) {
