@@ -54,10 +54,10 @@ public class BipartiteGraphMakerItem extends GraphMakerItem {
 		Integer n = Integer.valueOf(nText);
 		Integer k = Integer.valueOf(kText);
 
-		createBipartiteConnect(n, k);
+		createAndConnect(n, k);
 	}
 
-	private void createBipartiteConnect(int n, int k) {
+	private void createAndConnect(int n, int k) {
 		Graph graph = getGraphMagicAPI().getFocusedGraph();
 		graph.clear();
 
