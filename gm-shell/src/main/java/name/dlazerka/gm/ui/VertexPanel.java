@@ -295,8 +295,6 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 
 		vertex.getVisual().setCenter(relX, relY, false);
 
-		logger.debug("({}, {}) -> ({}, {})", new Object[] {x, y, relX, relY});
-
         super.setLocation(x, y);
     }
 
