@@ -18,7 +18,7 @@
  * Author: Dzmitry Lazerka dlazerka@dlazerka.name
  */
 
-package name.dlazerka.gm;
+package name.dlazerka.gm.shell;
 
 import java.text.MessageFormat;
 
@@ -26,7 +26,7 @@ import java.text.MessageFormat;
  * @author Dzmitry Lazerka www.dlazerka.name
  */
 public class ResourceBundle {
-    private static final String MESSAGES_FILENAME = "messages";
+    private static final String MESSAGES_FILENAME = ResourceBundle.class.getPackage().getName() + ".messages";
 
     private static java.util.ResourceBundle resourceBundle = java.util.ResourceBundle.getBundle(MESSAGES_FILENAME);
 

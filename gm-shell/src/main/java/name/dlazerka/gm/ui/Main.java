@@ -24,6 +24,7 @@ import name.dlazerka.gm.GraphsContainer;
 import name.dlazerka.gm.pluginloader.PluginLoader;
 import name.dlazerka.gm.pluginloader.PluginLoadingException;
 import name.dlazerka.gm.pluginloader.PluginWrapper;
+import name.dlazerka.gm.shell.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sun.misc.JarFilter;

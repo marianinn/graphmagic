@@ -20,7 +20,7 @@
 
 package name.dlazerka.gm.pluginloader;
 
-import name.dlazerka.gm.ResourceBundle;
+import name.dlazerka.gm.shell.ResourceBundle;
 
 import java.io.File;
 
@@ -62,13 +62,13 @@ public class PluginLoadingException extends Exception {
 	@Override
 	public String getLocalizedMessage() {
 		if (file != null) {
-			return ResourceBundle.getString("error.loading.plugin.from.file", file.getAbsolutePath());
+			return name.dlazerka.gm.shell.ResourceBundle.getString("error.loading.plugin.from.file", file.getAbsolutePath());
 		}
 		else if (filePath != null) {
 			return ResourceBundle.getString("error.loading.plugin.from.path", filePath);
 		}
 		else {
-			return ResourceBundle.getString("error.loading.plugin");
+			return name.dlazerka.gm.shell.ResourceBundle.getString("error.loading.plugin");
 		}
 	}
 

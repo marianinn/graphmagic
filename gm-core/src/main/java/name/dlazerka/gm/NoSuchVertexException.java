@@ -26,7 +26,6 @@ package name.dlazerka.gm;
 public class NoSuchVertexException extends IllegalArgumentException {
 	private final String vertexStr;
 
-	// TODO improve
 	public NoSuchVertexException(Graph graph, Vertex vertex) {
 		super("Graph does not contain vertex " + vertex);
 		vertexStr = vertex.toString();

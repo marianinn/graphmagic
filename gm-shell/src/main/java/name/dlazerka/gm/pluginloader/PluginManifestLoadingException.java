@@ -20,7 +20,7 @@
 
 package name.dlazerka.gm.pluginloader;
 
-import name.dlazerka.gm.ResourceBundle;
+import name.dlazerka.gm.shell.ResourceBundle;
 
 import java.io.File;
 
