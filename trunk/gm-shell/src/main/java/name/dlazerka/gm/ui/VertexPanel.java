@@ -286,7 +286,21 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 		getGraphPanel().adjustBounds(this);
 	}
 
-	/**
+    @Override
+    public void setLocation(int x, int y) {
+		double relX, relY;
+		Rectangle rect = getGraphPanel().getVisibleRect();
+		relX = (2d * x - 2 * rect.getX() - rect.getWidth()) / rect.getWidth();
+		relY = (2d * y - 2 * rect.getY() - rect.getHeight()) / rect.getHeight();
+
+		vertex.getVisual().setCenter(relX, relY, false);
+
+		logger.debug("({}, {}) -> ({}, {})", new Object[] {x, y, relX, relY});
+
+        super.setLocation(x, y);
+    }
+
+    /**
 	 * @param dragging see {@link #dragging}
 	 */
 	public void setDragging(boolean dragging) {

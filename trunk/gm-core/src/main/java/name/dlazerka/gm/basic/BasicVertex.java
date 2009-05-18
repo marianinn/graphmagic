@@ -23,8 +23,8 @@ package name.dlazerka.gm.basic;
 import name.dlazerka.gm.*;
 import name.dlazerka.gm.util.LinkedSet;
 
-import java.util.Set;
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
@@ -39,7 +39,7 @@ public class BasicVertex extends AbstractVertex implements Vertex, Serializable 
 	 * Protected constructor. To obtain new instance see {@link Graph#createVertex()}.
 	 *
 	 * @param graph
-	 *@param label number that indentifies this vertex in its graph.  @see Graph#createVertex()
+	 * @param label number that indentifies this vertex in its graph.  @see Graph#createVertex()
 	 */
 	protected BasicVertex(Graph graph, int label) {
 		this.graph = graph;
@@ -81,8 +81,7 @@ public class BasicVertex extends AbstractVertex implements Vertex, Serializable 
 		for (Edge edge : getIncidentEdgeSet()) {
 			if (edge.getTail().equals(this)) {
 				adjacentVertexSet.add(edge.getHead());
-			}
-			else {
+			} else {
 				adjacentVertexSet.add(edge.getTail());
 			}
 		}
@@ -98,8 +97,7 @@ public class BasicVertex extends AbstractVertex implements Vertex, Serializable 
 
 		for (Edge edge : graph.getEdgeSet()) {
 			if (this.equals(edge.getHead()) ||
-			    this.equals(edge.getTail()))
-			{
+					this.equals(edge.getTail())) {
 				incidentEdgeSet.add(edge);
 			}
 		}

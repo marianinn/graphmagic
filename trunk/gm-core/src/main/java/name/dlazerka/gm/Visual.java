@@ -47,13 +47,21 @@ public class Visual extends Observable {
 	}
 
 	public void setCenter(double centerX, double centerY) {
-		this.centerX = centerX;
-		this.centerY = centerY;
-		this.setChanged();
-		this.notifyObservers();
+		setCenter(centerX, centerY, true);
 	}
 
 	public void setCenter(Point center) {
 		setCenter(center.x, center.y);
+	}
+
+	public void setCenter(double centerX, double centerY, boolean notifyObservers) {
+		this.centerX = centerX;
+		this.centerY = centerY;
+		
+		this.setChanged();
+
+		if (notifyObservers) {
+			this.notifyObservers();
+		}
 	}
 }
