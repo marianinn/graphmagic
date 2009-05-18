@@ -18,7 +18,7 @@
  * Author: Dzmitry Lazerka dlazerka@dlazerka.name
  */
 
-package name.dlazerka.gm.ui;
+package name.dlazerka.gm.shell;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,13 +34,20 @@ import java.util.Properties;
 public class Config {
 	private static final Logger logger = LoggerFactory.getLogger(Config.class);
 
-	private static final URL CONFIG_FILEPATH = Main.class.getResource("/graphmagic.properties");
-	private static final String CONFIG_PRODUCTION_KEY = "production";
+    private static final URL CONFIG_FILEPATH;
+    static {
+        String path = "graphmagic.properties";
+        CONFIG_FILEPATH = Config.class.getResource(path);
+        if (CONFIG_FILEPATH == null) {
+            throw new IllegalStateException("Path: " + path + " was not found");
+        }
+    }
+
+    private static final String CONFIG_PRODUCTION_KEY = "production";
 	private static final String CONFIG_DEFAULT_PLUGINS_DIR = "plugin.default.dir";
 	private static final String CONFIG_PLUGIN_MAIN_CLASS = "plugin.manifest.attribute.key.for.main.class.name";
 	private static final String CONFIG_DEFAULT_PRODUCTION_VALUE = "false";
 	private static Properties configProperties = new Properties();
-
 
 	public boolean isProduction() {
 		String str = configProperties.getProperty(CONFIG_PRODUCTION_KEY, CONFIG_DEFAULT_PRODUCTION_VALUE);

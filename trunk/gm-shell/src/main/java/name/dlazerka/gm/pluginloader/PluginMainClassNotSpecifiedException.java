@@ -20,8 +20,6 @@
 
 package name.dlazerka.gm.pluginloader;
 
-import name.dlazerka.gm.ResourceBundle;
-
 import java.io.File;
 
 /**
@@ -37,7 +35,7 @@ public class PluginMainClassNotSpecifiedException extends PluginLoadingException
 
 	@Override
 	public String getLocalizedMessage() {
-		String s = ResourceBundle.getString("plugin.manifest.must.contain.0.attribute", attributeName);
+		String s = name.dlazerka.gm.shell.ResourceBundle.getString("plugin.manifest.must.contain.0.attribute", attributeName);
 		return super.getLocalizedMessage() + ": " + s;
 	}
 }

@@ -22,8 +22,8 @@ package name.dlazerka.gm.ui;
 
 import name.dlazerka.gm.GraphMagicPlugin;
 import name.dlazerka.gm.PluginException;
-import name.dlazerka.gm.ResourceBundle;
 import name.dlazerka.gm.pluginloader.PluginWrapper;
+import name.dlazerka.gm.shell.ResourceBundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

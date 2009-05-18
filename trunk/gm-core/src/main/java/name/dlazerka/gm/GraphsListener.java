@@ -21,10 +21,16 @@
 package name.dlazerka.gm;
 
 /**
+ * Listener of application's available graphs.    
+ *
  * @author Dzmitry Lazerka www.dlazerka.name
  */
 public interface GraphsListener {
 
+	/**
+	 * Called when a new graph has become avalilable to work with.
+	 * @param graph g
+	 */
 	void graphAdded(Graph graph);
 
 	void graphRemoved(Graph graph);

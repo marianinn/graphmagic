@@ -22,9 +22,9 @@ package name.dlazerka.gm.ui;
 
 import name.dlazerka.gm.Edge;
 import name.dlazerka.gm.Graph;
-import name.dlazerka.gm.ResourceBundle;
 import name.dlazerka.gm.Vertex;
 import name.dlazerka.gm.basic.GraphModificationListener;
+import name.dlazerka.gm.shell.ResourceBundle;
 import name.dlazerka.gm.util.ListMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

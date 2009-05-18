@@ -27,15 +27,31 @@ import java.util.Locale;
 /**
  * Any plugin must implement this interface.
  *
+ * @see AbstractPlugin for abstract implementation
  * @author Dzmitry Lazerka www.dlazerka.name
  */
 public interface GraphMagicPlugin {
 
+	/**
+	 * Is called on plugin initialization.
+	 * @param api API of the core
+	 */
 	void setGraphMagicAPI(GraphMagicAPI api);
 
+	/**
+	 * Called on plugin initialization.
+	 * @param locale user selected locale
+	 */
 	void setLocale(Locale locale);
 
+	/**
+	 * Plugin must return it's available actions.
+	 * @return list of available actions
+	 */
 	List<Action> getActions();
 
+	/**
+	 * @return name of this plugin in the list of plugins.
+	 */
 	String getName();
 }
