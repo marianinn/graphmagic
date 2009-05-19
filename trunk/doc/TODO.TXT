@@ -1,6 +1,6 @@
 User stories:
-> Pluggable algorithms
-* Localization
+> Edges weighting.
+> Implement Dijkstra.
 * Show pseudo-edges.
 * More than one window with a graph.
 * Selecting multiple vertices.
@@ -11,6 +11,7 @@ User stories:
 * History of graph view actions for the Undo/Redo.
 * Export/Import a graph to a file.
 * Printing graph
+* Localization
 
 Bugs:
 * Half-constructed but dropped edge creates an invisible pseudo-edge to the tail vertex.
