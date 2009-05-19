@@ -24,6 +24,18 @@ package name.dlazerka.gm;
  * @author Dzmitry Lazerka www.dlazerka.name
  */
 public abstract class AbstractEdge implements Edge {
+	/**
+	 * Implementation is almost ordinary, based on fields, but with two additions:<ol>
+	 * <li>
+	 * if {@link #getGraph()} is multi ({@link name.dlazerka.gm.Graph#isMulti()}), then returns false for different objects.
+	 * <li>
+	 * if {@link #getGraph()} is not directed ({@link name.dlazerka.gm.Graph#isDirected()}),
+	 * then returns true for reverted (tail,head) pair.
+	 * </ol>
+	 *
+	 * @param o any object
+	 * @return true if given object is equal. Equality takes in concern {@link name.dlazerka.gm.Graph#isMulti()}
+	 */
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
@@ -32,10 +44,22 @@ public abstract class AbstractEdge implements Edge {
 		AbstractEdge that = (AbstractEdge) o;
 
 		if (getGraph() != null ? !getGraph().equals(that.getGraph()) : that.getGraph() != null) return false;
-		if (getHead() != null ? !getHead().equals(that.getHead()) : that.getHead() != null) return false;
-		if (getTail() != null ? !getTail().equals(that.getTail()) : that.getTail() != null) return false;
 
-		return true;
+		if (getGraph() != null && getGraph().isMulti()) {
+			return false;
+		}
+
+		boolean result = true;
+		if (getHead() != null ? !getHead().equals(that.getHead()) : that.getHead() != null) result = false;
+		if (getTail() != null ? !getTail().equals(that.getTail()) : that.getTail() != null) result = false;
+
+		if (result == false && !getGraph().isDirected()) {
+			result = true;
+			if (getHead() != null ? !getHead().equals(that.getTail()) : that.getTail() != null) result = false;
+			if (getTail() != null ? !getTail().equals(that.getHead()) : that.getHead() != null) result = false;
+		}
+
+		return result;
 	}
 
 	@Override

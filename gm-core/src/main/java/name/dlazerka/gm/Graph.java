@@ -21,6 +21,7 @@
 package name.dlazerka.gm;
 
 import name.dlazerka.gm.basic.GraphModificationListener;
+import name.dlazerka.gm.exception.EdgeCreateException;
 
 import java.util.Set;
 
@@ -65,9 +66,9 @@ public interface Graph {
 
 	Vertex createVertex();
 
-	Edge createEdge(Vertex tail, Vertex head);
+	Edge createEdge(Vertex tail, Vertex head) throws EdgeCreateException;
 
-	Edge createEdge(int tailId, int headId);
+	Edge createEdge(int tailId, int headId) throws EdgeCreateException;
 
 	void remove(Vertex vertex);
 

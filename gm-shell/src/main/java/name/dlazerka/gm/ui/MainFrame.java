@@ -21,7 +21,7 @@
 package name.dlazerka.gm.ui;
 
 import name.dlazerka.gm.Graph;
-import name.dlazerka.gm.GraphMagicPlugin;
+import name.dlazerka.gm.GraphUI;
 import name.dlazerka.gm.basic.BasicGraph;
 import name.dlazerka.gm.pluginloader.PluginWrapper;
 import name.dlazerka.gm.shell.ResourceBundle;
@@ -31,8 +31,6 @@ import org.slf4j.LoggerFactory;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Collection;
-import java.util.LinkedList;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
@@ -45,16 +43,20 @@ public class MainFrame extends JFrame {
 	private JTabbedPane leftTabbedPane;
 	private PluginsTable pluginsTable;
 	private JButton addPluginButton = new JButton(ResourceBundle.getString("add.plugin"));
-	private Collection<GraphMagicPlugin> plugins = new LinkedList<GraphMagicPlugin>();
 
 	public MainFrame() {
 		BasicGraph graph = new BasicGraph();
+		graph.setDirected(false);
+		graph.setMulti(false);
+		graph.setPseudo(false);
+		
+		GraphUI ui = graph.getUI();
+		ui.setOwnerFrame(this);
 
 		Main.getGraphMagicAPI().getGraphs().add(graph);
 		Main.getGraphMagicAPI().setFocused(graph);
 
 		graphPanel = new GraphPanel(graph);
-		graphPanel.getGraph().getUI().setOwnerFrame(this);
 
 		setupUI();
 
@@ -266,6 +268,8 @@ public class MainFrame extends JFrame {
 	}
 
 	private void setUpControlPanel(JPanel controlsPanel) {
+		Graph graph = graphPanel.getGraph();
+
 		GridBagConstraints gbc = new GridBagConstraints(
 			0, GridBagConstraints.RELATIVE,
 			1, 1,
@@ -277,6 +281,8 @@ public class MainFrame extends JFrame {
 
 		final JCheckBox directedCheckBox = new JCheckBox(ResourceBundle.getString("directed"));
 		controlsPanel.add(directedCheckBox, gbc);
+		directedCheckBox.setEnabled(false);// will be true when it will be implemented in gm-core:Basic* classes
+		directedCheckBox.getModel().setSelected(graph.isDirected());// will be true when it will be implemented in gm-core:Basic* classes
 		directedCheckBox.getModel().addActionListener(
 			new ActionListener() {
 				@Override
@@ -290,6 +296,8 @@ public class MainFrame extends JFrame {
 
 		final JCheckBox multiCheckBox = new JCheckBox(ResourceBundle.getString("multigraph"));
 		controlsPanel.add(multiCheckBox, gbc);
+		multiCheckBox.setEnabled(false);// will be true when it will be implemented in gm-core:Basic* classes
+		multiCheckBox.getModel().setEnabled(graph.isDirected());// will be true when it will be implemented in gm-core:Basic* classes
 		multiCheckBox.getModel().addActionListener(
 			new ActionListener() {
 				@Override
@@ -303,6 +311,8 @@ public class MainFrame extends JFrame {
 
 		final JCheckBox pseudoCheckBox = new JCheckBox(ResourceBundle.getString("pseudo"));
 		controlsPanel.add(pseudoCheckBox, gbc);
+		pseudoCheckBox.setEnabled(false);// will be true when it will be implemented in gm-core:Basic* classes
+		pseudoCheckBox.getModel().setEnabled(graph.isDirected());
 		pseudoCheckBox.getModel().addActionListener(
 			new ActionListener() {
 				@Override

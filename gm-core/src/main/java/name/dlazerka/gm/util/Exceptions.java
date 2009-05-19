@@ -20,8 +20,8 @@
 
 package name.dlazerka.gm.util;
 
-import java.io.StringWriter;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
@@ -44,16 +44,5 @@ public class Exceptions {
 		}
 
 		return makeStackTrace(throwable);
-	}
-
-	public static String makeCauseMessages(Throwable throwable) {
-		StringBuffer buffer = new StringBuffer();
-
-		while (throwable != null) {
-			buffer.append(throwable.getMessage());
-			throwable = throwable.getCause();
-		}
-
-		return buffer.toString();
 	}
 }

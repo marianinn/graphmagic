@@ -21,6 +21,10 @@
 package name.dlazerka.gm.basic;
 
 import name.dlazerka.gm.*;
+import name.dlazerka.gm.exception.DuplicateEdgeException;
+import name.dlazerka.gm.exception.EdgeAddingException;
+import name.dlazerka.gm.exception.EdgeCreateException;
+import name.dlazerka.gm.exception.PseudoEdgeForNonPseudoGraphException;
 import name.dlazerka.gm.util.LinkedSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -114,14 +118,14 @@ public class BasicGraph implements Graph, Serializable {
 	}
 
 	@Override
-	public Vertex createVertex() {
+	public BasicVertex createVertex() {
 		int max = 0;
 		for (Vertex vertex : vertexSet) {
 			if (vertex.getId() > max) {
 				max = vertex.getId();
 			}
 		}
-		Vertex vertex = new BasicVertex(this, max + 1);
+		BasicVertex vertex = new BasicVertex(this, max + 1);
 
 		addVertex(vertex);
 
@@ -129,14 +133,18 @@ public class BasicGraph implements Graph, Serializable {
 	}
 
 	@Override
-	public Edge createEdge(Vertex tail, Vertex head) {
+	public BasicEdge createEdge(Vertex tail, Vertex head) throws EdgeCreateException {
 		BasicEdge edge = new BasicEdge(this, tail, head);
-		addEdge(edge);
+		try {
+			addEdge(edge);
+		} catch (EdgeAddingException e) {
+			throw new EdgeCreateException(tail, head, e);
+		}
 		return edge;
 	}
 
 	@Override
-	public Edge createEdge(int tailId, int headId) {
+	public BasicEdge createEdge(int tailId, int headId) throws EdgeCreateException {
 		Vertex tail = getVertex(tailId);
 		Vertex head = getVertex(headId);
 
@@ -242,9 +250,16 @@ public class BasicGraph implements Graph, Serializable {
 		}
 	}
 
-	protected void addEdge(Edge edge) {
+	protected void addEdge(Edge edge) throws EdgeAddingException {
 		logger.debug("{}", edge);
-		edgeSet.add(edge);
+
+		if (!isPseudo() && edge.isPseudo()) {
+			throw new PseudoEdgeForNonPseudoGraphException();
+		}
+
+		if (!edgeSet.add(edge)) {
+			throw new DuplicateEdgeException(edge);
+		}
 
 		for (GraphModificationListener listener : modificationListenerList) {
 			listener.edgeAdded(edge);
