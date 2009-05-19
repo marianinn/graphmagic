@@ -23,6 +23,7 @@ package name.dlazerka.gm.ui;
 import name.dlazerka.gm.Graph;
 import name.dlazerka.gm.GraphUI;
 import name.dlazerka.gm.basic.BasicGraph;
+import name.dlazerka.gm.basic.GraphModificationListenerAdapter;
 import name.dlazerka.gm.pluginloader.PluginWrapper;
 import name.dlazerka.gm.shell.ResourceBundle;
 import org.slf4j.Logger;
@@ -43,13 +44,16 @@ public class MainFrame extends JFrame {
 	private JTabbedPane leftTabbedPane;
 	private PluginsTable pluginsTable;
 	private JButton addPluginButton = new JButton(ResourceBundle.getString("add.plugin"));
+	private JCheckBox directedCheckBox;
+	private JCheckBox multiCheckBox;
+	private JCheckBox pseudoCheckBox;
 
 	public MainFrame() {
 		BasicGraph graph = new BasicGraph();
 		graph.setDirected(false);
 		graph.setMulti(false);
 		graph.setPseudo(false);
-		
+
 		GraphUI ui = graph.getUI();
 		ui.setOwnerFrame(this);
 
@@ -61,6 +65,34 @@ public class MainFrame extends JFrame {
 		setupUI();
 
 		registerCommands();
+
+		setUpGraphListener(graph);
+	}
+
+	private void setUpGraphListener(final BasicGraph graph) {
+		graph.addChangeListener(new GraphModificationListenerAdapter() {
+			@Override
+			public void notifyAttached() {
+				directedCheckBox.getModel().setSelected(graph.isDirected());// will be true when it will be implemented in gm-core:Basic* classes
+				multiCheckBox.getModel().setSelected(graph.isMulti());// will be true when it will be implemented in gm-core:Basic* classes
+				pseudoCheckBox.getModel().setSelected(graph.isPseudo());// will be true when it will be implemented in gm-core:Basic* classes
+			}
+
+			@Override
+			public void setDirected(boolean directed) {
+				directedCheckBox.getModel().setSelected(directed);
+			}
+
+			@Override
+			public void setMulti(boolean multi) {
+				multiCheckBox.getModel().setSelected(multi);
+			}
+
+			@Override
+			public void setPseudo(boolean pseudo) {
+				pseudoCheckBox.getModel().setSelected(pseudo);
+			}
+		});
 	}
 
 	private void registerCommands() {
@@ -279,10 +311,9 @@ public class MainFrame extends JFrame {
 			0, 0
 		);
 
-		final JCheckBox directedCheckBox = new JCheckBox(ResourceBundle.getString("directed"));
+		directedCheckBox = new JCheckBox(ResourceBundle.getString("directed"));
 		controlsPanel.add(directedCheckBox, gbc);
 		directedCheckBox.setEnabled(false);// will be true when it will be implemented in gm-core:Basic* classes
-		directedCheckBox.getModel().setSelected(graph.isDirected());// will be true when it will be implemented in gm-core:Basic* classes
 		directedCheckBox.getModel().addActionListener(
 			new ActionListener() {
 				@Override
@@ -294,10 +325,9 @@ public class MainFrame extends JFrame {
 			}
 		);
 
-		final JCheckBox multiCheckBox = new JCheckBox(ResourceBundle.getString("multigraph"));
+		multiCheckBox = new JCheckBox(ResourceBundle.getString("multigraph"));
 		controlsPanel.add(multiCheckBox, gbc);
 		multiCheckBox.setEnabled(false);// will be true when it will be implemented in gm-core:Basic* classes
-		multiCheckBox.getModel().setEnabled(graph.isDirected());// will be true when it will be implemented in gm-core:Basic* classes
 		multiCheckBox.getModel().addActionListener(
 			new ActionListener() {
 				@Override
@@ -309,10 +339,9 @@ public class MainFrame extends JFrame {
 			}
 		);
 
-		final JCheckBox pseudoCheckBox = new JCheckBox(ResourceBundle.getString("pseudo"));
+		pseudoCheckBox = new JCheckBox(ResourceBundle.getString("pseudo"));
 		controlsPanel.add(pseudoCheckBox, gbc);
 		pseudoCheckBox.setEnabled(false);// will be true when it will be implemented in gm-core:Basic* classes
-		pseudoCheckBox.getModel().setEnabled(graph.isDirected());
 		pseudoCheckBox.getModel().addActionListener(
 			new ActionListener() {
 				@Override
