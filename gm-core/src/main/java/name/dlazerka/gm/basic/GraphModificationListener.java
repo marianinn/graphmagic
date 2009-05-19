@@ -38,4 +38,10 @@ public interface GraphModificationListener extends EventListener {
 	void vertexDeleted(Vertex vertex);
 
 	void edgeDeleted(Edge edge);
+
+	void setDirected(boolean directed);
+
+	void setMulti(boolean multi);
+
+	void setPseudo(boolean pseudo);
 }
