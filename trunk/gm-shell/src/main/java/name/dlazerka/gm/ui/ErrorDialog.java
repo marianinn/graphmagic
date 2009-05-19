@@ -78,7 +78,15 @@ public class ErrorDialog extends JDialog {
 		contentPane.setLayout(layout);
 		layout.setAutoCreateContainerGaps(true);
 
-		JTextArea messageArea = new JTextArea(throwable.getLocalizedMessage());
+		StringBuilder message = new StringBuilder(throwable.getLocalizedMessage());
+		for (
+				Throwable cause = throwable.getCause();
+				cause != null;
+				cause = cause.getCause()
+				) {
+			message.append(": ").append(cause.getLocalizedMessage());
+		}
+		JTextArea messageArea = new JTextArea(message.toString());
 		messageArea.setRows(1);
 		messageArea.getPreferredSize().width = 600;
 //		messageArea.setPreferredSize(new Dimension(600, -1));
@@ -99,12 +107,12 @@ public class ErrorDialog extends JDialog {
 		JButton okButton = new JButton(ResourceBundle.getString("ok"));
 		okButton.setMargin(new Insets(3, 50, 3, 50));
 		okButton.getModel().addActionListener(
-			new AbstractAction() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					onClose();
+				new AbstractAction() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						onClose();
+					}
 				}
-			}
 		);
 		JPanel panel = new JPanel();
 		panel.add(okButton, BorderLayout.CENTER);
@@ -121,35 +129,35 @@ public class ErrorDialog extends JDialog {
 		stackTraceContainer.setPreferredSize(preferredSize);
 
 		layout.setHorizontalGroup(
-			layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addComponent(messageArea)
-				.addGroup(
-					layout.createSequentialGroup()
-						.addComponent(panel)
-						.addComponent(showStackTrace)
-				)
-				.addComponent(stackTraceContainer)
+				layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+						.addComponent(messageArea)
+						.addGroup(
+								layout.createSequentialGroup()
+										.addComponent(panel)
+										.addComponent(showStackTrace)
+						)
+						.addComponent(stackTraceContainer)
 		);
 		layout.setVerticalGroup(
-			layout.createSequentialGroup()
-				.addComponent(
-					messageArea, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE
+				layout.createSequentialGroup()
+						.addComponent(
+								messageArea, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE
+						)
+						.addGroup(
+								layout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
+										.addComponent(panel)
+										.addComponent(showStackTrace)
+						)
+						.addComponent(
+						stackTraceContainer, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE
 				)
-				.addGroup(
-					layout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
-						.addComponent(panel)
-						.addComponent(showStackTrace)
-				)
-				.addComponent(
-				stackTraceContainer, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE
-			)
 		);
 	}
 
 	protected void setupControls() {
 		if (JDialog.isDefaultLookAndFeelDecorated()) {
 			boolean supportsWindowDecorations =
-				UIManager.getLookAndFeel().getSupportsWindowDecorations();
+					UIManager.getLookAndFeel().getSupportsWindowDecorations();
 			if (supportsWindowDecorations) {
 //				setUndecorated(true);
 				getRootPane().setWindowDecorationStyle(STYLE);
@@ -162,20 +170,20 @@ public class ErrorDialog extends JDialog {
 		}
 
 		addWindowListener(
-			new WindowAdapter() {
-				public void windowClosing(WindowEvent we) {
-					dispose();
+				new WindowAdapter() {
+					public void windowClosing(WindowEvent we) {
+						dispose();
+					}
 				}
-			}
 		);
 
 // call onClose() on ESCAPE
 		contentPane.registerKeyboardAction(
-			new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					onClose();
-				}
-			}, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT
+				new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						onClose();
+					}
+				}, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT
 		);
 
 	}

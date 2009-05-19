@@ -24,6 +24,7 @@ import name.dlazerka.gm.Edge;
 import name.dlazerka.gm.Graph;
 import name.dlazerka.gm.Vertex;
 import name.dlazerka.gm.basic.GraphModificationListener;
+import name.dlazerka.gm.exception.EdgeCreateException;
 import name.dlazerka.gm.shell.ResourceBundle;
 import name.dlazerka.gm.util.ListMap;
 import org.slf4j.Logger;
@@ -146,10 +147,15 @@ public class GraphPanel extends JPanel {
 		Vertex tail = draggingEdgeFrom.getVertex();
 		Vertex head = lastHoveredVertexPanel.getVertex();
 
-		graph.createEdge(tail, head);
+		try {
+			graph.createEdge(tail, head);
+		} catch (EdgeCreateException e) {
+			ErrorDialog.showError(e, this);
+		}
+		
+		newEdgePanel.setVisible(false);
 
 		draggingEdgeFrom = null;
-		newEdgePanel.setVisible(false);
 
 		lastHoveredVertexPanel.checkHovered();
 	}

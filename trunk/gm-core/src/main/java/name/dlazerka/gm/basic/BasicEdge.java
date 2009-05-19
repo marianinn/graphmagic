@@ -49,7 +49,7 @@ public class BasicEdge extends AbstractEdge implements Edge, Serializable {
 
 	@Override
 	public String toString() {
-		return tail + " -> " + head;
+		return "(" + tail + " -> " + head + ")";
 	}
 
 	@Override
@@ -98,7 +98,7 @@ public class BasicEdge extends AbstractEdge implements Edge, Serializable {
 		checkNotRemoved();
 
 		return vertex.equals(getHead())
-		       || vertex.equals(getTail());
+				|| vertex.equals(getTail());
 	}
 
 	@Override
@@ -129,4 +129,45 @@ public class BasicEdge extends AbstractEdge implements Edge, Serializable {
 		if (removed) {
 			throw new EdgeRemovedException();
 		}
-	}}
+	}
+
+	/**
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		if (!super.equals(o)) return false;
+
+		BasicEdge edge = (BasicEdge) o;
+
+		if (removed != edge.removed) return false;
+		if (graph != null ? !graph.equals(edge.graph) : edge.graph != null) return false;
+
+		if (graph != null && graph.isMulti()) {
+			return false;
+		}
+
+		boolean result = true;
+		if (head != null ? !head.equals(edge.head) : edge.head != null) result = false;
+		if (tail != null ? !tail.equals(edge.tail) : edge.tail != null) result = false;
+
+		if (result == false && !graph.isDirected()) {
+			result = true;
+			if (head != null ? !head.equals(edge.tail) : edge.tail != null) return false;
+			if (tail != null ? !tail.equals(edge.head) : edge.head != null) return false;
+		}
+
+		return result;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = super.hashCode();
+		result = 31 * result + (graph != null ? graph.hashCode() : 0);
+		result = 31 * result + (tail != null ? tail.hashCode() : 0);
+		result = 31 * result + (head != null ? head.hashCode() : 0);
+		result = 31 * result + (removed ? 1 : 0);
+		return result;
+	}
+}

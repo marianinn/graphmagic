@@ -25,6 +25,7 @@ import name.dlazerka.gm.Edge;
 import name.dlazerka.gm.Graph;
 import name.dlazerka.gm.ObservableGraph;
 import name.dlazerka.gm.Vertex;
+import name.dlazerka.gm.exception.EdgeAddingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -65,7 +66,7 @@ public class ObservableBasicGraph extends BasicGraph implements Graph, Observabl
 		}
 	}
 
-	protected void addEdge(Edge edge) {
+	protected void addEdge(Edge edge) throws EdgeAddingException {
 		super.addEdge(edge);
 
 		for (GraphModificationListener listener : modificationListenerList) {
