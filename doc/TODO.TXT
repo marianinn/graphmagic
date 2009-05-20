@@ -17,7 +17,6 @@ User stories:
 Bugs:
 * While constructing a new edge we can hover an edge, then leave it unhovered,
   release button, but an edge is still created.
-* When popup over an edge is disappeared, the edge becomes hovered forever.
 * VertexPanel does not remove adjacent edgepanels on their removing from the graph.
 
 Improvements:
