@@ -98,8 +98,8 @@ public class GraphPanel extends JPanel {
 	protected void addImpl(Component comp, Object constraints, int index) {
 		if (!(comp instanceof Paintable)) {
 			throw new IllegalArgumentException(
-				"Unable to add component of type " + comp.getName()
-				+ " only Paintable are accepted"
+					"Unable to add component of type " + comp.getName()
+							+ " only Paintable are accepted"
 			);
 		}
 
@@ -111,8 +111,7 @@ public class GraphPanel extends JPanel {
 		if (component instanceof VertexPanel) {
 			VertexPanel panel = (VertexPanel) component;
 			vertexToVertexPanel.remove(panel.getVertex());
-		}
-		else if (component instanceof EdgePanel) {
+		} else if (component instanceof EdgePanel) {
 			EdgePanel panel = (EdgePanel) component;
 			edgeToEdgePanel.remove(panel.getEdge());
 		}
@@ -152,7 +151,7 @@ public class GraphPanel extends JPanel {
 		} catch (EdgeCreateException e) {
 			ErrorDialog.showError(e, this);
 		}
-		
+
 		newEdgePanel.setVisible(false);
 
 		draggingEdgeFrom = null;
@@ -233,20 +232,19 @@ public class GraphPanel extends JPanel {
 				VertexPanel headPanel = vertexToVertexPanel.get(edge.getHead());
 
 				edgePanel = new NoPseudoEdgePanel(
-					edge,
-					tailPanel,
-					headPanel
+						edge,
+						tailPanel,
+						headPanel
 				);
 
 				tailPanel.addAdjacentEdgePanel(edgePanel);
 				headPanel.addAdjacentEdgePanel(edgePanel);
-			}
-			else {
+			} else {
 				VertexPanel vertexPanel = vertexToVertexPanel.get(edge.getTail());
 
 				edgePanel = new PseudoEdgePanel(
-					edge,
-					vertexPanel
+						edge,
+						vertexPanel
 				);
 
 				vertexPanel.addAdjacentEdgePanel(edgePanel);
@@ -309,10 +307,10 @@ public class GraphPanel extends JPanel {
 
 			public void actionPerformed(ActionEvent e) {
 				int answer = JOptionPane.showConfirmDialog(
-					GraphPanel.this,
-					ResourceBundle.getString("clear.all.confirm.message"),
-					ResourceBundle.getString("clear.all.confirm.title"),
-					JOptionPane.YES_NO_OPTION
+						GraphPanel.this,
+						ResourceBundle.getString("clear.all.confirm.message"),
+						ResourceBundle.getString("clear.all.confirm.title"),
+						JOptionPane.YES_NO_OPTION
 				);
 
 				if (answer == JOptionPane.YES_OPTION) {

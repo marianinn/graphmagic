@@ -36,7 +36,7 @@ public class PluginMainClassNoEmptyConstructorException extends PluginLoadingExc
 
 	@Override
 	public String getLocalizedMessage() {
-		String s = ResourceBundle.getString("plugin.no.empty.constructor", pluginMainClass.getName()); 
+		String s = ResourceBundle.getString("plugin.no.empty.constructor", pluginMainClass.getName());
 		return super.getLocalizedMessage() + ": " + s;
 	}
 }

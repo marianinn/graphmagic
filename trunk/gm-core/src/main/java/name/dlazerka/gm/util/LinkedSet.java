@@ -31,80 +31,81 @@ import java.util.*;
  * @author Dzmitry Lazerka www.dlazerka.name
  */
 public class LinkedSet<E> extends LinkedList<E> implements Set<E> {
-    public LinkedSet() {
-    }
+	public LinkedSet() {
+	}
 
-    public LinkedSet(Collection<? extends E> c) {
-        super(c);
-    }
+	public LinkedSet(Collection<? extends E> c) {
+		super(c);
+	}
 
-    public LinkedSet(E... initialValues) {
-        for (E initialValue : initialValues) {
-            add(initialValue);
-        }
-    }
+	public LinkedSet(E... initialValues) {
+		for (E initialValue : initialValues) {
+			add(initialValue);
+		}
+	}
 
-    @Override
-    public void addFirst(E e) {
-        if (!contains(e)) {
-            super.addFirst(e);
-        }
-    }
+	@Override
+	public void addFirst(E e) {
+		if (!contains(e)) {
+			super.addFirst(e);
+		}
+	}
 
-    @Override
-    public void addLast(E e) {
-        if (!contains(e)) {
-            super.addLast(e);
-        }
-    }
+	@Override
+	public void addLast(E e) {
+		if (!contains(e)) {
+			super.addLast(e);
+		}
+	}
 
-    @Override
-    public boolean add(E e) {
-        if (!contains(e)) {
-            return super.add(e);
-        }
-        return false;
-    }
+	@Override
+	public boolean add(E e) {
+		if (!contains(e)) {
+			return super.add(e);
+		}
+		return false;
+	}
 
-    @Override
-    public E set(int index, E element) {
-        throw new UnsupportedOperationException();
-    }
+	@Override
+	public E set(int index, E element) {
+		throw new UnsupportedOperationException();
+	}
 
-    @Override
-    public void add(int index, E element) {
-        throw new UnsupportedOperationException();
-    }
+	@Override
+	public void add(int index, E element) {
+		throw new UnsupportedOperationException();
+	}
 
-    /**
-     * We MUST use here hashCode() from the {@link AbstractSet}, see {@link #equals(Object)}
-     * @return hashcode as computed in {@link Set}s.
-     */
-    @Override
-    public int hashCode() {
-        int h = 0;
-        Iterator<E> i = iterator();
-        while (i.hasNext()) {
-            E obj = i.next();
-                if (obj != null)
-                    h += obj.hashCode();
-            }
-        return h;
+	/**
+	 * We MUST use here hashCode() from the {@link AbstractSet}, see {@link #equals(Object)}
+	 *
+	 * @return hashcode as computed in {@link Set}s.
+	 */
+	@Override
+	public int hashCode() {
+		int h = 0;
+		Iterator<E> i = iterator();
+		while (i.hasNext()) {
+			E obj = i.next();
+			if (obj != null)
+				h += obj.hashCode();
+		}
+		return h;
 
-    }
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == this) return true;
-        if (!(o instanceof Set)) return false;
+	@Override
+	public boolean equals(Object o) {
+		if (o == this) return true;
+		if (!(o instanceof Set)) return false;
 
-        if (o instanceof LinkedSet) {
-            return super.equals(o);
-        }
+		if (o instanceof LinkedSet) {
+			return super.equals(o);
+		}
 
-        // flipping (delegating) equals to o. Caution!
-        // In this case we must prevent infinite loop (check o instanceof LinkedSet), done above.
-        // Also we must set hashCode() to match o.hashCode().
-        return o.equals(this);
-    }
+		// flipping (delegating) equals to o. Caution!
+		// In this case we must prevent infinite loop (check o instanceof LinkedSet), done above.
+		// Also we must set hashCode() to match o.hashCode().
+		return o.equals(this);
+	}
 }

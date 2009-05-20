@@ -41,7 +41,7 @@ public class GraphMaker extends AbstractPlugin implements GraphMagicPlugin {
 	@Override
 	public void init(GraphMagicAPI graphMagicAPI, Locale locale) {
 		super.init(graphMagicAPI, locale);
-		
+
 		items.add(new EmptyGraphMakerItem(getGraphMagicAPI()));
 		items.add(new CycleGraphMakerItem(getGraphMagicAPI()));
 		items.add(new WheelGraphMakerItem(getGraphMagicAPI()));

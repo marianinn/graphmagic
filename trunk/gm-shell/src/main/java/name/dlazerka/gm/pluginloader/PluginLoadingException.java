@@ -63,11 +63,9 @@ public class PluginLoadingException extends Exception {
 	public String getLocalizedMessage() {
 		if (file != null) {
 			return name.dlazerka.gm.shell.ResourceBundle.getString("error.loading.plugin.from.file", file.getAbsolutePath());
-		}
-		else if (filePath != null) {
+		} else if (filePath != null) {
 			return ResourceBundle.getString("error.loading.plugin.from.path", filePath);
-		}
-		else {
+		} else {
 			return name.dlazerka.gm.shell.ResourceBundle.getString("error.loading.plugin");
 		}
 	}

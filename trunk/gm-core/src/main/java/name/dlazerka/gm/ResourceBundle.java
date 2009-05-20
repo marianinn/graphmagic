@@ -26,17 +26,17 @@ import java.text.MessageFormat;
  * @author Dzmitry Lazerka www.dlazerka.name
  */
 public class ResourceBundle {
-    private static final String MESSAGES_FILENAME = "messages";
-    private static java.util.ResourceBundle resourceBundle = java.util.ResourceBundle.getBundle(MESSAGES_FILENAME);
+	private static final String MESSAGES_FILENAME = "messages";
+	private static java.util.ResourceBundle resourceBundle = java.util.ResourceBundle.getBundle(MESSAGES_FILENAME);
 
-    public static String getString(String key, String... params) {
-        String text = resourceBundle.getString(key);
+	public static String getString(String key, String... params) {
+		String text = resourceBundle.getString(key);
 
-        if (params != null) {
-            MessageFormat mf = new MessageFormat(text);
-            text = mf.format(params);
-        }
+		if (params != null) {
+			MessageFormat mf = new MessageFormat(text);
+			text = mf.format(params);
+		}
 
-        return text;
-    }
+		return text;
+	}
 }

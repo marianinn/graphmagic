@@ -36,7 +36,7 @@ import java.net.URL;
  */
 public class AddEdgePanel extends JPanel {
 	private static final Logger logger = LoggerFactory.getLogger(AddEdgePanel.class);
-	private static final URL DEFAULT_IMAGE_URL = AddEdgePanel.class.getResource("/addEdgeIcon.png"); 
+	private static final URL DEFAULT_IMAGE_URL = AddEdgePanel.class.getResource("/addEdgeIcon.png");
 	private static final URL HOVER_IMAGE_URL = AddEdgePanel.class.getResource("/addEdgeIconHover.png");
 
 	private static final ImageIcon DEFAULT_ICON = new ImageIcon(DEFAULT_IMAGE_URL);

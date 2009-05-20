@@ -39,9 +39,9 @@ public class ErrorCatchingEventQueue extends EventQueue {
 			ex.printStackTrace();
 
 			if (!showingError) {
-					showingError = true;
-					ErrorDialog.showError(ex, null);
-					showingError = false;
+				showingError = true;
+				ErrorDialog.showError(ex, null);
+				showingError = false;
 			}
 		}
 	}

@@ -67,8 +67,7 @@ public class PluginsTableModel extends AbstractTableModel {
 		if (pluginList.size() <= rowIndex) {
 			pluginList.add(rowIndex, pluginWrapper);
 			fireTableRowsInserted(rowIndex, rowIndex);
-		}
-		else {
+		} else {
 			pluginList.set(rowIndex, pluginWrapper);
 			fireTableCellUpdated(rowIndex, columnIndex);
 		}

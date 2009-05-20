@@ -39,8 +39,8 @@ public class PluginException extends RuntimeException {
 		super(cause);
 	}
 
-    @Override
-    public String getLocalizedMessage() {
-        return ResourceBundle.getString("error.in.plugin");
-    }
+	@Override
+	public String getLocalizedMessage() {
+		return ResourceBundle.getString("error.in.plugin");
+	}
 }

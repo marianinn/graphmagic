@@ -47,7 +47,7 @@ public class MakeGraphFrame extends JDialog {
 		this.itemList = itemList;
 
 		setLocationRelativeTo(owner);
-		
+
 		setupUI();
 		setupControls();
 	}

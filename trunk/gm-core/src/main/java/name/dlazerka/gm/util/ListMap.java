@@ -21,30 +21,31 @@
 package name.dlazerka.gm.util;
 
 import java.util.AbstractMap;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
-import java.util.Arrays;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
 public class ListMap<K, V> extends AbstractMap<K, V> implements Map<K, V> {
-	LinkedSet<Map.Entry<K, V>> entrySet = new LinkedSet<Map.Entry<K,V>>();
+	LinkedSet<Map.Entry<K, V>> entrySet = new LinkedSet<Map.Entry<K, V>>();
 
-    public ListMap(Entry<K, V> ... initialEntries) {
-        entrySet.addAll(Arrays.asList(initialEntries));
-    }
+	public ListMap(Entry<K, V>... initialEntries) {
+		entrySet.addAll(Arrays.asList(initialEntries));
+	}
 
 	/**
 	 * Creates map with one key-value pair.
-	 * @param key key
+	 *
+	 * @param key   key
 	 * @param value value
 	 */
 	public ListMap(K key, V value) {
-	    put(key, value);
+		put(key, value);
 	}
 
-    @Override
+	@Override
 	public Set<Map.Entry<K, V>> entrySet() {
 		return entrySet;
 	}
@@ -58,8 +59,7 @@ public class ListMap<K, V> extends AbstractMap<K, V> implements Map<K, V> {
 		if (index != -1) {
 			result = entrySet.get(index).getValue();
 			entrySet.get(index).setValue(value);
-		}
-		else {
+		} else {
 			entrySet.add(entry);
 			result = null;
 		}
@@ -67,44 +67,44 @@ public class ListMap<K, V> extends AbstractMap<K, V> implements Map<K, V> {
 		return result;
 	}
 
-    protected class Entry<K, V> implements Map.Entry<K, V> {
-        private K key;
-        private V value;
+	protected class Entry<K, V> implements Map.Entry<K, V> {
+		private K key;
+		private V value;
 
-        public Entry(K key, V value) {
-            this.key = key;
-            this.value = value;
-        }
+		public Entry(K key, V value) {
+			this.key = key;
+			this.value = value;
+		}
 
-        public K getKey() {
-            return key;
-        }
+		public K getKey() {
+			return key;
+		}
 
-        public V getValue() {
-            return value;
-        }
+		public V getValue() {
+			return value;
+		}
 
-        public V setValue(V value) {
-            V oldValue = this.value;
-            this.value = value;
-            return oldValue;
-        }
+		public V setValue(V value) {
+			V oldValue = this.value;
+			this.value = value;
+			return oldValue;
+		}
 
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (!(o instanceof Entry)) return false;
+		@Override
+		public boolean equals(Object o) {
+			if (this == o) return true;
+			if (!(o instanceof Entry)) return false;
 
-            Entry entry = (Entry) o;
+			Entry entry = (Entry) o;
 
-            if (key != null ? !key.equals(entry.key) : entry.key != null) return false;
+			if (key != null ? !key.equals(entry.key) : entry.key != null) return false;
 
-            return true;
-        }
+			return true;
+		}
 
-        @Override
-        public int hashCode() {
-            return key != null ? key.hashCode() : 0;
-        }
-    }
+		@Override
+		public int hashCode() {
+			return key != null ? key.hashCode() : 0;
+		}
+	}
 }

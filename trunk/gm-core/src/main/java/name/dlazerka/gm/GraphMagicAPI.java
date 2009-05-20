@@ -29,12 +29,14 @@ import java.util.Collection;
 public interface GraphMagicAPI {
 	/**
 	 * Returns on of the graphs that is of most interest, usually last used.
+	 *
 	 * @return one of the graphs that is of most interest, usually last used.
 	 */
 	Graph getFocusedGraph();
 
 	/**
 	 * Returns all of the graphs in the scope of this API.
+	 *
 	 * @return all of the graphs in the scope of this API.
 	 */
 	Collection<Graph> getGraphs();

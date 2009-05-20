@@ -28,7 +28,7 @@ import name.dlazerka.gm.ResourceBundle;
  */
 public class DuplicateEdgeException extends EdgeAddingException {
 	private Edge edge;
-	
+
 	public DuplicateEdgeException(Edge edge) {
 		this.edge = edge;
 	}

@@ -20,8 +20,6 @@
 
 package name.dlazerka.gm.ui;
 
-import name.dlazerka.gm.ui.GraphPanel;
-
 /**
  * Implementations may be painted on the {@link GraphPanel}.
  *

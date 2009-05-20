@@ -29,16 +29,16 @@ import java.awt.*;
  * @author Dzmitry Lazerka www.dlazerka.name
  */
 public class EdgePanelTest {
-    @Test
-    public void testAffine() {
-        Point point = new Point(10, 10);
-        Point o = new Point(0, 0);
-        Point b = new Point(20, 0);
-        Point bb = new Point(20, -10);
+	@Test
+	public void testAffine() {
+		Point point = new Point(10, 10);
+		Point o = new Point(0, 0);
+		Point b = new Point(20, 0);
+		Point bb = new Point(20, -10);
 
-        EdgePanel.affineMove(point, o, b, bb);
+		EdgePanel.affineMove(point, o, b, bb);
 
-        Assert.assertEquals(15, point.x, 0.0001);
-        Assert.assertEquals(5, point.y, 0.0001);
-    }
+		Assert.assertEquals(15, point.x, 0.0001);
+		Assert.assertEquals(5, point.y, 0.0001);
+	}
 }

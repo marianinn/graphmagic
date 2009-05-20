@@ -41,6 +41,7 @@ public class AddPluginActionListener extends JFileChooser implements ActionListe
 	private static final Logger logger = LoggerFactory.getLogger(AddPluginActionListener.class);
 
 	private final Component parent;
+
 	public AddPluginActionListener(Component parent) {
 		super(System.getProperty("user.dir"));
 		this.parent = parent;
@@ -62,7 +63,6 @@ public class AddPluginActionListener extends JFileChooser implements ActionListe
 			}
 			catch (PluginLoadingException ex) {
 				logger.error(ex.getMessage());
-
 
 
 //				JOptionPane.showMessageDialog(
