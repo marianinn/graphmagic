@@ -22,11 +22,14 @@ package name.dlazerka.gm.ui;
 
 import name.dlazerka.gm.Edge;
 import name.dlazerka.gm.EdgeMark;
+import name.dlazerka.gm.Graph;
 import name.dlazerka.gm.shell.ResourceBundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
@@ -282,15 +285,34 @@ public class EdgePanel extends AbstractEdgePanel {
     private class PopupMenu extends JPopupMenu {
         private PopupMenu() {
             add(new DeleteAction());
+			addPopupMenuListener(new PopupMenuListener() {
+				@Override
+				public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+				}
+
+				@Override
+				public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+					logger.debug("");
+
+					// supposed to work but it does not 
+					stroke = EDGE_STROKE;
+					repaint();
+				}
+
+				@Override
+				public void popupMenuCanceled(PopupMenuEvent e) {
+				}
+			});
         }
 
-        private class DeleteAction extends AbstractAction {
+		private class DeleteAction extends AbstractAction {
             public DeleteAction() {
                 super(ResourceBundle.getString("delete.edge"));
             }
 
             public void actionPerformed(ActionEvent e) {
-                getGraphPanel().getGraph().remove(edge);
+				Graph graph = getGraphPanel().getGraph();
+				graph.remove(edge);
             }
         }
     }
