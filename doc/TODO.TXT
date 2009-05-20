@@ -15,9 +15,9 @@ User stories:
 * Localization
 
 Bugs:
-* Half-constructed but dropped edge creates an invisible pseudo-edge to the tail vertex.
 * While constructing a new edge we can hover an edge, then leave it unhovered,
   release button, but an edge is still created.
+* When popup over an edge is disappeared, the edge becomes hovered forever. 
 
 Improvements:
 * Loading plugins from *.class.
