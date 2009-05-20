@@ -35,6 +35,8 @@ public interface Edge {
 
 	Visual getVisual();
 
+	EdgeMark getMark();
+
 	Set<Edge> getIncidentEdgeSet();
 
 	boolean isIncident(Vertex vertex);

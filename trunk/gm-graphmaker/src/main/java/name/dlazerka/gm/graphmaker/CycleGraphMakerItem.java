@@ -24,6 +24,7 @@ import name.dlazerka.gm.Graph;
 import name.dlazerka.gm.GraphMagicAPI;
 import name.dlazerka.gm.Vertex;
 import name.dlazerka.gm.Visual;
+import name.dlazerka.gm.exception.EdgeCreateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -64,19 +65,23 @@ public class CycleGraphMakerItem extends GraphMakerItem {
 
 		while (cycleIterator.hasNext()) {
 			Point2D point2D = cycleIterator.next();
-				
+
 			Vertex vertex = graph.createVertex();
 			Visual visual = vertex.getVisual();
 
 			visual.setCenter(point2D.getX(), point2D.getY());
 		}
 
-		for (int i = 1; i < n; i++) {
-			graph.createEdge(i, i + 1);
-		}
+		try {
+			for (int i = 1; i < n; i++) {
+				graph.createEdge(i, i + 1);
+			}
 
-		if (n > 0) {
-			graph.createEdge(n, 1);
+			if (n > 0) {
+				graph.createEdge(n, 1);
+			}
+		} catch (EdgeCreateException e) {
+			// silently skip
 		}
 	}
 

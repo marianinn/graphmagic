@@ -23,7 +23,7 @@ package name.dlazerka.gm.ui;
 import name.dlazerka.gm.Edge;
 import name.dlazerka.gm.Graph;
 import name.dlazerka.gm.Vertex;
-import name.dlazerka.gm.basic.GraphModificationListener;
+import name.dlazerka.gm.basic.GraphModificationListenerAdapter;
 import name.dlazerka.gm.exception.EdgeCreateException;
 import name.dlazerka.gm.shell.ResourceBundle;
 import name.dlazerka.gm.util.ListMap;
@@ -213,7 +213,7 @@ public class GraphPanel extends JPanel {
 	}
 
 
-	private class GraphModificationListenerImpl implements GraphModificationListener {
+	private class GraphModificationListenerImpl extends GraphModificationListenerAdapter {
 		public void notifyAttached() {
 			for (Vertex vertex : graph.getVertexSet()) {
 				VertexPanel vertexPanel = new VertexPanel(vertex);

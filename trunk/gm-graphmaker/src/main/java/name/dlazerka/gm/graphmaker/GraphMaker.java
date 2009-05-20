@@ -28,6 +28,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
@@ -38,13 +39,17 @@ public class GraphMaker extends AbstractPlugin implements GraphMagicPlugin {
 	private List<GraphMakerItem> items = new LinkedList<GraphMakerItem>();
 
 	@Override
-	public void setGraphMagicAPI(GraphMagicAPI graphMagicAPI) {
-		super.setGraphMagicAPI(graphMagicAPI);
+	public void init(GraphMagicAPI graphMagicAPI, Locale locale) {
+		super.init(graphMagicAPI, locale);
+		
 		items.add(new EmptyGraphMakerItem(getGraphMagicAPI()));
 		items.add(new CycleGraphMakerItem(getGraphMagicAPI()));
 		items.add(new WheelGraphMakerItem(getGraphMagicAPI()));
 		items.add(new BipartiteGraphMakerItem(getGraphMagicAPI()));
-		items.add(new CompleteGraphMakerItem(getGraphMagicAPI()));
+		CompleteGraphMakerItem completeGraphMakerItem = new CompleteGraphMakerItem(getGraphMagicAPI());
+		items.add(completeGraphMakerItem);
+
+		completeGraphMakerItem.createAndConnect(5);
 	}
 
 	@Override

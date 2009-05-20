@@ -23,6 +23,7 @@ package name.dlazerka.gm.graphmaker;
 import name.dlazerka.gm.Graph;
 import name.dlazerka.gm.GraphMagicAPI;
 import name.dlazerka.gm.Vertex;
+import name.dlazerka.gm.exception.EdgeCreateException;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
@@ -49,8 +50,12 @@ public class WheelGraphMakerItem extends CycleGraphMakerItem {
 		Vertex centerVertex = graph.createVertex();
 		centerVertex.getVisual().setCenter(0, 0);
 
-		for (Vertex vertex : graph.getVertexSet()) {
-			graph.createEdge(centerVertex, vertex);
+		try {
+			for (Vertex vertex : graph.getVertexSet()) {
+				graph.createEdge(centerVertex, vertex);
+			}
+		} catch (EdgeCreateException e) {
+			// silently skip
 		}
 	}
 }

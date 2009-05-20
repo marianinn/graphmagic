@@ -24,6 +24,7 @@ import name.dlazerka.gm.Graph;
 import name.dlazerka.gm.GraphMagicAPI;
 import name.dlazerka.gm.Vertex;
 import name.dlazerka.gm.Visual;
+import name.dlazerka.gm.exception.EdgeCreateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -80,8 +81,12 @@ public class BipartiteGraphMakerItem extends GraphMakerItem {
 
 			visual.setCenter(x, y);
 
-			for (int j = 0; j < n; j++) {
-				graph.createEdge(j + 1, vertex.getId());
+			try {
+				for (int j = 0; j < n; j++) {
+					graph.createEdge(j + 1, vertex.getId());
+				}
+			} catch (EdgeCreateException e) {
+				// silently skip
 			}
 		}
 	}

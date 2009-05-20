@@ -21,6 +21,7 @@
 package name.dlazerka.gm.ui;
 
 import name.dlazerka.gm.Edge;
+import name.dlazerka.gm.EdgeMark;
 import name.dlazerka.gm.shell.ResourceBundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,7 +46,6 @@ public class EdgePanel extends AbstractEdgePanel {
     private boolean curved = false;
     private boolean dragging;
     private Shape hoverShape = curve;
-    private Color color = EDGE_COLOR;
     private Stroke stroke = EDGE_STROKE;
     private final Point oddPoint = new Point();
 
@@ -74,10 +74,23 @@ public class EdgePanel extends AbstractEdgePanel {
     @Override
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(color);
+
+		EdgeMark mark = edge.getMark();
+		Color color = mark.getColor();
+		
+		if (color == null) {
+			color = EDGE_COLOR_DEFAULT;
+		}
+
+		g2.setColor(color);
         g2.setStroke(stroke);
 
         g2.draw(curve);
+
+		String weight = mark.getWeight();
+		if (weight != null) {
+			g2.drawString(weight, oddPoint.x, oddPoint.y);
+		}
     }
 
     @Override
@@ -130,9 +143,9 @@ public class EdgePanel extends AbstractEdgePanel {
     /**
      * Moves {@link #oddPoint} so like moved edge defined an affine transform.
      *
-     * @param vertexPanel
-     * @param moveByX
-     * @param moveByY
+     * @param vertexPanel vertex panel that was moved
+     * @param moveByX the panel was moved by along X
+     * @param moveByY the panel was moved by along Y
      */
     public void onAdjacentVertexMoved(VertexPanel vertexPanel, int moveByX, int moveByY) {
         Point o; // not moved point
@@ -243,7 +256,6 @@ public class EdgePanel extends AbstractEdgePanel {
     private class MouseListener extends MouseAdapter {
         @Override
         public void mouseEntered(MouseEvent e) {
-            color = EDGE_HOVER_COLOR;
             stroke = EDGE_HOVER_STROKE;
             repaint();
         }
@@ -251,7 +263,6 @@ public class EdgePanel extends AbstractEdgePanel {
         @Override
         public void mouseExited(MouseEvent e) {
             if (!dragging) {
-                color = EDGE_COLOR;
                 stroke = EDGE_STROKE;
                 repaint();
             }
