@@ -26,7 +26,7 @@ import java.util.Set;
  * @author Dzmitry Lazerka www.dlazerka.name
  */
 public interface Vertex {
-	
+
 	Graph getGraph();
 
 	int getId();

@@ -72,7 +72,7 @@ public class PluginLoader {
 
 		Config config = Main.getConfig();
 		String attributeName = config.getPluginManifestAttributeKeyForMainClassName();
-		
+
 		Attributes mainAttributes = manifest.getMainAttributes();
 		String pluginClassName = mainAttributes.getValue(attributeName);
 
@@ -90,8 +90,8 @@ public class PluginLoader {
 		}
 
 		URLClassLoader loader = URLClassLoader.newInstance(
-			new URL[]{url},
-			this.getClass().getClassLoader()
+				new URL[]{url},
+				this.getClass().getClassLoader()
 		);
 
 		Class<?> mainClass;
@@ -117,7 +117,7 @@ public class PluginLoader {
 		if (!GraphMagicPlugin.class.isAssignableFrom(mainClass)) {
 			throw new PluginMainClassNotImplementsPluginException(mainClass);
 		}
-		
+
 		@SuppressWarnings("unchecked")
 		Class<GraphMagicPlugin> pluginMainClass = (Class<GraphMagicPlugin>) mainClass;
 

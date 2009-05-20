@@ -98,20 +98,20 @@ public class MainFrame extends JFrame {
 	private void registerCommands() {
 		// call onClose() when cross is clicked
 		addWindowListener(
-			new WindowAdapter() {
-				public void windowClosing(WindowEvent e) {
-					onClose();
+				new WindowAdapter() {
+					public void windowClosing(WindowEvent e) {
+						onClose();
+					}
 				}
-			}
 		);
 
 // call onClose() on ESCAPE
 		contentPane.registerKeyboardAction(
-			new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					onClose();
-				}
-			}, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT
+				new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						onClose();
+					}
+				}, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT
 		);
 
 		addPluginButton.addActionListener(new AddPluginActionListener(MainFrame.this));
@@ -146,12 +146,12 @@ public class MainFrame extends JFrame {
 		splitPane.setOneTouchExpandable(true);
 		splitPane.setResizeWeight(0);
 		GridBagConstraints gbc = new GridBagConstraints(
-			GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE,
-			1, 1,
-			1, 1,
-			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-			new Insets(0, 0, 0, 0),
-			0, 0
+				GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE,
+				1, 1,
+				1, 1,
+				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+				new Insets(0, 0, 0, 0),
+				0, 0
 		);
 		contentPane.add(splitPane, gbc);
 
@@ -242,12 +242,12 @@ public class MainFrame extends JFrame {
 				JMenuItem item = new JMenuItem(ResourceBundle.getString("exit"));
 				item.setMnemonic(KeyEvent.VK_X);
 				item.addActionListener(
-					new ActionListener() {
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							onClose();
+						new ActionListener() {
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								onClose();
+							}
 						}
-					}
 				);
 				menu.add(item);
 			}
@@ -303,54 +303,54 @@ public class MainFrame extends JFrame {
 		Graph graph = graphPanel.getGraph();
 
 		GridBagConstraints gbc = new GridBagConstraints(
-			0, GridBagConstraints.RELATIVE,
-			1, 1,
-			1, 0,
-			GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
-			new Insets(0, 0, 0, 0),
-			0, 0
+				0, GridBagConstraints.RELATIVE,
+				1, 1,
+				1, 0,
+				GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
+				new Insets(0, 0, 0, 0),
+				0, 0
 		);
 
 		directedCheckBox = new JCheckBox(ResourceBundle.getString("directed"));
 		controlsPanel.add(directedCheckBox, gbc);
 		directedCheckBox.setEnabled(false);// will be true when it will be implemented in gm-core:Basic* classes
 		directedCheckBox.getModel().addActionListener(
-			new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					Graph graph = graphPanel.getGraph();
-					boolean pressed = directedCheckBox.getModel().isSelected();
-					graph.setDirected(pressed);
+				new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						Graph graph = graphPanel.getGraph();
+						boolean pressed = directedCheckBox.getModel().isSelected();
+						graph.setDirected(pressed);
+					}
 				}
-			}
 		);
 
 		multiCheckBox = new JCheckBox(ResourceBundle.getString("multigraph"));
 		controlsPanel.add(multiCheckBox, gbc);
 		multiCheckBox.setEnabled(false);// will be true when it will be implemented in gm-core:Basic* classes
 		multiCheckBox.getModel().addActionListener(
-			new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					Graph graph = graphPanel.getGraph();
-					boolean pressed = multiCheckBox.getModel().isSelected();
-					graph.setMulti(pressed);
+				new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						Graph graph = graphPanel.getGraph();
+						boolean pressed = multiCheckBox.getModel().isSelected();
+						graph.setMulti(pressed);
+					}
 				}
-			}
 		);
 
 		pseudoCheckBox = new JCheckBox(ResourceBundle.getString("pseudo"));
 		controlsPanel.add(pseudoCheckBox, gbc);
 		pseudoCheckBox.setEnabled(false);// will be true when it will be implemented in gm-core:Basic* classes
 		pseudoCheckBox.getModel().addActionListener(
-			new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					Graph graph = graphPanel.getGraph();
-					boolean pressed = pseudoCheckBox.getModel().isSelected();
-					graph.setPseudo(pressed);
+				new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						Graph graph = graphPanel.getGraph();
+						boolean pressed = pseudoCheckBox.getModel().isSelected();
+						graph.setPseudo(pressed);
+					}
 				}
-			}
 		);
 
 		gbc.weighty = 1;
@@ -367,7 +367,7 @@ public class MainFrame extends JFrame {
 
 	private class NotImplementedActionListener implements ActionListener {
 		public NotImplementedActionListener(
-			MainFrame mainFrame
+				MainFrame mainFrame
 		) {
 		}
 

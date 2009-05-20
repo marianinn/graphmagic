@@ -20,14 +20,12 @@
 
 package name.dlazerka.gm.ui;
 
-import name.dlazerka.gm.GraphMagicPlugin;
 import name.dlazerka.gm.pluginloader.PluginWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
@@ -50,12 +48,12 @@ public class UI {
 		try {
 			try {
 				UIManager.setLookAndFeel(
-					UIManager.getSystemLookAndFeelClassName()
+						UIManager.getSystemLookAndFeelClassName()
 				);
 			}
 			catch (UnsupportedLookAndFeelException e) {
 				UIManager.setLookAndFeel(
-					UIManager.getCrossPlatformLookAndFeelClassName()
+						UIManager.getCrossPlatformLookAndFeelClassName()
 				);
 			}
 		}
@@ -76,8 +74,8 @@ public class UI {
 	public static void registerPlugin(PluginWrapper pluginWrapper) {
 		mainFrame.registerPlugin(pluginWrapper);
 		logger.info("Registered plugin {} from file {}", new Object[]{
-			pluginWrapper.getPlugin(),
-			pluginWrapper.getFile()
+				pluginWrapper.getPlugin(),
+				pluginWrapper.getFile()
 		});
 	}
 

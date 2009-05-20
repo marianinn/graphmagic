@@ -108,8 +108,7 @@ public class BasicGraph implements Graph, Serializable {
 
 		for (Edge edge : edgeSet) {
 			if (edge.getTail().equals(tail)
-				&& edge.getHead().equals(head))
-			{
+					&& edge.getHead().equals(head)) {
 				return edge;
 			}
 		}

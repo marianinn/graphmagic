@@ -25,7 +25,7 @@ import name.dlazerka.gm.Vertex;
 
 /**
  * Empty implementation.
- * 
+ *
  * @author Dzmitry Lazerka www.dlazerka.name
  */
 public abstract class GraphModificationListenerAdapter implements GraphModificationListener {

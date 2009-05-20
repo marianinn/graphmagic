@@ -27,8 +27,8 @@ import name.dlazerka.gm.GraphMagicPlugin;
  */
 public class PluginClassInstatiationException extends PluginLoadingException {
 	public PluginClassInstatiationException(
-		Class<GraphMagicPlugin> pluginMainClass,
-		Throwable cause
+			Class<GraphMagicPlugin> pluginMainClass,
+			Throwable cause
 	) {
 		super("Unable to instantiate plugin main class " + pluginMainClass.getName(), cause);
 	}

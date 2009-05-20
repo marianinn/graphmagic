@@ -26,7 +26,7 @@ import java.io.File;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
-*/
+ */
 public class PluginWrapper {
 	private final GraphMagicPlugin plugin;
 	private final File file;

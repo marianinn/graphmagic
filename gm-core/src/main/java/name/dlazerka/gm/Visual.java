@@ -57,7 +57,7 @@ public class Visual extends Observable {
 	public void setCenter(double centerX, double centerY, boolean notifyObservers) {
 		this.centerX = centerX;
 		this.centerY = centerY;
-		
+
 		this.setChanged();
 
 		if (notifyObservers) {

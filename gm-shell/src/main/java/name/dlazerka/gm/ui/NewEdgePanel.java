@@ -70,9 +70,9 @@ public class NewEdgePanel extends AbstractEdgePanel {
 		if (visible) {
 			Graphics2D g2 = (Graphics2D) g;
 			curve.setCurve(
-				getFromPoint(),
-				getFromPoint(),
-				headPoint
+					getFromPoint(),
+					getFromPoint(),
+					headPoint
 			);
 
 			g2.setStroke(EDGE_NEW_STROKE);
@@ -95,8 +95,7 @@ public class NewEdgePanel extends AbstractEdgePanel {
 		if (mousePosition != null) {
 			headPoint = mousePosition;
 			repaint();
-		}
-		else {
+		} else {
 			logger.debug("{}", mousePosition);
 		}
 	}

@@ -46,7 +46,7 @@ public class PluginsTable extends JTable {
 		TableColumn column0 = getColumnModel().getColumn(0);
 		column0.setCellRenderer(new PluginCellRenderer());
 
-        setFont(getFont().deriveFont(Font.PLAIN, 15));
+		setFont(getFont().deriveFont(Font.PLAIN, 15));
 
 		setComponentPopupMenu(contextMenu);
 	}
@@ -78,12 +78,12 @@ public class PluginsTable extends JTable {
 	}
 
 	private class PluginCellRenderer extends DefaultTableCellRenderer {
-        private PluginCellRenderer() {
-            setFont(PluginsTable.this.getFont());
+		private PluginCellRenderer() {
+			setFont(PluginsTable.this.getFont());
 //            this.set
-        }
+		}
 
-        @Override
+		@Override
 		protected void setValue(Object value) {
 			if (!(value instanceof PluginWrapper)) {
 				throw new IllegalArgumentException("Cell value must be of type " + GraphMagicPlugin.class.getName());
@@ -124,24 +124,23 @@ public class PluginsTable extends JTable {
 
 				setLabel(ResourceBundle.getString("plugin.actions"));
 
-                java.util.List<Action> actionList = plugin.getActions();
+				java.util.List<Action> actionList = plugin.getActions();
 
-                if (actionList == null) {
-                    PluginException exception = new PluginException("Action list cannot be null");
-                    throw exception;
-                }
+				if (actionList == null) {
+					PluginException exception = new PluginException("Action list cannot be null");
+					throw exception;
+				}
 
 				for (Action action : actionList) {
 					add(action);
 				}
 
-                addSeparator();
+				addSeparator();
 
-                reloadActionListener.setFile(file);
-                reloadActionListener.setRowIndex(rowModelIndex);
-                add(reloadPluginMenuItem);
-			}
-			else {
+				reloadActionListener.setFile(file);
+				reloadActionListener.setRowIndex(rowModelIndex);
+				add(reloadPluginMenuItem);
+			} else {
 				setLabel(null);
 				add(addPluginMenuItem);
 			}
