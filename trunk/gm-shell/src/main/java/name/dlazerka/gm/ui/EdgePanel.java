@@ -108,7 +108,7 @@ public class EdgePanel extends AbstractEdgePanel {
 			if (wx > wy) {
 				y -= 15;
 			} else {
-				x -= 15;
+				x += 15;
 			}
 
 			g2.drawString(weight, x, y);
@@ -294,14 +294,22 @@ public class EdgePanel extends AbstractEdgePanel {
 			}
 		}
 
+		private boolean isDraggingButton(int button) {
+			return button == MouseEvent.BUTTON1;
+		}
+
 		@Override
 		public void mousePressed(MouseEvent e) {
-			setDragging(true);
+			if (isDraggingButton(e.getButton())) {
+				setDragging(true);
+			}
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			setDragging(false);
+			if (isDraggingButton(e.getButton())) {
+				setDragging(false);
+			}
 		}
 	}
 
@@ -318,9 +326,8 @@ public class EdgePanel extends AbstractEdgePanel {
 				public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
 					logger.debug("");
 
-					// supposed to work but it does not 
 					stroke = EDGE_STROKE;
-					repaint();
+					EdgePanel.this.repaint();
 				}
 
 				@Override
@@ -349,10 +356,11 @@ public class EdgePanel extends AbstractEdgePanel {
 				EdgeMark mark = edge.getMark();
 				String weight = mark.getWeight();
 
-				String newWeight = JOptionPane.showInputDialog(EdgePanel.this, "New weight", weight);
+				String newWeight = JOptionPane.showInputDialog(EdgePanel.this, ResourceBundle.getString("new.weight"), weight);
 
 				mark.setWeight(newWeight);
-				repaint();
+
+				EdgePanel.this.repaint();
 			}
 		}
 	}
