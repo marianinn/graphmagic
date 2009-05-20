@@ -80,8 +80,8 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 	private boolean isHovered = false;
 	private final AddEdgePanel addEdgePanel = new AddEdgePanel();
 	private final Dimension panelSize = new Dimension(
-		VERTEX_OVAL_SIZE.width + addEdgePanel.getPreferredSize().width / 2,
-		VERTEX_OVAL_SIZE.height
+			VERTEX_OVAL_SIZE.width + addEdgePanel.getPreferredSize().width / 2,
+			VERTEX_OVAL_SIZE.height
 	);
 	private boolean draggingEdgeFromThis = false;
 
@@ -108,10 +108,10 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 
 		Dimension preferredSize = addEdgePanel.getPreferredSize();
 		addEdgePanel.setBounds(// top right corner
-		                       panelSize.width - preferredSize.width,
-		                       0,
-		                       preferredSize.width,
-		                       preferredSize.height
+				panelSize.width - preferredSize.width,
+				0,
+				preferredSize.width,
+				preferredSize.height
 		);
 		add(addEdgePanel);
 
@@ -138,8 +138,7 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 
 		if (!isHovered) {
 			g2.setColor(COLOR_INNER);
-		}
-		else {
+		} else {
 			g2.setColor(COLOR_INNER_HOVER);
 		}
 		g2.fillOval(3, 3, VERTEX_OVAL_SIZE.width - 6, VERTEX_OVAL_SIZE.height - 6);
@@ -152,8 +151,7 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 		int glyphStartX;
 		if (vertex.getId() < 10) {
 			glyphStartX = NUMBER_SHIFT_X1;
-		}
-		else {
+		} else {
 			glyphStartX = NUMBER_SHIFT_X2;
 		}
 
@@ -235,8 +233,8 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 	 */
 	public Point getVertexCenter() {
 		vertexCenter.setLocation(
-			getVertexCenterX(),
-			getVertexCenterY()
+				getVertexCenterX(),
+				getVertexCenterY()
 		);
 		return vertexCenter;
 	}
@@ -262,12 +260,12 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 	@Override
 	public String toString() {
 		return "VertexPanel{" +
-		       "vertex=" + vertex +
-		       "x=" + getX() +
-		       "y=" + getY() +
-		       "width=" + getSize().width +
-		       "height=" + getSize().height +
-		       '}';
+				"vertex=" + vertex +
+				"x=" + getX() +
+				"y=" + getY() +
+				"width=" + getSize().width +
+				"height=" + getSize().height +
+				'}';
 	}
 
 	public void addAdjacentEdgePanel(EdgePanel edgePanel) {
@@ -280,14 +278,14 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 
 	public void setVertexPanelCenter(int x, int y) {
 		setLocation(
-			x - VERTEX_OVAL_SIZE.width / 2,
-			y - VERTEX_OVAL_SIZE.height / 2
+				x - VERTEX_OVAL_SIZE.width / 2,
+				y - VERTEX_OVAL_SIZE.height / 2
 		);
 		getGraphPanel().adjustBounds(this);
 	}
 
-    @Override
-    public void setLocation(int x, int y) {
+	@Override
+	public void setLocation(int x, int y) {
 		double relX, relY;
 		Rectangle rect = getGraphPanel().getVisibleRect();
 		relX = (2d * x - 2 * rect.getX() - rect.getWidth()) / rect.getWidth();
@@ -295,13 +293,19 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 
 		vertex.getVisual().setCenter(relX, relY, false);
 
-        super.setLocation(x, y);
-    }
+		super.setLocation(x, y);
+	}
 
-    /**
+	/**
 	 * @param dragging see {@link #dragging}
 	 */
 	public void setDragging(boolean dragging) {
+		if (this.dragging == false && dragging == true) {
+			for (EdgePanel adjacentEdgePanel : adjacentEdgePanels) {
+				adjacentEdgePanel.setAdjacentVertexStartedDragging(this);
+			}
+		}
+
 		this.dragging = dragging;
 	}
 
@@ -363,7 +367,7 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 		public void mouseExited(MouseEvent e) {
 			logger.trace("");
 			if (!isDraggingEdgeFromThis()
-			    && !dragging) {
+					&& !dragging) {
 				setHovered(false);
 			}
 		}

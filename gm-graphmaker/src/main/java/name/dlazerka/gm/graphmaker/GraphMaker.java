@@ -49,7 +49,7 @@ public class GraphMaker extends AbstractPlugin implements GraphMagicPlugin {
 		CompleteGraphMakerItem completeGraphMakerItem = new CompleteGraphMakerItem(getGraphMagicAPI());
 		items.add(completeGraphMakerItem);
 
-		completeGraphMakerItem.createAndConnect(5);
+		completeGraphMakerItem.createAndConnect(2);
 	}
 
 	@Override
