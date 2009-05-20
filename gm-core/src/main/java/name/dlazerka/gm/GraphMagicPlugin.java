@@ -33,16 +33,11 @@ import java.util.Locale;
 public interface GraphMagicPlugin {
 
 	/**
-	 * Is called on plugin initialization.
+	 * Called when plugin has just added to the application.
 	 * @param api API of the core
-	 */
-	void setGraphMagicAPI(GraphMagicAPI api);
-
-	/**
-	 * Called on plugin initialization.
 	 * @param locale user selected locale
 	 */
-	void setLocale(Locale locale);
+	void init(GraphMagicAPI api, Locale locale);
 
 	/**
 	 * Plugin must return it's available actions.

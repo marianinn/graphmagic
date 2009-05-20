@@ -149,9 +149,7 @@ public class PluginLoader {
 	}
 
 	public GraphMagicPlugin init(GraphMagicPlugin pluginInstance) {
-		pluginInstance.setGraphMagicAPI(graphMagicAPI);
-		pluginInstance.setLocale(Main.getCurrentLocale());
-
+		pluginInstance.init(graphMagicAPI, Main.getCurrentLocale());
 		return pluginInstance;
 	}
 }

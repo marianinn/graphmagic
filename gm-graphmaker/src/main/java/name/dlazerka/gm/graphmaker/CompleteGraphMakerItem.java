@@ -24,6 +24,7 @@ import name.dlazerka.gm.Graph;
 import name.dlazerka.gm.GraphMagicAPI;
 import name.dlazerka.gm.Vertex;
 import name.dlazerka.gm.Visual;
+import name.dlazerka.gm.exception.EdgeCreateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,7 +56,7 @@ public class CompleteGraphMakerItem extends GraphMakerItem {
 		createAndConnect(n);
 	}
 
-	private void createAndConnect(int n) {
+	protected void createAndConnect(int n) {
 		Graph graph = getGraphMagicAPI().getFocusedGraph();
 		graph.clear();
 
@@ -71,8 +72,12 @@ public class CompleteGraphMakerItem extends GraphMakerItem {
 
 
 			int id = vertex.getId();
-			for (int i = 1; i < id; i++) {
-				graph.createEdge(i, id);
+			try {
+				for (int i = 1; i < id; i++) {
+					graph.createEdge(i, id);
+				}
+			} catch (EdgeCreateException e) {
+				// silently skip this edge
 			}
 		}
 	}

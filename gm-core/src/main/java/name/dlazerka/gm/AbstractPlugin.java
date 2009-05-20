@@ -30,12 +30,8 @@ public abstract class AbstractPlugin implements GraphMagicPlugin {
 	private Locale locale;
 
 	@Override
-	public void setGraphMagicAPI(GraphMagicAPI graphMagicAPI) {
+	public void init(GraphMagicAPI graphMagicAPI, Locale locale) {
 		this.graphMagicAPI = graphMagicAPI;
-	}
-
-	@Override
-	public void setLocale(Locale locale) {
 		this.locale = locale;
 	}
 
