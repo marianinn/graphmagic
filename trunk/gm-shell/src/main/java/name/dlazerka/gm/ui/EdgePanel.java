@@ -51,8 +51,13 @@ public class EdgePanel extends AbstractEdgePanel {
     private Shape hoverShape = curve;
     private Stroke stroke = EDGE_STROKE;
     private final Point oddPoint = new Point();
+	private static final int FONT_SIZE = 20;
+	private static final Font WEIGHT_FONT = new Font("courier", Font.PLAIN, FONT_SIZE);
+	private static final Color WEIGHT_COLOR = new Color(0x80, 0x0, 0x0);
+	private Point oldOddPoint = new Point();
+	private Point oldMovedEndPoint = new Point();
 
-    public EdgePanel(Edge edge, VertexPanel tail, VertexPanel head) {
+	public EdgePanel(Edge edge, VertexPanel tail, VertexPanel head) {
         this.edge = edge;
         this.tail = tail;
         this.head = head;
@@ -80,7 +85,7 @@ public class EdgePanel extends AbstractEdgePanel {
 
 		EdgeMark mark = edge.getMark();
 		Color color = mark.getColor();
-		
+
 		if (color == null) {
 			color = EDGE_COLOR_DEFAULT;
 		}
@@ -92,7 +97,22 @@ public class EdgePanel extends AbstractEdgePanel {
 
 		String weight = mark.getWeight();
 		if (weight != null) {
-			g2.drawString(weight, oddPoint.x, oddPoint.y);
+			g2.setFont(WEIGHT_FONT);
+			g2.setColor(WEIGHT_COLOR);
+
+			int x = oddPoint.x;
+			int y = oddPoint.y;
+			int wx = Math.abs(getFromPoint().x - getToPoint().x);
+			int wy = Math.abs(getFromPoint().y - getToPoint().y);
+
+			if (wx > wy) {
+				y -= 15;
+			}
+			else {
+				x -= 15;
+			}
+
+			g2.drawString(weight, x, y);
 		}
     }
 
@@ -108,11 +128,11 @@ public class EdgePanel extends AbstractEdgePanel {
     }
 
     protected Point getFromPoint() {
-        return head.getVertexCenter();
+        return tail.getVertexCenter();
     }
 
     protected Point getToPoint() {
-        return tail.getVertexCenter();
+        return head.getVertexCenter();
     }
 
     public void setCurved(boolean curved) {
@@ -130,13 +150,13 @@ public class EdgePanel extends AbstractEdgePanel {
         oddPoint.x = x;
         oddPoint.y = y;
 
-        setCurved(
-            !tail.contains(ctrlPoint)
-            && !head.contains(ctrlPoint)
-            && !this.contains(ctrlPoint)
-        );
-
         updateGeometry();
+
+		setCurved(
+			!tail.contains(ctrlPoint)
+			&& !head.contains(ctrlPoint)
+			&& !this.contains(ctrlPoint)
+		);
     }
 
     public void setDragging(boolean dragging) {
@@ -151,30 +171,35 @@ public class EdgePanel extends AbstractEdgePanel {
      * @param moveByY the panel was moved by along Y
      */
     public void onAdjacentVertexMoved(VertexPanel vertexPanel, int moveByX, int moveByY) {
-        Point o; // not moved point
-        Point b; // old position of moved point
-        Point bb; // new position of moved point
+        Point o; // not moved end
+        Point b; // old position of moved end
+        Point bb; // new position of moved end
 
         {// fetch initial values
-            if (getFromPoint().equals(vertexPanel.getVertexCenter())) {
-                o = getToPoint();
-                bb = getFromPoint();
+            if (tail.equals(vertexPanel)) {
+                o = head.getVertexCenter();
+                bb = tail.getVertexCenter();
             }
             else {
-                o = getFromPoint();
-                bb = getToPoint();
+                o = tail.getVertexCenter();
+                bb = head.getVertexCenter();
             }
 
-            b = new Point();
-            b.setLocation(bb);
-            b.translate(-moveByX, -moveByY);
+            b = oldMovedEndPoint;
         }
 
+		oddPoint.move(oldOddPoint.x, oldOddPoint.y);
         affineMove(oddPoint, o, b, bb);
 
         updateGeometry();
         repaint();
     }
+
+	public void setAdjacentVertexStartedDragging(VertexPanel draggingVertexPanel) {
+		oldOddPoint.move(oddPoint.x, oddPoint.y);
+		Point center = draggingVertexPanel.getVertexCenter();
+		oldMovedEndPoint.move(center.x, center.y);
+	}
 
     /**
      * Moves point <code>a</code> accordingly as affine transform of line <code>o-b</code> to line <code>o-bb</code>.
@@ -244,7 +269,7 @@ public class EdgePanel extends AbstractEdgePanel {
         hoverShape = EDGE_HOVER_STROKE.createStrokedShape(curve);
     }
 
-    private class DragMouseListener extends MouseMotionAdapter {
+	private class DragMouseListener extends MouseMotionAdapter {
 
         @Override
         public void mouseDragged(MouseEvent e) {
@@ -285,6 +310,7 @@ public class EdgePanel extends AbstractEdgePanel {
     private class PopupMenu extends JPopupMenu {
         private PopupMenu() {
             add(new DeleteAction());
+            add(new SetWeightAction());
 			addPopupMenuListener(new PopupMenuListener() {
 				@Override
 				public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
@@ -314,6 +340,22 @@ public class EdgePanel extends AbstractEdgePanel {
 				Graph graph = getGraphPanel().getGraph();
 				graph.remove(edge);
             }
+        }
+
+		private class SetWeightAction extends AbstractAction {
+            public SetWeightAction() {
+                super(ResourceBundle.getString("set.weight"));
+            }
+
+			public void actionPerformed(ActionEvent e) {
+				EdgeMark mark = edge.getMark();
+				String weight = mark.getWeight();
+
+				String newWeight = JOptionPane.showInputDialog(EdgePanel.this, "New weight", weight);
+
+				mark.setWeight(newWeight);
+				repaint();
+			}
         }
     }
 }
