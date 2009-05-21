@@ -166,10 +166,8 @@ public class EdgePanel extends AbstractEdgePanel {
 	 * Moves {@link #oddPoint} so like moved edge defined an affine transform.
 	 *
 	 * @param vertexPanel vertex panel that was moved
-	 * @param moveByX	 the panel was moved by along X
-	 * @param moveByY	 the panel was moved by along Y
 	 */
-	public void onAdjacentVertexMoved(VertexPanel vertexPanel, int moveByX, int moveByY) {
+	public void onAdjacentVertexMoved(VertexPanel vertexPanel) {
 		Point o; // not moved end
 		Point b; // old position of moved end
 		Point bb; // new position of moved end

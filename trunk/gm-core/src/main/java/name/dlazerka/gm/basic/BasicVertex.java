@@ -33,18 +33,20 @@ public class BasicVertex extends AbstractVertex implements Vertex, Serializable 
 	private final Graph graph;
 	private final int label;
 	private final Visual visual;
+	private final VertexMark mark;
 	private boolean removed = false;
 
 	/**
 	 * Protected constructor. To obtain new instance see {@link Graph#createVertex()}.
 	 *
-	 * @param graph
+	 * @param graph graph containing the vertex
 	 * @param label number that indentifies this vertex in its graph.  @see Graph#createVertex()
 	 */
 	protected BasicVertex(Graph graph, int label) {
 		this.graph = graph;
 		this.label = label;
 		this.visual = new Visual();
+		this.mark = new VertexMark();
 	}
 
 	@Override
@@ -70,6 +72,11 @@ public class BasicVertex extends AbstractVertex implements Vertex, Serializable 
 		checkNotRemoved();
 
 		return visual;
+	}
+
+	@Override
+	public VertexMark getMark() {
+		return mark;
 	}
 
 	@Override

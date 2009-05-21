@@ -29,9 +29,10 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>gm-core</module>
         <module>gm-shell</module>
         <module>gm-graphmaker</module>
-        <module>gm-core</module>
+        <module>gm-dijkstra</module>
     </modules>
 
     <properties>
