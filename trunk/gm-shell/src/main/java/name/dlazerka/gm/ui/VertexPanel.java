@@ -21,6 +21,7 @@
 package name.dlazerka.gm.ui;
 
 import name.dlazerka.gm.Vertex;
+import name.dlazerka.gm.VertexMark;
 import name.dlazerka.gm.Visual;
 import name.dlazerka.gm.shell.ResourceBundle;
 import org.slf4j.Logger;
@@ -70,7 +71,7 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 
 
 	private static final Color COLOR_BORDER = new Color(0, 0, 0);
-	private static final Color COLOR_INNER = new Color(0xFF, 0xFF, 0xFF);
+	private static final Color COLOR_INNER_DEFAULT = new Color(0xFF, 0xFF, 0xFF);
 	private static final Color COLOR_INNER_HOVER = new Color(0xA0, 0xFF, 0xA0);
 	private static final Color COLOR_NUMBER = new Color(0, 0, 0);
 
@@ -136,11 +137,19 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 		g2.setColor(COLOR_BORDER);
 		g2.fillOval(0, 0, VERTEX_OVAL_SIZE.width, VERTEX_OVAL_SIZE.height);
 
-		if (!isHovered) {
-			g2.setColor(COLOR_INNER);
-		} else {
-			g2.setColor(COLOR_INNER_HOVER);
+		VertexMark mark = vertex.getMark();
+		Color color = mark.getColor();
+
+		if (color == null) {
+			color = COLOR_INNER_DEFAULT;
 		}
+
+		if (isHovered) {
+			color = color.darker();
+		}
+
+		g2.setColor(color);
+
 		g2.fillOval(3, 3, VERTEX_OVAL_SIZE.width - 6, VERTEX_OVAL_SIZE.height - 6);
 
 		g2.setColor(COLOR_NUMBER);

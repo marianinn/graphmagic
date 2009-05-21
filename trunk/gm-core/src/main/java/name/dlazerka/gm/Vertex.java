@@ -33,6 +33,8 @@ public interface Vertex {
 
 	Visual getVisual();
 
+	VertexMark getMark();
+
 	Set<Vertex> getAdjacentVertexSet();
 
 	Set<Edge> getIncidentEdgeSet();
