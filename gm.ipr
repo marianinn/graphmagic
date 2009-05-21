@@ -364,6 +364,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/gm-all.iml" filepath="$PROJECT_DIR$/gm-all.iml" />
       <module fileurl="file://$PROJECT_DIR$/gm-core/gm-core.iml" filepath="$PROJECT_DIR$/gm-core/gm-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gm-dijkstra/gm-dijkstra.iml" filepath="$PROJECT_DIR$/gm-dijkstra/gm-dijkstra.iml" />
       <module fileurl="file://$PROJECT_DIR$/gm-graphmaker/gm-graphmaker.iml" filepath="$PROJECT_DIR$/gm-graphmaker/gm-graphmaker.iml" />
       <module fileurl="file://$PROJECT_DIR$/gm-shell/gm-shell.iml" filepath="$PROJECT_DIR$/gm-shell/gm-shell.iml" />
     </modules>

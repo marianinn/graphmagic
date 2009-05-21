@@ -309,7 +309,7 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 	 * @param dragging see {@link #dragging}
 	 */
 	public void setDragging(boolean dragging) {
-		if (this.dragging == false && dragging == true) {
+		if (!this.dragging && dragging) {
 			for (EdgePanel adjacentEdgePanel : adjacentEdgePanels) {
 				adjacentEdgePanel.setAdjacentVertexStartedDragging(this);
 			}
@@ -360,7 +360,7 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 			setLocation(getX() + moveByX, getY() + moveByY);
 
 			for (EdgePanel adjacentEdgePanel : adjacentEdgePanels) {
-				adjacentEdgePanel.onAdjacentVertexMoved(VertexPanel.this, moveByX, moveByY);
+				adjacentEdgePanel.onAdjacentVertexMoved(VertexPanel.this);
 			}
 		}
 	}
