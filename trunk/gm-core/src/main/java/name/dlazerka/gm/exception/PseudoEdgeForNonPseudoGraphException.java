@@ -20,8 +20,14 @@
 
 package name.dlazerka.gm.exception;
 
+import name.dlazerka.gm.ResourceBundle;
+
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
 public class PseudoEdgeForNonPseudoGraphException extends EdgeAddingException {
+    @Override
+    public String getLocalizedMessage() {
+        return ResourceBundle.getString("graph.does.not.permit.pseudo.edges");
+    }
 }
