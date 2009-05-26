@@ -23,6 +23,7 @@ package name.dlazerka.gm.ui;
 import name.dlazerka.gm.Edge;
 import name.dlazerka.gm.EdgeMark;
 import name.dlazerka.gm.Graph;
+import name.dlazerka.gm.Visual;
 import name.dlazerka.gm.shell.ResourceBundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -84,7 +85,9 @@ public class EdgePanel extends AbstractEdgePanel {
 		Graphics2D g2 = (Graphics2D) g;
 
 		EdgeMark mark = edge.getMark();
-		Color color = mark.getColor();
+        Visual visual = edge.getVisual();
+        
+        Color color = visual.getColor();
 
 		if (color == null) {
 			color = EDGE_COLOR_DEFAULT;

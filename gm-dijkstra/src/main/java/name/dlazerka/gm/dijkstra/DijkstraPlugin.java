@@ -24,7 +24,6 @@ import name.dlazerka.gm.AbstractPlugin;
 import name.dlazerka.gm.GraphMagicAPI;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -42,7 +41,7 @@ public class DijkstraPlugin extends AbstractPlugin {
 	@Override
 	public List<Action> getActions() {
 		LinkedList<Action> list = new LinkedList<Action>();
-		AbstractAction action = new ShortestPath();
+		AbstractAction action = new ShortestPath(getGraphMagicAPI());
 		list.add(action);
 		return list;
 	}
@@ -52,14 +51,4 @@ public class DijkstraPlugin extends AbstractPlugin {
 		return "Dijkstra";
 	}
 
-	private class ShortestPath extends AbstractAction {
-		private ShortestPath() {
-			super("Shortest path for single source");
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-
-		}
-	}
 }

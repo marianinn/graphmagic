@@ -30,9 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
@@ -65,7 +63,12 @@ public class BasicGraph implements Graph, Serializable {
 	 */
 	protected final List<GraphModificationListener> modificationListenerList = new LinkedList<GraphModificationListener>();
 
-	@Override
+    private Map<String, Vertex> vertexLabeling = new HashMap<String, Vertex>();
+
+    private Map<String, Edge> edgeLabeling = new HashMap<String, Edge>();
+
+
+    @Override
 	public String toString() {
 		return "Graph{" + vertexSet + ", " + edgeSet + '}';
 	}
@@ -116,7 +119,17 @@ public class BasicGraph implements Graph, Serializable {
 		throw new NoSuchEdgeException(this, tail, head);
 	}
 
-	@Override
+    @Override
+    public Map<String, Vertex> getVertexLabeling() {
+        return vertexLabeling;
+    }
+
+    @Override
+    public Map<String, Edge> getEdgeLabeling() {
+        return edgeLabeling;
+    }
+
+    @Override
 	public BasicVertex createVertex() {
 		int max = 0;
 		for (Vertex vertex : vertexSet) {
@@ -244,6 +257,8 @@ public class BasicGraph implements Graph, Serializable {
 		logger.debug("{}", vertex);
 		vertexSet.add(vertex);
 
+        vertexLabeling.put(vertex.toString(), vertex);
+
 		for (GraphModificationListener listener : modificationListenerList) {
 			listener.vertexAdded(vertex);
 		}
@@ -259,6 +274,8 @@ public class BasicGraph implements Graph, Serializable {
 		if (!edgeSet.add(edge)) {
 			throw new DuplicateEdgeException(edge);
 		}
+
+        edgeLabeling.put(edge.toString(), edge);
 
 		for (GraphModificationListener listener : modificationListenerList) {
 			listener.edgeAdded(edge);

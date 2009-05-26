@@ -23,7 +23,7 @@ package name.dlazerka.gm;
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class EdgeMark extends AbstractMark {
+public class EdgeMark {
 	private String weight;
 
 	public String getWeight() {

@@ -138,7 +138,9 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 		g2.fillOval(0, 0, VERTEX_OVAL_SIZE.width, VERTEX_OVAL_SIZE.height);
 
 		VertexMark mark = vertex.getMark();
-		Color color = mark.getColor();
+        Visual visual = vertex.getVisual();
+        
+        Color color = visual.getColor();
 
 		if (color == null) {
 			color = COLOR_INNER_DEFAULT;
@@ -280,6 +282,10 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 	public void addAdjacentEdgePanel(EdgePanel edgePanel) {
 		adjacentEdgePanels.add(edgePanel);
 	}
+
+    public void removeAdjacentEdgePanel(EdgePanel edgePanel) {
+        adjacentEdgePanels.remove(edgePanel);
+    }
 
 	public void setVertexPanelCenter(Point center) {
 		setVertexPanelCenter(center.x, center.y);
