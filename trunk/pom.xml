@@ -25,7 +25,7 @@
     <name>GraphMagic</name>
     <groupId>name.dlazerka.gm</groupId>
     <artifactId>gm-all</artifactId>
-    <version>0.1</version>
+    <version>${graphmagic.version}</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -36,6 +36,7 @@
     </modules>
 
     <properties>
+        <graphmagic.version>0.2</graphmagic.version>
         <plugin.default.dir>plugins</plugin.default.dir>
         <pluginManifestAttributeKeyForMainClassName>GraphMagicPlugin-Class</pluginManifestAttributeKeyForMainClassName>
     </properties>

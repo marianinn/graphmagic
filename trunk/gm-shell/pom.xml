@@ -25,13 +25,13 @@
     <name>GraphMagic GUI Shell</name>
     <groupId>name.dlazerka.gm</groupId>
     <artifactId>gm-shell</artifactId>
-    <version>0.1</version>
+    <version>${graphmagic.version}</version>
     <packaging>jar</packaging>
 
     <parent>
         <groupId>name.dlazerka.gm</groupId>
         <artifactId>gm-all</artifactId>
-        <version>0.1</version>
+        <version>${graphmagic.version}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -56,7 +56,7 @@
         <dependency>
             <groupId>name.dlazerka.gm</groupId>
             <artifactId>gm-core</artifactId>
-            <version>0.1</version>
+            <version>${graphmagic.version}</version>
         </dependency>
     </dependencies>
 
