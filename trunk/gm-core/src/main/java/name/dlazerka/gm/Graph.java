@@ -23,6 +23,7 @@ package name.dlazerka.gm;
 import name.dlazerka.gm.basic.GraphModificationListener;
 import name.dlazerka.gm.exception.EdgeCreateException;
 
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -33,8 +34,8 @@ public interface Graph {
 	 * Registers a {@link GraphModificationListener} that will be notified on graph changes
 	 * (e.g. vertex created, toggled directed/undirected}
 	 *
-	 * @param listener
-	 * @return
+	 * @param listener listener
+	 * @return true
 	 */
 	boolean addChangeListener(GraphModificationListener listener);
 
@@ -63,6 +64,18 @@ public interface Graph {
 	Vertex getVertex(int id);
 
 	Edge getEdge(int tailId, int headId);
+
+    /**
+     * A vertex labeling is a function from some subset of the integers to the vertices of the graph.
+     * @return vertex labeling map
+     */
+    Map<String, Vertex> getVertexLabeling();
+
+    /**
+     * An edge labeling is a function from some subset of the integers to the edges of the graph.
+     * @return edge labeling map
+     */
+    Map<String, Edge> getEdgeLabeling();
 
 	Vertex createVertex();
 

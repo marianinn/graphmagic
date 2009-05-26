@@ -23,5 +23,5 @@ package name.dlazerka.gm;
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class VertexMark extends AbstractMark {
+public class VertexMark {
 }

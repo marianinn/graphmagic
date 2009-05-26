@@ -27,10 +27,10 @@ import name.dlazerka.gm.pluginloader.PluginWrapper;
 import name.dlazerka.gm.shell.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.misc.JarFilter;
 
 import java.awt.*;
 import java.io.File;
+import java.io.FilenameFilter;
 import java.util.Locale;
 
 /**
@@ -69,7 +69,14 @@ public class Main {
 	private static void loadDefaultPlugins() {
 		Config config = Main.getConfig();
 		File dir = config.getDefaultPluginsDir();
-		for (File file : dir.listFiles(new JarFilter())) {
+        FilenameFilter jarFilter = new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+                String s = name.toLowerCase();
+                return s.endsWith(".jar");
+            }
+        };
+        for (File file : dir.listFiles(jarFilter)) {
 			try {
 				PluginWrapper pluginWrapper = pluginLoader.load(file);
 				UI.registerPlugin(pluginWrapper);

@@ -29,6 +29,7 @@ import java.util.Observable;
 public class Visual extends Observable {
 	private double centerX = 0;
 	private double centerY = 0;
+    private Color color;
 
 	public double getCenterX() {
 		return centerX;
@@ -64,4 +65,20 @@ public class Visual extends Observable {
 			this.notifyObservers();
 		}
 	}
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        setColor(color, true);
+    }
+
+    public void setColor(Color color, boolean notifyObservers) {
+        this.color = color;
+
+        if (notifyObservers) {
+            this.notifyObservers();
+        }
+    }
 }
