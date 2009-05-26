@@ -1,0 +1,1 @@
+${pluginManifestAttributeKeyForMainClassName}: name.dlazerka.gm.dijkstra.DijkstraPlugin
