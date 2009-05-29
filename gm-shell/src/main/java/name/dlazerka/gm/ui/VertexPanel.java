@@ -100,7 +100,8 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 		super(null);
 		this.vertex = vertex;
 
-		vertex.getVisual().addObserver(this);
+		Visual visual = vertex.getVisual();
+		visual.addObserver(this);
 
 		setPreferredSize(panelSize);
 		setSize(panelSize);

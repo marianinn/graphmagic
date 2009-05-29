@@ -1,9 +1,10 @@
 User stories:
-> Edges weighting.
 > Vertex marking.
 > Implement Dijkstra.
+* Export/Import a graph to a file.
 * Show vertex marks (listed and mapped);
 * Show edge marks (listed and mapped);
+* Pass plugin path[s] as command-line parameters.
 * Show pseudo-edges.
 * More than one window with a graph.
 * Selecting multiple vertices.
@@ -12,7 +13,6 @@ User stories:
 * Changing properties of the graph (digraph, multigraph, pseudograph)
 * Zooming
 * History of graph view actions for the Undo/Redo.
-* Export/Import a graph to a file.
 * Printing graph
 * Localization
 
