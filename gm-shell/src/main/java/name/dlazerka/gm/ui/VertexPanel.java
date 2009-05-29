@@ -340,7 +340,7 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 	 * Called when the {@link #vertex}'s {@link Visual} changed, so this panel should be moved.
 	 *
 	 * @param o   must equal this.{@link #vertex}.{@link Vertex#getVisual()}
-	 * @param arg
+	 * @param arg not used
 	 */
 	@Override
 	public void update(Observable o, Object arg) {

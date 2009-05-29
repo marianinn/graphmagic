@@ -1,1 +1,2 @@
-mvn clean install assembly:assembly
+call mvn clean %*
+call build.cmd %*
