@@ -33,7 +33,7 @@ public interface Vertex {
 
 	Visual getVisual();
 
-	VertexMark getMark();
+	Mark getMark();
 
 	Set<Vertex> getAdjacentVertexSet();
 

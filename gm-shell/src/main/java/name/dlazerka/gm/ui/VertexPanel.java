@@ -21,7 +21,7 @@
 package name.dlazerka.gm.ui;
 
 import name.dlazerka.gm.Vertex;
-import name.dlazerka.gm.VertexMark;
+import name.dlazerka.gm.Mark;
 import name.dlazerka.gm.Visual;
 import name.dlazerka.gm.shell.ResourceBundle;
 import org.slf4j.Logger;
@@ -132,7 +132,7 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 		g2.setColor(COLOR_BORDER);
 		g2.fillOval(0, 0, VERTEX_OVAL_SIZE.width, VERTEX_OVAL_SIZE.height);
 
-		VertexMark mark = vertex.getMark();
+		Mark mark = vertex.getMark();
         Visual visual = vertex.getVisual();
         
         Color color = visual.getColor();

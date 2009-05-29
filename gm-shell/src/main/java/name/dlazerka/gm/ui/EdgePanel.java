@@ -21,8 +21,8 @@
 package name.dlazerka.gm.ui;
 
 import name.dlazerka.gm.Edge;
-import name.dlazerka.gm.EdgeMark;
 import name.dlazerka.gm.Graph;
+import name.dlazerka.gm.Mark;
 import name.dlazerka.gm.Visual;
 import name.dlazerka.gm.shell.ResourceBundle;
 import org.slf4j.Logger;
@@ -84,7 +84,7 @@ public class EdgePanel extends AbstractEdgePanel {
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 
-		EdgeMark mark = edge.getMark();
+		Mark mark = edge.getMark();
         Visual visual = edge.getVisual();
         
         Color color = visual.getColor();
@@ -98,8 +98,8 @@ public class EdgePanel extends AbstractEdgePanel {
 
 		g2.draw(curve);
 
-		String weight = mark.getWeight();
-		if (weight != null) {
+		java.util.List<String> markList = mark.getMarkList();
+		if (markList != null && markList.size() > 0) {
 			g2.setFont(WEIGHT_FONT);
 			g2.setColor(WEIGHT_COLOR);
 
@@ -114,7 +114,7 @@ public class EdgePanel extends AbstractEdgePanel {
 				x += 15;
 			}
 
-			g2.drawString(weight, x, y);
+			g2.drawString(markList.toString(), x, y);
 		}
 	}
 
@@ -317,7 +317,7 @@ public class EdgePanel extends AbstractEdgePanel {
 	private class PopupMenu extends JPopupMenu {
 		private PopupMenu() {
 			add(new DeleteAction());
-			add(new SetWeightAction());
+			add(new SetMarkAction());
 			addPopupMenuListener(new PopupMenuListener() {
 				@Override
 				public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
@@ -348,18 +348,18 @@ public class EdgePanel extends AbstractEdgePanel {
 			}
 		}
 
-		private class SetWeightAction extends AbstractAction {
-			public SetWeightAction() {
+		private class SetMarkAction extends AbstractAction {
+			public SetMarkAction() {
 				super(ResourceBundle.getString("set.weight"));
 			}
 
 			public void actionPerformed(ActionEvent e) {
-				EdgeMark mark = edge.getMark();
-				String weight = mark.getWeight();
+				Mark mark = edge.getMark();
+				String weight = mark.get(0);
 
 				String newWeight = JOptionPane.showInputDialog(EdgePanel.this, ResourceBundle.getString("new.weight"), weight);
 
-				mark.setWeight(newWeight);
+				mark.setAt(0, newWeight);
 
 				EdgePanel.this.repaint();
 			}

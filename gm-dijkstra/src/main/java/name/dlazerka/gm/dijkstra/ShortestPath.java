@@ -20,48 +20,82 @@
 
 package name.dlazerka.gm.dijkstra;
 
-import name.dlazerka.gm.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import name.dlazerka.gm.Edge;
+import name.dlazerka.gm.Graph;
+import name.dlazerka.gm.Vertex;
+import name.dlazerka.gm.Mark;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.util.Set;
+import java.io.Serializable;
+import java.util.*;
 
-/**
- * @author Dzmitry Lazerka www.dlazerka.name
- */
-class ShortestPath extends AbstractAction {
-    private static final Logger logger = LoggerFactory.getLogger(ShortestPath.class);
+public class ShortestPath implements Serializable, Comparator<Vertex> {
+	private Map<Vertex, Integer> currentShortest = new HashMap<Vertex, Integer>();
+	private Map<Vertex, Edge> parent = new HashMap<Vertex, Edge>();
 
-    private final GraphMagicAPI api;
+	protected void execute(Graph graph, Vertex startVertex, Map<Edge, Integer> weights) {
+		dijkstraInit(graph, startVertex);
 
-    ShortestPath(GraphMagicAPI api) {
-        super("Shortest path for single source");
-        this.api = api;
-    }
+		Set<Vertex> vertexSet = graph.getVertexSet();
+		DijkstraQueue vertexQueue = new VertexQueue(this);
+		vertexQueue.addAll(vertexSet);
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        Graph graph = api.getFocusedGraph();
-        Set<Vertex> vertexSet = graph.getVertexSet();
-        Vertex startVertex = null;
-        for (Vertex vertex : vertexSet) {
-            Visual visual = vertex.getVisual();
-            boolean selected = visual.isSelected();
-            if (selected) {
-                startVertex = vertex;
-                break;
-            }
-        }
+		while (!vertexQueue.isEmpty()) {
+			Vertex minVertex = vertexQueue.extractMin();
 
-        if (startVertex == null) {
-            try {
-                throw new NoStartVertexException();
-            }
-            catch (NoStartVertexException e1) {
-                api.showMessage(e1, MessageLevel.ERROR);
-            }
-        }
-    }
+			Set<Vertex> adjacentVertexSet = minVertex.getAdjacentVertexSet();
+			for (Vertex adjacentVertex : adjacentVertexSet) {
+				relax(graph, weights, vertexQueue, minVertex, adjacentVertex);
+			}
+
+			Mark mark = minVertex.getMark();
+			mark.setAt(0, currentShortest.get(minVertex).toString());
+		}
+	}
+
+	protected void relax(
+		Graph graph,
+		Map<Edge, Integer> weights,
+		DijkstraQueue vertexQueue,
+		Vertex minVertex,
+		Vertex adjacentVertex
+	) {
+		Edge edge = graph.getEdge(minVertex, adjacentVertex);
+		Integer dist = weights.get(edge);
+		if (currentShortest.get(adjacentVertex) > currentShortest.get(minVertex) + dist) {
+			currentShortest.put(adjacentVertex, currentShortest.get(minVertex) + dist);
+			vertexQueue.update(adjacentVertex);
+			parent.put(adjacentVertex, edge);
+		}
+	}
+
+	private void dijkstraInit(Graph graph, Vertex startVertex) {
+		for (Vertex vertex : graph.getVertexSet()) {
+			currentShortest.put(vertex, Integer.MAX_VALUE);
+			parent.put(vertex, null);
+		}
+		currentShortest.put(startVertex, 0);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int compare(Vertex v1, Vertex v2) {
+		Integer d1 = currentShortest.get(v1);
+		Integer d2 = currentShortest.get(v2);
+
+		if (d1 == null && d2 == null) {
+			return 0;
+		}
+
+		if (d1 == null) {
+			return 1;
+		}
+
+		if (d2 == null) {
+			return -1;
+		}
+
+		return d1 - d2;
+	}
 }

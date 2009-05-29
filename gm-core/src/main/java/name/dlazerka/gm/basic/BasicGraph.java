@@ -63,12 +63,12 @@ public class BasicGraph implements Graph, Serializable {
 	 */
 	protected final List<GraphModificationListener> modificationListenerList = new LinkedList<GraphModificationListener>();
 
-    private Map<String, Vertex> vertexLabeling = new HashMap<String, Vertex>();
+	private Map<String, Vertex> vertexLabeling = new HashMap<String, Vertex>();
 
-    private Map<String, Edge> edgeLabeling = new HashMap<String, Edge>();
+	private Map<String, Edge> edgeLabeling = new HashMap<String, Edge>();
 
 
-    @Override
+	@Override
 	public String toString() {
 		return "Graph{" + vertexSet + ", " + edgeSet + '}';
 	}
@@ -85,12 +85,12 @@ public class BasicGraph implements Graph, Serializable {
 
 	@Override
 	public Set<Vertex> getVertexSet() {
-		return vertexSet;
+		return Collections.unmodifiableSet(vertexSet);
 	}
 
 	@Override
 	public Set<Edge> getEdgeSet() {
-		return edgeSet;
+		return Collections.unmodifiableSet(edgeSet);
 	}
 
 	@Override
@@ -105,13 +105,17 @@ public class BasicGraph implements Graph, Serializable {
 	}
 
 	@Override
-	public Edge getEdge(int tailId, int headId) {
-		Vertex tail = getVertex(tailId);
-		Vertex head = getVertex(headId);
-
+	public Edge getEdge(Vertex tail, Vertex head) {
 		for (Edge edge : edgeSet) {
 			if (edge.getTail().equals(tail)
-					&& edge.getHead().equals(head)) {
+			    && edge.getHead().equals(head)) {
+				return edge;
+			}
+
+			if (!isDirected()
+			    && edge.getTail().equals(head)
+			    && edge.getHead().equals(tail)
+				) {
 				return edge;
 			}
 		}
@@ -119,17 +123,35 @@ public class BasicGraph implements Graph, Serializable {
 		throw new NoSuchEdgeException(this, tail, head);
 	}
 
-    @Override
-    public Map<String, Vertex> getVertexLabeling() {
-        return vertexLabeling;
-    }
+	@Override
+	public Edge getEdge(int tailId, int headId) {
+		Vertex tail = getVertex(tailId);
+		Vertex head = getVertex(headId);
 
-    @Override
-    public Map<String, Edge> getEdgeLabeling() {
-        return edgeLabeling;
-    }
+		return getEdge(tail, head);
+	}
 
-    @Override
+	@Override
+	public Set<Edge> getEdgesBetween(Vertex vertex1, Vertex vertex2) {
+		throw new UnsupportedOperationException("TODO");
+	}
+
+	@Override
+	public Set<Edge> getEdgesBetween(int tailId, int headId) {
+		throw new UnsupportedOperationException("TODO");
+	}
+
+	@Override
+	public Map<String, Vertex> getVertexLabeling() {
+		return vertexLabeling;
+	}
+
+	@Override
+	public Map<String, Edge> getEdgeLabeling() {
+		return edgeLabeling;
+	}
+
+	@Override
 	public BasicVertex createVertex() {
 		int max = 0;
 		for (Vertex vertex : vertexSet) {
@@ -149,7 +171,8 @@ public class BasicGraph implements Graph, Serializable {
 		BasicEdge edge = new BasicEdge(this, tail, head);
 		try {
 			addEdge(edge);
-		} catch (EdgeAddingException e) {
+		}
+		catch (EdgeAddingException e) {
 			throw new EdgeCreateException(tail, head, e);
 		}
 		return edge;
@@ -257,7 +280,7 @@ public class BasicGraph implements Graph, Serializable {
 		logger.debug("{}", vertex);
 		vertexSet.add(vertex);
 
-        vertexLabeling.put(vertex.toString(), vertex);
+		vertexLabeling.put(vertex.toString(), vertex);
 
 		for (GraphModificationListener listener : modificationListenerList) {
 			listener.vertexAdded(vertex);
@@ -275,7 +298,7 @@ public class BasicGraph implements Graph, Serializable {
 			throw new DuplicateEdgeException(edge);
 		}
 
-        edgeLabeling.put(edge.toString(), edge);
+		edgeLabeling.put(edge.toString(), edge);
 
 		for (GraphModificationListener listener : modificationListenerList) {
 			listener.edgeAdded(edge);

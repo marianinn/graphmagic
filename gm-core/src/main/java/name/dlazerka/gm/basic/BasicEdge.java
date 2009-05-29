@@ -37,8 +37,8 @@ public class BasicEdge extends AbstractEdge implements Edge, Serializable {
 	private final Graph graph;
 	private final Vertex tail;
 	private final Vertex head;
-	private final Visual visual;
-	private final EdgeMark mark;
+	private final Visual visual = new Visual();
+	private final Mark mark = new Mark();
 
 	private boolean removed = false;
 
@@ -46,8 +46,6 @@ public class BasicEdge extends AbstractEdge implements Edge, Serializable {
 		this.graph = graph;
 		this.tail = tail;
 		this.head = head;
-		visual = new Visual();
-		mark = new EdgeMark();
 	}
 
 	@Override
@@ -84,7 +82,7 @@ public class BasicEdge extends AbstractEdge implements Edge, Serializable {
 	}
 
 	@Override
-	public EdgeMark getMark() {
+	public Mark getMark() {
 		return mark;
 	}
 
@@ -106,7 +104,7 @@ public class BasicEdge extends AbstractEdge implements Edge, Serializable {
 		checkNotRemoved();
 
 		return vertex.equals(getHead())
-				|| vertex.equals(getTail());
+		       || vertex.equals(getTail());
 	}
 
 	@Override

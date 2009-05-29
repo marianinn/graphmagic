@@ -18,30 +18,21 @@
  * Author: Dzmitry Lazerka dlazerka@dlazerka.name
  */
 
-package name.dlazerka.gm;
+package name.dlazerka.gm.dijkstra;
 
-import java.util.Set;
+import name.dlazerka.gm.PluginException;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public interface Edge {
+public class MultipleStartVertexException extends PluginException {
+    @Override
+    public String getMessage() {
+        return "More than one start vertex found";
+    }
 
-	Graph getGraph();
-
-	Vertex getHead();
-
-	Vertex getTail();
-
-	Visual getVisual();
-
-	Mark getMark();
-
-	Set<Edge> getIncidentEdgeSet();
-
-	boolean isIncident(Vertex vertex);
-
-	boolean isIncident(Edge edge);
-
-	boolean isPseudo();
+	@Override
+	public String getLocalizedMessage() {
+		return "More than one start vertex found";
+	}
 }

@@ -2,6 +2,8 @@ User stories:
 > Edges weighting.
 > Vertex marking.
 > Implement Dijkstra.
+* Show vertex marks (listed and mapped);
+* Show edge marks (listed and mapped);
 * Show pseudo-edges.
 * More than one window with a graph.
 * Selecting multiple vertices.
