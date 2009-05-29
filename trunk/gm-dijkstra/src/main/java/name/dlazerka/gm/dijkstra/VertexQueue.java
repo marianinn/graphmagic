@@ -50,7 +50,7 @@ public class VertexQueue implements DijkstraQueue {
 		//noinspection ForLoopReplaceableByForEach
 		for (int i = 0; i < list.size(); i++) {
 			Vertex movingVertex = list.get(i);
-			update(movingVertex);
+			updateDecreased(movingVertex);
 		}
 	}
 
@@ -61,7 +61,7 @@ public class VertexQueue implements DijkstraQueue {
 	}
 
 	@Override
-	public void update(Vertex v) {
+	public void updateDecreased(Vertex v) {
 		for (int i = list.indexOf(v); i > 0; i--) {
 			Vertex comparedVertex = list.get(i - 1);
 			if (comparator.compare(v, comparedVertex) >= 0) {
@@ -69,7 +69,6 @@ public class VertexQueue implements DijkstraQueue {
 			}
 			list.set(i, comparedVertex);
 			list.set(i - 1, v);
-			i--;
 		}
 	}
 
