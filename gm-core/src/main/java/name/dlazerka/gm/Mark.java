@@ -52,7 +52,7 @@ public class Mark {
 	}
 
 	public String get(int i) {
-		if (markList.size() >= i) {
+		if (markList.size() <= i) {
 			return null;
 		}
 		return markList.get(0);

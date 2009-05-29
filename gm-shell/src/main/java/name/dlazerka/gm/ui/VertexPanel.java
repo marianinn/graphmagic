@@ -20,14 +20,16 @@
 
 package name.dlazerka.gm.ui;
 
-import name.dlazerka.gm.Vertex;
 import name.dlazerka.gm.Mark;
+import name.dlazerka.gm.Vertex;
 import name.dlazerka.gm.Visual;
 import name.dlazerka.gm.shell.ResourceBundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
@@ -172,6 +174,10 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 
 //		g2.drawLine(0, getSize().height / 2, getSize().width, getSize().height / 2);
 //		g2.drawLine(getSize().width / 2, 0, getSize().width / 2, getSize().height);
+		String markStr = mark.get(0);
+		if (markStr != null) {
+			g2.drawString(markStr, 0, 0);
+		}
 	}
 
 	/**
@@ -413,6 +419,21 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 	private class PopupMenu extends JPopupMenu {
 		private PopupMenu() {
 			add(new DeleteAction());
+			addPopupMenuListener(new PopupMenuListener() {
+				@Override
+				public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+				}
+
+				@Override
+				public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+					checkHovered();
+					VertexPanel.this.repaint();
+				}
+
+				@Override
+				public void popupMenuCanceled(PopupMenuEvent e) {
+				}
+			});
 		}
 
 		private class DeleteAction extends AbstractAction {
