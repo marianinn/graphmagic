@@ -37,6 +37,8 @@
 
     <properties>
         <graphmagic.version>0.2</graphmagic.version>
+        <production>true</production>
+        <logLevel>WARN</logLevel>
         <plugin.default.dir>plugins</plugin.default.dir>
         <pluginManifestAttributeKeyForMainClassName>GraphMagicPlugin-Class</pluginManifestAttributeKeyForMainClassName>
     </properties>

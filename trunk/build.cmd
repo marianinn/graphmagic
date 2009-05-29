@@ -1,1 +1,1 @@
-mvn install assembly:assembly
+mvn install assembly:assembly %*
