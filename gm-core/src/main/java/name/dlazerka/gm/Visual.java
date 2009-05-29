@@ -89,5 +89,6 @@ public class Visual extends Observable {
 
     public void setSelected(boolean selected) {
         this.selected = selected;
+	    notifyObservers();
     }
 }

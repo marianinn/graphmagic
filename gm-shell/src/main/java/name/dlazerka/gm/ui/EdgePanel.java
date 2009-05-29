@@ -50,13 +50,14 @@ public class EdgePanel extends AbstractEdgePanel {
 	private boolean curved = false;
 	private boolean dragging;
 	private Shape hoverShape = curve;
-	private Stroke stroke = EDGE_STROKE;
+	private Stroke stroke = EDGE_STROKE_DEFAULT;
 	private final Point oddPoint = new Point();
 	private static final int FONT_SIZE = 20;
 	private static final Font WEIGHT_FONT = new Font("courier", Font.PLAIN, FONT_SIZE);
 	private static final Color WEIGHT_COLOR = new Color(0x80, 0x0, 0x0);
 	private Point oldOddPoint = new Point();
 	private Point oldMovedEndPoint = new Point();
+	private boolean hovered = false;
 
 	public EdgePanel(Edge edge, VertexPanel tail, VertexPanel head) {
 		this.edge = edge;
@@ -93,8 +94,17 @@ public class EdgePanel extends AbstractEdgePanel {
 			color = EDGE_COLOR_DEFAULT;
 		}
 
+		if (hovered) {
+			g2.setStroke(EDGE_STROKE_HOVERED);
+		}
+		else if (visual.isSelected()) {
+			g2.setStroke(EDGE_STROKE_SELECTED);
+		}
+		else {
+			g2.setStroke(EDGE_STROKE_DEFAULT);
+		}
+
 		g2.setColor(color);
-		g2.setStroke(stroke);
 
 		g2.draw(curve);
 
@@ -265,7 +275,7 @@ public class EdgePanel extends AbstractEdgePanel {
 				curved ? ctrlPoint : getFromPoint(),
 				getToPoint()
 		);
-		hoverShape = EDGE_HOVER_STROKE.createStrokedShape(curve);
+		hoverShape = EDGE_STROKE_HOVERED.createStrokedShape(curve);
 	}
 
 	private class DragMouseListener extends MouseMotionAdapter {
@@ -283,15 +293,13 @@ public class EdgePanel extends AbstractEdgePanel {
 	private class MouseListener extends MouseAdapter {
 		@Override
 		public void mouseEntered(MouseEvent e) {
-			stroke = EDGE_HOVER_STROKE;
-			repaint();
+			setHovered(true);
 		}
 
 		@Override
 		public void mouseExited(MouseEvent e) {
 			if (!dragging) {
-				stroke = EDGE_STROKE;
-				repaint();
+				setHovered(false);
 			}
 		}
 
@@ -312,6 +320,19 @@ public class EdgePanel extends AbstractEdgePanel {
 				setDragging(false);
 			}
 		}
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			Visual visual = edge.getVisual();
+			boolean selected = visual.isSelected();
+			visual.setSelected(!selected);
+			repaint();
+		}
+	}
+
+	private void setHovered(boolean hovered) {
+		this.hovered = hovered;
+		repaint();
 	}
 
 	private class PopupMenu extends JPopupMenu {
@@ -326,9 +347,7 @@ public class EdgePanel extends AbstractEdgePanel {
 				@Override
 				public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
 					logger.debug("");
-
-					stroke = EDGE_STROKE;
-					EdgePanel.this.repaint();
+					EdgePanel.this.setHovered(false);
 				}
 
 				@Override

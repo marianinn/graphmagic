@@ -307,14 +307,19 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 
 	@Override
 	public void setLocation(int x, int y) {
+		super.setLocation(x, y);
+
+		// update vertex.visual
+		x += VERTEX_OVAL_SIZE.width / 2;
+		y += VERTEX_OVAL_SIZE.height / 2;
+
 		double relX, relY;
 		Rectangle rect = getGraphPanel().getVisibleRect();
 		relX = (2d * x - 2 * rect.getX() - rect.getWidth()) / rect.getWidth();
 		relY = (2d * y - 2 * rect.getY() - rect.getHeight()) / rect.getHeight();
 
-		vertex.getVisual().setCenter(relX, relY, false);
-
-		super.setLocation(x, y);
+		Visual visual = vertex.getVisual();
+		visual.setCenter(relX, relY, false);
 	}
 
 	/**
@@ -412,7 +417,6 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
             Visual visual = vertex.getVisual();
             boolean selected = visual.isSelected();
             visual.setSelected(!selected);
-            repaint();
         }
     }
 

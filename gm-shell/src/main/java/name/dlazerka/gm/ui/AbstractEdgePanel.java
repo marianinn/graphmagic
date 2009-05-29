@@ -34,8 +34,9 @@ public abstract class AbstractEdgePanel extends JPanel implements Paintable {
 	private static final Logger logger = LoggerFactory.getLogger(AbstractEdgePanel.class);
 
 	protected static final Color EDGE_COLOR_DEFAULT = Color.BLACK;
-	protected static final Stroke EDGE_STROKE = new BasicStroke(2f);
-	protected static final Stroke EDGE_HOVER_STROKE = new BasicStroke(6f);
+	protected static final Stroke EDGE_STROKE_DEFAULT = new BasicStroke(2f);
+	protected static final Stroke EDGE_STROKE_SELECTED = new BasicStroke(4f);
+	protected static final Stroke EDGE_STROKE_HOVERED = new BasicStroke(6f);
 	protected final QuadCurve2D curve = new QuadCurve2D.Float();
 
 	protected AbstractEdgePanel() {

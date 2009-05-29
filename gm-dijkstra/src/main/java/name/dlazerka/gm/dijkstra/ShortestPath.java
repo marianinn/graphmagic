@@ -20,13 +20,13 @@
 
 package name.dlazerka.gm.dijkstra;
 
-import name.dlazerka.gm.Edge;
-import name.dlazerka.gm.Graph;
-import name.dlazerka.gm.Vertex;
-import name.dlazerka.gm.Mark;
+import name.dlazerka.gm.*;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class ShortestPath implements Serializable, Comparator<Vertex> {
 	private Map<Vertex, Integer> currentShortest = new HashMap<Vertex, Integer>();
@@ -48,7 +48,12 @@ public class ShortestPath implements Serializable, Comparator<Vertex> {
 			}
 
 			Mark mark = minVertex.getMark();
-			mark.setAt(0, currentShortest.get(minVertex).toString());
+			mark.setAt(0, String.valueOf(currentShortest.get(minVertex)));
+			Edge parentEdge = parent.get(minVertex);
+			if (parentEdge != null) {
+				Visual edgeVisual = parentEdge.getVisual();
+				edgeVisual.setSelected(true);
+			}
 		}
 	}
 
