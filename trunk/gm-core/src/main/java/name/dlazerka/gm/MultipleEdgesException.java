@@ -20,28 +20,8 @@
 
 package name.dlazerka.gm;
 
-import java.util.Set;
-
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public interface Edge {
-
-	Graph getGraph();
-
-	Vertex getHead();
-
-	Vertex getTail();
-
-	Visual getVisual();
-
-	Mark getMark();
-
-	Set<Edge> getIncidentEdgeSet();
-
-	boolean isIncident(Vertex vertex);
-
-	boolean isIncident(Edge edge);
-
-	boolean isPseudo();
+public class MultipleEdgesException extends RuntimeException {
 }

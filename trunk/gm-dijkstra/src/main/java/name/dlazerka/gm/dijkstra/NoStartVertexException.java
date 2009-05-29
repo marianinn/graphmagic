@@ -20,8 +20,19 @@
 
 package name.dlazerka.gm.dijkstra;
 
+import name.dlazerka.gm.PluginException;
+
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class NoStartVertexException extends Exception {
+public class NoStartVertexException extends PluginException {
+    @Override
+    public String getMessage() {
+        return "No start vertex found";
+    }
+
+	@Override
+	public String getLocalizedMessage() {
+		return "No start vertex found";
+	}
 }

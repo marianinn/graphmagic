@@ -18,30 +18,39 @@
  * Author: Dzmitry Lazerka dlazerka@dlazerka.name
  */
 
-package name.dlazerka.gm;
+package name.dlazerka.gm.dijkstra;
 
-import java.util.Set;
+import name.dlazerka.gm.Edge;
+import name.dlazerka.gm.PluginException;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public interface Edge {
+public class NoWeightDefinedException extends PluginException {
+	private final Edge edge;
+	private Object[] keysUsed;
 
-	Graph getGraph();
+	public NoWeightDefinedException(Edge edge, Object ... keysUsed) {
+		this.edge = edge;
+		this.keysUsed = keysUsed;
+	}
 
-	Vertex getHead();
+	@Override
+	public String getLocalizedMessage() {
+		StringBuilder sb = new StringBuilder("[");
+		for (Object o : keysUsed) {
+			if (o instanceof String) {
+				sb.append("\"");
+			}
+			sb.append(o.toString());
+			if (o instanceof String) {
+				sb.append("\"");
+			}
+			sb.append(", ");
+		}
+		sb.delete(sb.length() - 2, sb.length());
+		sb.append("]");
 
-	Vertex getTail();
-
-	Visual getVisual();
-
-	Mark getMark();
-
-	Set<Edge> getIncidentEdgeSet();
-
-	boolean isIncident(Vertex vertex);
-
-	boolean isIncident(Edge edge);
-
-	boolean isPseudo();
+		return "Edge " + edge + " has no weight defined (keys used: " + sb.toString() + ")";
+	}
 }

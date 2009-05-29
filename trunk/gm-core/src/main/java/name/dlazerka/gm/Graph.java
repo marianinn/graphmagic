@@ -63,19 +63,27 @@ public interface Graph {
 	 */
 	Vertex getVertex(int id);
 
-	Edge getEdge(int tailId, int headId);
+	Edge getEdge(Vertex vertex1, Vertex vertex2) throws MultipleEdgesException;
 
-    /**
-     * A vertex labeling is a function from some subset of the integers to the vertices of the graph.
-     * @return vertex labeling map
-     */
-    Map<String, Vertex> getVertexLabeling();
+	Edge getEdge(int tailId, int headId) throws MultipleEdgesException;
 
-    /**
-     * An edge labeling is a function from some subset of the integers to the edges of the graph.
-     * @return edge labeling map
-     */
-    Map<String, Edge> getEdgeLabeling();
+	Set<Edge> getEdgesBetween(Vertex vertex1, Vertex vertex2);
+
+	Set<Edge> getEdgesBetween(int tailId, int headId);
+
+	/**
+	 * A vertex labeling is a function from some subset of the integers to the vertices of the graph.
+	 *
+	 * @return vertex labeling map
+	 */
+	Map<String, Vertex> getVertexLabeling();
+
+	/**
+	 * An edge labeling is a function from some subset of the integers to the edges of the graph.
+	 *
+	 * @return edge labeling map
+	 */
+	Map<String, Edge> getEdgeLabeling();
 
 	Vertex createVertex();
 

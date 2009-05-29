@@ -18,30 +18,41 @@
  * Author: Dzmitry Lazerka dlazerka@dlazerka.name
  */
 
-package name.dlazerka.gm;
+package name.dlazerka.gm.dijkstra;
 
+import name.dlazerka.gm.Vertex;
+
+import java.util.Comparator;
 import java.util.Set;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public interface Edge {
+public class BinaryHeap implements DijkstraQueue {
+	private final Comparator<Vertex> comparator;
 
-	Graph getGraph();
+	public BinaryHeap(Comparator<Vertex> comparator) {
+		this.comparator = comparator;
+	}
 
-	Vertex getHead();
+	@Override
+	public void addAll(Set<Vertex> vertexSet) {
+	}
 
-	Vertex getTail();
+	public void heapify() {
+		throw new UnsupportedOperationException("TODO");
+	}
 
-	Visual getVisual();
+	public Vertex extractMin() {
+		throw new UnsupportedOperationException("TODO");
+	}
 
-	Mark getMark();
+	public void update(Vertex v) {
+		throw new UnsupportedOperationException("TODO");
+	}
 
-	Set<Edge> getIncidentEdgeSet();
-
-	boolean isIncident(Vertex vertex);
-
-	boolean isIncident(Edge edge);
-
-	boolean isPseudo();
+	@Override
+	public boolean isEmpty() {
+		return true;
+	}
 }

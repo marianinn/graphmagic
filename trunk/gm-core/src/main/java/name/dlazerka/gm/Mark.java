@@ -20,8 +20,45 @@
 
 package name.dlazerka.gm;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class VertexMark {
+public class Mark {
+	private List<String> markList = new ArrayList<String>();
+	private Map<String, String> markMap = new HashMap<String, String>();
+
+	public void setAt(int i, String s) {
+		while (markList.size() <= i) {
+			markList.add("?");
+		}
+		markList.set(i, s);
+	}
+
+	public void put(String key, String value) {
+		markMap.put(key, value);
+	}
+
+	public List<String> getMarkList() {
+		return markList;
+	}
+
+	public Map<String, String> getMarkMap() {
+		return markMap;
+	}
+
+	public String get(int i) {
+		if (markList.size() >= i) {
+			return null;
+		}
+		return markList.get(0);
+	}
+
+	public String get(String key) {
+		return markMap.get(key);
+	}
 }

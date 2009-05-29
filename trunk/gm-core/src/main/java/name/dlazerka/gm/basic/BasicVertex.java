@@ -33,7 +33,7 @@ public class BasicVertex extends AbstractVertex implements Vertex, Serializable 
 	private final Graph graph;
 	private final int label;
 	private final Visual visual;
-	private final VertexMark mark;
+	private final Mark mark;
 	private boolean removed = false;
 
 	/**
@@ -46,7 +46,7 @@ public class BasicVertex extends AbstractVertex implements Vertex, Serializable 
 		this.graph = graph;
 		this.label = label;
 		this.visual = new Visual();
-		this.mark = new VertexMark();
+		this.mark = new Mark();
 	}
 
 	@Override
@@ -75,7 +75,7 @@ public class BasicVertex extends AbstractVertex implements Vertex, Serializable 
 	}
 
 	@Override
-	public VertexMark getMark() {
+	public Mark getMark() {
 		return mark;
 	}
 

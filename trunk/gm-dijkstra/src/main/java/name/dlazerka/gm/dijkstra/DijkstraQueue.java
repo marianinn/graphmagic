@@ -18,30 +18,24 @@
  * Author: Dzmitry Lazerka dlazerka@dlazerka.name
  */
 
-package name.dlazerka.gm;
+
+package name.dlazerka.gm.dijkstra;
+
+import name.dlazerka.gm.Vertex;
 
 import java.util.Set;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public interface Edge {
+public interface DijkstraQueue {
+	void addAll(Set<Vertex> vertexSet);
 
-	Graph getGraph();
+	void heapify();
 
-	Vertex getHead();
+	Vertex extractMin();
 
-	Vertex getTail();
+	void update(Vertex v);
 
-	Visual getVisual();
-
-	Mark getMark();
-
-	Set<Edge> getIncidentEdgeSet();
-
-	boolean isIncident(Vertex vertex);
-
-	boolean isIncident(Edge edge);
-
-	boolean isPseudo();
+	boolean isEmpty();
 }

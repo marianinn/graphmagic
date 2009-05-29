@@ -18,30 +18,19 @@
  * Author: Dzmitry Lazerka dlazerka@dlazerka.name
  */
 
-package name.dlazerka.gm;
+package name.dlazerka.gm.dijkstra;
 
-import java.util.Set;
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public interface Edge {
-
-	Graph getGraph();
-
-	Vertex getHead();
-
-	Vertex getTail();
-
-	Visual getVisual();
-
-	Mark getMark();
-
-	Set<Edge> getIncidentEdgeSet();
-
-	boolean isIncident(Vertex vertex);
-
-	boolean isIncident(Edge edge);
-
-	boolean isPseudo();
+public class NoWeightDefinedExceptionTest {
+	@Test
+	public void testLocalizedMessage() {
+		NoWeightDefinedException e = new NoWeightDefinedException(null, 0, "w", "weight");
+		String s = e.getLocalizedMessage();
+		assertEquals(s, "Edge null has no weight defined (keys used: [0, \"w\", \"weight\"])");
+	}
 }

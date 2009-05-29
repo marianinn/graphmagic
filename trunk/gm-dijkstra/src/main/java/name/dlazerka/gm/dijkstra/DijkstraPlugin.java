@@ -41,7 +41,7 @@ public class DijkstraPlugin extends AbstractPlugin {
 	@Override
 	public List<Action> getActions() {
 		LinkedList<Action> list = new LinkedList<Action>();
-		AbstractAction action = new ShortestPath(getGraphMagicAPI());
+		AbstractAction action = new ShortestPathAction(getGraphMagicAPI());
 		list.add(action);
 		return list;
 	}
