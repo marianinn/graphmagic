@@ -36,11 +36,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class EdgePanel extends AbstractEdgePanel {
+public class EdgePanel extends AbstractEdgePanel implements Observer {
 	private static final Logger logger = LoggerFactory.getLogger(EdgePanel.class);
 
 	private final Edge edge;
@@ -63,6 +65,10 @@ public class EdgePanel extends AbstractEdgePanel {
 		this.edge = edge;
 		this.tail = tail;
 		this.head = head;
+
+		Visual visual = edge.getVisual();
+		visual.addObserver(this);
+
 
 		oddPoint.x = (getFromPoint().x + getToPoint().x) / 2;
 		oddPoint.y = (getFromPoint().y + getToPoint().y) / 2;
@@ -246,22 +252,11 @@ public class EdgePanel extends AbstractEdgePanel {
 
 	/**
 	 * Sets the {@link #ctrlPoint} so, that {@link #oddPoint} will lie on the peak of curve.
-	 * Thus, draws a perpendicular from the {@link #oddPoint} to the line drawn between end points (specified by points
-	 * {@link #getFromPoint()} and {@link #getToPoint()}).
-	 * Then places the {@link #ctrlPoint} on the perpendicular on double
-	 * length from the line to {@link #oddPoint}
-	 */
-	private void updateGeometry() {
-		updateGeometry2();
-	}
-
-
-	/**
 	 * Places {@link #ctrlPoint} on double distance from center of line drawn between end points to the
 	 * {@link #oddPoint}.
 	 * It equals to fact that {@link #oddPoint} equals to bezier point position at t=0.5
 	 */
-	private void updateGeometry2() {
+	private void updateGeometry() {
 		int centerX = (getFromPoint().x + getToPoint().x) / 2;
 		int centerY = (getFromPoint().y + getToPoint().y) / 2;
 
@@ -276,6 +271,11 @@ public class EdgePanel extends AbstractEdgePanel {
 				getToPoint()
 		);
 		hoverShape = EDGE_STROKE_HOVERED.createStrokedShape(curve);
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		repaint();
 	}
 
 	private class DragMouseListener extends MouseMotionAdapter {

@@ -60,8 +60,7 @@ public class Visual extends Observable {
 		this.centerX = centerX;
 		this.centerY = centerY;
 
-		this.setChanged();
-
+		setChanged();
 		if (notifyObservers) {
 			this.notifyObservers();
 		}
@@ -78,6 +77,7 @@ public class Visual extends Observable {
     public void setColor(Color color, boolean notifyObservers) {
         this.color = color;
 
+	    setChanged();
         if (notifyObservers) {
             this.notifyObservers();
         }
@@ -89,6 +89,7 @@ public class Visual extends Observable {
 
     public void setSelected(boolean selected) {
         this.selected = selected;
+	    setChanged();
 	    notifyObservers();
     }
 }
