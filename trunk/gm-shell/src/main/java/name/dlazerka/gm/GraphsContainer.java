@@ -20,6 +20,8 @@
 
 package name.dlazerka.gm;
 
+import name.dlazerka.gm.ui.ErrorDialog;
+
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -61,5 +63,8 @@ public class GraphsContainer extends LinkedList<Graph> implements GraphMagicAPI 
 		}
 	}
 
-
+    @Override
+    public void showMessage(Throwable e, MessageLevel l) {
+        ErrorDialog.showError(e, null);
+    }
 }

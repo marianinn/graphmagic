@@ -20,30 +20,11 @@
 
 package name.dlazerka.gm;
 
-import java.util.Collection;
-
-
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public interface GraphMagicAPI {
-	/**
-	 * Returns on of the graphs that is of most interest, usually last used.
-	 *
-	 * @return one of the graphs that is of most interest, usually last used.
-	 */
-	Graph getFocusedGraph();
-
-	/**
-	 * Returns all of the graphs in the scope of this API.
-	 *
-	 * @return all of the graphs in the scope of this API.
-	 */
-	Collection<Graph> getGraphs();
-
-	void attachListener(GraphsListener listener);
-
-	void detachListener(GraphsListener listener);
-
-    void showMessage(Throwable e, MessageLevel l);
+public enum MessageLevel {
+    ERROR,
+    WARN,
+    INFO
 }

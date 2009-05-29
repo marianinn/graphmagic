@@ -20,9 +20,9 @@
 
 package name.dlazerka.gm.dijkstra;
 
-import name.dlazerka.gm.GraphMagicAPI;
-import name.dlazerka.gm.Graph;
-import name.dlazerka.gm.Vertex;
+import name.dlazerka.gm.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -32,6 +32,8 @@ import java.util.Set;
  * @author Dzmitry Lazerka www.dlazerka.name
  */
 class ShortestPath extends AbstractAction {
+    private static final Logger logger = LoggerFactory.getLogger(ShortestPath.class);
+
     private final GraphMagicAPI api;
 
     ShortestPath(GraphMagicAPI api) {
@@ -43,5 +45,23 @@ class ShortestPath extends AbstractAction {
     public void actionPerformed(ActionEvent e) {
         Graph graph = api.getFocusedGraph();
         Set<Vertex> vertexSet = graph.getVertexSet();
+        Vertex startVertex = null;
+        for (Vertex vertex : vertexSet) {
+            Visual visual = vertex.getVisual();
+            boolean selected = visual.isSelected();
+            if (selected) {
+                startVertex = vertex;
+                break;
+            }
+        }
+
+        if (startVertex == null) {
+            try {
+                throw new NoStartVertexException();
+            }
+            catch (NoStartVertexException e1) {
+                api.showMessage(e1, MessageLevel.ERROR);
+            }
+        }
     }
 }

@@ -78,14 +78,22 @@ public class ErrorDialog extends JDialog {
 		contentPane.setLayout(layout);
 		layout.setAutoCreateContainerGaps(true);
 
-		StringBuilder message = new StringBuilder(throwable.getLocalizedMessage());
-		for (
-				Throwable cause = throwable.getCause();
-				cause != null;
-				cause = cause.getCause()
-				) {
-			message.append(": ").append(cause.getLocalizedMessage());
-		}
+
+        String localizedMessage = throwable.getLocalizedMessage();
+        StringBuilder message = new StringBuilder();
+        if (localizedMessage != null) {
+            message.append(localizedMessage);
+            for (
+                    Throwable cause = throwable.getCause();
+                    cause != null;
+                    cause = cause.getCause()
+                    ) {
+                message.append(": ").append(cause.getLocalizedMessage());
+            }
+        }
+        else {
+            message.append(throwable.getClass().getName());
+        }
 		JTextArea messageArea = new JTextArea(message.toString());
 		messageArea.setRows(1);
 		messageArea.getPreferredSize().width = 600;
