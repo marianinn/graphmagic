@@ -35,7 +35,7 @@ public interface DijkstraQueue {
 
 	Vertex extractMin();
 
-	void update(Vertex v);
+	void updateDecreased(Vertex v);
 
 	boolean isEmpty();
 }

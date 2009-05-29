@@ -47,7 +47,7 @@ public class BinaryHeap implements DijkstraQueue {
 		throw new UnsupportedOperationException("TODO");
 	}
 
-	public void update(Vertex v) {
+	public void updateDecreased(Vertex v) {
 		throw new UnsupportedOperationException("TODO");
 	}
 

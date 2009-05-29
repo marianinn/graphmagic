@@ -1,6 +1,5 @@
 User stories:
 > Vertex marking.
-> Implement Dijkstra.
 * Export/Import a graph to a file.
 * Show vertex marks (listed and mapped);
 * Show edge marks (listed and mapped);

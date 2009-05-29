@@ -68,7 +68,7 @@ public class ShortestPath implements Serializable, Comparator<Vertex> {
 		Integer dist = weights.get(edge);
 		if (currentShortest.get(adjacentVertex) > currentShortest.get(minVertex) + dist) {
 			currentShortest.put(adjacentVertex, currentShortest.get(minVertex) + dist);
-			vertexQueue.update(adjacentVertex);
+			vertexQueue.updateDecreased(adjacentVertex);
 			parent.put(adjacentVertex, edge);
 		}
 	}
