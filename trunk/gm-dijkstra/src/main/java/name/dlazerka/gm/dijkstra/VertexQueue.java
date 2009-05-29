@@ -22,7 +22,10 @@ package name.dlazerka.gm.dijkstra;
 
 import name.dlazerka.gm.Vertex;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
@@ -59,12 +62,15 @@ public class VertexQueue implements DijkstraQueue {
 	@Override
 	public void update(Vertex v) {
 		int i = list.indexOf(v);
-		Vertex movingVertex = list.get(i);
+
+		if (i == 0) return;
+
 		Vertex comparedVertex = list.get(i - 1);
-		while (i > 0 && comparator.compare(movingVertex, comparedVertex) < 0) {
+		while (i > 0 && comparator.compare(v, comparedVertex) < 0) {
 			list.set(i, comparedVertex);
-			list.set(i - 1, movingVertex);
+			list.set(i - 1, v);
 			i--;
+			comparedVertex = list.get(i - 1);
 		}
 	}
 
