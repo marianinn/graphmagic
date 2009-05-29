@@ -30,8 +30,9 @@ public class Visual extends Observable {
 	private double centerX = 0;
 	private double centerY = 0;
     private Color color;
+    private boolean selected;
 
-	public double getCenterX() {
+    public double getCenterX() {
 		return centerX;
 	}
 
@@ -80,5 +81,13 @@ public class Visual extends Observable {
         if (notifyObservers) {
             this.notifyObservers();
         }
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 }

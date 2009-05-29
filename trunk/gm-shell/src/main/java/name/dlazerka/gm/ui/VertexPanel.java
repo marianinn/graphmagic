@@ -126,11 +126,6 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 		return vertex;
 	}
 
-	@Override
-	public void paint(Graphics g) {
-		super.paint(g);
-	}
-
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 
@@ -141,6 +136,7 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
         Visual visual = vertex.getVisual();
         
         Color color = visual.getColor();
+        boolean selected = visual.isSelected();
 
 		if (color == null) {
 			color = COLOR_INNER_DEFAULT;
@@ -149,6 +145,10 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 		if (isHovered) {
 			color = color.darker();
 		}
+
+        if (selected) {
+            color = color.darker();
+        }
 
 		g2.setColor(color);
 
@@ -399,7 +399,16 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 			getGraphPanel().adjustBounds(VertexPanel.this);
 			setDragging(false);
 		}
-	}
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            logger.trace("");
+            Visual visual = vertex.getVisual();
+            boolean selected = visual.isSelected();
+            visual.setSelected(!selected);
+            repaint();
+        }
+    }
 
 	private class PopupMenu extends JPopupMenu {
 		private PopupMenu() {
