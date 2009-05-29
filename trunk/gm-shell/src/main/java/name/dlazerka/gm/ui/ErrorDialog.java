@@ -42,10 +42,35 @@ public class ErrorDialog extends JDialog {
 	private JScrollPane stackTraceContainer;
 	private final Font defaultFont = new Font("Dialog", Font.PLAIN, 12);
 	private final Color defaultBackground = new Color(240, 240, 240);
+	private String message;
+
+	private static String constructMessage(Throwable throwable) {
+		String localizedMessage = throwable.getLocalizedMessage();
+		StringBuilder sb = new StringBuilder();
+		if (localizedMessage != null) {
+			sb.append(localizedMessage);
+			for (
+					Throwable cause = throwable.getCause();
+					cause != null;
+					cause = cause.getCause()
+					) {
+				String s = cause.getLocalizedMessage();
+				if (s == null)
+					s = cause.getClass().getName();
+				sb.append(": ").append(s);
+			}
+		}
+		else {
+			sb.append(throwable.getClass().getName());
+		}
+		String message = sb.toString();
+		return message;
+	}
 
 	public ErrorDialog(Window parent, Throwable throwable) {
 		super(parent);
 		this.throwable = throwable;
+		message = constructMessage(throwable);
 		setupUI();
 		setupControls();
 	}
@@ -78,23 +103,7 @@ public class ErrorDialog extends JDialog {
 		contentPane.setLayout(layout);
 		layout.setAutoCreateContainerGaps(true);
 
-
-        String localizedMessage = throwable.getLocalizedMessage();
-        StringBuilder message = new StringBuilder();
-        if (localizedMessage != null) {
-            message.append(localizedMessage);
-            for (
-                    Throwable cause = throwable.getCause();
-                    cause != null;
-                    cause = cause.getCause()
-                    ) {
-                message.append(": ").append(cause.getLocalizedMessage());
-            }
-        }
-        else {
-            message.append(throwable.getClass().getName());
-        }
-		JTextArea messageArea = new JTextArea(message.toString());
+		JTextArea messageArea = new JTextArea(message);
 		messageArea.setRows(1);
 		messageArea.getPreferredSize().width = 600;
 //		messageArea.setPreferredSize(new Dimension(600, -1));
@@ -149,7 +158,8 @@ public class ErrorDialog extends JDialog {
 		layout.setVerticalGroup(
 				layout.createSequentialGroup()
 						.addComponent(
-								messageArea, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE
+								messageArea, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE,
+								GroupLayout.PREFERRED_SIZE
 						)
 						.addGroup(
 								layout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)

@@ -32,6 +32,11 @@ public class Mark {
 	private List<String> markList = new ArrayList<String>();
 	private Map<String, String> markMap = new HashMap<String, String>();
 
+	@Override
+	public String toString() {
+		return markList.toString() + markMap.toString();
+	}
+
 	public void setAt(int i, String s) {
 		while (markList.size() <= i) {
 			markList.add("?");

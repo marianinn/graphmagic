@@ -42,6 +42,7 @@ public class VertexQueue implements DijkstraQueue {
 		for (Vertex vertex : vertexCollection) {
 			list.add(vertex);
 		}
+		heapify();
 	}
 
 	@Override
@@ -61,16 +62,14 @@ public class VertexQueue implements DijkstraQueue {
 
 	@Override
 	public void update(Vertex v) {
-		int i = list.indexOf(v);
-
-		if (i == 0) return;
-
-		Vertex comparedVertex = list.get(i - 1);
-		while (i > 0 && comparator.compare(v, comparedVertex) < 0) {
+		for (int i = list.indexOf(v); i > 0; i--) {
+			Vertex comparedVertex = list.get(i - 1);
+			if (comparator.compare(v, comparedVertex) >= 0) {
+				break;
+			}
 			list.set(i, comparedVertex);
 			list.set(i - 1, v);
 			i--;
-			comparedVertex = list.get(i - 1);
 		}
 	}
 

@@ -53,6 +53,6 @@ public class BinaryHeap implements DijkstraQueue {
 
 	@Override
 	public boolean isEmpty() {
-		return true;
+		throw new UnsupportedOperationException("TODO");
 	}
 }

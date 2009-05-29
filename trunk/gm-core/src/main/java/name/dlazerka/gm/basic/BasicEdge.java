@@ -50,7 +50,10 @@ public class BasicEdge extends AbstractEdge implements Edge, Serializable {
 
 	@Override
 	public String toString() {
-		return "(" + tail + " -> " + head + ")";
+		if (graph.isDirected())
+			return "(" + tail + " , " + head + ")";
+		else
+			return "{" + tail + " , " + head + "}";
 	}
 
 	@Override
