@@ -18,7 +18,7 @@
  * Author: Dzmitry Lazerka dlazerka@dlazerka.name
  */
 
-package name.dlazerka.gm;
+package name.dlazerka.gm.exception;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name

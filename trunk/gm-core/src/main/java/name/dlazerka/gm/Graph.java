@@ -22,6 +22,7 @@ package name.dlazerka.gm;
 
 import name.dlazerka.gm.basic.GraphModificationListener;
 import name.dlazerka.gm.exception.EdgeCreateException;
+import name.dlazerka.gm.exception.MultipleEdgesException;
 
 import java.util.Map;
 import java.util.Set;
