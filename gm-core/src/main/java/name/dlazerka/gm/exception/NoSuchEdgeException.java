@@ -18,26 +18,21 @@
  * Author: Dzmitry Lazerka dlazerka@dlazerka.name
  */
 
-package name.dlazerka.gm;
+package name.dlazerka.gm.exception;
+
+import name.dlazerka.gm.Graph;
+import name.dlazerka.gm.Edge;
+import name.dlazerka.gm.Vertex;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class NoSuchVertexException extends IllegalArgumentException {
-	private final String vertexStr;
-
-	public NoSuchVertexException(Graph graph, Vertex vertex) {
-		super("Graph does not contain vertex " + vertex);
-		vertexStr = vertex.toString();
+public class NoSuchEdgeException extends RuntimeException {
+	public NoSuchEdgeException(Graph graph, Edge edge) {
+		super("Graph does not contain edge " + edge);
 	}
 
-	public NoSuchVertexException(Graph graph, int id) {
-		super("Graph does not contain vertex " + id);
-		vertexStr = String.valueOf(id);
-	}
-
-	@Override
-	public String getLocalizedMessage() {
-		return ResourceBundle.getString("graph.does.not.contain.vertex", vertexStr);
+	public NoSuchEdgeException(Graph graph, Vertex tail, Vertex head) {
+		super("Graph does not contain edge that from " + tail + " to " + head);
 	}
 }

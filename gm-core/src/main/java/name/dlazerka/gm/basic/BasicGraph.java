@@ -21,10 +21,7 @@
 package name.dlazerka.gm.basic;
 
 import name.dlazerka.gm.*;
-import name.dlazerka.gm.exception.DuplicateEdgeException;
-import name.dlazerka.gm.exception.EdgeAddingException;
-import name.dlazerka.gm.exception.EdgeCreateException;
-import name.dlazerka.gm.exception.PseudoEdgeForNonPseudoGraphException;
+import name.dlazerka.gm.exception.*;
 import name.dlazerka.gm.util.LinkedSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
