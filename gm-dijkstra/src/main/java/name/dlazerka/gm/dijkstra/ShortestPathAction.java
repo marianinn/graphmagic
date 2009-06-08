@@ -26,9 +26,9 @@ import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.util.Set;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
@@ -74,7 +74,7 @@ class ShortestPathAction extends AbstractAction {
 			}
 
 			if (weightStr == null) {
-				throw new NoWeightDefinedException(edge, WEIGHT_KEY_0, WEIGHT_KEY_1, WEIGHT_KEY_2);
+				weightStr = "1";
 			}
 
 			Integer weight = Integer.valueOf(weightStr);
