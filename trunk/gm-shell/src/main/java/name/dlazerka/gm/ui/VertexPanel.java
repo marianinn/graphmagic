@@ -361,6 +361,14 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 		setVertexPanelCenter(x, y);
 	}
 
+	public void moveWithEdges(int moveByX, int moveByY) {
+		setLocation(getX() + moveByX, getY() + moveByY);
+
+		for (EdgePanel adjacentEdgePanel : adjacentEdgePanels) {
+			adjacentEdgePanel.onAdjacentVertexMoved(VertexPanel.this);
+		}
+	}
+
 	protected class DragMouseListener extends MouseMotionAdapter {
 		private int mouseX;
 		private int mouseY;
@@ -375,11 +383,7 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 		public void mouseDragged(MouseEvent e) {
 			int moveByX = e.getX() - mouseX;
 			int moveByY = e.getY() - mouseY;
-			setLocation(getX() + moveByX, getY() + moveByY);
-
-			for (EdgePanel adjacentEdgePanel : adjacentEdgePanels) {
-				adjacentEdgePanel.onAdjacentVertexMoved(VertexPanel.this);
-			}
+			moveWithEdges(moveByX, moveByY);
 		}
 	}
 
