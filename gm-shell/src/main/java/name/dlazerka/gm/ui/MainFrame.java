@@ -21,6 +21,7 @@
 package name.dlazerka.gm.ui;
 
 import name.dlazerka.gm.Graph;
+import name.dlazerka.gm.GraphMagicPlugin;
 import name.dlazerka.gm.GraphUI;
 import name.dlazerka.gm.basic.BasicGraph;
 import name.dlazerka.gm.basic.GraphModificationListenerAdapter;
@@ -47,6 +48,7 @@ public class MainFrame extends JFrame {
 	private JCheckBox directedCheckBox;
 	private JCheckBox multiCheckBox;
 	private JCheckBox pseudoCheckBox;
+	private JMenu pluginsMenu;
 
 	public MainFrame() {
 		BasicGraph graph = new BasicGraph();
@@ -253,7 +255,7 @@ public class MainFrame extends JFrame {
 			}
 		}
 		{
-			JMenu menu = new JMenu("Settings");
+			JMenu menu = new JMenu(ResourceBundle.getString("settings"));
 			menuBar.add(menu);
 			menu.setMnemonic(KeyEvent.VK_S);
 			{
@@ -270,6 +272,11 @@ public class MainFrame extends JFrame {
 				item.setMnemonic(KeyEvent.VK_A);
 				menu.add(item);
 			}
+		}
+		{
+			pluginsMenu = new JMenu(ResourceBundle.getString("plugins"));
+//			menuBar.add(pluginsMenu);
+			pluginsMenu.setMnemonic(KeyEvent.VK_P);
 		}
 		{
 			JMenu menu = new JMenu(ResourceBundle.getString("about"));
@@ -300,8 +307,6 @@ public class MainFrame extends JFrame {
 	}
 
 	private void setUpControlPanel(JPanel controlsPanel) {
-		Graph graph = graphPanel.getGraph();
-
 		GridBagConstraints gbc = new GridBagConstraints(
 				0, GridBagConstraints.RELATIVE,
 				1, 1,
@@ -363,6 +368,16 @@ public class MainFrame extends JFrame {
 
 	public void registerPlugin(PluginWrapper pluginWrapper) {
 		pluginsTable.addPlugin(pluginWrapper);
+
+		GraphMagicPlugin plugin = pluginWrapper.getPlugin();
+		java.util.List<Action> actionList = plugin.getActions();
+		actionList.size();
+		pluginsMenu.add(new JMenuItem(new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// todo
+			}
+		}));
 	}
 
 	private class NotImplementedActionListener implements ActionListener {
