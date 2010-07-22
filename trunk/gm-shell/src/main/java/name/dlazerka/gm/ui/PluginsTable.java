@@ -80,7 +80,6 @@ public class PluginsTable extends JTable {
 	private class PluginCellRenderer extends DefaultTableCellRenderer {
 		private PluginCellRenderer() {
 			setFont(PluginsTable.this.getFont());
-//            this.set
 		}
 
 		@Override
@@ -118,7 +117,7 @@ public class PluginsTable extends JTable {
 		void setPlugin(PluginWrapper pluginWrapper, int rowModelIndex) {
 			removeAll();
 
-			if (pluginWrapper != null) {
+			if (pluginWrapper != null && pluginWrapper.getFile() != null) {
 				GraphMagicPlugin plugin = pluginWrapper.getPlugin();
 				File file = pluginWrapper.getFile();
 

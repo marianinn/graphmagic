@@ -31,6 +31,11 @@ public class PluginWrapper {
 	private final GraphMagicPlugin plugin;
 	private final File file;
 
+	public PluginWrapper(GraphMagicPlugin plugin) {
+		this.plugin = plugin;
+		this.file = null;
+	}
+
 	public PluginWrapper(GraphMagicPlugin plugin, File file) {
 		this.plugin = plugin;
 		this.file = file;
