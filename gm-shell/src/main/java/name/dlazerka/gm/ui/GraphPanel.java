@@ -179,7 +179,7 @@ public class GraphPanel extends JPanel {
             if (minX < 0) {
                 setPreferredSize(new Dimension(oldWidth - minX, oldHeight));
                 for (VertexPanel panel : vertexToVertexPanel.values()) {
-                    panel.setLocation(panel.getX() - minX, panel.getY());
+                    panel.moveWithEdges(-minX, 0);
                 }
                 visibleRect.setLocation(visibleRect.x - minX, visibleRect.y);
             }
@@ -190,7 +190,7 @@ public class GraphPanel extends JPanel {
             if (minY < 0) {
                 setPreferredSize(new Dimension(oldWidth, oldHeight - minY));
                 for (VertexPanel panel : vertexToVertexPanel.values()) {
-                    panel.setLocation(panel.getX(), panel.getY() - minY);
+                    panel.moveWithEdges(0, -minY);
                 }
                 visibleRect.setLocation(visibleRect.x, visibleRect.y - minY);
             }
