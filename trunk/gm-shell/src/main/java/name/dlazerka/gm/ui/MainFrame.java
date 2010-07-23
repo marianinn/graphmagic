@@ -346,7 +346,7 @@ public class MainFrame extends JFrame {
 
 		pseudoCheckBox = new JCheckBox(ResourceBundle.getString("pseudo"));
 		controlsPanel.add(pseudoCheckBox, gbc);
-		pseudoCheckBox.setEnabled(false);// will be true when it will be implemented in gm-core:Basic* classes
+		pseudoCheckBox.setEnabled(false);// will be true when it will be implemented in PseudoEdgePanel#updateGeometry()
 		pseudoCheckBox.getModel().addActionListener(
 				new ActionListener() {
 					@Override

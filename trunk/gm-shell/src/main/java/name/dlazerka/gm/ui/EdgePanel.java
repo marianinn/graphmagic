@@ -32,6 +32,7 @@ import javax.swing.*;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 import java.awt.*;
+import java.awt.geom.QuadCurve2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -45,21 +46,21 @@ import java.util.Observer;
 public class EdgePanel extends AbstractEdgePanel implements Observer {
 	private static final Logger logger = LoggerFactory.getLogger(EdgePanel.class);
 
-	private final Edge edge;
+	protected final Edge edge;
 	private final VertexPanel tail;
 	private final VertexPanel head;
+	private QuadCurve2D curve;
 	private final Point ctrlPoint = new Point();
 	private boolean curved = false;
 	private boolean dragging;
-	private Shape hoverShape = curve;
-	private Stroke stroke = EDGE_STROKE_DEFAULT;
-	private final Point oddPoint = new Point();
+	protected Shape hoverShape = getShape();
+	protected final Point oddPoint = new Point();
 	private static final int FONT_SIZE = 20;
-	private static final Font WEIGHT_FONT = new Font("courier", Font.PLAIN, FONT_SIZE);
-	private static final Color WEIGHT_COLOR = new Color(0x80, 0x0, 0x0);
+	protected static final Font WEIGHT_FONT = new Font("courier", Font.PLAIN, FONT_SIZE);
+	protected static final Color WEIGHT_COLOR = new Color(0x80, 0x0, 0x0);
 	private Point oldOddPoint = new Point();
 	private Point oldMovedEndPoint = new Point();
-	private boolean hovered = false;
+	protected transient boolean hovered = false;
 
 	public EdgePanel(Edge edge, VertexPanel tail, VertexPanel head) {
 		this.edge = edge;
@@ -69,10 +70,8 @@ public class EdgePanel extends AbstractEdgePanel implements Observer {
 		Visual visual = edge.getVisual();
 		visual.addObserver(this);
 
-
-		oddPoint.x = (getFromPoint().x + getToPoint().x) / 2;
-		oddPoint.y = (getFromPoint().y + getToPoint().y) / 2;
-
+		initShape();
+		initOddPoint();
 		updateGeometry();
 
 		logger.debug("{}", ctrlPoint);
@@ -83,8 +82,22 @@ public class EdgePanel extends AbstractEdgePanel implements Observer {
 		setComponentPopupMenu(new PopupMenu());
 	}
 
+	protected void initOddPoint() {
+		oddPoint.x = (getFromPoint().x + getToPoint().x) / 2;
+		oddPoint.y = (getFromPoint().y + getToPoint().y) / 2;
+	}
+
 	public Edge getEdge() {
 		return edge;
+	}
+
+	protected void initShape() {
+		curve = new QuadCurve2D.Float();
+	}
+
+	@Override
+	protected Shape getShape() {
+		return curve;
 	}
 
 	@Override
@@ -92,10 +105,9 @@ public class EdgePanel extends AbstractEdgePanel implements Observer {
 		Graphics2D g2 = (Graphics2D) g;
 
 		Mark mark = edge.getMark();
-        Visual visual = edge.getVisual();
-        
-        Color color = visual.getColor();
-
+		Visual visual = edge.getVisual();
+		
+		Color color = visual.getColor();
 		if (color == null) {
 			color = EDGE_COLOR_DEFAULT;
 		}
@@ -112,7 +124,7 @@ public class EdgePanel extends AbstractEdgePanel implements Observer {
 
 		g2.setColor(color);
 
-		g2.draw(curve);
+		g2.draw(getShape());
 
 		java.util.List<String> markList = mark.getMarkList();
 		if (markList != null && markList.size() > 0) {
@@ -256,7 +268,7 @@ public class EdgePanel extends AbstractEdgePanel implements Observer {
 	 * {@link #oddPoint}.
 	 * It equals to fact that {@link #oddPoint} equals to bezier point position at t=0.5
 	 */
-	private void updateGeometry() {
+	protected void updateGeometry() {
 		int centerX = (getFromPoint().x + getToPoint().x) / 2;
 		int centerY = (getFromPoint().y + getToPoint().y) / 2;
 

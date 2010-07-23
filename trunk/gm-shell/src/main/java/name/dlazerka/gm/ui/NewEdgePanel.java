@@ -24,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.awt.*;
+import java.awt.geom.Line2D;
 
 /**
  * While dragging a new edge, there is no end vertex yet.
@@ -37,22 +38,11 @@ public class NewEdgePanel extends AbstractEdgePanel {
 	private Point headPoint = new Point();
 	private VertexPanel tail;
 	private boolean visible;
+	private Line2D line = new Line2D.Float();
 	private static final Stroke EDGE_NEW_STROKE = new BasicStroke(2f);
 
 	public NewEdgePanel() {
 		setOpaque(false);
-	}
-
-	public Point getHeadPoint() {
-		return headPoint;
-	}
-
-	public void setHeadPoint(Point headPoint) {
-		this.headPoint = headPoint;
-	}
-
-	public void setTail(VertexPanel tail) {
-		this.tail = tail;
 	}
 
 	@Override
@@ -69,15 +59,28 @@ public class NewEdgePanel extends AbstractEdgePanel {
 
 		if (visible) {
 			Graphics2D g2 = (Graphics2D) g;
-			curve.setCurve(
-					getFromPoint(),
-					getFromPoint(),
-					headPoint
-			);
+			line.setLine(getFromPoint(), headPoint);
 
 			g2.setStroke(EDGE_NEW_STROKE);
-			g2.draw(curve);
+			g2.draw(getShape());
 		}
+	}
+
+	public Point getHeadPoint() {
+		return headPoint;
+	}
+
+	public void setHeadPoint(Point headPoint) {
+		this.headPoint = headPoint;
+	}
+
+	public void setTail(VertexPanel tail) {
+		this.tail = tail;
+	}
+
+	@Override
+	protected Line2D getShape() {
+		return line;
 	}
 
 	private Point getFromPoint() {

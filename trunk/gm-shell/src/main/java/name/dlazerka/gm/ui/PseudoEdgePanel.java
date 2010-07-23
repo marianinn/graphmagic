@@ -21,12 +21,43 @@
 package name.dlazerka.gm.ui;
 
 import name.dlazerka.gm.Edge;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.awt.geom.CubicCurve2D;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
 public class PseudoEdgePanel extends EdgePanel {
+	private final static Logger logger = LoggerFactory.getLogger(PseudoEdgePanel.class);
+
+	protected CubicCurve2D curve;
+
 	public PseudoEdgePanel(Edge edge, VertexPanel vertexPanel) {
 		super(edge, vertexPanel, vertexPanel);
 	}
+
+	@Override
+	protected void initOddPoint() {
+		oddPoint.x = getFromPoint().x + 50;
+		oddPoint.y = getFromPoint().y - 50;
+	}
+
+	@Override
+	protected void updateGeometry() {
+		throw new UnsupportedOperationException("Not implemented");
+	}
+
+
+	protected void initShape() {
+		curve = new CubicCurve2D.Float();
+	}
+
+	@Override
+	protected CubicCurve2D getShape() {
+		return curve;
+	}
+
+
 }
