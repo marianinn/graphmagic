@@ -40,19 +40,16 @@ public class PseudoEdgePanel extends EdgePanel {
 	}
 
 	@Override
-	protected void initOddPoint() {
-		oddPoint.x = getFromPoint().x + 50;
-		oddPoint.y = getFromPoint().y - 50;
-	}
-
-	@Override
 	protected void updateGeometry() {
 		throw new UnsupportedOperationException("Not implemented");
 	}
 
-
+	@Override
 	protected void initShape() {
+		super.initShape();
 		curve = new CubicCurve2D.Float();
+		oddPoint.x = getFromPoint().x + 50;
+		oddPoint.y = getFromPoint().y - 50;
 	}
 
 	@Override

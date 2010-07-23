@@ -72,11 +72,12 @@ public class UI {
 	}
 
 	public static void registerPlugin(PluginWrapper pluginWrapper) {
-		mainFrame.registerPlugin(pluginWrapper);
-		logger.info("Registered plugin {} from file {}", new Object[]{
+		logger.info("Registering plugin {} from file {}", new Object[]{
 				pluginWrapper.getPlugin(),
 				pluginWrapper.getFile()
 		});
+		mainFrame.registerPlugin(pluginWrapper);
+		logger.info("Registered plugin {}", pluginWrapper.getPlugin());
 	}
 
 	public static MainFrame getMainFrame() {
