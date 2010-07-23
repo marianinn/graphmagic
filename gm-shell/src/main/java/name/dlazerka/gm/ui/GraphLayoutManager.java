@@ -27,6 +27,9 @@ import java.awt.*;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import name.dlazerka.gm.ui.edge.EdgePanel;
+import name.dlazerka.gm.ui.edge.NewEdgePanel;
+
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */

@@ -21,6 +21,7 @@
 package name.dlazerka.gm.ui;
 
 import name.dlazerka.gm.shell.ResourceBundle;
+import name.dlazerka.gm.ui.edge.NewEdgePanel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -18,12 +18,15 @@
  * Author: Dzmitry Lazerka dlazerka@dlazerka.name
  */
 
-package name.dlazerka.gm.ui;
+package name.dlazerka.gm.ui.edge;
 
 import name.dlazerka.gm.Edge;
 import name.dlazerka.gm.Graph;
 import name.dlazerka.gm.Mark;
 import name.dlazerka.gm.Visual;
+import name.dlazerka.gm.ui.edge.AbstractEdgePanel;
+import name.dlazerka.gm.ui.VertexPanel;
+import name.dlazerka.gm.ui.GraphPanel;
 import name.dlazerka.gm.shell.ResourceBundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -23,6 +23,7 @@ package name.dlazerka.gm.ui;
 import name.dlazerka.gm.Mark;
 import name.dlazerka.gm.Vertex;
 import name.dlazerka.gm.Visual;
+import name.dlazerka.gm.ui.edge.EdgePanel;
 import name.dlazerka.gm.shell.ResourceBundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

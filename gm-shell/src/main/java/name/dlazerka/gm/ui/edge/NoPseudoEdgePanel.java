@@ -18,9 +18,10 @@
  * Author: Dzmitry Lazerka dlazerka@dlazerka.name
  */
 
-package name.dlazerka.gm.ui;
+package name.dlazerka.gm.ui.edge;
 
 import name.dlazerka.gm.Edge;
+import name.dlazerka.gm.ui.VertexPanel;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
