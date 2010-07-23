@@ -1,181 +1,293 @@
-(************** Content-type: application/mathematica **************
-                     CreatedBy='Mathematica 5.0'
+(* Content-type: application/mathematica *)
 
-                    Mathematica-Compatible Notebook
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
 
-This notebook can be used with any Mathematica-compatible
-application, such as Mathematica, MathReader or Publicon. The data
-for the notebook starts with the line containing stars above.
+(* CreatedBy='Mathematica 7.0' *)
 
-To get the notebook into a Mathematica-compatible application, do
-one of the following:
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[      7789,        283]
+NotebookOptionsPosition[      6996,        250]
+NotebookOutlinePosition[      7361,        266]
+CellTagsIndexPosition[      7318,        263]
+WindowFrame->Normal*)
 
-* Save the data starting with the line of stars above into a file
-  with a name ending in .nb, then open the file inside the
-  application;
-
-* Copy the data starting with the line of stars above to the
-  clipboard, then use the Paste menu command inside the application.
-
-Data for notebooks contains only printable 7-bit ASCII and can be
-sent directly in email or through ftp in text mode.  Newlines can be
-CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
-
-NOTE: If you modify the data for this notebook not in a Mathematica-
-compatible application, you must delete the line below containing
-the word CacheID, otherwise Mathematica-compatible applications may
-try to use invalid cache data.
-
-For more information on notebooks and Mathematica-compatible 
-applications, contact Wolfram Research:
-  web: http://www.wolfram.com
-  email: info@wolfram.com
-  phone: +1-217-398-0700 (U.S.)
-
-Notebook reader applications are available free of charge from 
-Wolfram Research.
-*******************************************************************)
-
-(*CacheID: 232*)
-
-
-(*NotebookFileLineBreakTest
-NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[      4084,        122]*)
-(*NotebookOutlinePosition[      4750,        145]*)
-(*  CellTagsIndexPosition[      4706,        141]*)
-(*WindowFrame->Normal*)
-
-
-
+(* Beginning of Notebook Content *)
 Notebook[{
 
 Cell[CellGroupData[{
 Cell[BoxData[{
-    \(\(a = {ax, ay, 0};\)\), "\[IndentingNewLine]", 
-    \(\(b = {bx, by, 0};\)\), "\[IndentingNewLine]", 
-    \(\(a1 = {a1x, a1y, 0};\)\), "\[IndentingNewLine]", 
-    \(\(b1 = {b1x, b1y, 0};\)\), "\[IndentingNewLine]", 
-    \(k = \@\(bx\^2 + by\^2\)\/\@\(ax\^2 + ay\^2\)\)}], "Input"],
+ RowBox[{
+  RowBox[{"a", "=", 
+   RowBox[{"{", 
+    RowBox[{"ax", ",", "ay", ",", "0"}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"b", "=", 
+   RowBox[{"{", 
+    RowBox[{"bx", ",", "by", ",", "0"}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"a1", "=", 
+   RowBox[{"{", 
+    RowBox[{"a1x", ",", "a1y", ",", "0"}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"b1", "=", 
+   RowBox[{"{", 
+    RowBox[{"b1x", ",", "b1y", ",", "0"}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"k", "=", 
+  FractionBox[
+   SqrtBox[
+    RowBox[{
+     SuperscriptBox["bx", "2"], "+", 
+     SuperscriptBox["by", "2"]}]], 
+   SqrtBox[
+    RowBox[{
+     SuperscriptBox["ax", "2"], "+", 
+     SuperscriptBox["ay", "2"]}]]]}]}], "Input"],
 
 Cell[BoxData[
-    \(\@\(bx\^2 + by\^2\)\/\@\(ax\^2 + ay\^2\)\)], "Output"]
+ FractionBox[
+  SqrtBox[
+   RowBox[{
+    SuperscriptBox["bx", "2"], "+", 
+    SuperscriptBox["by", "2"]}]], 
+  SqrtBox[
+   RowBox[{
+    SuperscriptBox["ax", "2"], "+", 
+    SuperscriptBox["ay", "2"]}]]]], "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
 Cell[BoxData[
-    \(eq = {\[IndentingNewLine]\((a1x\^2 + a1y\^2)\) k\^2 \[Equal] 
-              b1x\^2 + 
-                b1y\^2\[IndentingNewLine] && \(Cross[a, 
-                    a1]\)\[LeftDoubleBracket]3\[RightDoubleBracket] 
-                k\^2 \[Equal] \ \(Cross[b, 
-                  b1]\)\[LeftDoubleBracket]3\[RightDoubleBracket]\
-\[IndentingNewLine]}[\([1]\)]\)], "Input"],
+ RowBox[{"eq", "=", 
+  RowBox[{
+   RowBox[{"{", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         SuperscriptBox["a1x", "2"], "+", 
+         SuperscriptBox["a1y", "2"]}], ")"}], 
+       SuperscriptBox["k", "2"]}], "\[Equal]", 
+      RowBox[{
+       SuperscriptBox["b1x", "2"], "+", 
+       SuperscriptBox["b1y", "2"]}]}], "\[IndentingNewLine]", "&&", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"Cross", "[", 
+         RowBox[{"a", ",", "a1"}], "]"}], "\[LeftDoubleBracket]", "3", 
+        "\[RightDoubleBracket]"}], 
+       SuperscriptBox["k", "2"]}], "\[Equal]", " ", 
+      RowBox[{
+       RowBox[{"Cross", "[", 
+        RowBox[{"b", ",", "b1"}], "]"}], "\[LeftDoubleBracket]", "3", 
+       "\[RightDoubleBracket]"}]}]}], "\[IndentingNewLine]", "}"}], "[", 
+   RowBox[{"[", "1", "]"}], "]"}]}]], "Input"],
 
 Cell[BoxData[
-    \(\(\((a1x\^2 + a1y\^2)\)\ \((bx\^2 + by\^2)\)\)\/\(ax\^2 + ay\^2\) \
-\[Equal] b1x\^2 + 
-          b1y\^2 && \(\((a1y\ ax - a1x\ ay)\)\ \((bx\^2 + by\^2)\)\)\/\(ax\^2 \
-+ ay\^2\) \[Equal] b1y\ bx - b1x\ by\)], "Output"]
+ RowBox[{
+  RowBox[{
+   FractionBox[
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{
+       SuperscriptBox["a1x", "2"], "+", 
+       SuperscriptBox["a1y", "2"]}], ")"}], " ", 
+     RowBox[{"(", 
+      RowBox[{
+       SuperscriptBox["bx", "2"], "+", 
+       SuperscriptBox["by", "2"]}], ")"}]}], 
+    RowBox[{
+     SuperscriptBox["ax", "2"], "+", 
+     SuperscriptBox["ay", "2"]}]], "\[Equal]", 
+   RowBox[{
+    SuperscriptBox["b1x", "2"], "+", 
+    SuperscriptBox["b1y", "2"]}]}], "&&", 
+  RowBox[{
+   FractionBox[
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"a1y", " ", "ax"}], "-", 
+       RowBox[{"a1x", " ", "ay"}]}], ")"}], " ", 
+     RowBox[{"(", 
+      RowBox[{
+       SuperscriptBox["bx", "2"], "+", 
+       SuperscriptBox["by", "2"]}], ")"}]}], 
+    RowBox[{
+     SuperscriptBox["ax", "2"], "+", 
+     SuperscriptBox["ay", "2"]}]], "\[Equal]", 
+   RowBox[{
+    RowBox[{"b1y", " ", "bx"}], "-", 
+    RowBox[{"b1x", " ", "by"}]}]}]}]], "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
 Cell[BoxData[
-    \(sol = Simplify[Solve[eq, {a1x, a1y}]]\)], "Input"],
+ RowBox[{"sol", "=", 
+  RowBox[{"Simplify", "[", 
+   RowBox[{"Solve", "[", 
+    RowBox[{"eq", ",", 
+     RowBox[{"{", 
+      RowBox[{"a1x", ",", "a1y"}], "}"}]}], "]"}], "]"}]}]], "Input"],
 
 Cell[BoxData[
-    \({{a1x \[Rule] \(-\(\(ax\ b1x\ bx + ay\ b1y\ bx - ay\ b1x\ by + 
-                  ax\ b1y\ by\)\/\(bx\^2 + by\^2\)\)\), 
-        a1y \[Rule] \(-\(\(ay\ b1x\ bx - ax\ b1y\ bx + ax\ b1x\ by + 
-                  ay\ b1y\ by\)\/\(bx\^2 + 
-                  by\^2\)\)\)}, {a1x \[Rule] \(ax\ b1x\ bx - ay\ b1y\ bx + ay\
-\ b1x\ by + ax\ b1y\ by\)\/\(bx\^2 + by\^2\), 
-        a1y \[Rule] \(ay\ b1x\ bx + ax\ b1y\ bx - ax\ b1x\ by + ay\ b1y\ by\)\
-\/\(bx\^2 + by\^2\)}}\)], "Output"]
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"a1x", "\[Rule]", 
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{
+         RowBox[{"ax", " ", "b1x", " ", "bx"}], "+", 
+         RowBox[{"ay", " ", "b1y", " ", "bx"}], "-", 
+         RowBox[{"ay", " ", "b1x", " ", "by"}], "+", 
+         RowBox[{"ax", " ", "b1y", " ", "by"}]}], 
+        RowBox[{
+         SuperscriptBox["bx", "2"], "+", 
+         SuperscriptBox["by", "2"]}]]}]}], ",", 
+     RowBox[{"a1y", "\[Rule]", 
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{
+         RowBox[{"ay", " ", "b1x", " ", "bx"}], "-", 
+         RowBox[{"ax", " ", "b1y", " ", "bx"}], "+", 
+         RowBox[{"ax", " ", "b1x", " ", "by"}], "+", 
+         RowBox[{"ay", " ", "b1y", " ", "by"}]}], 
+        RowBox[{
+         SuperscriptBox["bx", "2"], "+", 
+         SuperscriptBox["by", "2"]}]]}]}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"a1x", "\[Rule]", 
+      FractionBox[
+       RowBox[{
+        RowBox[{"ax", " ", "b1x", " ", "bx"}], "-", 
+        RowBox[{"ay", " ", "b1y", " ", "bx"}], "+", 
+        RowBox[{"ay", " ", "b1x", " ", "by"}], "+", 
+        RowBox[{"ax", " ", "b1y", " ", "by"}]}], 
+       RowBox[{
+        SuperscriptBox["bx", "2"], "+", 
+        SuperscriptBox["by", "2"]}]]}], ",", 
+     RowBox[{"a1y", "\[Rule]", 
+      FractionBox[
+       RowBox[{
+        RowBox[{"ay", " ", "b1x", " ", "bx"}], "+", 
+        RowBox[{"ax", " ", "b1y", " ", "bx"}], "-", 
+        RowBox[{"ax", " ", "b1x", " ", "by"}], "+", 
+        RowBox[{"ay", " ", "b1y", " ", "by"}]}], 
+       RowBox[{
+        SuperscriptBox["bx", "2"], "+", 
+        SuperscriptBox["by", "2"]}]]}]}], "}"}]}], "}"}]], "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
 Cell[BoxData[
-    \(Refine[sol, 
-      ay \[Equal] 1 && ax \[Equal] 1 && bx \[Equal] 2 && by \[Equal] 0 && 
-        b1x \[Equal] 2 && b1y \[Equal] \(-1\)]\)], "Input"],
+ RowBox[{"Refine", "[", 
+  RowBox[{"sol", ",", 
+   RowBox[{
+    RowBox[{"ay", "\[Equal]", "1"}], "&&", 
+    RowBox[{"ax", "\[Equal]", "1"}], "&&", 
+    RowBox[{"bx", "\[Equal]", "2"}], "&&", 
+    RowBox[{"by", "\[Equal]", "0"}], "&&", 
+    RowBox[{"b1x", "\[Equal]", "2"}], "&&", 
+    RowBox[{"b1y", "\[Equal]", 
+     RowBox[{"-", "1"}]}]}]}], "]"}]], "Input"],
 
 Cell[BoxData[
-    \({{a1x \[Rule] \(-\(1\/2\)\), 
-        a1y \[Rule] \(-\(3\/2\)\)}, {a1x \[Rule] 3\/2, 
-        a1y \[Rule] 1\/2}}\)], "Output"]
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"a1x", "\[Rule]", 
+      RowBox[{"-", 
+       FractionBox["1", "2"]}]}], ",", 
+     RowBox[{"a1y", "\[Rule]", 
+      RowBox[{"-", 
+       FractionBox["3", "2"]}]}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"a1x", "\[Rule]", 
+      FractionBox["3", "2"]}], ",", 
+     RowBox[{"a1y", "\[Rule]", 
+      FractionBox["1", "2"]}]}], "}"}]}], "}"}]], "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
 Cell[BoxData[
-    \(Refine[ax\ b1x\ bx - ay\ b1y\ bx + ay\ b1x\ by + ax\ b1y\ by, \ 
-      ay \[Equal] 1 && ax \[Equal] 1 && bx \[Equal] 2 && by \[Equal] 0 && 
-        b1x \[Equal] 2 && b1y \[Equal] \(-1\)]\)], "Input"],
+ RowBox[{"Refine", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"ax", " ", "b1x", " ", "bx"}], "-", 
+    RowBox[{"ay", " ", "b1y", " ", "bx"}], "+", 
+    RowBox[{"ay", " ", "b1x", " ", "by"}], "+", 
+    RowBox[{"ax", " ", "b1y", " ", "by"}]}], ",", " ", 
+   RowBox[{
+    RowBox[{"ay", "\[Equal]", "1"}], "&&", 
+    RowBox[{"ax", "\[Equal]", "1"}], "&&", 
+    RowBox[{"bx", "\[Equal]", "2"}], "&&", 
+    RowBox[{"by", "\[Equal]", "0"}], "&&", 
+    RowBox[{"b1x", "\[Equal]", "2"}], "&&", 
+    RowBox[{"b1y", "\[Equal]", 
+     RowBox[{"-", "1"}]}]}]}], "]"}]], "Input"],
 
-Cell[BoxData[
-    \(6\)], "Output"]
+Cell[BoxData["6"], "Output"]
 }, Open  ]]
 },
-FrontEndVersion->"5.0 for Microsoft Windows",
-ScreenRectangle->{{0, 1920}, {0, 1061}},
 WindowSize->{1802, 1031},
 WindowMargins->{{-5, Automatic}, {Automatic, -5}},
-Magnification->2
+Magnification->2,
+FrontEndVersion->"7.0 for Microsoft Windows (32-bit) (November 10, 2008)",
+StyleDefinitions->"Default.nb"
 ]
+(* End of Notebook Content *)
 
-(*******************************************************************
-Cached data follows.  If you edit this Notebook file directly, not
-using Mathematica, you must remove the line containing CacheID at
-the top of  the file.  The cache data will then be recreated when
-you save this file from within Mathematica.
-*******************************************************************)
-
+(* Internal cache information *)
 (*CellTagsOutline
 CellTagsIndex->{}
 *)
-
 (*CellTagsIndex
 CellTagsIndex->{}
 *)
-
 (*NotebookFileOutline
 Notebook[{
-
 Cell[CellGroupData[{
-Cell[1776, 53, 301, 5, 250, "Input"],
-Cell[2080, 60, 74, 1, 119, "Output"]
+Cell[567, 22, 794, 30, 274, "Input"],
+Cell[1364, 54, 228, 9, 117, "Output"]
 }, Open  ]],
-
 Cell[CellGroupData[{
-Cell[2191, 66, 385, 7, 161, "Input"],
-Cell[2579, 75, 237, 4, 109, "Output"]
+Cell[1629, 68, 902, 26, 179, "Input"],
+Cell[2534, 96, 983, 35, 94, "Output"]
 }, Open  ]],
-
 Cell[CellGroupData[{
-Cell[2853, 84, 70, 1, 55, "Input"],
-Cell[2926, 87, 495, 8, 167, "Output"]
+Cell[3554, 136, 202, 6, 57, "Input"],
+Cell[3759, 144, 1709, 48, 153, "Output"]
 }, Open  ]],
-
 Cell[CellGroupData[{
-Cell[3458, 100, 167, 3, 55, "Input"],
-Cell[3628, 105, 146, 3, 99, "Output"]
+Cell[5505, 197, 374, 10, 57, "Input"],
+Cell[5882, 209, 453, 16, 79, "Output"]
 }, Open  ]],
-
 Cell[CellGroupData[{
-Cell[3811, 113, 219, 3, 55, "Input"],
-Cell[4033, 118, 35, 1, 80, "Output"]
+Cell[6372, 230, 577, 15, 57, "Input"],
+Cell[6952, 247, 28, 0, 57, "Output"]
 }, Open  ]]
 }
 ]
 *)
 
-
-
-(*******************************************************************
-End of Mathematica Notebook file.
-*******************************************************************)
+(* End of internal cache information *)
 
