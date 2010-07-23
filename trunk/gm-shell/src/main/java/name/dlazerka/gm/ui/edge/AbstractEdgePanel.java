@@ -18,27 +18,29 @@
  * Author: Dzmitry Lazerka dlazerka@dlazerka.name
  */
 
-package name.dlazerka.gm.ui;
+package name.dlazerka.gm.ui.edge;
 
-import org.junit.Assert;
-import org.junit.Test;
+import name.dlazerka.gm.ui.Paintable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class EdgePanelTest {
-	@Test
-	public void testAffine() {
-		Point point = new Point(10, 10);
-		Point o = new Point(0, 0);
-		Point b = new Point(20, 0);
-		Point bb = new Point(20, -10);
+public abstract class AbstractEdgePanel extends JPanel implements Paintable {
+	private static final Logger logger = LoggerFactory.getLogger(AbstractEdgePanel.class);
 
-		EdgePanel.affineMove(point, o, b, bb);
+	protected static final Color EDGE_COLOR_DEFAULT = Color.BLACK;
+	protected static final Stroke EDGE_STROKE_DEFAULT = new BasicStroke(2f);
+	protected static final Stroke EDGE_STROKE_SELECTED = new BasicStroke(4f);
+	protected static final Stroke EDGE_STROKE_HOVERED = new BasicStroke(6f);
 
-		Assert.assertEquals(15, point.x, 0.0001);
-		Assert.assertEquals(5, point.y, 0.0001);
+	protected AbstractEdgePanel() {
+		super(null);
 	}
+
+	protected abstract Shape getShape();
 }
