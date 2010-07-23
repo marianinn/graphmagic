@@ -66,7 +66,7 @@ public class Config {
 		if (!dir.exists()) {
 			String userDir = System.getProperty("user.dir");
 			logger.warn(
-					"{} is not exists, falling to current user.dir = {}",
+					"{} does not exist, falling to current user.dir = {}",
 					new Object[]{dir.getAbsolutePath(), userDir}
 			);
 			dir = new File(userDir);

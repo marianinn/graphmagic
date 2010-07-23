@@ -25,7 +25,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.QuadCurve2D;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
@@ -37,9 +36,10 @@ public abstract class AbstractEdgePanel extends JPanel implements Paintable {
 	protected static final Stroke EDGE_STROKE_DEFAULT = new BasicStroke(2f);
 	protected static final Stroke EDGE_STROKE_SELECTED = new BasicStroke(4f);
 	protected static final Stroke EDGE_STROKE_HOVERED = new BasicStroke(6f);
-	protected final QuadCurve2D curve = new QuadCurve2D.Float();
 
 	protected AbstractEdgePanel() {
 		super(null);
 	}
+
+	protected abstract Shape getShape();
 }
