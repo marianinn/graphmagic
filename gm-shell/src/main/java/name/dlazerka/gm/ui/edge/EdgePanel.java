@@ -24,10 +24,9 @@ import name.dlazerka.gm.Edge;
 import name.dlazerka.gm.Graph;
 import name.dlazerka.gm.Mark;
 import name.dlazerka.gm.Visual;
-import name.dlazerka.gm.ui.edge.AbstractEdgePanel;
-import name.dlazerka.gm.ui.VertexPanel;
-import name.dlazerka.gm.ui.GraphPanel;
 import name.dlazerka.gm.shell.ResourceBundle;
+import name.dlazerka.gm.ui.GraphPanel;
+import name.dlazerka.gm.ui.VertexPanel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,7 +34,6 @@ import javax.swing.*;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 import java.awt.*;
-import java.awt.geom.QuadCurve2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -46,18 +44,15 @@ import java.util.Observer;
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class EdgePanel extends AbstractEdgePanel implements Observer {
+public abstract class EdgePanel extends AbstractEdgePanel implements Observer {
 	private static final Logger logger = LoggerFactory.getLogger(EdgePanel.class);
 
 	protected final Edge edge;
-	private final VertexPanel tail;
-	private final VertexPanel head;
-	private QuadCurve2D curve;
-	private final Point ctrlPoint = new Point();
-	private boolean curved = false;
+	protected final VertexPanel tail;
+	protected final VertexPanel head;
 	private boolean dragging;
 	protected Shape hoverShape = getShape();
-	protected final Point oddPoint = new Point();
+	protected Point oddPoint;
 	private static final int FONT_SIZE = 20;
 	protected static final Font WEIGHT_FONT = new Font("courier", Font.PLAIN, FONT_SIZE);
 	protected static final Color WEIGHT_COLOR = new Color(0x80, 0x0, 0x0);
@@ -74,10 +69,7 @@ public class EdgePanel extends AbstractEdgePanel implements Observer {
 		visual.addObserver(this);
 
 		initShape();
-		initOddPoint();
 		updateGeometry();
-
-		logger.debug("{}", ctrlPoint);
 
 		setOpaque(false);
 		addMouseMotionListener(new DragMouseListener());
@@ -85,22 +77,12 @@ public class EdgePanel extends AbstractEdgePanel implements Observer {
 		setComponentPopupMenu(new PopupMenu());
 	}
 
-	protected void initOddPoint() {
-		oddPoint.x = (getFromPoint().x + getToPoint().x) / 2;
-		oddPoint.y = (getFromPoint().y + getToPoint().y) / 2;
-	}
-
 	public Edge getEdge() {
 		return edge;
 	}
 
 	protected void initShape() {
-		curve = new QuadCurve2D.Float();
-	}
-
-	@Override
-	protected Shape getShape() {
-		return curve;
+		oddPoint = new Point();
 	}
 
 	@Override
@@ -168,10 +150,6 @@ public class EdgePanel extends AbstractEdgePanel implements Observer {
 		return head.getVertexCenter();
 	}
 
-	public void setCurved(boolean curved) {
-		this.curved = curved;
-	}
-
 	/**
 	 * Moves control poins so that edge will contain given (x, y) point.
 	 * If the curve seems like line (contains(ctrlPoint)==true) then sets curved to false
@@ -179,17 +157,11 @@ public class EdgePanel extends AbstractEdgePanel implements Observer {
 	 * @param x which point.x the curve should contain
 	 * @param y which point.y the curve should contain
 	 */
-	private void pullTo(int x, int y) {
+	protected void pullTo(int x, int y) {
 		oddPoint.x = x;
 		oddPoint.y = y;
 
 		updateGeometry();
-
-		setCurved(
-				!tail.contains(ctrlPoint)
-						&& !head.contains(ctrlPoint)
-						&& !this.contains(ctrlPoint)
-		);
 	}
 
 	public void setDragging(boolean dragging) {
@@ -265,28 +237,7 @@ public class EdgePanel extends AbstractEdgePanel implements Observer {
 		a.move(x, y);
 	}
 
-	/**
-	 * Sets the {@link #ctrlPoint} so, that {@link #oddPoint} will lie on the peak of curve.
-	 * Places {@link #ctrlPoint} on double distance from center of line drawn between end points to the
-	 * {@link #oddPoint}.
-	 * It equals to fact that {@link #oddPoint} equals to bezier point position at t=0.5
-	 */
-	protected void updateGeometry() {
-		int centerX = (getFromPoint().x + getToPoint().x) / 2;
-		int centerY = (getFromPoint().y + getToPoint().y) / 2;
-
-		ctrlPoint.move(
-				oddPoint.x * 2 - centerX,
-				oddPoint.y * 2 - centerY
-		);
-
-		curve.setCurve(
-				getFromPoint(),
-				curved ? ctrlPoint : getFromPoint(),
-				getToPoint()
-		);
-		hoverShape = EDGE_STROKE_HOVERED.createStrokedShape(curve);
-	}
+	protected abstract void updateGeometry();
 
 	@Override
 	public void update(Observable o, Object arg) {
