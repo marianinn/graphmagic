@@ -335,17 +335,18 @@ public abstract class EdgePanel extends AbstractEdgePanel implements Observer {
 
 		private class SetMarkAction extends AbstractAction {
 			public SetMarkAction() {
-				super(ResourceBundle.getString("set.weight"));
+				super(ResourceBundle.getString("set.mark"));
 			}
 
 			public void actionPerformed(ActionEvent e) {
 				Mark mark = edge.getMark();
-				String weight = mark.get(0);
+				String value = mark.get(0);
 
-				String newWeight = JOptionPane.showInputDialog(EdgePanel.this, ResourceBundle.getString("new.weight"), weight);
-
-				mark.setAt(0, newWeight);
-
+				String newValue = JOptionPane.showInputDialog(EdgePanel.this,
+				                                               ResourceBundle.getString("new.mark"),
+				                                               value
+				);
+				mark.setAt(0, newValue);
 				EdgePanel.this.repaint();
 			}
 		}

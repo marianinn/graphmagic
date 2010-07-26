@@ -1,11 +1,11 @@
 User stories:
-* Vertex marking (consider use of external visualization engine).
+> Vertex marking (consider use of external visualization engine).
 * Implement Plugins menu in menu bar (consider use of Eclipse platform for plugins)
 * Export/Import a graph to a file (GraphML).
 * Show vertex marks (listed and mapped);
 * Show edge marks (listed and mapped);
 * Pass plugin path[s] as command-line parameters.
-> Show pseudo-edges.
+* Show pseudo-edges.
 * More than one window with a graph.
 * Selecting multiple vertices.
 * Renumbering of vertices (by hand, randomly)
