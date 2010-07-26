@@ -40,21 +40,21 @@ public class AddEdgePanel extends JPanel {
 	private static final URL DEFAULT_IMAGE_URL;
 	private static final URL HOVER_IMAGE_URL;
 
-    static {
-        String path = "/addEdgeIcon.png";
-        DEFAULT_IMAGE_URL = AddEdgePanel.class.getResource(path);
-        if (DEFAULT_IMAGE_URL == null) {
-            throw new IllegalStateException("Resource: " + path + " was not found");
-        }
-    }
-    
-    static {
-        String path = "/addEdgeIconHover.png";
-        HOVER_IMAGE_URL = AddEdgePanel.class.getResource(path);
-        if (HOVER_IMAGE_URL == null) {
-            throw new IllegalStateException("Resource: " + path + " was not found");
-        }
-    }
+	static {
+		String path = "/addEdgeIcon.png";
+		DEFAULT_IMAGE_URL = AddEdgePanel.class.getResource(path);
+		if (DEFAULT_IMAGE_URL == null) {
+			throw new IllegalStateException("Resource: " + path + " was not found");
+		}
+	}
+
+	static {
+		String path = "/addEdgeIconHover.png";
+		HOVER_IMAGE_URL = AddEdgePanel.class.getResource(path);
+		if (HOVER_IMAGE_URL == null) {
+			throw new IllegalStateException("Resource: " + path + " was not found");
+		}
+	}
 
 
 	private static final ImageIcon DEFAULT_ICON = new ImageIcon(DEFAULT_IMAGE_URL);

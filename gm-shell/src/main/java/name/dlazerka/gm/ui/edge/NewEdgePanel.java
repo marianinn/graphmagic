@@ -20,7 +20,6 @@
 
 package name.dlazerka.gm.ui.edge;
 
-import name.dlazerka.gm.ui.edge.AbstractEdgePanel;
 import name.dlazerka.gm.ui.GraphPanel;
 import name.dlazerka.gm.ui.VertexPanel;
 import org.slf4j.Logger;
@@ -101,7 +100,8 @@ public class NewEdgePanel extends AbstractEdgePanel {
 		if (mousePosition != null) {
 			headPoint = mousePosition;
 			repaint();
-		} else {
+		}
+		else {
 			logger.debug("{}", mousePosition);
 		}
 	}

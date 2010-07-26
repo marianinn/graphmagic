@@ -65,9 +65,9 @@ public class NoPseudoEdgePanel extends EdgePanel {
 		super.pullTo(x, y);
 
 		setCurved(
-				!tail.contains(ctrlPoint)
-						&& !head.contains(ctrlPoint)
-						&& !this.contains(ctrlPoint)
+			!tail.contains(ctrlPoint)
+			&& !head.contains(ctrlPoint)
+			&& !this.contains(ctrlPoint)
 		);
 	}
 
@@ -82,14 +82,14 @@ public class NoPseudoEdgePanel extends EdgePanel {
 		int centerY = (getFromPoint().y + getToPoint().y) / 2;
 
 		ctrlPoint.move(
-				oddPoint.x * 2 - centerX,
-				oddPoint.y * 2 - centerY
+			oddPoint.x * 2 - centerX,
+			oddPoint.y * 2 - centerY
 		);
 
 		curve.setCurve(
-				getFromPoint(),
-				curved ? ctrlPoint : getFromPoint(),
-				getToPoint()
+			getFromPoint(),
+			curved ? ctrlPoint : getFromPoint(),
+			getToPoint()
 		);
 		hoverShape = EDGE_STROKE_HOVERED.createStrokedShape(curve);
 	}
