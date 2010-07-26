@@ -55,10 +55,11 @@ public class GraphLayoutManager implements LayoutManager2 {
 		Point defaultLocation = panel.getParent().getMousePosition(true);
 		if (defaultLocation != null) {
 			panel.setVertexPanelCenter(defaultLocation);
-		} else {
+		}
+		else {
 			panel.setVertexPanelCenter(
-					panel.getGraphPanel().getWidth() / 2,
-					panel.getGraphPanel().getHeight() / 2
+				panel.getGraphPanel().getWidth() / 2,
+				panel.getGraphPanel().getHeight() / 2
 			);
 		}
 
@@ -67,9 +68,9 @@ public class GraphLayoutManager implements LayoutManager2 {
 
 	private void addLayoutComponent(EdgePanel panel) {
 		panel.setBounds(
-				0, 0,
-				panel.getGraphPanel().getWidth(),
-				panel.getGraphPanel().getHeight()
+			0, 0,
+			panel.getGraphPanel().getWidth(),
+			panel.getGraphPanel().getHeight()
 		);
 		edgePanels.add(panel);
 	}
@@ -81,9 +82,11 @@ public class GraphLayoutManager implements LayoutManager2 {
 	private void addLayoutComponent(Component component) {
 		if (component instanceof VertexPanel) {
 			addLayoutComponent(((VertexPanel) component));
-		} else if (component instanceof EdgePanel) {
+		}
+		else if (component instanceof EdgePanel) {
 			addLayoutComponent(((EdgePanel) component));
-		} else if (component instanceof NewEdgePanel) {
+		}
+		else if (component instanceof NewEdgePanel) {
 			addLayoutComponent(((NewEdgePanel) component));
 		}
 	}
@@ -92,7 +95,8 @@ public class GraphLayoutManager implements LayoutManager2 {
 		if (comp instanceof VertexPanel) {
 			VertexPanel panel = (VertexPanel) comp;
 			vertexPanels.remove(panel);
-		} else if (comp instanceof EdgePanel) {
+		}
+		else if (comp instanceof EdgePanel) {
 			EdgePanel panel = (EdgePanel) comp;
 			edgePanels.remove(panel);
 		}

@@ -54,8 +54,8 @@ public abstract class EdgePanel extends AbstractEdgePanel implements Observer {
 	protected Shape hoverShape = getShape();
 	protected Point oddPoint;
 	private static final int FONT_SIZE = 20;
-	protected static final Font WEIGHT_FONT = new Font("courier", Font.PLAIN, FONT_SIZE);
-	protected static final Color WEIGHT_COLOR = new Color(0x80, 0x0, 0x0);
+	protected static final Font MARK_FONT = new Font("courier", Font.PLAIN, FONT_SIZE);
+	protected static final Color MARK_COLOR = new Color(0x80, 0x0, 0x0);
 	private Point oldOddPoint = new Point();
 	private Point oldMovedEndPoint = new Point();
 	protected transient boolean hovered = false;
@@ -91,7 +91,7 @@ public abstract class EdgePanel extends AbstractEdgePanel implements Observer {
 
 		Mark mark = edge.getMark();
 		Visual visual = edge.getVisual();
-		
+
 		Color color = visual.getColor();
 		if (color == null) {
 			color = EDGE_COLOR_DEFAULT;
@@ -111,10 +111,14 @@ public abstract class EdgePanel extends AbstractEdgePanel implements Observer {
 
 		g2.draw(getShape());
 
+		paintMark(g2, mark);
+	}
+
+	protected void paintMark(Graphics2D g2, Mark mark) {
 		java.util.List<String> markList = mark.getMarkList();
 		if (markList != null && markList.size() > 0) {
-			g2.setFont(WEIGHT_FONT);
-			g2.setColor(WEIGHT_COLOR);
+			g2.setFont(MARK_FONT);
+			g2.setColor(MARK_COLOR);
 
 			int x = oddPoint.x;
 			int y = oddPoint.y;
@@ -123,7 +127,8 @@ public abstract class EdgePanel extends AbstractEdgePanel implements Observer {
 
 			if (wx > wy) {
 				y -= 15;
-			} else {
+			}
+			else {
 				x += 15;
 			}
 
@@ -182,7 +187,8 @@ public abstract class EdgePanel extends AbstractEdgePanel implements Observer {
 			if (tail.equals(vertexPanel)) {
 				o = head.getVertexCenter();
 				bb = tail.getVertexCenter();
-			} else {
+			}
+			else {
 				o = tail.getVertexCenter();
 				bb = head.getVertexCenter();
 			}
@@ -228,8 +234,12 @@ public abstract class EdgePanel extends AbstractEdgePanel implements Observer {
 		}
 
 		// rounding because simple cast works bad
-		x = (int) Math.round(((double) ax * bx * b1x - ay * bx * b1y + ay * by * b1x + ax * by * b1y) / (bx * bx + by * by));
-		y = (int) Math.round(((double) ay * bx * b1x + ax * bx * b1y - ax * by * b1x + ay * by * b1y) / (bx * bx + by * by));
+		x = (int) Math.round(
+			((double) ax * bx * b1x - ay * bx * b1y + ay * by * b1x + ax * by * b1y) / (bx * bx + by * by)
+		);
+		y = (int) Math.round(
+			((double) ay * bx * b1x + ax * bx * b1y - ax * by * b1x + ay * by * b1y) / (bx * bx + by * by)
+		);
 
 		x = x + o.x;
 		y = y + o.y;
@@ -305,21 +315,23 @@ public abstract class EdgePanel extends AbstractEdgePanel implements Observer {
 		private PopupMenu() {
 			add(new DeleteAction());
 			add(new SetMarkAction());
-			addPopupMenuListener(new PopupMenuListener() {
-				@Override
-				public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-				}
+			addPopupMenuListener(
+				new PopupMenuListener() {
+					@Override
+					public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+					}
 
-				@Override
-				public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
-					logger.debug("");
-					EdgePanel.this.setHovered(false);
-				}
+					@Override
+					public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+						logger.debug("");
+						EdgePanel.this.setHovered(false);
+					}
 
-				@Override
-				public void popupMenuCanceled(PopupMenuEvent e) {
+					@Override
+					public void popupMenuCanceled(PopupMenuEvent e) {
+					}
 				}
-			});
+			);
 		}
 
 		private class DeleteAction extends AbstractAction {
@@ -342,9 +354,10 @@ public abstract class EdgePanel extends AbstractEdgePanel implements Observer {
 				Mark mark = edge.getMark();
 				String value = mark.get(0);
 
-				String newValue = JOptionPane.showInputDialog(EdgePanel.this,
-				                                               ResourceBundle.getString("new.mark"),
-				                                               value
+				String newValue = JOptionPane.showInputDialog(
+					EdgePanel.this,
+					ResourceBundle.getString("new.mark"),
+					value
 				);
 				mark.setAt(0, newValue);
 				EdgePanel.this.repaint();
