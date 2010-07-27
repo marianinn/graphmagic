@@ -102,7 +102,7 @@ public class NewEdgePanel extends AbstractEdgePanel {
 			repaint();
 		}
 		else {
-			logger.debug("{}", mousePosition);
+			// mouse out of container bounds
 		}
 	}
 }

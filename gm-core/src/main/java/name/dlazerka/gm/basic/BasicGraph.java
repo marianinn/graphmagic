@@ -199,7 +199,7 @@ public class BasicGraph implements Graph, Serializable {
 		}
 
 		if (vertex instanceof BasicVertex) {
-			((BasicVertex) vertex).markRemoved();
+			((BasicVertex) vertex).setRemoved();
 		}
 
 		for (GraphModificationListener modificationListener : modificationListenerList) {
@@ -217,7 +217,7 @@ public class BasicGraph implements Graph, Serializable {
 		}
 
 		if (edge instanceof BasicEdge) {
-			((BasicEdge) edge).markRemoved();
+			((BasicEdge) edge).setRemoved();
 		}
 
 		for (GraphModificationListener modificationListener : modificationListenerList) {

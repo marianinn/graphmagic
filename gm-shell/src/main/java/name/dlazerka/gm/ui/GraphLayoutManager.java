@@ -24,11 +24,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.awt.*;
-import java.util.Collection;
-import java.util.LinkedList;
+import java.util.*;
 
 import name.dlazerka.gm.ui.edge.EdgePanel;
 import name.dlazerka.gm.ui.edge.NewEdgePanel;
+import name.dlazerka.gm.Mark;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name

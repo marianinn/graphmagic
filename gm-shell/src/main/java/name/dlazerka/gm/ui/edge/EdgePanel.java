@@ -115,8 +115,7 @@ public abstract class EdgePanel extends AbstractEdgePanel implements Observer {
 	}
 
 	protected void paintMark(Graphics2D g2, Mark mark) {
-		java.util.List<String> markList = mark.getMarkList();
-		if (markList != null && markList.size() > 0) {
+		if (mark != null && mark.size() > 0) {
 			g2.setFont(MARK_FONT);
 			g2.setColor(MARK_COLOR);
 
@@ -132,7 +131,7 @@ public abstract class EdgePanel extends AbstractEdgePanel implements Observer {
 				x += 15;
 			}
 
-			g2.drawString(markList.toString(), x, y);
+			g2.drawString(mark.toString(), x, y);
 		}
 	}
 
@@ -352,14 +351,14 @@ public abstract class EdgePanel extends AbstractEdgePanel implements Observer {
 
 			public void actionPerformed(ActionEvent e) {
 				Mark mark = edge.getMark();
-				String value = mark.get(0);
+				Object value = mark.get(null);
 
 				String newValue = JOptionPane.showInputDialog(
 					EdgePanel.this,
 					ResourceBundle.getString("new.mark"),
 					value
 				);
-				mark.setAt(0, newValue);
+				mark.put(null, newValue);
 				EdgePanel.this.repaint();
 			}
 		}

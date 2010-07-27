@@ -128,7 +128,7 @@ public class BasicEdge extends AbstractEdge implements Edge, Serializable {
 	 * Calling this tells that this vertex has been removed from its graph.
 	 * This means that no use is expected anymore.
 	 */
-	protected void markRemoved() {
+	protected void setRemoved() {
 		checkNotRemoved();
 
 		removed = false;

@@ -94,10 +94,12 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 	 * Is this vertex panel currently dragging.
 	 */
 	private boolean dragging;
+	private final VertexMarkPanel markPanel;
 
 	public VertexPanel(Vertex vertex) {
 		super(null);
 		this.vertex = vertex;
+		markPanel = new VertexMarkPanel(this);
 
 		Visual visual = vertex.getVisual();
 		visual.addObserver(this);
@@ -106,8 +108,6 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 		setSize(panelSize);
 		setOpaque(false);
 //		setDoubleBuffered(true); // is needed?
-
-//		setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0), 1));
 
 		Dimension preferredSize = addEdgePanel.getPreferredSize();
 		addEdgePanel.setBounds(// top right corner
@@ -175,10 +175,6 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 
 //		g2.drawLine(0, getSize().height / 2, getSize().width, getSize().height / 2);
 //		g2.drawLine(getSize().width / 2, 0, getSize().width / 2, getSize().height);
-		String markStr = mark.get(0);
-		if (markStr != null) {
-			g2.drawString(markStr, 0, 0);
-		}
 	}
 
 	/**
@@ -369,6 +365,10 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 		}
 	}
 
+	public VertexMarkPanel getMarkPanel() {
+		return markPanel;
+	}
+
 	protected class DragMouseListener extends MouseMotionAdapter {
 		private int mouseX;
 		private int mouseY;
@@ -480,16 +480,16 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Mark mark = vertex.getMark();
-				String value = mark.get(0);
+				Object value = mark.get(null);
 
 				String newValue = JOptionPane.showInputDialog(
 					VertexPanel.this,
 					ResourceBundle.getString("new.mark"),
 					value
 				);
-				mark.setAt(0, newValue);
+				mark.put(null, newValue);
 
-				VertexPanel.this.repaint();
+				markPanel.repaint();
 			}
 		}
 	}
