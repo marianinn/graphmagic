@@ -1,6 +1,5 @@
 User stories:
-> Vertex marking (consider use of external visualization engine).
-* Save/Load a graph to a file (GraphML).
+> Save/Load a graph to a file (GraphML).
 * Implement Plugins menu in menu bar (consider use of Eclipse platform for plugins)
 * Show vertex marks (listed and mapped);
 * Show edge marks (listed and mapped);

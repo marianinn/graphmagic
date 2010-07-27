@@ -65,12 +65,12 @@ class ShortestPathAction extends AbstractAction {
 		Map<Edge,Integer> w = new HashMap<Edge, Integer>(edges.size());
 		for (Edge edge : edges) {
 			Mark edgeMark = edge.getMark();
-			String weightStr = edgeMark.get(WEIGHT_KEY_0);
+			String weightStr = (String) edgeMark.get(WEIGHT_KEY_0);
 			if (weightStr == null) {
-				weightStr = edgeMark.get(WEIGHT_KEY_1);
+				weightStr = (String) edgeMark.get(WEIGHT_KEY_1);
 			}
 			if (weightStr == null) {
-				weightStr = edgeMark.get(WEIGHT_KEY_2);
+				weightStr = (String) edgeMark.get(WEIGHT_KEY_2);
 			}
 
 			if (weightStr == null) {

@@ -194,22 +194,22 @@ public class MainFrame extends JFrame {
 			menu.setMnemonic(KeyEvent.VK_F);
 			{
 				JMenuItem item = new JMenuItem(ResourceBundle.getString("new.graph"));
-				item.setEnabled(false);
-				item.addActionListener(new NotImplementedActionListener(MainFrame.this));
+				item.setEnabled(true);
+				item.addActionListener(new NewGraphActionListener());
 				item.setMnemonic(KeyEvent.VK_N);
 				menu.add(item);
 			}
 			{
-				JMenuItem item = new JMenuItem(ResourceBundle.getString("load"));
+				JMenuItem item = new JMenuItem(ResourceBundle.getString("open.graph"));
 				item.setEnabled(false);
 				item.addActionListener(new NotImplementedActionListener(MainFrame.this));
 				item.setMnemonic(KeyEvent.VK_L);
 				menu.add(item);
 			}
 			{
-				JMenuItem item = new JMenuItem(ResourceBundle.getString("save"));
-				item.setEnabled(false);
-				item.addActionListener(new NotImplementedActionListener(MainFrame.this));
+				JMenuItem item = new JMenuItem(ResourceBundle.getString("save.graph"));
+				item.setEnabled(true);
+				item.addActionListener(new SaveGraphActionListener(graphPanel.getGraph()));
 				item.setMnemonic(KeyEvent.VK_S);
 				menu.add(item);
 			}
@@ -389,6 +389,14 @@ public class MainFrame extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			ErrorDialog.showError(new UnsupportedOperationException("Not Implemented Yet"), MainFrame.this);
+		}
+	}
+
+	private class NewGraphActionListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			Graph graph = graphPanel.getGraph();
+			graph.clear();
 		}
 	}
 }
