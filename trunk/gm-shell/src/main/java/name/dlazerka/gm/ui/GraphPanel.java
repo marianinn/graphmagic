@@ -23,6 +23,7 @@ package name.dlazerka.gm.ui;
 import name.dlazerka.gm.Edge;
 import name.dlazerka.gm.Graph;
 import name.dlazerka.gm.Vertex;
+import name.dlazerka.gm.Mark;
 import name.dlazerka.gm.ui.edge.EdgePanel;
 import name.dlazerka.gm.ui.edge.NewEdgePanel;
 import name.dlazerka.gm.ui.edge.NoPseudoEdgePanel;
@@ -132,6 +133,7 @@ public class GraphPanel extends JPanel {
 		if (vertexPanel != null) {
 			lastHoveredVertexPanel = vertexPanel;
 			setComponentZOrder(vertexPanel, 0);
+			setComponentZOrder(vertexPanel.getMarkPanel(), 0);
 		}
 	}
 
@@ -221,12 +223,10 @@ public class GraphPanel extends JPanel {
 	private class GraphModificationListenerImpl extends GraphModificationListenerAdapter {
 		public void notifyAttached() {
 			for (Vertex vertex : graph.getVertexSet()) {
-				VertexPanel vertexPanel = new VertexPanel(vertex);
-				add(vertexPanel);
+				vertexAdded(vertex);
 			}
 			for (Edge edge : graph.getEdgeSet()) {
-				EdgePanel edgePanel = createEdgePanel(edge);
-				add(edgePanel);
+				edgeAdded(edge);
 			}
 		}
 
@@ -263,6 +263,9 @@ public class GraphPanel extends JPanel {
 		public void vertexAdded(Vertex vertex) {
 			VertexPanel panel = new VertexPanel(vertex);
 			add(panel);
+
+			VertexMarkPanel vertexMarkPanel = panel.getMarkPanel();
+			add(vertexMarkPanel);
 		}
 
 		public void edgeAdded(Edge edge) {
@@ -300,6 +303,10 @@ public class GraphPanel extends JPanel {
 
 		private Component add(EdgePanel panel) {
 			edgeToEdgePanel.put(panel.getEdge(), panel);
+			return GraphPanel.super.add(panel);
+		}
+
+		private Component add(VertexMarkPanel panel) {
 			return GraphPanel.super.add(panel);
 		}
 	}
