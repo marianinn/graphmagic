@@ -63,15 +63,6 @@ public class AddPluginActionListener extends JFileChooser implements ActionListe
 			}
 			catch (PluginLoadingException ex) {
 				logger.error(ex.getMessage());
-
-
-//				JOptionPane.showMessageDialog(
-//					parent,
-//					errorPanel,
-//					Main.getString("error"),
-//				    JOptionPane.ERROR_MESSAGE
-//				);
-////				JOptionPane errorDialog = new JOptionPane(ex.getMessage(), JOptionPane.ERROR_MESSAGE, JOptionPane.DEFAULT_OPTION);
 				ErrorDialog.showError(ex, parent);
 			}
 		}

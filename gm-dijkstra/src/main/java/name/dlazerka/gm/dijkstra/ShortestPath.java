@@ -48,7 +48,7 @@ public class ShortestPath implements Serializable, Comparator<Vertex> {
 			}
 
 			Mark mark = minVertex.getMark();
-			mark.setAt(0, String.valueOf(currentShortest.get(minVertex)));
+			mark.put(null, String.valueOf(currentShortest.get(minVertex)));
 			Edge parentEdge = parent.get(minVertex);
 			if (parentEdge != null) {
 				Visual edgeVisual = parentEdge.getVisual();
