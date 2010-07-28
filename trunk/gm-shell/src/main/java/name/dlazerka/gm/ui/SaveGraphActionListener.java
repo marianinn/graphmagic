@@ -25,24 +25,83 @@ import name.dlazerka.gm.Vertex;
 import name.dlazerka.gm.Edge;
 import name.dlazerka.gm.shell.ResourceBundle;
 
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.*;
 import java.text.MessageFormat;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.File;
+import java.util.regex.Pattern;
+
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class SaveGraphActionListener implements ActionListener {
-	private Graph graph;
+public class SaveGraphActionListener extends JFileChooser implements ActionListener {
+	private static final Logger logger = LoggerFactory.getLogger(SaveGraphActionListener.class);
+	private final Component parent;
+	private final Graph graph;
 
-	public SaveGraphActionListener(Graph graph) {
+	public SaveGraphActionListener(Component parent, Graph graph) {
+		this.parent = parent;
 		this.graph = graph;
+		setDialogTitle(ResourceBundle.getString("save.graph"));
+		setFileSelectionMode(JFileChooser.FILES_ONLY);
+		setFileFilter(
+			new FileNameExtensionFilter(
+				ResourceBundle.getString("graphml.files"),
+				ResourceBundle.getString("graphml.ext")
+			)
+		);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		if (showDialog(parent, ResourceBundle.getString("save.graph")) != JFileChooser.APPROVE_OPTION) {
+			return;
+		}
+		try {
+			File file = getSelectedFile();
+
+			file = maybeAddExtension(file);
+
+			if (file.exists()) {
+				String message = ResourceBundle.getString("file.exists.overwrite");
+				message = MessageFormat.format(message, file.getCanonicalPath());
+				if (JOptionPane.showConfirmDialog(
+					parent, message
+				) != JOptionPane.YES_OPTION) {
+					return;
+				}
+			}
+
+			saveGraphML(file);
+		}
+		catch (IOException e1) {
+			ErrorDialog.showError(e1, parent);
+		}
+	}
+
+	private File maybeAddExtension(File file) throws IOException {
+		String filePath = file.getCanonicalPath();
+
+		String ext = ResourceBundle.getString("graphml.ext");
+		String regex = ".*" + Pattern.quote(ext) + "$";
+		if (!filePath.matches(regex)) {
+			filePath += "." + ext;
+			file = new File(filePath);
+		}
+		return file;
+	}
+
+	private void saveGraphML(File file) throws IOException {
+		logger.info("Saving graph to {}", file.getCanonicalPath());
+
 		String headerFormat = ResourceBundle.getString("graphml.header");
 		String nodeFormat = ResourceBundle.getString("graphml.node");
 		String edgeFormat = ResourceBundle.getString("graphml.edge");
@@ -52,24 +111,22 @@ public class SaveGraphActionListener implements ActionListener {
 		String header = MessageFormat.format(headerFormat, directed);
 
 		FileWriter fileWriter;
-		try {
-			fileWriter = new FileWriter("graph.graphml.xml");
-			fileWriter.write(header);
-			for (Vertex vertex : graph.getVertexSet()) {
-				fileWriter.write(MessageFormat.format(nodeFormat, vertex.getId()));
-			}
-			int edgeId = 1;
-			for (Edge edge : graph.getEdgeSet()) {
-				int sourceId = edge.getTail().getId();
-				int targetId = edge.getHead().getId();
-				fileWriter.write(MessageFormat.format(edgeFormat, edgeId, sourceId, targetId));
-				edgeId++;
-			}
-			fileWriter.write(footer);
-			fileWriter.close();
+		fileWriter = new FileWriter(file);
+		fileWriter.write(header);
+		for (Vertex vertex : graph.getVertexSet()) {
+			fileWriter.write(MessageFormat.format(nodeFormat, vertex.getId()));
 		}
-		catch (IOException e1) {
-			ErrorDialog.showError(e1, null);
+		logger.debug("Vertices written. Writing edges...");
+		int edgeId = 1;
+		for (Edge edge : graph.getEdgeSet()) {
+			int sourceId = edge.getTail().getId();
+			int targetId = edge.getHead().getId();
+			fileWriter.write(MessageFormat.format(edgeFormat, edgeId, sourceId, targetId));
+			edgeId++;
 		}
+		fileWriter.write(footer);
+		fileWriter.close();
+
+		logger.info("Saved graph to {}", file.getCanonicalPath());
 	}
 }

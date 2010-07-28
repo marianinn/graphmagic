@@ -50,6 +50,11 @@ public class MainFrame extends JFrame {
 	private JCheckBox pseudoCheckBox;
 	private JMenu pluginsMenu;
 
+	private final NotImplementedActionListener notImplementedActionListener;
+	private final NewGraphActionListener newGraphActionListener;
+	private final SaveGraphActionListener saveGraphActionListener;
+	private final LoadGraphActionListener loadGraphActionListener;
+
 	public MainFrame() {
 		BasicGraph graph = new BasicGraph();
 		graph.setDirected(false);
@@ -64,6 +69,11 @@ public class MainFrame extends JFrame {
 
 		graphPanel = new GraphPanel(graph);
 
+		saveGraphActionListener = new SaveGraphActionListener(this, graph);
+		newGraphActionListener = new NewGraphActionListener();
+		loadGraphActionListener = new LoadGraphActionListener(this, graph);
+		notImplementedActionListener = new NotImplementedActionListener(this);
+
 		setupUI();
 
 		registerCommands();
@@ -72,29 +82,37 @@ public class MainFrame extends JFrame {
 	}
 
 	private void setUpGraphListener(final BasicGraph graph) {
-		graph.addChangeListener(new GraphModificationListenerAdapter() {
-			@Override
-			public void notifyAttached() {
-				directedCheckBox.getModel().setSelected(graph.isDirected());// will be true when it will be implemented in gm-core:Basic* classes
-				multiCheckBox.getModel().setSelected(graph.isMulti());// will be true when it will be implemented in gm-core:Basic* classes
-				pseudoCheckBox.getModel().setSelected(graph.isPseudo());// will be true when it will be implemented in gm-core:Basic* classes
-			}
+		graph.addChangeListener(
+				new GraphModificationListenerAdapter() {
+					@Override
+					public void notifyAttached() {
+						directedCheckBox.getModel().setSelected(
+								graph.isDirected()
+						);// will be true when it will be implemented in gm-core:Basic* classes
+						multiCheckBox.getModel().setSelected(
+								graph.isMulti()
+						);// will be true when it will be implemented in gm-core:Basic* classes
+						pseudoCheckBox.getModel().setSelected(
+								graph.isPseudo()
+						);// will be true when it will be implemented in gm-core:Basic* classes
+					}
 
-			@Override
-			public void setDirected(boolean directed) {
-				directedCheckBox.getModel().setSelected(directed);
-			}
+					@Override
+					public void setDirected(boolean directed) {
+						directedCheckBox.getModel().setSelected(directed);
+					}
 
-			@Override
-			public void setMulti(boolean multi) {
-				multiCheckBox.getModel().setSelected(multi);
-			}
+					@Override
+					public void setMulti(boolean multi) {
+						multiCheckBox.getModel().setSelected(multi);
+					}
 
-			@Override
-			public void setPseudo(boolean pseudo) {
-				pseudoCheckBox.getModel().setSelected(pseudo);
-			}
-		});
+					@Override
+					public void setPseudo(boolean pseudo) {
+						pseudoCheckBox.getModel().setSelected(pseudo);
+					}
+				}
+		);
 	}
 
 	private void registerCommands() {
@@ -107,13 +125,19 @@ public class MainFrame extends JFrame {
 				}
 		);
 
-// call onClose() on ESCAPE
+		// call onClose() on ESCAPE
 		contentPane.registerKeyboardAction(
 				new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						onClose();
 					}
 				}, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT
+		);
+
+		// Save Graph on Ctrl-S
+		contentPane.registerKeyboardAction(
+				saveGraphActionListener, KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK),
+				JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT
 		);
 
 		addPluginButton.addActionListener(new AddPluginActionListener(MainFrame.this));
@@ -194,43 +218,40 @@ public class MainFrame extends JFrame {
 			menu.setMnemonic(KeyEvent.VK_F);
 			{
 				JMenuItem item = new JMenuItem(ResourceBundle.getString("new.graph"));
-				item.setEnabled(true);
-				item.addActionListener(new NewGraphActionListener());
+				item.addActionListener(newGraphActionListener);
 				item.setMnemonic(KeyEvent.VK_N);
 				menu.add(item);
 			}
 			{
-				JMenuItem item = new JMenuItem(ResourceBundle.getString("open.graph"));
-				item.setEnabled(false);
-				item.addActionListener(new NotImplementedActionListener(MainFrame.this));
+				JMenuItem item = new JMenuItem(ResourceBundle.getString("load.graph"));
+				item.addActionListener(loadGraphActionListener);
 				item.setMnemonic(KeyEvent.VK_L);
 				menu.add(item);
 			}
 			{
 				JMenuItem item = new JMenuItem(ResourceBundle.getString("save.graph"));
-				item.setEnabled(true);
-				item.addActionListener(new SaveGraphActionListener(graphPanel.getGraph()));
+				item.addActionListener(saveGraphActionListener);
 				item.setMnemonic(KeyEvent.VK_S);
 				menu.add(item);
 			}
 			{
 				JMenuItem item = new JMenuItem(ResourceBundle.getString("save.as"));
 				item.setEnabled(false);
-				item.addActionListener(new NotImplementedActionListener(MainFrame.this));
+				item.addActionListener(notImplementedActionListener);
 				item.setMnemonic(KeyEvent.VK_A);
 				menu.add(item);
 			}
 			{
 				JMenuItem item = new JMenuItem(ResourceBundle.getString("print"));
 				item.setEnabled(false);
-				item.addActionListener(new NotImplementedActionListener(MainFrame.this));
+				item.addActionListener(notImplementedActionListener);
 				item.setMnemonic(KeyEvent.VK_P);
 				menu.add(item);
 			}
 			{
 				JMenuItem item = new JMenuItem(ResourceBundle.getString("export.as.image"));
 				item.setEnabled(false);
-				item.addActionListener(new NotImplementedActionListener(MainFrame.this));
+				item.addActionListener(notImplementedActionListener);
 				item.setMnemonic(KeyEvent.VK_E);
 				menu.add(item);
 			}
@@ -261,14 +282,14 @@ public class MainFrame extends JFrame {
 			{
 				JMenuItem item = new JMenuItem(ResourceBundle.getString("graph"));
 				item.setEnabled(false);
-				item.addActionListener(new NotImplementedActionListener(MainFrame.this));
+				item.addActionListener(notImplementedActionListener);
 				item.setMnemonic(KeyEvent.VK_G);
 				menu.add(item);
 			}
 			{
 				JMenuItem item = new JMenuItem(ResourceBundle.getString("appearance"));
 				item.setEnabled(false);
-				item.addActionListener(new NotImplementedActionListener(MainFrame.this));
+				item.addActionListener(notImplementedActionListener);
 				item.setMnemonic(KeyEvent.VK_A);
 				menu.add(item);
 			}
@@ -285,21 +306,21 @@ public class MainFrame extends JFrame {
 			{
 				JMenuItem item = new JMenuItem(ResourceBundle.getString("help.topics"));
 				item.setEnabled(false);
-				item.addActionListener(new NotImplementedActionListener(MainFrame.this));
+				item.addActionListener(notImplementedActionListener);
 				item.setMnemonic(KeyEvent.VK_H);
 				menu.add(item);
 			}
 			{
 				JMenuItem item = new JMenuItem(ResourceBundle.getString("check.for.update"));
 				item.setEnabled(false);
-				item.addActionListener(new NotImplementedActionListener(MainFrame.this));
+				item.addActionListener(notImplementedActionListener);
 				item.setMnemonic(KeyEvent.VK_C);
 				menu.add(item);
 			}
 			{
 				JMenuItem item = new JMenuItem(ResourceBundle.getString("about"));
 				item.setEnabled(false);
-				item.addActionListener(new NotImplementedActionListener(MainFrame.this));
+				item.addActionListener(notImplementedActionListener);
 				item.setMnemonic(KeyEvent.VK_A);
 				menu.add(item);
 			}
@@ -372,12 +393,16 @@ public class MainFrame extends JFrame {
 		GraphMagicPlugin plugin = pluginWrapper.getPlugin();
 		java.util.List<Action> actionList = plugin.getActions();
 		actionList.size();
-		pluginsMenu.add(new JMenuItem(new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// todo
-			}
-		}));
+		pluginsMenu.add(
+				new JMenuItem(
+						new AbstractAction() {
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								// todo
+							}
+						}
+				)
+		);
 	}
 
 	private class NotImplementedActionListener implements ActionListener {
