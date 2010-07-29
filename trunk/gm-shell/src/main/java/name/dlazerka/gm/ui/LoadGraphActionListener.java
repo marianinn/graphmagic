@@ -21,6 +21,7 @@
 package name.dlazerka.gm.ui;
 
 import name.dlazerka.gm.Graph;
+import name.dlazerka.gm.exception.EdgeCreateException;
 import name.dlazerka.gm.shell.ResourceBundle;
 
 import javax.swing.*;
@@ -31,13 +32,12 @@ import javax.xml.stream.XMLStreamException;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.*;
-import java.io.IOException;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
@@ -46,6 +46,7 @@ public class LoadGraphActionListener extends JFileChooser implements ActionListe
 	private static final Logger logger = LoggerFactory.getLogger(LoadGraphActionListener.class);
 	private final Component parent;
 	private final Graph graph;
+	private static final Pattern ID_PATTERN = Pattern.compile("^[nN]([0-9]{1,3})$");
 
 	public LoadGraphActionListener(Component parent, Graph graph) {
 		this.parent = parent;
@@ -68,42 +69,73 @@ public class LoadGraphActionListener extends JFileChooser implements ActionListe
 			File file = getSelectedFile();
 			try {
 				graph.clear();
-				loadGraphML(file);
+				loadGraphML(file, graph);
 			}
-			catch (IOException e1) {
+			catch (GraphLoadingException e1) {
 				ErrorDialog.showError(e1, parent);
 			}
 		}
 	}
 
-	private void loadGraphML(File file) throws IOException {
-		logger.info("Loading graph from {}", file.getCanonicalPath());
-		throw new UnsupportedOperationException("Not implemented");
-/*
-		FileReader fr = new FileReader(file);
+	protected static void loadGraphML(File file, Graph graph) throws GraphLoadingException {
+		try {
+			logger.info("Loading graph from {}", file.getCanonicalPath());
+			FileInputStream source = new FileInputStream(file);
+			loadGraphML(source, graph);
+			logger.info("Loading graph from {}", file.getCanonicalPath());
+		}
+		catch (IOException e) {
+			throw new GraphLoadingException(e);
+		}
+	}
+
+	protected static void loadGraphML(InputStream source, Graph graph) throws GraphLoadingException {
 		XMLInputFactory inputFactory = XMLInputFactory.newInstance();
 		try {
-			XMLStreamReader reader = inputFactory.createXMLStreamReader(fr);
+			XMLStreamReader reader = inputFactory.createXMLStreamReader(source);
+
 			while (reader.hasNext()) {
 				reader.next();
 				switch (reader.getEventType()) {
 					case XMLStreamReader.START_ELEMENT:
 						String name = reader.getLocalName();
-						if (name.equals("node")) {
-							String id = reader.getAttributeValue("", "id");
+						if (name.equals("edge")) {
+							String sourceId = reader.getAttributeValue(null, "source");
+							String targetId = reader.getAttributeValue(null, "target");
+
+							sourceId = maybeCutId(sourceId);
+							targetId = maybeCutId(targetId);
+
+							try {
+								graph.createEdge(sourceId, targetId);
+							}
+							catch (EdgeCreateException e) {
+								throw new GraphLoadingException(e);
+							}
+						}
+						else if (name.equals("node")) {
+							String id = reader.getAttributeValue(null, "id");
+
+							id = maybeCutId(id);
 							graph.createVertex(id);
 						}
 						else if (name.equals("graph")) {
-							String edgedefault = reader.getAttributeValue("", "edgedefault");
+							String edgedefault = reader.getAttributeValue(null, "edgedefault");
 							graph.setDirected(edgedefault.equals("directed"));
 						}
 				}
 			}
 		}
 		catch (XMLStreamException e) {
-			throw new IOException(e);
+			throw new GraphLoadingException(e);
 		}
-		logger.info("Loading graph from {}", file.getCanonicalPath());
-		*/
+	}
+
+	protected static String maybeCutId(String id) {
+		Matcher m = ID_PATTERN.matcher(id);
+		if (m.matches()) {
+			id = m.group(1);
+		}
+		return id;
 	}
 }

@@ -43,8 +43,6 @@ public abstract class AbstractEdge implements Edge {
 
 		AbstractEdge that = (AbstractEdge) o;
 
-		if (getGraph() != null ? !getGraph().equals(that.getGraph()) : that.getGraph() != null) return false;
-
 		if (getGraph() != null && getGraph().isMulti()) {
 			return false;
 		}
@@ -53,19 +51,12 @@ public abstract class AbstractEdge implements Edge {
 		if (getHead() != null ? !getHead().equals(that.getHead()) : that.getHead() != null) result = false;
 		if (getTail() != null ? !getTail().equals(that.getTail()) : that.getTail() != null) result = false;
 
-		if (result == false && !getGraph().isDirected()) {
-			result = true;
-			if (getHead() != null ? !getHead().equals(that.getTail()) : that.getTail() != null) result = false;
-			if (getTail() != null ? !getTail().equals(that.getHead()) : that.getHead() != null) result = false;
-		}
-
 		return result;
 	}
 
 	@Override
 	public int hashCode() {
-		int result = getGraph() != null ? getGraph().hashCode() : 0;
-		result = 31 * result + (getHead() != null ? getHead().hashCode() : 0);
+		int result = getHead() != null ? getHead().hashCode() : 0;
 		result = 31 * result + (getTail() != null ? getTail().hashCode() : 0);
 		return result;
 	}

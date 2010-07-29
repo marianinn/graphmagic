@@ -151,7 +151,6 @@ public class BasicEdge extends AbstractEdge implements Edge, Serializable {
 		BasicEdge edge = (BasicEdge) o;
 
 		if (removed != edge.removed) return false;
-		if (graph != null ? !graph.equals(edge.graph) : edge.graph != null) return false;
 
 		if (graph != null && graph.isMulti()) {
 			return false;
@@ -173,7 +172,6 @@ public class BasicEdge extends AbstractEdge implements Edge, Serializable {
 	@Override
 	public int hashCode() {
 		int result = super.hashCode();
-		result = 31 * result + (graph != null ? graph.hashCode() : 0);
 		result = 31 * result + (tail != null ? tail.hashCode() : 0);
 		result = 31 * result + (head != null ? head.hashCode() : 0);
 		result = 31 * result + (removed ? 1 : 0);

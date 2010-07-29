@@ -35,10 +35,10 @@ import java.util.*;
 public class BasicGraph implements Graph, Serializable {
 	private static final Logger logger = LoggerFactory.getLogger(BasicGraph.class);
 
-	private final Set<Vertex> vertexSet = new LinkedSet<Vertex>();
+	private final Set<Vertex> vertexSet = new LinkedHashSet<Vertex>();
 	private final HashMap<String, Vertex> idToVertex = new HashMap<String, Vertex>();
 
-	private final Set<Edge> edgeSet = new LinkedSet<Edge>();
+	private final Set<Edge> edgeSet = new LinkedHashSet<Edge>();
 	private GraphUI uI = new GraphUI();
 
 	/**
@@ -61,10 +61,33 @@ public class BasicGraph implements Graph, Serializable {
 	 */
 	protected final List<GraphModificationListener> modificationListenerList = new LinkedList<GraphModificationListener>();
 
-	private Map<String, Vertex> vertexLabeling = new HashMap<String, Vertex>();
-
 	private Map<String, Edge> edgeLabeling = new HashMap<String, Edge>();
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof BasicGraph)) return false;
+
+		BasicGraph that = (BasicGraph) o;
+
+		if (directed != that.directed) return false;
+		if (multi != that.multi) return false;
+		if (pseudo != that.pseudo) return false;
+		if (!edgeSet.equals(that.edgeSet)) return false;
+		if (!vertexSet.equals(that.vertexSet)) return false;
+
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = vertexSet.hashCode();
+		result = 31 * result + edgeSet.hashCode();
+		result = 31 * result + (directed ? 1 : 0);
+		result = 31 * result + (multi ? 1 : 0);
+		result = 31 * result + (pseudo ? 1 : 0);
+		return result;
+	}
 
 	@Override
 	public String toString() {
@@ -135,11 +158,6 @@ public class BasicGraph implements Graph, Serializable {
 	@Override
 	public Set<Edge> getEdgesBetween(String sourceId, String targetId) {
 		throw new UnsupportedOperationException("TODO");
-	}
-
-	@Override
-	public Map<String, Vertex> getVertexLabeling() {
-		return vertexLabeling;
 	}
 
 	@Override
@@ -294,7 +312,7 @@ public class BasicGraph implements Graph, Serializable {
 		logger.debug("{}", vertex);
 		vertexSet.add(vertex);
 
-		vertexLabeling.put(vertex.toString(), vertex);
+		idToVertex.put(vertex.toString(), vertex);
 
 		for (GraphModificationListener listener : modificationListenerList) {
 			listener.vertexAdded(vertex);
