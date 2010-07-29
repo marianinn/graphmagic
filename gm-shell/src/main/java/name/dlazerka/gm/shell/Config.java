@@ -98,6 +98,5 @@ public class Config {
 			logger.error("Unable to load config at {}", CONFIG_FILEPATH);
 			throw e;
 		}
-
 	}
 }

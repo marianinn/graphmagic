@@ -75,13 +75,6 @@ public interface Graph {
 	Set<Edge> getEdgesBetween(String sourceId, String targetId);
 
 	/**
-	 * A vertex labeling is a function from some subset of the integers to the vertices of the graph.
-	 *
-	 * @return vertex labeling map
-	 */
-	Map<String, Vertex> getVertexLabeling();
-
-	/**
 	 * An edge labeling is a function from some subset of the integers to the edges of the graph.
 	 *
 	 * @return edge labeling map
