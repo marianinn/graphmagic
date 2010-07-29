@@ -59,18 +59,20 @@ public interface Graph {
 	Set<Edge> getEdgeSet();
 
 	/**
-	 * @param id starts from 1
+	 * Returns vertex by ID.
+	 *
+	 * @param id (by default starts from 1)
 	 * @return vertex
 	 */
-	Vertex getVertex(int id);
+	Vertex getVertex(String id);
 
-	Edge getEdge(Vertex vertex1, Vertex vertex2) throws MultipleEdgesException;
+	Edge getEdge(Vertex source, Vertex target) throws MultipleEdgesException;
 
-	Edge getEdge(int tailId, int headId) throws MultipleEdgesException;
+	Edge getEdge(String sourceId, String targetId) throws MultipleEdgesException;
 
 	Set<Edge> getEdgesBetween(Vertex vertex1, Vertex vertex2);
 
-	Set<Edge> getEdgesBetween(int tailId, int headId);
+	Set<Edge> getEdgesBetween(String sourceId, String targetId);
 
 	/**
 	 * A vertex labeling is a function from some subset of the integers to the vertices of the graph.
@@ -88,9 +90,15 @@ public interface Graph {
 
 	Vertex createVertex();
 
-	Edge createEdge(Vertex tail, Vertex head) throws EdgeCreateException;
+	Vertex createVertex(int id);
 
-	Edge createEdge(int tailId, int headId) throws EdgeCreateException;
+	Vertex createVertex(String id);
+
+	Edge createEdge(Vertex source, Vertex target) throws EdgeCreateException;
+
+	Edge createEdge(String sourceId, String targetId) throws EdgeCreateException;
+
+	Edge createEdge(int sourceId, int targetId) throws EdgeCreateException;
 
 	void remove(Vertex vertex);
 

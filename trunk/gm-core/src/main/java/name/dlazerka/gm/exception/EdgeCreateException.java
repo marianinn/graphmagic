@@ -27,17 +27,17 @@ import name.dlazerka.gm.Vertex;
  * @author Dzmitry Lazerka www.dlazerka.name
  */
 public class EdgeCreateException extends Exception {
-	private int tailId;
-	private int headId;
+	private String sourceId;
+	private String targetId;
 
-	public EdgeCreateException(Vertex tail, Vertex head, Throwable cause) {
+	public EdgeCreateException(Vertex source, Vertex target, Throwable cause) {
 		super(cause);
-		this.tailId = tail.getId();
-		this.headId = head.getId();
+		sourceId = source.getId();
+		targetId = target.getId();
 	}
 
 	@Override
 	public String getLocalizedMessage() {
-		return ResourceBundle.getString("unable.to.create.edge.0.1", String.valueOf(tailId), String.valueOf(headId));
+		return ResourceBundle.getString("unable.to.create.edge.0.1", sourceId, targetId);
 	}
 }

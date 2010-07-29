@@ -32,12 +32,12 @@ public class BasicEdgeTest {
 	@Test
 	public final void testEquals() {
 		Graph graph = new BasicGraph();
-		BasicVertex tail = new BasicVertex(graph, 1);
-		BasicVertex head = new BasicVertex(graph, 2);
+		BasicVertex source = new BasicVertex(graph, "1");
+		BasicVertex target = new BasicVertex(graph, "2");
 
-		BasicEdge edge1 = new BasicEdge(graph, tail, head);
-		BasicEdge edge2 = new BasicEdge(graph, tail, head);
-		BasicEdge edge3 = new BasicEdge(graph, head, tail);
+		BasicEdge edge1 = new BasicEdge(graph, source, target);
+		BasicEdge edge2 = new BasicEdge(graph, source, target);
+		BasicEdge edge3 = new BasicEdge(graph, target, source );
 
 		graph.setDirected(true);
 		graph.setMulti(true);

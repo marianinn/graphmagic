@@ -28,20 +28,20 @@ import name.dlazerka.gm.ResourceBundle;
  * @author Dzmitry Lazerka www.dlazerka.name
  */
 public class NoSuchVertexException extends IllegalArgumentException {
-	private final String vertexStr;
+	private final String id;
 
 	public NoSuchVertexException(Graph graph, Vertex vertex) {
 		super("Graph does not contain vertex " + vertex);
-		vertexStr = vertex.toString();
+		id = vertex.getId();
 	}
 
-	public NoSuchVertexException(Graph graph, int id) {
+	public NoSuchVertexException(Graph graph, String id) {
 		super("Graph does not contain vertex " + id);
-		vertexStr = String.valueOf(id);
+		this.id = id;
 	}
 
 	@Override
 	public String getLocalizedMessage() {
-		return ResourceBundle.getString("graph.does.not.contain.vertex", vertexStr);
+		return ResourceBundle.getString("graph.does.not.contain.vertex", id);
 	}
 }

@@ -83,7 +83,7 @@ public class BipartiteGraphMakerItem extends GraphMakerItem {
 
 			try {
 				for (int j = 0; j < n; j++) {
-					graph.createEdge(j + 1, vertex.getId());
+					graph.createEdge(String.valueOf(j + 1), vertex.getId());
 				}
 			} catch (EdgeCreateException e) {
 				// silently skip

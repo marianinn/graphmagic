@@ -29,7 +29,7 @@ public interface Vertex {
 
 	Graph getGraph();
 
-	int getId();
+	String getId();
 
 	Visual getVisual();
 

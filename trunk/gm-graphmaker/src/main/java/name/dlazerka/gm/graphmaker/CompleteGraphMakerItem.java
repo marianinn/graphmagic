@@ -31,6 +31,7 @@ import org.slf4j.LoggerFactory;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.util.Set;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
@@ -63,20 +64,20 @@ public class CompleteGraphMakerItem extends GraphMakerItem {
 		CycleIterator cycleIterator = new CycleIterator(n);
 
 		while (cycleIterator.hasNext()) {
+			Set<Vertex> existentVertices = graph.getVertexSet();
+
 			Point2D point2D = cycleIterator.next();
 
 			Vertex vertex = graph.createVertex();
 			Visual visual = vertex.getVisual();
-
 			visual.setCenter(point2D.getX(), point2D.getY());
 
-
-			int id = vertex.getId();
 			try {
-				for (int i = 1; i < id; i++) {
-					graph.createEdge(i, id);
+				for (Vertex existentVertex : existentVertices) {
+					graph.createEdge(vertex, existentVertex);
 				}
-			} catch (EdgeCreateException e) {
+			}
+			catch (EdgeCreateException e) {
 				// silently skip this edge
 			}
 		}

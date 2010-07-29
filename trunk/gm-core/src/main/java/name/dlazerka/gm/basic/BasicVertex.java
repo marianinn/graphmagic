@@ -31,7 +31,7 @@ import java.util.Set;
  */
 public class BasicVertex extends AbstractVertex implements Vertex, Serializable {
 	private final Graph graph;
-	private final int label;
+	private final String id;
 	private final Visual visual;
 	private final Mark mark;
 	private boolean removed = false;
@@ -40,18 +40,21 @@ public class BasicVertex extends AbstractVertex implements Vertex, Serializable 
 	 * Protected constructor. To obtain new instance see {@link Graph#createVertex()}.
 	 *
 	 * @param graph graph containing the vertex
-	 * @param label number that indentifies this vertex in its graph.  @see Graph#createVertex()
+	 * @param id number that indentifies this vertex in its graph.  @see Graph#createVertex()
 	 */
-	protected BasicVertex(Graph graph, int label) {
+	protected BasicVertex(Graph graph, String id) {
+		if (id == null) {
+			throw new NullPointerException("ID cannot be null");
+		}
 		this.graph = graph;
-		this.label = label;
+		this.id = id;
 		this.visual = new Visual();
 		this.mark = new Mark();
 	}
 
 	@Override
 	public String toString() {
-		return label + "";
+		return id;
 	}
 
 	@Override
@@ -61,10 +64,9 @@ public class BasicVertex extends AbstractVertex implements Vertex, Serializable 
 		return graph;
 	}
 
-	public int getId() {
+	public String getId() {
 		checkNotRemoved();
-
-		return label;
+		return id;
 	}
 
 	@Override
