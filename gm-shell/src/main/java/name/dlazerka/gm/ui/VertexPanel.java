@@ -162,7 +162,7 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 		GlyphVector glyphVector = NUMBER_FONT.createGlyphVector(fontRenderContext, "" + vertex.getId());
 
 		int glyphStartX;
-		if (vertex.getId() < 10) {
+		if (vertex.getId().length() == 1) {
 			glyphStartX = NUMBER_SHIFT_X1;
 		}
 		else {

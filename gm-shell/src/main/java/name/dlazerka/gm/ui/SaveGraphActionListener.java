@@ -119,8 +119,8 @@ public class SaveGraphActionListener extends JFileChooser implements ActionListe
 		logger.debug("Vertices written. Writing edges...");
 		int edgeId = 1;
 		for (Edge edge : graph.getEdgeSet()) {
-			int sourceId = edge.getTail().getId();
-			int targetId = edge.getHead().getId();
+			String sourceId = edge.getTail().getId();
+			String targetId = edge.getHead().getId();
 			fileWriter.write(MessageFormat.format(edgeFormat, edgeId, sourceId, targetId));
 			edgeId++;
 		}

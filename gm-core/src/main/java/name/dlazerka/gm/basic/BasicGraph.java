@@ -36,6 +36,7 @@ public class BasicGraph implements Graph, Serializable {
 	private static final Logger logger = LoggerFactory.getLogger(BasicGraph.class);
 
 	private final Set<Vertex> vertexSet = new LinkedSet<Vertex>();
+	private final HashMap<String, Vertex> idToVertex = new HashMap<String, Vertex>();
 
 	private final Set<Edge> edgeSet = new LinkedSet<Edge>();
 	private GraphUI uI = new GraphUI();
@@ -91,14 +92,12 @@ public class BasicGraph implements Graph, Serializable {
 	}
 
 	@Override
-	public Vertex getVertex(int id) {
-		for (Vertex vertex : vertexSet) {
-			if (vertex.getId() == id) {
-				return vertex;
-			}
+	public Vertex getVertex(String id) {
+		Vertex vertex = idToVertex.get(id);
+		if (vertex == null) {
+			throw new NoSuchVertexException(this, id);
 		}
-
-		throw new NoSuchVertexException(this, id);
+		return vertex;
 	}
 
 	@Override
@@ -121,11 +120,11 @@ public class BasicGraph implements Graph, Serializable {
 	}
 
 	@Override
-	public Edge getEdge(int tailId, int headId) {
-		Vertex tail = getVertex(tailId);
-		Vertex head = getVertex(headId);
+	public Edge getEdge(String sourceId, String targetId) {
+		Vertex source = getVertex(sourceId);
+		Vertex target = getVertex(targetId);
 
-		return getEdge(tail, head);
+		return getEdge(source, target);
 	}
 
 	@Override
@@ -134,7 +133,7 @@ public class BasicGraph implements Graph, Serializable {
 	}
 
 	@Override
-	public Set<Edge> getEdgesBetween(int tailId, int headId) {
+	public Set<Edge> getEdgesBetween(String sourceId, String targetId) {
 		throw new UnsupportedOperationException("TODO");
 	}
 
@@ -150,37 +149,55 @@ public class BasicGraph implements Graph, Serializable {
 
 	@Override
 	public BasicVertex createVertex() {
-		int max = 0;
+		int newId = 1;
 		for (Vertex vertex : vertexSet) {
-			if (vertex.getId() > max) {
-				max = vertex.getId();
+			String id = vertex.getId();
+			if (id.equals(newId + "")) {
+				newId++;
+			}
+			else {
+				break;
 			}
 		}
-		BasicVertex vertex = new BasicVertex(this, max + 1);
+		int id = newId;
+		return createVertex(String.valueOf(id));
+	}
 
+	@Override
+	public BasicVertex createVertex(String id) {
+		BasicVertex vertex = new BasicVertex(this, id);
 		addVertex(vertex);
-
 		return vertex;
 	}
 
 	@Override
-	public BasicEdge createEdge(Vertex tail, Vertex head) throws EdgeCreateException {
-		BasicEdge edge = new BasicEdge(this, tail, head);
+	public Vertex createVertex(int id) {
+		return createVertex(id + "");
+	}
+
+	@Override
+	public BasicEdge createEdge(Vertex source, Vertex target) throws EdgeCreateException {
+		BasicEdge edge = new BasicEdge(this, source, target);
 		try {
 			addEdge(edge);
 		}
 		catch (EdgeAddingException e) {
-			throw new EdgeCreateException(tail, head, e);
+			throw new EdgeCreateException(source, target, e);
 		}
 		return edge;
 	}
 
 	@Override
-	public BasicEdge createEdge(int tailId, int headId) throws EdgeCreateException {
-		Vertex tail = getVertex(tailId);
-		Vertex head = getVertex(headId);
+	public BasicEdge createEdge(String sourceId, String targetId) throws EdgeCreateException {
+		Vertex source = getVertex(sourceId);
+		Vertex target = getVertex(targetId);
 
-		return createEdge(tail, head);
+		return createEdge(source, target);
+	}
+
+	@Override
+	public Edge createEdge(int sourceId, int targetId) throws EdgeCreateException {
+		return createEdge(sourceId + "", targetId + "");
 	}
 
 	@Override
