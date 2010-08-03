@@ -32,8 +32,7 @@ import org.junit.Test;
 public class BasicGraphTestPseudo {
 	@Test
 	public void testNonPseudo() {
-		BasicGraph basicGraph = new BasicGraph();
-		basicGraph.setPseudo(false);
+		BasicGraph basicGraph = new BasicGraph(false, false, false);
 
 		Vertex vertex1 = basicGraph.createVertex();
 
@@ -47,8 +46,7 @@ public class BasicGraphTestPseudo {
 
 	@Test
 	public void testPseudo() {
-		BasicGraph basicGraph = new BasicGraph();
-		basicGraph.setPseudo(true);
+		BasicGraph basicGraph = new BasicGraph(false, false, true);
 
 		Vertex vertex1 = basicGraph.createVertex();
 

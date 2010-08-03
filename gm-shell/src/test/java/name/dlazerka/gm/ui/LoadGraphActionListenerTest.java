@@ -47,13 +47,9 @@ public class LoadGraphActionListenerTest {
 
 	@Test
 	public void testLoadFromFile() throws EdgeCreateException, GraphLoadingException, IOException {
-		BasicGraph actual = new BasicGraph();
-		LoadGraphActionListener.loadGraphML(source.openStream(), actual);
+		BasicGraph actual = LoadGraphActionListener.loadGraphML(source.openStream());
 
 		BasicGraph expected = new BasicGraph();
-		expected.setDirected(false);
-		expected.setMulti(false);
-		expected.setPseudo(false);
 		BasicVertex vertex1 = expected.createVertex();
 		BasicVertex vertex2 = expected.createVertex();
 		BasicVertex vertex3 = expected.createVertex();

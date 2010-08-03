@@ -27,10 +27,11 @@ public abstract class AbstractEdge implements Edge {
 	/**
 	 * Implementation is almost ordinary, based on fields, but with two additions:<ol>
 	 * <li>
-	 * if {@link #getGraph()} is multi ({@link name.dlazerka.gm.Graph#isMulti()}), then returns false for different objects.
+	 * if {@link #getGraph()} is multi ({@link name.dlazerka.gm.Graph#isMulti()}),
+	 * then returns false for different objects.
 	 * <li>
 	 * if {@link #getGraph()} is not directed ({@link name.dlazerka.gm.Graph#isDirected()}),
-	 * then returns true for reverted (tail,head) pair.
+	 * then returns true for reverted (source, target) pair.
 	 * </ol>
 	 *
 	 * @param o any object
@@ -48,16 +49,26 @@ public abstract class AbstractEdge implements Edge {
 		}
 
 		boolean result = true;
-		if (getHead() != null ? !getHead().equals(that.getHead()) : that.getHead() != null) result = false;
-		if (getTail() != null ? !getTail().equals(that.getTail()) : that.getTail() != null) result = false;
+		if (getTarget() != null ? !getTarget().equals(that.getTarget()) : that.getTarget() != null) result = false;
+		if (getSource() != null ? !getSource().equals(that.getSource()) : that.getSource() != null) result = false;
+
+		if (!result && !isDirected()) {
+			result = true;
+			if (getTarget() != null ? !getTarget().equals(that.getSource()) : that.getSource() != null) result = false;
+			if (getSource() != null ? !getSource().equals(that.getTarget()) : that.getTarget() != null) result = false;
+		}
 
 		return result;
 	}
 
+	/**
+	 * Commutative, in case of undirected.
+	 * @return hash code
+	 */
 	@Override
 	public int hashCode() {
-		int result = getHead() != null ? getHead().hashCode() : 0;
-		result = 31 * result + (getTail() != null ? getTail().hashCode() : 0);
+		int result = getTarget() != null ? getTarget().hashCode() : 0;
+		result += getSource() != null ? getSource().hashCode() : 0;
 		return result;
 	}
 }

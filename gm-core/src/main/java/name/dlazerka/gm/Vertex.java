@@ -42,4 +42,6 @@ public interface Vertex {
 	boolean isAdjacent(Vertex vertex);
 
 	boolean isIncident(Edge edge);
+
+	void mergeFrom(Vertex vertex);
 }

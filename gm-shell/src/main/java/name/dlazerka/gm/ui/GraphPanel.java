@@ -23,7 +23,6 @@ package name.dlazerka.gm.ui;
 import name.dlazerka.gm.Edge;
 import name.dlazerka.gm.Graph;
 import name.dlazerka.gm.Vertex;
-import name.dlazerka.gm.Mark;
 import name.dlazerka.gm.ui.edge.EdgePanel;
 import name.dlazerka.gm.ui.edge.NewEdgePanel;
 import name.dlazerka.gm.ui.edge.NoPseudoEdgePanel;
@@ -234,8 +233,8 @@ public class GraphPanel extends JPanel {
 			EdgePanel edgePanel;
 
 			if (!edge.isPseudo()) {
-				VertexPanel tailPanel = vertexToVertexPanel.get(edge.getTail());
-				VertexPanel headPanel = vertexToVertexPanel.get(edge.getHead());
+				VertexPanel tailPanel = vertexToVertexPanel.get(edge.getSource());
+				VertexPanel headPanel = vertexToVertexPanel.get(edge.getTarget());
 
 				edgePanel = new NoPseudoEdgePanel(
 					edge,
@@ -247,7 +246,7 @@ public class GraphPanel extends JPanel {
 				headPanel.addAdjacentEdgePanel(edgePanel);
 			}
 			else {
-				VertexPanel vertexPanel = vertexToVertexPanel.get(edge.getTail());
+				VertexPanel vertexPanel = vertexToVertexPanel.get(edge.getSource());
 
 				edgePanel = new PseudoEdgePanel(
 					edge,
@@ -283,12 +282,12 @@ public class GraphPanel extends JPanel {
 
 			Vertex vertex;
 			{
-				vertex = edge.getHead();
+				vertex = edge.getTarget();
 				VertexPanel vertexPanel = vertexToVertexPanel.get(vertex);
 				vertexPanel.removeAdjacentEdgePanel(panel);
 			}
 			{
-				vertex = edge.getTail();
+				vertex = edge.getSource();
 				VertexPanel vertexPanel = vertexToVertexPanel.get(vertex);
 				vertexPanel.removeAdjacentEdgePanel(panel);
 			}
