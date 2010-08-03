@@ -44,17 +44,17 @@ public class BasicGraph implements Graph, Serializable {
 	/**
 	 * See {@link Graph#isDirected()}
 	 */
-	private boolean directed;
+	private final boolean directed;
 
 	/**
 	 * See {@link Graph#isMulti()}
 	 */
-	private boolean multi;
+	private final boolean multi;
 
 	/**
 	 * See {@link Graph#isPseudo()}
 	 */
-	private boolean pseudo;
+	private final boolean pseudo;
 
 	/**
 	 * A list of observers that are notified on graph changes.
@@ -62,6 +62,20 @@ public class BasicGraph implements Graph, Serializable {
 	protected final List<GraphModificationListener> modificationListenerList = new LinkedList<GraphModificationListener>();
 
 	private Map<String, Edge> edgeLabeling = new HashMap<String, Edge>();
+
+	public BasicGraph() {
+		this(false, false, false);
+	}
+
+	public BasicGraph(boolean directed) {
+		this(directed, false, false);
+	}
+
+	public BasicGraph(boolean directed, boolean multi, boolean pseudo) {
+		this.directed = directed;
+		this.multi = multi;
+		this.pseudo = pseudo;
+	}
 
 	@Override
 	public boolean equals(Object o) {
@@ -124,22 +138,22 @@ public class BasicGraph implements Graph, Serializable {
 	}
 
 	@Override
-	public Edge getEdge(Vertex tail, Vertex head) {
+	public Edge getEdge(Vertex source, Vertex target) {
 		for (Edge edge : edgeSet) {
-			if (edge.getTail().equals(tail)
-			    && edge.getHead().equals(head)) {
+			if (edge.getSource().equals(source)
+			    && edge.getTarget().equals(target)) {
 				return edge;
 			}
 
 			if (!isDirected()
-			    && edge.getTail().equals(head)
-			    && edge.getHead().equals(tail)
+			    && edge.getSource().equals(target)
+			    && edge.getTarget().equals(source)
 				) {
 				return edge;
 			}
 		}
 
-		throw new NoSuchEdgeException(this, tail, head);
+		throw new NoSuchEdgeException(this, source, target);
 	}
 
 	@Override
@@ -195,7 +209,12 @@ public class BasicGraph implements Graph, Serializable {
 
 	@Override
 	public BasicEdge createEdge(Vertex source, Vertex target) throws EdgeCreateException {
-		BasicEdge edge = new BasicEdge(this, source, target);
+		return createEdge(source, target, isDirected());
+	}
+
+	@Override
+	public BasicEdge createEdge(Vertex source, Vertex target, boolean directed) throws EdgeCreateException {
+		BasicEdge edge = new BasicEdge(this, source, target, directed);
 		try {
 			addEdge(edge);
 		}
@@ -207,14 +226,24 @@ public class BasicGraph implements Graph, Serializable {
 
 	@Override
 	public BasicEdge createEdge(String sourceId, String targetId) throws EdgeCreateException {
+		return createEdge(sourceId, targetId, isDirected());
+	}
+
+	@Override
+	public BasicEdge createEdge(String sourceId, String targetId, boolean directed) throws EdgeCreateException {
 		Vertex source = getVertex(sourceId);
 		Vertex target = getVertex(targetId);
 
-		return createEdge(source, target);
+		return createEdge(source, target, directed);
 	}
 
 	@Override
 	public Edge createEdge(int sourceId, int targetId) throws EdgeCreateException {
+		return createEdge(sourceId, targetId, isDirected());
+	}
+
+	@Override
+	public Edge createEdge(int sourceId, int targetId, boolean directed) throws EdgeCreateException {
 		return createEdge(sourceId + "", targetId + "");
 	}
 
@@ -282,30 +311,12 @@ public class BasicGraph implements Graph, Serializable {
 		return directed;
 	}
 
-	@Override
-	public void setDirected(boolean directed) {
-		logger.debug("{}", directed);
-		this.directed = directed;
-	}
-
 	public boolean isMulti() {
 		return multi;
 	}
 
-	@Override
-	public void setMulti(boolean multi) {
-		logger.debug("{}", multi);
-		this.multi = multi;
-	}
-
 	public boolean isPseudo() {
 		return pseudo;
-	}
-
-	@Override
-	public void setPseudo(boolean pseudo) {
-		logger.debug("{}", pseudo);
-		this.pseudo = pseudo;
 	}
 
 	protected void addVertex(Vertex vertex) {
@@ -341,5 +352,23 @@ public class BasicGraph implements Graph, Serializable {
 		boolean result = modificationListenerList.add(listener);
 		listener.notifyAttached();
 		return result;
+	}
+
+	public void mergeFrom(Graph graph) throws MergeException {
+		for (Vertex vertexFrom : graph.getVertexSet()) {
+			BasicVertex vertexTo = createVertex(vertexFrom.getId());
+			vertexTo.mergeFrom(vertexFrom);
+		}
+		for (Edge edgeFrom : graph.getEdgeSet()) {
+			Vertex source = edgeFrom.getSource();
+			Vertex target = edgeFrom.getTarget();
+			try {
+				BasicEdge edgeTo = createEdge(source.getId(), target.getId());
+				edgeTo.mergeFrom(edgeFrom);
+			}
+			catch (EdgeCreateException e) {
+				throw new MergeException(e);
+			}
+		}
 	}
 }

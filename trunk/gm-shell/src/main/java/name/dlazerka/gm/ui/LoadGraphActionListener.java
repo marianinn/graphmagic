@@ -21,6 +21,8 @@
 package name.dlazerka.gm.ui;
 
 import name.dlazerka.gm.Graph;
+import name.dlazerka.gm.basic.BasicGraph;
+import name.dlazerka.gm.basic.MergeException;
 import name.dlazerka.gm.exception.EdgeCreateException;
 import name.dlazerka.gm.shell.ResourceBundle;
 
@@ -68,8 +70,13 @@ public class LoadGraphActionListener extends JFileChooser implements ActionListe
 		if (ret == JFileChooser.APPROVE_OPTION) {
 			File file = getSelectedFile();
 			try {
-				graph.clear();
-				loadGraphML(file, graph);
+				Graph graph = loadGraphML(file);
+				try {
+					this.graph.mergeFrom(graph);
+				}
+				catch (MergeException e1) {
+					throw new GraphLoadingException(e1);
+				}
 			}
 			catch (GraphLoadingException e1) {
 				ErrorDialog.showError(e1, parent);
@@ -77,22 +84,28 @@ public class LoadGraphActionListener extends JFileChooser implements ActionListe
 		}
 	}
 
-	protected static void loadGraphML(File file, Graph graph) throws GraphLoadingException {
+	protected static Graph loadGraphML(File file) throws GraphLoadingException {
 		try {
 			logger.info("Loading graph from {}", file.getCanonicalPath());
 			FileInputStream source = new FileInputStream(file);
-			loadGraphML(source, graph);
-			logger.info("Loading graph from {}", file.getCanonicalPath());
+			return loadGraphML(source);
 		}
 		catch (IOException e) {
 			throw new GraphLoadingException(e);
 		}
 	}
 
-	protected static void loadGraphML(InputStream source, Graph graph) throws GraphLoadingException {
+	protected static BasicGraph loadGraphML(InputStream source) throws GraphLoadingException {
+		BasicGraph graph;
+
 		XMLInputFactory inputFactory = XMLInputFactory.newInstance();
 		try {
 			XMLStreamReader reader = inputFactory.createXMLStreamReader(source);
+
+			proceedTo("graph", reader);
+
+			String edgedefault = reader.getAttributeValue(null, "edgedefault");
+			graph = new BasicGraph(edgedefault.equals("directed"));
 
 			while (reader.hasNext()) {
 				reader.next();
@@ -115,13 +128,8 @@ public class LoadGraphActionListener extends JFileChooser implements ActionListe
 						}
 						else if (name.equals("node")) {
 							String id = reader.getAttributeValue(null, "id");
-
 							id = maybeCutId(id);
 							graph.createVertex(id);
-						}
-						else if (name.equals("graph")) {
-							String edgedefault = reader.getAttributeValue(null, "edgedefault");
-							graph.setDirected(edgedefault.equals("directed"));
 						}
 				}
 			}
@@ -129,6 +137,22 @@ public class LoadGraphActionListener extends JFileChooser implements ActionListe
 		catch (XMLStreamException e) {
 			throw new GraphLoadingException(e);
 		}
+
+		return graph;
+	}
+
+	private static void proceedTo(String nodeName, XMLStreamReader reader) throws XMLStreamException, GraphLoadingException {
+		while (reader.hasNext()) {
+			reader.next();
+			switch (reader.getEventType()) {
+				case XMLStreamReader.START_ELEMENT:
+					String name = reader.getLocalName();
+					if (name.equals(nodeName)) {
+						return;
+					}
+			}
+		}
+		throw new GraphLoadingException("Hit end without hitting '" + nodeName + "'");
 	}
 
 	protected static String maybeCutId(String id) {

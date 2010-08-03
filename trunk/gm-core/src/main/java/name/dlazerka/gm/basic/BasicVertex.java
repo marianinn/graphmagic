@@ -88,10 +88,10 @@ public class BasicVertex extends AbstractVertex implements Vertex, Serializable 
 		Set<Vertex> adjacentVertexSet = new LinkedSet<Vertex>();
 
 		for (Edge edge : getIncidentEdgeSet()) {
-			if (edge.getTail().equals(this)) {
-				adjacentVertexSet.add(edge.getHead());
+			if (edge.getSource().equals(this)) {
+				adjacentVertexSet.add(edge.getTarget());
 			} else {
-				adjacentVertexSet.add(edge.getTail());
+				adjacentVertexSet.add(edge.getSource());
 			}
 		}
 
@@ -105,8 +105,8 @@ public class BasicVertex extends AbstractVertex implements Vertex, Serializable 
 		Set<Edge> incidentEdgeSet = new LinkedSet<Edge>();
 
 		for (Edge edge : graph.getEdgeSet()) {
-			if (this.equals(edge.getHead()) ||
-					this.equals(edge.getTail())) {
+			if (this.equals(edge.getTarget()) ||
+					this.equals(edge.getSource())) {
 				incidentEdgeSet.add(edge);
 			}
 		}
@@ -142,5 +142,11 @@ public class BasicVertex extends AbstractVertex implements Vertex, Serializable 
 		if (removed) {
 			throw new VertexRemovedException();
 		}
+	}
+
+	@Override
+	public void mergeFrom(Vertex vertex) {
+		getMark().putAll(vertex.getMark());
+		getVisual().mergeFrom(vertex.getVisual());
 	}
 }

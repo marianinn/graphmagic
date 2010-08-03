@@ -57,9 +57,9 @@ public class MainFrame extends JFrame {
 
 	public MainFrame() {
 		BasicGraph graph = new BasicGraph();
-		graph.setDirected(false);
-		graph.setMulti(false);
-		graph.setPseudo(false);
+//		graph.setDirected(false);
+//		graph.setMulti(false);
+//		graph.setPseudo(false);
 
 		GraphUI ui = graph.getUI();
 		ui.setOwnerFrame(this);
@@ -71,7 +71,7 @@ public class MainFrame extends JFrame {
 
 		saveGraphActionListener = new SaveGraphActionListener(this, graph);
 		newGraphActionListener = new NewGraphActionListener();
-		loadGraphActionListener = new LoadGraphActionListener(this, graph);
+		loadGraphActionListener = new LoadGraphActionListener(this, graphPanel.getGraph());
 		notImplementedActionListener = new NotImplementedActionListener(this);
 
 		setupUI();
@@ -346,7 +346,7 @@ public class MainFrame extends JFrame {
 					public void actionPerformed(ActionEvent e) {
 						Graph graph = graphPanel.getGraph();
 						boolean pressed = directedCheckBox.getModel().isSelected();
-						graph.setDirected(pressed);
+//						graph.setDirected(pressed);
 					}
 				}
 		);
@@ -360,7 +360,7 @@ public class MainFrame extends JFrame {
 					public void actionPerformed(ActionEvent e) {
 						Graph graph = graphPanel.getGraph();
 						boolean pressed = multiCheckBox.getModel().isSelected();
-						graph.setMulti(pressed);
+//						graph.setMulti(pressed);
 					}
 				}
 		);
@@ -374,7 +374,7 @@ public class MainFrame extends JFrame {
 					public void actionPerformed(ActionEvent e) {
 						Graph graph = graphPanel.getGraph();
 						boolean pressed = pseudoCheckBox.getModel().isSelected();
-						graph.setPseudo(pressed);
+//						graph.setPseudo(pressed);
 					}
 				}
 		);
@@ -423,5 +423,9 @@ public class MainFrame extends JFrame {
 			Graph graph = graphPanel.getGraph();
 			graph.clear();
 		}
+	}
+
+	public Graph getGraph() {
+		return graphPanel.getGraph();
 	}
 }

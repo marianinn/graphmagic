@@ -1,6 +1,6 @@
 /*
  * GraphMagic, package for scientists working in graph theory.
- * Copyright (C) 2009 Dzmitry Lazerka dlazerka@dlazerka.name
+ * Copyright (C) 2010 Dzmitry Lazerka dlazerka@dlazerka.name
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 as
@@ -18,34 +18,13 @@
  * Author: Dzmitry Lazerka dlazerka@dlazerka.name
  */
 
-package name.dlazerka.gm;
-
-import java.util.Set;
+package name.dlazerka.gm.basic;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public interface Edge {
-
-	Graph getGraph();
-
-	Vertex getTarget();
-
-	Vertex getSource();
-
-	Visual getVisual();
-
-	Mark getMark();
-
-	Set<Edge> getIncidentEdgeSet();
-
-	boolean isIncident(Vertex vertex);
-
-	boolean isIncident(Edge edge);
-
-	boolean isDirected();
-
-	boolean isPseudo();
-
-	void mergeFrom(Edge edge);
+public class MergeException extends Throwable {
+	public MergeException(Exception cause) {
+		super(cause);
+	}
 }

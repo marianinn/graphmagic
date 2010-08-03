@@ -35,25 +35,29 @@ public class BasicEdge extends AbstractEdge implements Edge, Serializable {
 	private static final Logger logger = LoggerFactory.getLogger(BasicEdge.class);
 
 	private final Graph graph;
-	private final Vertex tail;
-	private final Vertex head;
+	private final Vertex source;
+	private final Vertex target;
 	private final Visual visual = new Visual();
 	private final Mark mark = new Mark();
 
 	private boolean removed = false;
+	private final boolean directed;
 
-	protected BasicEdge(Graph graph, Vertex tail, Vertex head) {
+	protected BasicEdge(Graph graph, Vertex source, Vertex target, boolean directed) {
 		this.graph = graph;
-		this.tail = tail;
-		this.head = head;
+		this.source = source;
+		this.target = target;
+		this.directed = directed;
 	}
 
 	@Override
 	public String toString() {
-		if (graph.isDirected())
-			return "(" + tail + ", " + head + ")";
-		else
-			return "{" + tail + ", " + head + "}";
+		if (isDirected()) {
+			return "(" + source + ", " + target + ")";
+		}
+		else {
+			return "{" + source + ", " + target + "}";
+		}
 	}
 
 	@Override
@@ -64,23 +68,18 @@ public class BasicEdge extends AbstractEdge implements Edge, Serializable {
 	}
 
 	@Override
-	public Vertex getTail() {
-		checkNotRemoved();
-
-		return tail;
+	public Vertex getSource() {
+		return source;
 	}
 
 	@Override
-	public Vertex getHead() {
-		checkNotRemoved();
-
-		return head;
+	public Vertex getTarget() {
+		return target;
 	}
 
 	@Override
 	public Visual getVisual() {
 		checkNotRemoved();
-
 		return visual;
 	}
 
@@ -95,8 +94,8 @@ public class BasicEdge extends AbstractEdge implements Edge, Serializable {
 
 		Set<Edge> incidentEdgeSet = new LinkedSet<Edge>();
 
-		incidentEdgeSet.addAll(getTail().getIncidentEdgeSet());
-		incidentEdgeSet.addAll(getHead().getIncidentEdgeSet());
+		incidentEdgeSet.addAll(getSource().getIncidentEdgeSet());
+		incidentEdgeSet.addAll(getTarget().getIncidentEdgeSet());
 		incidentEdgeSet.remove(this);
 
 		return incidentEdgeSet;
@@ -106,8 +105,8 @@ public class BasicEdge extends AbstractEdge implements Edge, Serializable {
 	public boolean isIncident(Vertex vertex) {
 		checkNotRemoved();
 
-		return vertex.equals(getHead())
-		       || vertex.equals(getTail());
+		return vertex.equals(getTarget())
+		       || vertex.equals(getSource());
 	}
 
 	@Override
@@ -118,10 +117,15 @@ public class BasicEdge extends AbstractEdge implements Edge, Serializable {
 	}
 
 	@Override
+	public boolean isDirected() {
+		return directed;
+	}
+
+	@Override
 	public boolean isPseudo() {
 		checkNotRemoved();
 
-		return tail.equals(head);
+		return source.equals(target);
 	}
 
 	/**
@@ -140,41 +144,9 @@ public class BasicEdge extends AbstractEdge implements Edge, Serializable {
 		}
 	}
 
-	/**
-	 */
 	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		if (!super.equals(o)) return false;
-
-		BasicEdge edge = (BasicEdge) o;
-
-		if (removed != edge.removed) return false;
-
-		if (graph != null && graph.isMulti()) {
-			return false;
-		}
-
-		boolean result = true;
-		if (head != null ? !head.equals(edge.head) : edge.head != null) result = false;
-		if (tail != null ? !tail.equals(edge.tail) : edge.tail != null) result = false;
-
-		if (!result && graph != null && !graph.isDirected()) {
-			result = true;
-			if (head != null ? !head.equals(edge.tail) : edge.tail != null) return false;
-			if (tail != null ? !tail.equals(edge.head) : edge.head != null) return false;
-		}
-
-		return result;
-	}
-
-	@Override
-	public int hashCode() {
-		int result = super.hashCode();
-		result = 31 * result + (tail != null ? tail.hashCode() : 0);
-		result = 31 * result + (head != null ? head.hashCode() : 0);
-		result = 31 * result + (removed ? 1 : 0);
-		return result;
+	public void mergeFrom(Edge edge) {
+		getMark().putAll(edge.getMark());
+		getVisual().mergeFrom(edge.getVisual());
 	}
 }

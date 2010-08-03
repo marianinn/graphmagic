@@ -27,4 +27,8 @@ public  class GraphLoadingException extends Exception {
 	public GraphLoadingException(Throwable cause) {
 		super(cause);
 	}
+
+	public GraphLoadingException(String message) {
+		super(message);
+	}
 }

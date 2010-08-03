@@ -21,6 +21,7 @@
 package name.dlazerka.gm;
 
 import name.dlazerka.gm.basic.GraphModificationListener;
+import name.dlazerka.gm.basic.MergeException;
 import name.dlazerka.gm.exception.EdgeCreateException;
 import name.dlazerka.gm.exception.MultipleEdgesException;
 
@@ -89,9 +90,15 @@ public interface Graph {
 
 	Edge createEdge(Vertex source, Vertex target) throws EdgeCreateException;
 
+	Edge createEdge(Vertex source, Vertex target, boolean directed) throws EdgeCreateException;
+
 	Edge createEdge(String sourceId, String targetId) throws EdgeCreateException;
 
+	Edge createEdge(String sourceId, String targetId, boolean directed) throws EdgeCreateException;
+
 	Edge createEdge(int sourceId, int targetId) throws EdgeCreateException;
+
+	Edge createEdge(int sourceId, int targetId, boolean directed) throws EdgeCreateException;
 
 	void remove(Vertex vertex);
 
@@ -111,20 +118,10 @@ public interface Graph {
 	boolean isDirected();
 
 	/**
-	 * @param directed see {@link #isDirected()}
-	 */
-	void setDirected(boolean directed);
-
-	/**
 	 * @return is this graph a multigraph,
 	 *         i.e. does it permit to have more than one edge with the same tail and head vertices.
 	 */
 	boolean isMulti();
-
-	/**
-	 * @param multi see {@link #isMulti()}
-	 */
-	void setMulti(boolean multi);
 
 	/**
 	 * @return is this graph a pseudograph,
@@ -133,7 +130,9 @@ public interface Graph {
 	boolean isPseudo();
 
 	/**
-	 * @param pseudo see {@link #isPseudo()}
+	 * Copies everything from given graph to this.
+	 * @param graph merge from
+	 * @throws name.dlazerka.gm.basic.MergeException in case merge fails
 	 */
-	void setPseudo(boolean pseudo);
+	void mergeFrom(Graph graph) throws MergeException;
 }

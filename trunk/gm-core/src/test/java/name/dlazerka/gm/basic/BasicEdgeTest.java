@@ -35,32 +35,24 @@ public class BasicEdgeTest {
 		BasicVertex source = new BasicVertex(graph, "1");
 		BasicVertex target = new BasicVertex(graph, "2");
 
-		BasicEdge edge1 = new BasicEdge(graph, source, target);
-		BasicEdge edge2 = new BasicEdge(graph, source, target);
-		BasicEdge edge3 = new BasicEdge(graph, target, source );
+		BasicEdge edge1;
+		BasicEdge edge2;
+		{
+			edge1 = new BasicEdge(graph, source, target, true);
+			edge2 = new BasicEdge(graph, target, source, true);
+			assertFalse(edge1.equals(edge2));
+			assertFalse(edge2.equals(edge1));
+		}
 
-		graph.setDirected(true);
-		graph.setMulti(true);
-		assertFalse(edge1.equals(edge2));
-		assertFalse(edge1.equals(edge3));
-		assertFalse(edge2.equals(edge3));
+		{
+			edge1 = new BasicEdge(graph, source, target, false);
+			edge2 = new BasicEdge(graph, target, source, false);
+			assertTrue(edge1.equals(edge2));
+			assertTrue(edge2.equals(edge1));
+		}
 
-		graph.setDirected(true);
-		graph.setMulti(false);
-		assertTrue(edge1.equals(edge2));
-		assertFalse(edge1.equals(edge3));
-		assertFalse(edge2.equals(edge3));
+// TODO: turn on when multi-graph will be supported
+//		Graph graph = new BasicGraph(false, true, false);
 
-		graph.setDirected(false);
-		graph.setMulti(true);
-		assertFalse(edge1.equals(edge2));
-		assertFalse(edge1.equals(edge3));
-		assertFalse(edge2.equals(edge3));
-
-		graph.setDirected(false);
-		graph.setMulti(false);
-		assertTrue(edge1.equals(edge2));
-		assertTrue(edge1.equals(edge3));
-		assertTrue(edge2.equals(edge3));
 	}
 }

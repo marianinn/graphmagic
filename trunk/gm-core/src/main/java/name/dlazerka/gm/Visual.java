@@ -24,6 +24,16 @@ import java.awt.*;
 import java.util.Observable;
 
 /**
+ * View-independent visual properties of an object.
+ *
+ * Center of the screen represented by (0, 0).
+ * Left (eastern) border of the screen is represented by (-1, *).
+ * Right (western) border of the screen is represented by (1, *).
+ * Top (north) border of the screen is represented by (*, -1).
+ * Bottom (south) border of the screen is represented by (*, 1).
+ *
+ * Note that you may specify out-of-border values.
+ *
  * @author Dzmitry Lazerka www.dlazerka.name
  */
 public class Visual extends Observable {
@@ -92,4 +102,8 @@ public class Visual extends Observable {
 	    setChanged();
 	    notifyObservers();
     }
+
+	public void mergeFrom(Visual visual) {
+		setCenter(visual.getCenterX(), visual.getCenterY());
+	}
 }

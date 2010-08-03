@@ -66,9 +66,7 @@ public class BasicGraphTestCreateEdge {
 
 	@Test
 	public void testAddMultipleEdge() {
-		BasicGraph basicGraph = new BasicGraph();
-		basicGraph.setDirected(directed);
-		basicGraph.setMulti(multi);
+		BasicGraph basicGraph = new BasicGraph(directed, multi, false);
 
 		Vertex vertex1 = basicGraph.createVertex();
 		Vertex vertex2 = basicGraph.createVertex();
@@ -93,9 +91,7 @@ public class BasicGraphTestCreateEdge {
 
 	@Test
 	public void testAddInverseEdge() {
-		BasicGraph basicGraph = new BasicGraph();
-		basicGraph.setDirected(directed);
-		basicGraph.setMulti(multi);
+		BasicGraph basicGraph = new BasicGraph(directed, multi, false);
 
 		Vertex vertex1 = basicGraph.createVertex();
 		Vertex vertex2 = basicGraph.createVertex();
