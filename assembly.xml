@@ -63,9 +63,10 @@
     </moduleSets>
     <fileSets>
         <fileSet>
-            <directory>gm-shell/exe</directory>
+            <directory>gm-shell/src/main/bin</directory>
             <filtered>true</filtered>
             <outputDirectory/>
+            <fileMode>0755</fileMode>
         </fileSet>
     </fileSets>
 </assembly>
