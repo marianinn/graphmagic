@@ -44,7 +44,7 @@
     </properties>
 
     <build>
-	<defaultGoal>package</defaultGoal>
+        <defaultGoal>install</defaultGoal>
         <finalName>${pom.artifactId}-${pom.version}</finalName>
         <resources>
             <resource>
@@ -81,15 +81,6 @@
                     </descriptors>
                     <finalName>GraphMagic</finalName>
                     <outputDirectory>target</outputDirectory>
-<executions>
-          <execution>
-            <id>make-assembly</id>
-            <phase>package</phase>
-            <goals>
-              <goal>assembly:assembly</goal>
-            </goals>
-          </execution>
-</executions>
                 </configuration>
             </plugin>
         </plugins>

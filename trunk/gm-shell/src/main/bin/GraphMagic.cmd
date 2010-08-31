@@ -20,8 +20,8 @@
 
 
 :: ---------------------------------------------------------------------
-:: Before you run ${pom.name} specify the location of the
-:: JDK installation directory which will be used for running ${pom.name}
+:: Before you run ${project.name} specify the location of the
+:: JDK installation directory which will be used for running ${project.name}
 :: ---------------------------------------------------------------------
 IF "%JAVA_HOME%" == "" GOTO error
 
@@ -39,8 +39,8 @@ FOR %%f IN (lib\*) DO @CALL util\append %%f
 GOTO end
 :error
 ECHO ---------------------------------------------------------------------
-ECHO ERROR: cannot start ${pom.name}.
-ECHO No JDK found to run ${pom.name}. Please validate JAVA_HOME points to valid JDK installation.
+ECHO ERROR: cannot start ${project.name}.
+ECHO No JDK found to run ${project.name}. Please validate JAVA_HOME points to valid JDK installation.
 ECHO ---------------------------------------------------------------------
 PAUSE
 
