@@ -1,15 +1,11 @@
 User stories:
-> Save/Load a graph to a file (GraphML).
-* Implement Plugins menu in menu bar (consider use of Eclipse platform for plugins)
-* Show vertex marks (listed and mapped);
-* Show edge marks (listed and mapped);
+> Save/Load a graph to a file (GraphML) with visual preserved.
+* Consider refactoring to be an Eclipse Plugin.
 * Pass plugin path[s] as command-line parameters.
 * Show pseudo-edges.
 * More than one window with a graph.
-* Selecting multiple vertices.
 * Renumbering of vertices (by hand, randomly)
-* Marking (weighing) edges
-* Changing properties of the graph (digraph, multigraph, pseudograph)
+* Converting graph to digraph, multigraph, pseudograph.
 * Zooming
 * History of graph view actions for the Undo/Redo.
 * Printing graph
