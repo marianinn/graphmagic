@@ -56,8 +56,8 @@ public abstract class EdgePanel extends AbstractEdgePanel implements Observer {
 	private static final int FONT_SIZE = 20;
 	protected static final Font MARK_FONT = new Font("courier", Font.PLAIN, FONT_SIZE);
 	protected static final Color MARK_COLOR = new Color(0x80, 0x0, 0x0);
-	private Point oldOddPoint = new Point();
-	private Point oldMovedEndPoint = new Point();
+	private final Point oldOddPoint = new Point();
+	private final Point oldMovedEndPoint = new Point();
 	protected transient boolean hovered = false;
 
 	public EdgePanel(Edge edge, VertexPanel tail, VertexPanel head) {
