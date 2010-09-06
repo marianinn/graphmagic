@@ -1,116 +1,124 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ GraphMagic, package for scientists working in graph theory.
-  ~ Copyright (C) 2009 Dzmitry Lazerka dlazerka@dlazerka.name
-  ~
-  ~ This program is free software; you can redistribute it and/or modify
-  ~ it under the terms of the GNU General Public License version 2 as
-  ~ published by the Free Software Foundation.
-  ~
-  ~ This program is distributed in the hope that it will be useful,
-  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  ~ GNU General Public License for more details.
-  ~
-  ~ You should have received a copy of the GNU General Public License along
-  ~ with this program; if not, write to the Free Software Foundation, Inc.,
-  ~ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-  ~
-  ~ Author: Dzmitry Lazerka dlazerka@dlazerka.name
-  -->
+	~ GraphMagic, package for scientists working in graph theory.
+	~ Copyright (C) 2009 Dzmitry Lazerka dlazerka@dlazerka.name
+	~
+	~ This program is free software; you can redistribute it and/or modify
+	~ it under the terms of the GNU General Public License version 2 as
+	~ published by the Free Software Foundation.
+	~
+	~ This program is distributed in the hope that it will be useful,
+	~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+	~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+	~ GNU General Public License for more details.
+	~
+	~ You should have received a copy of the GNU General Public License along
+	~ with this program; if not, write to the Free Software Foundation, Inc.,
+	~ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+	~
+	~ Author: Dzmitry Lazerka
+	dlazerka@dlazerka.name
+-->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <name>GraphMagic</name>
-    <groupId>name.dlazerka.gm</groupId>
-    <artifactId>gm-all</artifactId>
-    <version>${graphmagic.version}</version>
-    <packaging>pom</packaging>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<name>GraphMagic</name>
+	<groupId>name.dlazerka.gm</groupId>
+	<artifactId>gm-all</artifactId>
+	<version>${graphmagic.version}</version>
+	<packaging>pom</packaging>
 
-    <modules>
-        <module>gm-core</module>
-        <module>gm-shell</module>
-        <module>gm-graphmaker</module>
-        <module>gm-dijkstra</module>
-    </modules>
+	<modules>
+		<module>gm-core</module>
+		<module>gm-shell</module>
+		<module>gm-graphmaker</module>
+		<module>gm-dijkstra</module>
+	</modules>
 
-    <properties>
-        <graphmagic.version>0.2</graphmagic.version>
-        <production>true</production>
-        <logLevel>WARN</logLevel>
-        <plugin.default.dir>plugins</plugin.default.dir>
-        <pluginManifestAttributeKeyForMainClassName>GraphMagicPlugin-Class</pluginManifestAttributeKeyForMainClassName>
-    </properties>
+	<properties>
+		<graphmagic.version>0.2</graphmagic.version>
+		<production>true</production>
+		<logLevel>WARN</logLevel>
+		<plugin.default.dir>plugins</plugin.default.dir>
+		<pluginManifestAttributeKeyForMainClassName>GraphMagicPlugin-Class</pluginManifestAttributeKeyForMainClassName>
+	</properties>
 
-    <build>
-        <defaultGoal>install</defaultGoal>
-        <finalName>${pom.artifactId}-${pom.version}</finalName>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-            <resource>
-                <directory>src/main/image</directory>
-                <filtering>false</filtering>
-            </resource>
-        </resources>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.2-beta-5</version>
-                <configuration>
-                    <descriptors>
-                        <descriptor>assembly.xml</descriptor>
-                    </descriptors>
-                    <finalName>GraphMagic</finalName>
-                    <outputDirectory>target</outputDirectory>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+	<build>
+		<defaultGoal>install</defaultGoal>
+		<finalName>${pom.artifactId}-${pom.version}</finalName>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+			<resource>
+				<directory>src/main/image</directory>
+				<filtering>false</filtering>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<configuration>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.2-beta-5</version>
+				<configuration>
+					<descriptors>
+						<descriptor>assembly.xml</descriptor>
+					</descriptors>
+					<finalName>GraphMagic</finalName>
+					<outputDirectory>target</outputDirectory>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
-    <dependencies>
-        <!-- test -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.5</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.easymock</groupId>
-            <artifactId>easymock</artifactId>
-            <version>2.4</version>
-            <scope>test</scope>
-        </dependency>
+	<dependencies>
+		<!-- test -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.5</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+			<version>2.4</version>
+			<scope>test</scope>
+		</dependency>
 
-        <!-- logging -->
-        <dependency>
-            <artifactId>slf4j-api</artifactId>
-            <groupId>org.slf4j</groupId>
-            <version>1.5.6</version>
-        </dependency>
-        <dependency>
-            <artifactId>slf4j-log4j12</artifactId>
-            <groupId>org.slf4j</groupId>
-            <version>1.5.6</version>
-        </dependency>
-    </dependencies>
+		<!-- logging -->
+		<dependency>
+			<artifactId>slf4j-api</artifactId>
+			<groupId>org.slf4j</groupId>
+			<version>1.5.6</version>
+		</dependency>
+		<dependency>
+			<artifactId>slf4j-log4j12</artifactId>
+			<groupId>org.slf4j</groupId>
+			<version>1.5.6</version>
+		</dependency>
+
+		<!-- utils -->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>1.4</version>
+		</dependency>
+	</dependencies>
 </project>

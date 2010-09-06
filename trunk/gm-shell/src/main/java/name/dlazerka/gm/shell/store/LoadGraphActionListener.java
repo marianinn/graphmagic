@@ -18,23 +18,21 @@
  * Author: Dzmitry Lazerka www.dlazerka.name
  */
 
-package name.dlazerka.gm.ui;
+package name.dlazerka.gm.shell.store;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
-import java.text.MessageFormat;
-import java.util.regex.Pattern;
 
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import name.dlazerka.gm.Graph;
+import name.dlazerka.gm.basic.BasicGraph;
+import name.dlazerka.gm.basic.MergeException;
 import name.dlazerka.gm.shell.ResourceBundle;
-import name.dlazerka.gm.shell.store.GraphmlStorer;
+import name.dlazerka.gm.ui.ErrorDialog;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,15 +40,15 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class SaveGraphActionListener extends JFileChooser implements ActionListener {
-	private static final Logger logger = LoggerFactory.getLogger(SaveGraphActionListener.class);
+public class LoadGraphActionListener extends JFileChooser implements ActionListener {
+	private static final Logger logger = LoggerFactory.getLogger(LoadGraphActionListener.class);
 	private final Component parent;
 	private final Graph graph;
 
-	public SaveGraphActionListener(Component parent, Graph graph) {
+	public LoadGraphActionListener(Component parent, Graph graph) {
 		this.parent = parent;
 		this.graph = graph;
-		setDialogTitle(ResourceBundle.getString("save.graph"));
+		setDialogTitle(ResourceBundle.getString("load.graph"));
 		setFileSelectionMode(JFileChooser.FILES_ONLY);
 		setFileFilter(
 			new FileNameExtensionFilter(
@@ -62,40 +60,22 @@ public class SaveGraphActionListener extends JFileChooser implements ActionListe
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (showDialog(parent, ResourceBundle.getString("save.graph")) != JFileChooser.APPROVE_OPTION) {
-			return;
-		}
-		try {
+		int ret = showOpenDialog(parent);
+
+		if (ret == JFileChooser.APPROVE_OPTION) {
 			File file = getSelectedFile();
-
-			file = maybeAddExtension(file);
-
-			if (file.exists()) {
-				String message = ResourceBundle.getString("file.exists.overwrite");
-				message = MessageFormat.format(message, file.getCanonicalPath());
-				if (JOptionPane.showConfirmDialog(
-					parent, message
-				) != JOptionPane.YES_OPTION) {
-					return;
+			try {
+				BasicGraph graph = GraphmlStorer.load(file);
+				try {
+					this.graph.mergeFrom(graph);
+				}
+				catch (MergeException e1) {
+					throw new GraphLoadingException(e1);
 				}
 			}
-
-			GraphmlStorer.save(graph, file);
+			catch (GraphLoadingException e1) {
+				ErrorDialog.showError(e1, parent);
+			}
 		}
-		catch (IOException e1) {
-			ErrorDialog.showError(e1, parent);
-		}
-	}
-
-	private File maybeAddExtension(File file) throws IOException {
-		String filePath = file.getCanonicalPath();
-
-		String ext = ResourceBundle.getString("graphml.ext");
-		String regex = ".*" + Pattern.quote(ext) + "$";
-		if (!filePath.matches(regex)) {
-			filePath += "." + ext;
-			file = new File(filePath);
-		}
-		return file;
 	}
 }
