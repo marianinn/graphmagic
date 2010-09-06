@@ -1,6 +1,6 @@
 /*
  * GraphMagic, package for scientists working in graph theory.
- * Copyright (C) 2009 Dzmitry Lazerka dlazerka@dlazerka.name
+ * Copyright (C) 2009 Dzmitry Lazerka www.dlazerka.name
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 as
@@ -15,31 +15,44 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Author: Dzmitry Lazerka dlazerka@dlazerka.name
+ * Author: Dzmitry Lazerka www.dlazerka.name
  */
 
 package name.dlazerka.gm.basic;
 
-import name.dlazerka.gm.*;
-import name.dlazerka.gm.exception.*;
+import java.io.Serializable;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
+import name.dlazerka.gm.Edge;
+import name.dlazerka.gm.Graph;
+import name.dlazerka.gm.GraphUI;
+import name.dlazerka.gm.Vertex;
+import name.dlazerka.gm.exception.DuplicateEdgeException;
+import name.dlazerka.gm.exception.EdgeAddingException;
+import name.dlazerka.gm.exception.EdgeCreateException;
+import name.dlazerka.gm.exception.NoSuchEdgeException;
+import name.dlazerka.gm.exception.NoSuchVertexException;
+import name.dlazerka.gm.exception.PseudoEdgeForNonPseudoGraphException;
 import name.dlazerka.gm.util.LinkedSet;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.Serializable;
-import java.util.*;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public class BasicGraph implements Graph, Serializable {
+public class BasicGraph implements Graph, Serializable, Cloneable {
 	private static final Logger logger = LoggerFactory.getLogger(BasicGraph.class);
 
 	private final Set<Vertex> vertexSet = new LinkedHashSet<Vertex>();
-	private final HashMap<String, Vertex> idToVertex = new HashMap<String, Vertex>();
 
 	private final Set<Edge> edgeSet = new LinkedHashSet<Edge>();
-	private GraphUI uI = new GraphUI();
+	private GraphUI ui = new GraphUI();
 
 	/**
 	 * See {@link Graph#isDirected()}
@@ -58,10 +71,15 @@ public class BasicGraph implements Graph, Serializable {
 
 	/**
 	 * A list of observers that are notified on graph changes.
+	 * Not a subject for serialization.
 	 */
-	protected final List<GraphModificationListener> modificationListenerList = new LinkedList<GraphModificationListener>();
+	protected final transient List<GraphModificationListener> modificationListenerList = new LinkedList<GraphModificationListener>();
 
-	private Map<String, Edge> edgeLabeling = new HashMap<String, Edge>();
+	/**
+	 * Helper map for fast id->vertex lookup.
+	 * Not a subject for serialization.
+	 */
+	private final transient HashMap<String, Vertex> idToVertex = new HashMap<String, Vertex>();
 
 	public BasicGraph() {
 		this(false, false, false);
@@ -141,14 +159,14 @@ public class BasicGraph implements Graph, Serializable {
 	public Edge getEdge(Vertex source, Vertex target) {
 		for (Edge edge : edgeSet) {
 			if (edge.getSource().equals(source)
-			    && edge.getTarget().equals(target)) {
+				&& edge.getTarget().equals(target)) {
 				return edge;
 			}
 
 			if (!isDirected()
-			    && edge.getSource().equals(target)
-			    && edge.getTarget().equals(source)
-				) {
+				&& edge.getSource().equals(target)
+				&& edge.getTarget().equals(source)
+			) {
 				return edge;
 			}
 		}
@@ -172,11 +190,6 @@ public class BasicGraph implements Graph, Serializable {
 	@Override
 	public Set<Edge> getEdgesBetween(String sourceId, String targetId) {
 		throw new UnsupportedOperationException("TODO");
-	}
-
-	@Override
-	public Map<String, Edge> getEdgeLabeling() {
-		return edgeLabeling;
 	}
 
 	@Override
@@ -299,12 +312,12 @@ public class BasicGraph implements Graph, Serializable {
 
 	@Override
 	public GraphUI getUI() {
-		return uI;
+		return ui;
 	}
 
 	@Override
 	public void setUI(GraphUI uI) {
-		this.uI = uI;
+		this.ui = uI;
 	}
 
 	public boolean isDirected() {
@@ -340,8 +353,6 @@ public class BasicGraph implements Graph, Serializable {
 		if (!edgeSet.add(edge)) {
 			throw new DuplicateEdgeException(edge);
 		}
-
-		edgeLabeling.put(edge.toString(), edge);
 
 		for (GraphModificationListener listener : modificationListenerList) {
 			listener.edgeAdded(edge);

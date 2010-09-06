@@ -1,6 +1,6 @@
 /*
  * GraphMagic, package for scientists working in graph theory.
- * Copyright (C) 2009 Dzmitry Lazerka dlazerka@dlazerka.name
+ * Copyright (C) 2009 Dzmitry Lazerka www.dlazerka.name
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 as
@@ -15,18 +15,17 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Author: Dzmitry Lazerka dlazerka@dlazerka.name
+ * Author: Dzmitry Lazerka www.dlazerka.name
  */
 
 package name.dlazerka.gm;
+
+import java.util.Set;
 
 import name.dlazerka.gm.basic.GraphModificationListener;
 import name.dlazerka.gm.basic.MergeException;
 import name.dlazerka.gm.exception.EdgeCreateException;
 import name.dlazerka.gm.exception.MultipleEdgesException;
-
-import java.util.Map;
-import java.util.Set;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
@@ -74,13 +73,6 @@ public interface Graph {
 	Set<Edge> getEdgesBetween(Vertex vertex1, Vertex vertex2);
 
 	Set<Edge> getEdgesBetween(String sourceId, String targetId);
-
-	/**
-	 * An edge labeling is a function from some subset of the integers to the edges of the graph.
-	 *
-	 * @return edge labeling map
-	 */
-	Map<String, Edge> getEdgeLabeling();
 
 	Vertex createVertex();
 

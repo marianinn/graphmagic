@@ -7,5 +7,4 @@ do
 	CLASSPATH=$CLASSPATH$f:
 done
 
-echo java -cp "$CLASSPATH" name.dlazerka.gm.ui.Main $@
-echo $CLASSPATH
+java -cp "$CLASSPATH" name.dlazerka.gm.ui.Main $@
