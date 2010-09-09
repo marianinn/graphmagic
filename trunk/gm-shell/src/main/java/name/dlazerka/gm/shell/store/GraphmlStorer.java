@@ -79,12 +79,10 @@ public class GraphmlStorer {
 			where.write(MessageFormat.format(nodeFormat, vertex.getId()));
 		}
 		logger.debug("Nodes written. Writing edges...");
-		int edgeId = 1;
 		for (Edge edge : graph.getEdgeSet()) {
 			String sourceId = edge.getSource().getId();
 			String targetId = edge.getTarget().getId();
-			where.write(MessageFormat.format(edgeFormat, edgeId, sourceId, targetId));
-			edgeId++;
+			where.write(MessageFormat.format(edgeFormat, sourceId, targetId));
 		}
 		where.write(footer);
 	}
