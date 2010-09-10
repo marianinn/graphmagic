@@ -72,7 +72,9 @@ public class GraphmlStorer {
 		String footer = ResourceBundle.getString("graphml.footer");
 
 		String directed = graph.isDirected() ? "directed" : "undirected";
-		String header = MessageFormat.format(headerFormat, directed);
+		int nodesCount = graph.getVertexSet().size();
+		int edgesCount = graph.getEdgeSet().size();
+		String header = MessageFormat.format(headerFormat, directed, nodesCount, edgesCount);
 
 		where.write(header);
 		for (Vertex vertex : graph.getVertexSet()) {

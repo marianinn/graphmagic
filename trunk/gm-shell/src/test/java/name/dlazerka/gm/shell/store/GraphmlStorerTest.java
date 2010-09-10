@@ -36,7 +36,8 @@ import org.slf4j.LoggerFactory;
 
 public class GraphmlStorerTest {
 	private static final Logger logger = LoggerFactory.getLogger(GraphmlStorerTest.class);
-	private static final URL source = GraphmlStorerTest.class.getResource("graphml.xml");
+	private static final URL xmlSource = GraphmlStorerTest.class.getResource("graphml.xml");
+	private static final URL xmlSourceWithData = GraphmlStorerTest.class.getResource("graphml.data.xml");
 	private BasicGraph graph;
 
 	@Before
@@ -50,10 +51,32 @@ public class GraphmlStorerTest {
 	}
 
 	@Test
-	public void testLoadFromFile() throws Exception {
-		File file = new File(source.toURI());
+	public void testLoad() throws Exception {
+		File file = new File(xmlSource.toURI());
 		BasicGraph actual = GraphmlStorer.load(file);
 		Assert.assertEquals(graph, actual);
+	}
+
+	@Test
+	public void testLoadWithData() throws Exception {
+		BasicGraph expected = new BasicGraph();
+		BasicVertex vertex0 = expected.createVertex("0");
+		BasicVertex vertex1 = expected.createVertex("1");
+		BasicVertex vertex2 = expected.createVertex("2");
+		BasicVertex vertex3 = expected.createVertex("3");
+		BasicVertex vertex4 = expected.createVertex("4");
+		BasicVertex vertex5 = expected.createVertex("5");
+		expected.createEdge(vertex0, vertex2);
+		expected.createEdge(vertex0, vertex1);
+		expected.createEdge(vertex1, vertex3);
+		expected.createEdge(vertex3, vertex2);
+		expected.createEdge(vertex2, vertex4);
+		expected.createEdge(vertex3, vertex5);
+		expected.createEdge(vertex5, vertex4);
+
+		File file = new File(xmlSourceWithData.toURI());
+		BasicGraph actual = GraphmlStorer.load(file);
+		Assert.assertEquals(expected, actual);
 	}
 
 	@Test
@@ -64,7 +87,7 @@ public class GraphmlStorerTest {
 		String string = writer.toString();
 
 		String expected;
-		InputStream in = source.openStream();
+		InputStream in = xmlSource.openStream();
 		try {
 			expected = IOUtils.toString(in);
 		} finally {
