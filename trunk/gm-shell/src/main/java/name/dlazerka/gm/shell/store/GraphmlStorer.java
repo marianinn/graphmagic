@@ -19,6 +19,7 @@
  */
 package name.dlazerka.gm.shell.store;
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -38,6 +39,7 @@ import javax.xml.stream.XMLStreamReader;
 import name.dlazerka.gm.Edge;
 import name.dlazerka.gm.Graph;
 import name.dlazerka.gm.Vertex;
+import name.dlazerka.gm.Visual;
 import name.dlazerka.gm.basic.BasicGraph;
 import name.dlazerka.gm.exception.EdgeCreateException;
 import name.dlazerka.gm.shell.ResourceBundle;
@@ -51,6 +53,7 @@ import org.slf4j.LoggerFactory;
 public class GraphmlStorer {
 	private static final Logger logger = LoggerFactory.getLogger(GraphmlStorer.class);
 	private static final Pattern ID_PATTERN = Pattern.compile("^[nN]([0-9]{1,3})$");
+	private static final String DEFAULT_COLOR = "#ffffffff";
 
 	public static void save(Graph graph, File file) throws IOException {
 		logger.info("Saving graph to {}", file.getCanonicalPath());
@@ -74,19 +77,34 @@ public class GraphmlStorer {
 		String directed = graph.isDirected() ? "directed" : "undirected";
 		int nodesCount = graph.getVertexSet().size();
 		int edgesCount = graph.getEdgeSet().size();
-		String header = MessageFormat.format(headerFormat, directed, nodesCount, edgesCount);
+		String header = MessageFormat.format(headerFormat, DEFAULT_COLOR, directed, nodesCount, edgesCount);
 
 		where.write(header);
 		for (Vertex vertex : graph.getVertexSet()) {
-			where.write(MessageFormat.format(nodeFormat, vertex.getId()));
+			String colorHex = extractHexColor(vertex.getVisual());
+			where.write(MessageFormat.format(nodeFormat, vertex.getId(), colorHex));
 		}
 		logger.debug("Nodes written. Writing edges...");
 		for (Edge edge : graph.getEdgeSet()) {
+			String colorHex = extractHexColor(edge.getVisual());
 			String sourceId = edge.getSource().getId();
 			String targetId = edge.getTarget().getId();
-			where.write(MessageFormat.format(edgeFormat, sourceId, targetId));
+			where.write(MessageFormat.format(edgeFormat, sourceId, targetId, colorHex));
 		}
 		where.write(footer);
+	}
+
+	/**
+	 * @param visual not null
+	 * @return visual's color as a hex string, prepended by #.
+	 */
+	protected static String extractHexColor(Visual visual) {
+		String colorStr = DEFAULT_COLOR;
+		Color color = visual.getColor();
+		if (color != null) {
+			colorStr = '#' + Integer.toHexString(color.getRGB());
+		}
+		return colorStr;
 	}
 
 	public static BasicGraph load(File source) throws GraphLoadingException {

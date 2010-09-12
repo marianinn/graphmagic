@@ -20,26 +20,41 @@
 
 package name.dlazerka.gm.ui;
 
-import name.dlazerka.gm.Mark;
-import name.dlazerka.gm.Vertex;
-import name.dlazerka.gm.Visual;
-import name.dlazerka.gm.Graph;
-import name.dlazerka.gm.ui.edge.EdgePanel;
-import name.dlazerka.gm.shell.ResourceBundle;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.swing.*;
-import javax.swing.event.PopupMenuEvent;
-import javax.swing.event.PopupMenuListener;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Observable;
 import java.util.Observer;
+
+import javax.swing.AbstractAction;
+import javax.swing.JComponent;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
+
+import name.dlazerka.gm.Graph;
+import name.dlazerka.gm.Mark;
+import name.dlazerka.gm.Vertex;
+import name.dlazerka.gm.Visual;
+import name.dlazerka.gm.shell.ResourceBundle;
+import name.dlazerka.gm.ui.edge.EdgePanel;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
@@ -107,14 +122,14 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 		setPreferredSize(panelSize);
 		setSize(panelSize);
 		setOpaque(false);
-//		setDoubleBuffered(true); // is needed?
+		//		setDoubleBuffered(true); // is needed?
 
 		Dimension preferredSize = addEdgePanel.getPreferredSize();
 		addEdgePanel.setBounds(// top right corner
-		                       panelSize.width - preferredSize.width,
-		                       0,
-		                       preferredSize.width,
-		                       preferredSize.height
+			panelSize.width - preferredSize.width,
+			0,
+			preferredSize.width,
+			preferredSize.height
 		);
 		add(addEdgePanel);
 
@@ -128,6 +143,7 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 		return vertex;
 	}
 
+	@Override
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 
@@ -173,8 +189,8 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 
 		g2.drawGlyphVector(glyphVector, glyphStartX, glyphStartY);
 
-//		g2.drawLine(0, getSize().height / 2, getSize().width, getSize().height / 2);
-//		g2.drawLine(getSize().width / 2, 0, getSize().width / 2, getSize().height);
+		//		g2.drawLine(0, getSize().height / 2, getSize().width, getSize().height / 2);
+		//		g2.drawLine(getSize().width / 2, 0, getSize().width / 2, getSize().height);
 	}
 
 	/**
@@ -274,12 +290,12 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 	@Override
 	public String toString() {
 		return "VertexPanel{" +
-		       "vertex=" + vertex +
-		       "x=" + getX() +
-		       "y=" + getY() +
-		       "width=" + getSize().width +
-		       "height=" + getSize().height +
-		       '}';
+		"vertex=" + vertex +
+		"x=" + getX() +
+		"y=" + getY() +
+		"width=" + getSize().width +
+		"height=" + getSize().height +
+		'}';
 	}
 
 	public void addAdjacentEdgePanel(EdgePanel edgePanel) {
@@ -399,7 +415,7 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 		public void mouseExited(MouseEvent e) {
 			logger.trace("");
 			if (!isDraggingEdgeFromThis()
-			    && !dragging) {
+				&& !dragging) {
 				setHovered(false);
 			}
 		}
@@ -419,12 +435,12 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 
 			// adjust visual accordingly
 			Visual visual = getVertex().getVisual();
-			double cX = (double) VertexPanel.this.getVertexCenterX();
-			double cY = (double) VertexPanel.this.getVertexCenterY();
+			double cX = VertexPanel.this.getVertexCenterX();
+			double cY = VertexPanel.this.getVertexCenterY();
 			Rectangle visibleRect = getGraphPanel().getVisibleRect();
 			visual.setCenter(
-				((double) 2 * cX - 2 * visibleRect.getX() - visibleRect.getWidth()) / visibleRect.getWidth(),
-				((double) 2 * cY - 2 * visibleRect.getY() - visibleRect.getHeight()) / visibleRect.getHeight(),
+				(2 * cX - 2 * visibleRect.getX() - visibleRect.getWidth()) / visibleRect.getWidth(),
+				(2 * cY - 2 * visibleRect.getY() - visibleRect.getHeight()) / visibleRect.getHeight(),
 				false
 			);
 		}
@@ -487,9 +503,10 @@ public class VertexPanel extends JPanel implements Paintable, Observer {
 					ResourceBundle.getString("new.mark"),
 					value
 				);
-				mark.put(null, newValue);
-
-				markPanel.repaint();
+				if (newValue != null) {
+					mark.put(null, newValue);
+					markPanel.repaint();
+				}
 			}
 		}
 	}

@@ -93,7 +93,7 @@ public class GraphmlStorerTest {
 		} finally {
 			IOUtils.closeQuietly(in);
 		}
-
+		System.out.println(string);
 		Assert.assertEquals(expected, string);
 	}
 }
