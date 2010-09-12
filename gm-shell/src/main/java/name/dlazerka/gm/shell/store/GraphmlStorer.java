@@ -77,11 +77,16 @@ public class GraphmlStorer {
 
 	public static void save(Graph graph, Writer where)
 			throws IOException {
-		String headerFormat = ResourceBundle.getString("graphml.header");
-		String nodeFormat = ResourceBundle.getString("graphml.node");
-		String edgeFormat = ResourceBundle.getString("graphml.edge");
+		writeHeader(graph, where);
+		writeNodes(graph, where);
+		writeEdges(graph, where);
 		String footer = ResourceBundle.getString("graphml.footer");
+		where.write(footer);
+	}
 
+	private static void writeHeader(Graph graph, Writer where)
+			throws IOException {
+		String headerFormat = ResourceBundle.getString("graphml.header");
 		String directed = graph.isDirected() ? "directed" : "undirected";
 		int nodesCount = graph.getVertexSet().size();
 		int edgesCount = graph.getEdgeSet().size();
@@ -92,22 +97,37 @@ public class GraphmlStorer {
 				directed,
 				nodesCount,
 				edgesCount);
-
 		where.write(header);
+		logger.debug("Wrote header");
+	}
+
+	private static void writeNodes(Graph graph, Writer where)
+			throws IOException {
+		String nodeFormat = ResourceBundle.getString("graphml.node");
 		for (Vertex vertex : graph.getVertexSet()) {
 			String colorHex = extractHexColor(vertex.getVisual());
 			colorHex = colorHex == null ? DEFAULT_VERTEX_COLOR : colorHex;
 			where.write(MessageFormat.format(nodeFormat, vertex.getId(), colorHex));
+			logger.debug("Wrote {}", vertex);
 		}
-		logger.debug("Nodes written. Writing edges...");
+	}
+
+	private static void writeEdges(Graph graph, Writer where)
+			throws IOException {
+		String edgeFormat = ResourceBundle.getString("graphml.edge");
+		String edgeDirectedFormat = ResourceBundle.getString("graphml.edge.directed");
 		for (Edge edge : graph.getEdgeSet()) {
 			String sourceId = edge.getSource().getId();
 			String targetId = edge.getTarget().getId();
 			String colorHex = extractHexColor(edge.getVisual());
 			colorHex = colorHex == null ? DEFAULT_EDGE_COLOR : colorHex;
-			where.write(MessageFormat.format(edgeFormat, sourceId, targetId, colorHex));
+			String directed = "";
+			if (edge.isDirected() != graph.isDirected()) {
+				directed = MessageFormat.format(edgeDirectedFormat, edge.isDirected() + "");
+			}
+			where.write(MessageFormat.format(edgeFormat, sourceId, targetId, directed, colorHex));
+			logger.debug("Wrote {}", edge);
 		}
-		where.write(footer);
 	}
 
 	/**
@@ -183,6 +203,7 @@ public class GraphmlStorer {
 
 			GraphmlKey key = new GraphmlKey(id, default_, forEnum, name, type);
 			keys.add(key);
+			logger.debug("Loaded {}", key);
 		}
 		return keys;
 	}
@@ -205,20 +226,29 @@ public class GraphmlStorer {
 				String id = reader.getAttributeValue(null, "id");
 				id = maybeCutId(id);
 				lastReadElement = graph.createVertex(id);
+				logger.debug("Read {}", lastReadElement);
 			}
 			else if (name.equals("edge")) {
 				String sourceId = reader.getAttributeValue(null, "source");
 				String targetId = reader.getAttributeValue(null, "target");
+				String directedStr = reader.getAttributeValue(null, "directed");
 
 				sourceId = maybeCutId(sourceId);
 				targetId = maybeCutId(targetId);
+				Boolean directed = directedStr != null ? Boolean.valueOf(directedStr) : null;
 
 				try {
-					lastReadElement = graph.createEdge(sourceId, targetId);
+					if (directed == null) {
+						lastReadElement = graph.createEdge(sourceId, targetId);
+					}
+					else {
+						lastReadElement = graph.createEdge(sourceId, targetId, directed);
+					}
 				}
 				catch (EdgeCreateException e) {
 					throw new GraphLoadingException(e);
 				}
+				logger.debug("Read {}", lastReadElement);
 			}
 			else if (name.equals("data")) {
 				if (lastReadElement == null) continue;
@@ -229,6 +259,7 @@ public class GraphmlStorer {
 					Color color = parseColor(keyValue);
 					lastReadElement.getVisual().setColor(color);
 				}
+				logger.debug("Read {}", key);
 			}
 			name = proceedToNodesOrEnd(reader, "node", "edge", "data");
 		}
@@ -236,6 +267,7 @@ public class GraphmlStorer {
 
 	private static Color parseColor(String colorStr)
 			throws GraphLoadingException {
+		logger.debug("Parsing color from string '{}'", colorStr);
 		Color color;
 		Matcher matcher = COLOR_PATTERN.matcher(colorStr);
 		if (matcher.matches()) {
@@ -271,6 +303,7 @@ public class GraphmlStorer {
 			return proceedToNodes(reader, nodeNames);
 		}
 		catch (EndHitException e) {
+			logger.debug("End hit, returning null");
 			return null;
 		}
 	}
@@ -283,6 +316,7 @@ public class GraphmlStorer {
 	 */
 	private static String proceedToNodes(XMLStreamReader reader, String... nodeNames)
 			throws XMLStreamException, GraphLoadingException {
+		logger.debug("Proceeding to {}", new Object[] { nodeNames });
 		while (reader.hasNext()) {
 			reader.next();
 			if (reader.getEventType() == XMLStreamReader.START_ELEMENT) {

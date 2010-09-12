@@ -44,14 +44,14 @@ public class GraphmlStorerTest {
 
 	@Before
 	public void setUp() {
-		graph = new BasicGraph();
+		graph = new BasicGraph(false);
 		BasicVertex vertex1 = graph.createVertex();
 		vertex1.getVisual().setColor(Color.RED);
 		BasicVertex vertex2 = graph.createVertex();
 		BasicVertex vertex3 = graph.createVertex();
 		vertex3.getVisual().setColor(Color.RED);
 		BasicEdge edge1 = graph.createEdge(vertex1, vertex2);
-		BasicEdge edge2 = graph.createEdge(vertex1, vertex3);
+		BasicEdge edge2 = graph.createEdge(vertex1, vertex3, true);
 		edge2.getVisual().setColor(Color.GREEN);
 	}
 

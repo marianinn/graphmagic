@@ -58,6 +58,8 @@ public abstract class AbstractEdge implements Edge {
 			if (getSource() != null ? !getSource().equals(that.getTarget()) : that.getTarget() != null) result = false;
 		}
 
+		if (result && isDirected() != that.isDirected()) result = false;
+
 		return result;
 	}
 
