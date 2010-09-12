@@ -29,6 +29,9 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 import java.text.MessageFormat;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -38,6 +41,7 @@ import javax.xml.stream.XMLStreamReader;
 
 import name.dlazerka.gm.Edge;
 import name.dlazerka.gm.Graph;
+import name.dlazerka.gm.GraphElement;
 import name.dlazerka.gm.Vertex;
 import name.dlazerka.gm.Visual;
 import name.dlazerka.gm.basic.BasicGraph;
@@ -53,9 +57,12 @@ import org.slf4j.LoggerFactory;
 public class GraphmlStorer {
 	private static final Logger logger = LoggerFactory.getLogger(GraphmlStorer.class);
 	private static final Pattern ID_PATTERN = Pattern.compile("^[nN]([0-9]{1,3})$");
-	private static final String DEFAULT_COLOR = "#ffffffff";
+	private static final String DEFAULT_VERTEX_COLOR = "#ffffffff";
+	private static final String DEFAULT_EDGE_COLOR = "#ff000000";
+	private static final Pattern COLOR_PATTERN = Pattern.compile("^#[0-9a-fA-F]{6,8}$");
 
-	public static void save(Graph graph, File file) throws IOException {
+	public static void save(Graph graph, File file)
+			throws IOException {
 		logger.info("Saving graph to {}", file.getCanonicalPath());
 		FileWriter fileWriter = new FileWriter(file);
 		BufferedWriter writer = new BufferedWriter(fileWriter);
@@ -68,7 +75,8 @@ public class GraphmlStorer {
 		logger.info("Saved graph to {}", file.getCanonicalPath());
 	}
 
-	public static void save(Graph graph, Writer where) throws IOException {
+	public static void save(Graph graph, Writer where)
+			throws IOException {
 		String headerFormat = ResourceBundle.getString("graphml.header");
 		String nodeFormat = ResourceBundle.getString("graphml.node");
 		String edgeFormat = ResourceBundle.getString("graphml.edge");
@@ -77,18 +85,26 @@ public class GraphmlStorer {
 		String directed = graph.isDirected() ? "directed" : "undirected";
 		int nodesCount = graph.getVertexSet().size();
 		int edgesCount = graph.getEdgeSet().size();
-		String header = MessageFormat.format(headerFormat, DEFAULT_COLOR, directed, nodesCount, edgesCount);
+		String header = MessageFormat.format(
+				headerFormat,
+				DEFAULT_VERTEX_COLOR,
+				DEFAULT_EDGE_COLOR,
+				directed,
+				nodesCount,
+				edgesCount);
 
 		where.write(header);
 		for (Vertex vertex : graph.getVertexSet()) {
 			String colorHex = extractHexColor(vertex.getVisual());
+			colorHex = colorHex == null ? DEFAULT_VERTEX_COLOR : colorHex;
 			where.write(MessageFormat.format(nodeFormat, vertex.getId(), colorHex));
 		}
 		logger.debug("Nodes written. Writing edges...");
 		for (Edge edge : graph.getEdgeSet()) {
-			String colorHex = extractHexColor(edge.getVisual());
 			String sourceId = edge.getSource().getId();
 			String targetId = edge.getTarget().getId();
+			String colorHex = extractHexColor(edge.getVisual());
+			colorHex = colorHex == null ? DEFAULT_EDGE_COLOR : colorHex;
 			where.write(MessageFormat.format(edgeFormat, sourceId, targetId, colorHex));
 		}
 		where.write(footer);
@@ -99,7 +115,7 @@ public class GraphmlStorer {
 	 * @return visual's color as a hex string, prepended by #.
 	 */
 	protected static String extractHexColor(Visual visual) {
-		String colorStr = DEFAULT_COLOR;
+		String colorStr = null;
 		Color color = visual.getColor();
 		if (color != null) {
 			colorStr = '#' + Integer.toHexString(color.getRGB());
@@ -107,7 +123,8 @@ public class GraphmlStorer {
 		return colorStr;
 	}
 
-	public static BasicGraph load(File source) throws GraphLoadingException {
+	public static BasicGraph load(File source)
+			throws GraphLoadingException {
 		try {
 			logger.info("Loading graph from {}", source.getCanonicalPath());
 			FileReader fileReader = new FileReader(source);
@@ -121,44 +138,21 @@ public class GraphmlStorer {
 		}
 	}
 
-	public static BasicGraph load(Reader source) throws GraphLoadingException {
+	public static BasicGraph load(Reader source)
+			throws GraphLoadingException {
 		BasicGraph graph;
 
 		XMLInputFactory inputFactory = XMLInputFactory.newInstance();
 		try {
 			XMLStreamReader reader = inputFactory.createXMLStreamReader(source);
 
-			proceedTo("graph", reader);
+			Set<GraphmlKey> keys = readKeys(reader);
 
+			// reader now on <graph>
 			String edgedefault = reader.getAttributeValue(null, "edgedefault");
 			graph = new BasicGraph(edgedefault.equals("directed"));
 
-			while (reader.hasNext()) {
-				reader.next();
-				switch (reader.getEventType()) {
-				case XMLStreamReader.START_ELEMENT:
-					String name = reader.getLocalName();
-					if (name.equals("edge")) {
-						String sourceId = reader.getAttributeValue(null, "source");
-						String targetId = reader.getAttributeValue(null, "target");
-
-						sourceId = maybeCutId(sourceId);
-						targetId = maybeCutId(targetId);
-
-						try {
-							graph.createEdge(sourceId, targetId);
-						}
-						catch (EdgeCreateException e) {
-							throw new GraphLoadingException(e);
-						}
-					}
-					else if (name.equals("node")) {
-						String id = reader.getAttributeValue(null, "id");
-						id = maybeCutId(id);
-						graph.createVertex(id);
-					}
-				}
-			}
+			readGraphBody(graph, reader, keys);
 		}
 		catch (XMLStreamException e) {
 			throw new GraphLoadingException(e);
@@ -167,26 +161,159 @@ public class GraphmlStorer {
 		return graph;
 	}
 
+	private static Set<GraphmlKey> readKeys(XMLStreamReader reader)
+			throws XMLStreamException, GraphLoadingException {
+		String node = proceedToNodes(reader, "key", "graph");
+		Set<GraphmlKey> keys = new HashSet<GraphmlKey>();
+		while (node.equals("key")) {
+			String id = reader.getAttributeValue(null, "id");
+			String for_ = reader.getAttributeValue(null, "for");
+			String name = reader.getAttributeValue(null, "attr.name");
+			String type = reader.getAttributeValue(null, "attr.type");
+			String default_ = null;
 
-	private static void proceedTo(String nodeName, XMLStreamReader reader) throws XMLStreamException, GraphLoadingException {
+			node = proceedToNodes(reader, "key", "default", "graph");
+
+			if (reader.getLocalName().equals("default")) {
+				default_ = reader.getElementText();
+				node = proceedToNodes(reader, "key", "graph");
+			}
+
+			GraphmlKeyFor forEnum = GraphmlKeyFor.valueOf(for_.toUpperCase());
+
+			GraphmlKey key = new GraphmlKey(id, default_, forEnum, name, type);
+			keys.add(key);
+		}
+		return keys;
+	}
+
+	/**
+	 * Reads nodes and edges with their data to given graph.
+	 *
+	 * @param graph not null
+	 * @param reader not null
+	 * @param keys not null
+	 * @throws XMLStreamException
+	 * @throws GraphLoadingException
+	 */
+	private static void readGraphBody(BasicGraph graph, XMLStreamReader reader, Set<GraphmlKey> keys)
+			throws XMLStreamException, GraphLoadingException {
+		GraphElement lastReadElement = null;
+		String name = proceedToNodesOrEnd(reader, "node", "edge", "data");
+		while (name != null) {
+			if (name.equals("node")) {
+				String id = reader.getAttributeValue(null, "id");
+				id = maybeCutId(id);
+				lastReadElement = graph.createVertex(id);
+			}
+			else if (name.equals("edge")) {
+				String sourceId = reader.getAttributeValue(null, "source");
+				String targetId = reader.getAttributeValue(null, "target");
+
+				sourceId = maybeCutId(sourceId);
+				targetId = maybeCutId(targetId);
+
+				try {
+					lastReadElement = graph.createEdge(sourceId, targetId);
+				}
+				catch (EdgeCreateException e) {
+					throw new GraphLoadingException(e);
+				}
+			}
+			else if (name.equals("data")) {
+				if (lastReadElement == null) continue;
+				String keyName = reader.getAttributeValue(null, "key");
+				String keyValue = reader.getElementText();
+				GraphmlKey key = lookupKey(keyName, lastReadElement, keys);
+				if (key.getName().equalsIgnoreCase("color")) {
+					Color color = parseColor(keyValue);
+					lastReadElement.getVisual().setColor(color);
+				}
+			}
+			name = proceedToNodesOrEnd(reader, "node", "edge", "data");
+		}
+	}
+
+	private static Color parseColor(String colorStr)
+			throws GraphLoadingException {
+		Color color;
+		Matcher matcher = COLOR_PATTERN.matcher(colorStr);
+		if (matcher.matches()) {
+			int rgba = (int) (long) Long.decode(colorStr);
+			color = new Color(rgba, true);
+		}
+		else {
+			color = Color.getColor(colorStr);
+		}
+		return color;
+	}
+
+	private static GraphmlKey lookupKey(String id, GraphElement el, Set<GraphmlKey> keys)
+			throws GraphLoadingException {
+		String for_ = el instanceof Vertex ? "node" : "edge";
+		for (GraphmlKey key : keys) {
+			if (id.equals(key.getId()) && key.getFor().fits(for_)) {
+				return key;
+			}
+		}
+		throw new GraphLoadingException("Unable to found key '" + id + "' for " + for_ + " in declared keys " + keys);
+	}
+
+	/**
+	 * Skips all XML elements in reader until any of given nodeNames are found or end is hit.
+	 *
+	 * @param reader not null
+	 * @param nodeNames not null
+	 */
+	private static String proceedToNodesOrEnd(XMLStreamReader reader, String... nodeNames)
+			throws XMLStreamException, GraphLoadingException {
+		try {
+			return proceedToNodes(reader, nodeNames);
+		}
+		catch (EndHitException e) {
+			return null;
+		}
+	}
+
+	/**
+	 * Skips all XML elements in reader until any of given nodeNames are found.
+	 *
+	 * @param reader not null
+	 * @param nodeNames not null
+	 */
+	private static String proceedToNodes(XMLStreamReader reader, String... nodeNames)
+			throws XMLStreamException, GraphLoadingException {
 		while (reader.hasNext()) {
 			reader.next();
-			switch (reader.getEventType()) {
-			case XMLStreamReader.START_ELEMENT:
+			if (reader.getEventType() == XMLStreamReader.START_ELEMENT) {
 				String name = reader.getLocalName();
-				if (name.equals(nodeName)) {
-					return;
+				for (String nodeName : nodeNames) {
+					if (nodeName.equals(name))
+						return name;
 				}
 			}
 		}
-		throw new GraphLoadingException("Hit end without hitting '" + nodeName + "'");
+
+		throw new EndHitException(nodeNames);
 	}
 
+	/**
+	 * If given id matches canonical ID pattern, then returns only numeric part, else returns as is.
+	 *
+	 * @param id
+	 * @return numeric part of given id or id as is.
+	 */
 	private static String maybeCutId(String id) {
 		Matcher m = ID_PATTERN.matcher(id);
 		if (m.matches()) {
 			id = m.group(1);
 		}
 		return id;
+	}
+
+	private static class EndHitException extends GraphLoadingException {
+		protected EndHitException(String... nodeNames) {
+			super("Hit end without hitting any of '" + Arrays.toString(nodeNames) + "'.");
+		}
 	}
 }

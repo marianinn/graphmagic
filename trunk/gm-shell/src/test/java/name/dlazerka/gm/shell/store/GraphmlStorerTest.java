@@ -19,11 +19,13 @@
  */
 package name.dlazerka.gm.shell.store;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.net.URL;
 
+import name.dlazerka.gm.basic.BasicEdge;
 import name.dlazerka.gm.basic.BasicGraph;
 import name.dlazerka.gm.basic.BasicVertex;
 
@@ -37,17 +39,20 @@ import org.slf4j.LoggerFactory;
 public class GraphmlStorerTest {
 	private static final Logger logger = LoggerFactory.getLogger(GraphmlStorerTest.class);
 	private static final URL xmlSource = GraphmlStorerTest.class.getResource("graphml.xml");
-	private static final URL xmlSourceWithData = GraphmlStorerTest.class.getResource("graphml.data.xml");
+	private static final URL xmlSourceWithData = GraphmlStorerTest.class.getResource("graphml2.xml");
 	private BasicGraph graph;
 
 	@Before
 	public void setUp() {
 		graph = new BasicGraph();
 		BasicVertex vertex1 = graph.createVertex();
+		vertex1.getVisual().setColor(Color.RED);
 		BasicVertex vertex2 = graph.createVertex();
 		BasicVertex vertex3 = graph.createVertex();
-		graph.createEdge(vertex1, vertex2);
-		graph.createEdge(vertex1, vertex3);
+		vertex3.getVisual().setColor(Color.RED);
+		BasicEdge edge1 = graph.createEdge(vertex1, vertex2);
+		BasicEdge edge2 = graph.createEdge(vertex1, vertex3);
+		edge2.getVisual().setColor(Color.GREEN);
 	}
 
 	@Test
@@ -93,7 +98,6 @@ public class GraphmlStorerTest {
 		} finally {
 			IOUtils.closeQuietly(in);
 		}
-		System.out.println(string);
 		Assert.assertEquals(expected, string);
 	}
 }

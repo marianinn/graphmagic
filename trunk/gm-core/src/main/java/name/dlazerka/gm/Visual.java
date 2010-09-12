@@ -20,7 +20,8 @@
 
 package name.dlazerka.gm;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Point;
 import java.util.Observable;
 
 /**

@@ -1,6 +1,6 @@
 /*
  * GraphMagic, package for scientists working in graph theory.
- * Copyright (C) 2009 Dzmitry Lazerka dlazerka@dlazerka.name
+ * Copyright (C) 2009 Dzmitry Lazerka www.dlazerka.name
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 as
@@ -15,31 +15,31 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Author: Dzmitry Lazerka dlazerka@dlazerka.name
+ * Author: Dzmitry Lazerka www.dlazerka.name
  */
 
 package name.dlazerka.gm;
 
-import java.util.Set;
-
 /**
+ * Denotes either vertices or edges.
+ * 
  * @author Dzmitry Lazerka www.dlazerka.name
  */
-public interface Edge extends GraphElement {
 
-	Vertex getTarget();
+public interface GraphElement {
+	/**
+	 * Graph elements must belong to a graph, they cannot exist without any graph.
+	 * @return owner graph
+	 */
+	Graph getGraph();
 
-	Vertex getSource();
+	/**
+	 * @return properties that usually affect only visual representation of graph.
+	 */
+	Visual getVisual();
 
-	Set<Edge> getIncidentEdgeSet();
-
-	boolean isIncident(Vertex vertex);
-
-	boolean isIncident(Edge edge);
-
-	boolean isDirected();
-
-	boolean isPseudo();
-
-	void mergeFrom(Edge edge);
+	/**
+	 * @return element properties like weight, flow etc.
+	 */
+	Mark getMark();
 }
