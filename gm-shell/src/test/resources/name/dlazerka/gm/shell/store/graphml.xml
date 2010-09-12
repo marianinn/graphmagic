@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
-	<key id="d0" for="node" attr.name="color" attr.type="string">
-		<default>white</default>
+	<key id="color" for="node" attr.name="color" attr.type="string">
+		<default>#ffffffff</default>
 	</key>
 	<graph id="G" edgedefault="undirected" parse.nodes="3" parse.edges="2"
 		parse.nodeids="canonical" parse.edgeids="canonical" parse.order="nodesfirst">
-		<node id="n1"/>
-		<node id="n2"/>
-		<node id="n3"/>
-		<edge source="n1" target="n2"/>
-		<edge source="n1" target="n3"/>
+		<node id="n1">
+			<data key="color">#ffffffff</data>
+		</node>
+		<node id="n2">
+			<data key="color">#ffffffff</data>
+		</node>
+		<node id="n3">
+			<data key="color">#ffffffff</data>
+		</node>
+		<edge source="n1" target="n2">
+			<data key="color">#ffffffff</data>
+		</edge>
+		<edge source="n1" target="n3">
+			<data key="color">#ffffffff</data>
+		</edge>
 	</graph>
 </graphml>
