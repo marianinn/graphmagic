@@ -20,7 +20,8 @@
 
 package name.dlazerka.gm;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Dzmitry Lazerka www.dlazerka.name
@@ -31,7 +32,12 @@ public class Mark extends HashMap<Object, Object> {
 		StringBuilder sb = new StringBuilder();
 		for (Map.Entry<Object, Object> entry : this.entrySet()) {
 			sb.append(',');
-			sb.append(entry.getValue().toString());
+			Object key = entry.getKey();
+			Object value = entry.getValue();
+			if (key != null) {
+				sb.append(key).append('=');
+			}
+			sb.append(value);
 		}
 		sb.deleteCharAt(0);
 		return sb.toString();

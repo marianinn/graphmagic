@@ -1,6 +1,6 @@
 /*
  * GraphMagic, package for scientists working in graph theory.
- * Copyright (C) 2009 Dzmitry Lazerka dlazerka@dlazerka.name
+ * Copyright (C) 2010 Dzmitry Lazerka www.dlazerka.name
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 as
@@ -15,31 +15,17 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Author: Dzmitry Lazerka dlazerka@dlazerka.name
+ * Author: Dzmitry Lazerka www.dlazerka.name
  */
+package name.dlazerka.gm.shell.store;
 
-package name.dlazerka.gm;
+public enum GraphmlKeyFor {
+	NODE,
+	EDGE,
+	GRAPH,
+	ALL;
 
-import java.util.Set;
-
-/**
- * @author Dzmitry Lazerka www.dlazerka.name
- */
-public interface Edge extends GraphElement {
-
-	Vertex getTarget();
-
-	Vertex getSource();
-
-	Set<Edge> getIncidentEdgeSet();
-
-	boolean isIncident(Vertex vertex);
-
-	boolean isIncident(Edge edge);
-
-	boolean isDirected();
-
-	boolean isPseudo();
-
-	void mergeFrom(Edge edge);
+	boolean fits(String type) {
+		return this == ALL || name().equalsIgnoreCase(type);
+	}
 }
