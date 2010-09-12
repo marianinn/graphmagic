@@ -237,6 +237,9 @@ public class BasicGraph implements Graph, Serializable, Cloneable {
 		return edge;
 	}
 
+	/**
+	 * Creates edge with default directed property.
+	 */
 	@Override
 	public BasicEdge createEdge(String sourceId, String targetId) throws EdgeCreateException {
 		return createEdge(sourceId, targetId, isDirected());

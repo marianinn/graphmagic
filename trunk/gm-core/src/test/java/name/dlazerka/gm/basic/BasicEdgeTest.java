@@ -20,9 +20,10 @@
 
 package name.dlazerka.gm.basic;
 
-import name.dlazerka.gm.Graph;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import name.dlazerka.gm.Graph;
+
 import org.junit.Test;
 
 /**
@@ -51,6 +52,12 @@ public class BasicEdgeTest {
 			assertTrue(edge2.equals(edge1));
 		}
 
+		{
+			edge1 = new BasicEdge(graph, source, target, true);
+			edge2 = new BasicEdge(graph, source, target, false);
+			assertFalse(edge1.equals(edge2));
+			assertFalse(edge2.equals(edge1));
+		}
 // TODO: turn on when multi-graph will be supported
 //		Graph graph = new BasicGraph(false, true, false);
 

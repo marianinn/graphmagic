@@ -21,7 +21,7 @@
 		<edge source="n1" target="n2">
 			<data key="d1">#ff000000</data>
 		</edge>
-		<edge source="n1" target="n3">
+		<edge source="n1" target="n3" directed="true">
 			<data key="d1">#ff00ff00</data>
 		</edge>
 	</graph>
