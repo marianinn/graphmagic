@@ -70,14 +70,12 @@ public class BasicGraph implements Graph, Serializable, Cloneable {
 	private final boolean pseudo;
 
 	/**
-	 * A list of observers that are notified on graph changes.
-	 * Not a subject for serialization.
+	 * A list of observers that are notified on graph changes. Not a subject for serialization.
 	 */
 	protected final transient List<GraphModificationListener> modificationListenerList = new LinkedList<GraphModificationListener>();
 
 	/**
-	 * Helper map for fast id->vertex lookup.
-	 * Not a subject for serialization.
+	 * Helper map for fast id->vertex lookup. Not a subject for serialization.
 	 */
 	private final transient HashMap<String, Vertex> idToVertex = new HashMap<String, Vertex>();
 
@@ -159,14 +157,13 @@ public class BasicGraph implements Graph, Serializable, Cloneable {
 	public Edge getEdge(Vertex source, Vertex target) {
 		for (Edge edge : edgeSet) {
 			if (edge.getSource().equals(source)
-				&& edge.getTarget().equals(target)) {
+					&& edge.getTarget().equals(target)) {
 				return edge;
 			}
 
 			if (!isDirected()
-				&& edge.getSource().equals(target)
-				&& edge.getTarget().equals(source)
-			) {
+					&& edge.getSource().equals(target)
+					&& edge.getTarget().equals(source)) {
 				return edge;
 			}
 		}
@@ -221,12 +218,14 @@ public class BasicGraph implements Graph, Serializable, Cloneable {
 	}
 
 	@Override
-	public BasicEdge createEdge(Vertex source, Vertex target) throws EdgeCreateException {
+	public BasicEdge createEdge(Vertex source, Vertex target)
+			throws EdgeCreateException {
 		return createEdge(source, target, isDirected());
 	}
 
 	@Override
-	public BasicEdge createEdge(Vertex source, Vertex target, boolean directed) throws EdgeCreateException {
+	public BasicEdge createEdge(Vertex source, Vertex target, boolean directed)
+			throws EdgeCreateException {
 		BasicEdge edge = new BasicEdge(this, source, target, directed);
 		try {
 			addEdge(edge);
@@ -241,12 +240,14 @@ public class BasicGraph implements Graph, Serializable, Cloneable {
 	 * Creates edge with default directed property.
 	 */
 	@Override
-	public BasicEdge createEdge(String sourceId, String targetId) throws EdgeCreateException {
+	public BasicEdge createEdge(String sourceId, String targetId)
+			throws EdgeCreateException {
 		return createEdge(sourceId, targetId, isDirected());
 	}
 
 	@Override
-	public BasicEdge createEdge(String sourceId, String targetId, boolean directed) throws EdgeCreateException {
+	public BasicEdge createEdge(String sourceId, String targetId, boolean directed)
+			throws EdgeCreateException {
 		Vertex source = getVertex(sourceId);
 		Vertex target = getVertex(targetId);
 
@@ -254,12 +255,14 @@ public class BasicGraph implements Graph, Serializable, Cloneable {
 	}
 
 	@Override
-	public Edge createEdge(int sourceId, int targetId) throws EdgeCreateException {
+	public Edge createEdge(int sourceId, int targetId)
+			throws EdgeCreateException {
 		return createEdge(sourceId, targetId, isDirected());
 	}
 
 	@Override
-	public Edge createEdge(int sourceId, int targetId, boolean directed) throws EdgeCreateException {
+	public Edge createEdge(int sourceId, int targetId, boolean directed)
+			throws EdgeCreateException {
 		return createEdge(sourceId + "", targetId + "");
 	}
 
@@ -346,7 +349,8 @@ public class BasicGraph implements Graph, Serializable, Cloneable {
 		}
 	}
 
-	protected void addEdge(Edge edge) throws EdgeAddingException {
+	protected void addEdge(Edge edge)
+			throws EdgeAddingException {
 		logger.debug("{}", edge);
 
 		if (!isPseudo() && edge.isPseudo()) {
@@ -368,7 +372,8 @@ public class BasicGraph implements Graph, Serializable, Cloneable {
 		return result;
 	}
 
-	public void mergeFrom(Graph graph) throws MergeException {
+	public void mergeFrom(Graph graph)
+			throws MergeException {
 		for (Vertex vertexFrom : graph.getVertexSet()) {
 			BasicVertex vertexTo = createVertex(vertexFrom.getId());
 			vertexTo.mergeFrom(vertexFrom);

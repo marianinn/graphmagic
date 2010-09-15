@@ -25,6 +25,8 @@ import java.io.InputStream;
 import java.io.StringWriter;
 import java.net.URL;
 
+import name.dlazerka.gm.Edge;
+import name.dlazerka.gm.Vertex;
 import name.dlazerka.gm.basic.BasicEdge;
 import name.dlazerka.gm.basic.BasicGraph;
 import name.dlazerka.gm.basic.BasicVertex;
@@ -48,9 +50,11 @@ public class GraphmlStorerTest {
 		BasicVertex vertex1 = graph.createVertex();
 		vertex1.getVisual().setColor(Color.RED);
 		BasicVertex vertex2 = graph.createVertex();
+		vertex2.getVisual().setColor(Color.WHITE);
 		BasicVertex vertex3 = graph.createVertex();
 		vertex3.getVisual().setColor(Color.RED);
 		BasicEdge edge1 = graph.createEdge(vertex1, vertex2);
+		edge1.getVisual().setColor(Color.BLACK);
 		BasicEdge edge2 = graph.createEdge(vertex1, vertex3, true);
 		edge2.getVisual().setColor(Color.GREEN);
 	}
@@ -60,6 +64,17 @@ public class GraphmlStorerTest {
 		File file = new File(xmlSource.toURI());
 		BasicGraph actual = GraphmlStorer.load(file);
 		Assert.assertEquals(graph, actual);
+
+		for (Vertex expectedVertex : graph.getVertexSet()) {
+			Vertex actualVertex = actual.getVertex(expectedVertex.getId());
+			Assert.assertEquals(expectedVertex.getMark(), actualVertex.getMark());
+			Assert.assertEquals(expectedVertex.getVisual(), actualVertex.getVisual());
+		}
+		for (Edge expectedEdge : graph.getEdgeSet()) {
+			Edge actualEdge = actual.getEdge(expectedEdge.getSource(), expectedEdge.getTarget());
+			Assert.assertEquals(expectedEdge.getMark(), actualEdge.getMark());
+			Assert.assertEquals(expectedEdge.getVisual(), actualEdge.getVisual());
+		}
 	}
 
 	@Test
