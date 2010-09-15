@@ -133,6 +133,7 @@ public class GraphmlStorer {
 	/**
 	 * @param visual not null
 	 * @return visual's color as a hex string, prepended by #.
+	 * @see #parseColor(String)
 	 */
 	protected static String extractHexColor(Visual visual) {
 		String colorStr = null;
@@ -265,8 +266,14 @@ public class GraphmlStorer {
 		}
 	}
 
-	private static Color parseColor(String colorStr)
-			throws GraphLoadingException {
+	/**
+	 * If color matches pattern, then read its rgba, else lets {@link Color} find it in sys props.
+	 *
+	 * @param colorStr like '#ff000000', or '#000000' or 'black'
+	 * @return color instance
+	 * @see #extractHexColor(Visual)
+	 */
+	private static Color parseColor(String colorStr) {
 		logger.debug("Parsing color from string '{}'", colorStr);
 		Color color;
 		Matcher matcher = COLOR_PATTERN.matcher(colorStr);

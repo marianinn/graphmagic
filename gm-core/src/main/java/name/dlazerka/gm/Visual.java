@@ -43,7 +43,45 @@ public class Visual extends Observable {
     private Color color;
     private boolean selected;
 
-    public double getCenterX() {
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) return true;
+		if (obj == null) return false;
+		if (getClass() != obj.getClass()) return false;
+		Visual other = (Visual) obj;
+		if (Double.doubleToLongBits(this.centerX) != Double.doubleToLongBits(other.centerX)) return false;
+		if (Double.doubleToLongBits(this.centerY) != Double.doubleToLongBits(other.centerY)) return false;
+		if (this.color == null) {
+			if (other.color != null) return false;
+		}
+		else if (!this.color.equals(other.color)) return false;
+		if (this.selected != other.selected) return false;
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		long temp;
+		temp = Double.doubleToLongBits(this.centerX);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(this.centerY);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((this.color == null) ? 0 : this.color.hashCode());
+		result = prime * result + (this.selected ? 1231 : 1237);
+		return result;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Visual [centerX=").append(this.centerX).append(", centerY=").append(this.centerY).append(
+				", color=").append(this.color).append(", selected=").append(this.selected).append("]");
+		return builder.toString();
+	}
+
+	public double getCenterX() {
 		return centerX;
 	}
 
