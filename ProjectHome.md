@@ -1,0 +1,1 @@
+Crossplatform desktop application for designing graphs and apply pluggable algorithms on them.
